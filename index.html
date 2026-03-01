@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
-    <title>SereneCare | elderly care with heart</title>
+    <title>CareVia | elderly care with heart</title>
     <!-- Font Awesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <!-- Google Fonts: Poppins & Open Sans -->
@@ -19,6 +19,7 @@
             background: #f8fafc;
             color: #1e293b;
             line-height: 1.5;
+            overflow-x: hidden;
         }
         h1, h2, h3, h4 {
             font-family: 'Poppins', sans-serif;
@@ -30,6 +31,7 @@
             max-width: 1280px;
             margin: 0 auto;
             padding: 1.5rem 2rem 2rem;
+            width: 100%;
         }
         .active-view {
             display: block;
@@ -42,7 +44,7 @@
             border-bottom: 1px solid #e2e8f0;
             margin-bottom: 2rem;
             flex-wrap: wrap;
-            gap: 1rem;
+            gap: 0.8rem;
         }
         .logo {
             font-size: 1.9rem;
@@ -82,6 +84,7 @@
             font-size: 1rem;
             box-shadow: 0 6px 12px rgba(15,76,92,0.15);
             text-align: center;
+            max-width: 100%;
         }
         .btn-outline {
             background: white;
@@ -116,6 +119,7 @@
             transition: 0.2s;
             border: 1px solid #dceaf2;
             cursor: pointer;
+            width: 100%;
         }
         .service-card:hover {
             transform: scale(1.02);
@@ -138,6 +142,7 @@
             border-radius: 32px;
             padding: 2rem 1.5rem 1.8rem;
             flex: 1 1 260px;
+            max-width: 100%;
             box-shadow: 0 15px 30px -8px rgba(15,76,92,0.1);
             border: 1px solid #e2edf5;
             transition: 0.2s;
@@ -206,6 +211,7 @@
             max-width: 700px;
             margin: 2rem auto;
             box-shadow: 0 25px 40px -15px #0f4c5c40;
+            width: 100%;
         }
         .form-group {
             margin-bottom: 2rem;
@@ -255,6 +261,7 @@
             font-size: 2.2rem;
             margin: 2rem 0 1.5rem;
             color: #154555;
+            word-break: break-word;
         }
         .skills-tags {
             display: flex;
@@ -314,7 +321,7 @@
             text-align: center;
         }
 
-        /* ========== RESPONSIVE MOBILE OPTIMIZATIONS ========= */
+        /* ========== RESPONSIVE MOBILE OPTIMIZATIONS (refined) ========= */
         @media (max-width: 768px) {
             .view {
                 padding: 1rem 1.2rem 1.5rem;
@@ -367,6 +374,7 @@
                 max-width: 400px;
                 margin-left: auto;
                 margin-right: auto;
+                width: 100%;
             }
             .photo-placeholder {
                 width: 110px;
@@ -495,7 +503,7 @@
             }
         }
 
-        /* extra small touch */
+        /* extra small screens under 360px */
         @media (max-width: 360px) {
             .nav-links a {
                 font-size: 1rem;
@@ -506,7 +514,20 @@
             .btn {
                 width: 100%;
                 text-align: center;
+                padding-left: 1rem;
+                padding-right: 1rem;
             }
+            .service-card h3 {
+                font-size: 1.3rem;
+            }
+            .service-card p {
+                font-size: 0.9rem;
+            }
+        }
+
+        /* ensure no horizontal overflow */
+        img, .photo-placeholder, .booking-card, .caregiver-card {
+            max-width: 100%;
         }
     </style>
 </head>
@@ -515,7 +536,7 @@
 <!-- ========== HOME VIEW ========= -->
 <div id="homeView" class="view active-view">
     <div class="navbar">
-        <div class="logo">Serene<span>Care</span></div>
+        <div class="logo">Care<span>Via</span></div>
         <div class="nav-links">
             <a onclick="showView('homeView')">Home</a>
             <a onclick="showView('servicesView')">Services</a>
@@ -575,7 +596,7 @@
     </div>
 
     <div class="social-footer">
-        <div class="logo" style="font-size:1.6rem;">Serene<span>Care</span></div>
+        <div class="logo" style="font-size:1.6rem;">Care<span>Via</span></div>
         <div class="social-icons">
             <a href="#"><i class="fab fa-facebook"></i></a>
             <a href="#"><i class="fab fa-instagram"></i></a>
@@ -587,7 +608,7 @@
 <!-- ========== SERVICES PAGE (detailed) ========= -->
 <div id="servicesView" class="view">
     <div class="navbar">
-        <div class="logo">Serene<span>Care</span></div>
+        <div class="logo">Care<span>Via</span></div>
         <div class="nav-links">
             <a onclick="showView('homeView')">Home</a>
             <a onclick="showView('servicesView')">Services</a>
@@ -637,7 +658,7 @@
 <!-- ========== CAREGIVERS LIST VIEW ========= -->
 <div id="caregiversListView" class="view">
     <div class="navbar">
-        <div class="logo">Serene<span>Care</span></div>
+        <div class="logo">Care<span>Via</span></div>
         <div class="nav-links">
             <a onclick="showView('homeView')">Home</a>
             <a onclick="showView('servicesView')">Services</a>
@@ -677,7 +698,7 @@
 <!-- ========== CAREGIVER PROFILE VIEW (dynamic) ========= -->
 <div id="caregiverProfileView" class="view">
     <div class="navbar">
-        <div class="logo">Serene<span>Care</span></div>
+        <div class="logo">Care<span>Via</span></div>
         <div class="nav-links">
             <a onclick="showView('homeView')">Home</a>
             <a onclick="showView('servicesView')">Services</a>
@@ -694,7 +715,7 @@
 <!-- ========== CLIENT INFO VIEW ========= -->
 <div id="clientInfoView" class="view">
     <div class="navbar">
-        <div class="logo">Serene<span>Care</span></div>
+        <div class="logo">Care<span>Via</span></div>
         <div class="nav-links">
             <a onclick="showView('homeView')">Home</a>
         </div>
@@ -714,7 +735,7 @@
 <!-- ========== TIME SLOT VIEW (multiple hours, 24h format) ========= -->
 <div id="timeSlotView" class="view">
     <div class="navbar">
-        <div class="logo">Serene<span>Care</span></div>
+        <div class="logo">Care<span>Via</span></div>
         <div class="nav-links"><a onclick="showView('homeView')">Home</a></div>
     </div>
     <div class="booking-card">
@@ -732,7 +753,7 @@
 
 <!-- ========== CHOOSE CAREGIVER VIEW ========= -->
 <div id="chooseCaregiverView" class="view">
-    <div class="navbar"><div class="logo">Serene<span>Care</span></div><div class="nav-links"><a onclick="showView('homeView')">Home</a></div></div>
+    <div class="navbar"><div class="logo">Care<span>Via</span></div><div class="nav-links"><a onclick="showView('homeView')">Home</a></div></div>
     <h2 class="section-title">Select a caregiver</h2>
     <div class="caregiver-cards" id="chooseCaregiverList"></div>
     <div class="back-link" onclick="showView('timeSlotView')">← Back to time slot</div>
@@ -741,7 +762,7 @@
 
 <!-- ========== PAYMENT METHOD VIEW ========= -->
 <div id="paymentMethodView" class="view">
-    <div class="navbar"><div class="logo">Serene<span>Care</span></div><div class="nav-links"><a onclick="showView('homeView')">Home</a></div></div>
+    <div class="navbar"><div class="logo">Care<span>Via</span></div><div class="nav-links"><a onclick="showView('homeView')">Home</a></div></div>
     <div class="booking-card">
         <h2>Payment method</h2>
         <div id="paymentSummary" class="payment-summary" style="background:#f2f7fc; border-radius:32px; padding:1.5rem; margin-bottom:2rem;"></div>
@@ -771,7 +792,7 @@
 
 <!-- ========== CONFIRMATION VIEW ========= -->
 <div id="confirmationView" class="view">
-    <div class="navbar"><div class="logo">Serene<span>Care</span></div><div class="nav-links"><a onclick="showView('homeView')">Home</a></div></div>
+    <div class="navbar"><div class="logo">Care<span>Via</span></div><div class="nav-links"><a onclick="showView('homeView')">Home</a></div></div>
     <div class="booking-card" style="text-align: center;">
         <div class="checkmark"><i class="fas fa-check-circle"></i></div>
         <h2 style="margin: 2rem 0 1rem;">Appointment successfully scheduled!</h2>
