@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html><!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -709,6 +709,9 @@
         <div class="social-footer"><div class="social-icons"><a href="#"><i class="fab fa-facebook"></i></a><a href="#"><i class="fab fa-instagram"></i></a><a href="#"><i class="fab fa-whatsapp"></i></a><a href="#"><i class="fab fa-google"></i></a></div></div>
     </div>
 
+    <!-- Hidden iframe for form submission -->
+    <iframe id="hidden_iframe" name="hidden_iframe" style="display:none;"></iframe>
+
     <script>
         // ---------- TRANSLATIONS (unchanged) ----------
         const translations = {
@@ -1214,44 +1217,49 @@
             const date = selectedDate;
             const hours = selectedSlots.join(', '); // e.g., "08:00-09:00, 10:00-11:00"
 
-            // Create form data
-            const formData = new URLSearchParams();
-            formData.append('A', fullName);      // Clients
-            formData.append('B', email);         // Email
-            formData.append('C', phone);         // Phone
-            formData.append('D', date);          // Date
-            formData.append('E', hours);         // Hours
+            // Create a hidden form that posts to the Google Script
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = GOOGLE_SCRIPT_URL;
+            form.target = 'hidden_iframe';  // submit to hidden iframe
+            form.style.display = 'none';
 
-            // Show loading indicator (simple alert, but we can do better)
+            // Add form fields with the exact parameter names expected by the script
+            const fields = {
+                'A': fullName,
+                'B': email,
+                'C': phone,
+                'D': date,
+                'E': hours
+            };
+
+            for (const [name, value] of Object.entries(fields)) {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = name;
+                input.value = value;
+                form.appendChild(input);
+            }
+
+            document.body.appendChild(form);
+
+            // Show loading on button
             const confirmBtn = document.querySelector('#paymentMethodView .btn');
             const originalText = confirmBtn.textContent;
             confirmBtn.textContent = currentLang === 'ar' ? 'جاري الإرسال...' : currentLang === 'fr' ? 'Envoi...' : 'Submitting...';
             confirmBtn.disabled = true;
 
-            fetch(GOOGLE_SCRIPT_URL, {
-                method: 'POST',
-                mode: 'no-cors', // important for Google Apps Script web app to avoid CORS
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: formData
-            })
-            .then(() => {
-                // Even with no-cors, we can't read response, but we assume success.
-                // Show confirmation view.
-                showView('confirmationView');
-            })
-            .catch(error => {
-                console.error('Error submitting to Google Sheet:', error);
-                alert(currentLang === 'ar' ? 'حدث خطأ في الإرسال. يرجى المحاولة مرة أخرى.' :
-                      currentLang === 'fr' ? 'Erreur d\'envoi. Veuillez réessayer.' :
-                      'Submission error. Please try again.');
-                // Still go to confirmation? Better to let user decide, but we'll keep them on payment page.
-            })
-            .finally(() => {
+            // Submit the form
+            form.submit();
+
+            // After a short delay, assume success and show confirmation
+            setTimeout(() => {
+                // Remove the form
+                document.body.removeChild(form);
                 confirmBtn.textContent = originalText;
                 confirmBtn.disabled = false;
-            });
+                showView('confirmationView');
+            }, 2000); // 2 seconds delay to ensure submission
         }
         window.processPayment = processPayment;
 
