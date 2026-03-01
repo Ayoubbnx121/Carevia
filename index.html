@@ -9,6 +9,7 @@
     <!-- Google Fonts: Poppins, Open Sans, and Cairo for Arabic -->
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Poppins:wght@500;600;700&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
+        /* (all existing styles remain exactly the same) */
         * {
             margin: 0;
             padding: 0;
@@ -346,7 +347,7 @@
             color: #e76f51;
             text-align: center;
         }
-        /* mobile optimizations (same as before) */
+        /* mobile optimizations */
         @media (max-width: 768px) {
             .view { padding: 1rem 1.2rem 1.5rem; }
             .navbar { flex-direction: column; align-items: stretch; }
@@ -415,8 +416,9 @@
 
         <h2 class="section-title" data-i18n="meetCaregiversTitle">Meet some caregivers</h2>
         <div class="caregiver-cards">
+            <!-- Mohamed Ayoub with local image Ayoub.jpg -->
             <div class="caregiver-card" onclick="showCaregiverProfile('mohamedAyoub')">
-                <div class="photo-placeholder"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80" alt="Mohamed Ayoub"></div>
+                <div class="photo-placeholder"><img src="Ayoub.jpg" alt="Mohamed Ayoub Benaich"></div>
                 <h3>Mohamed Ayoub Abinayach</h3>
                 <p data-i18n="ageStudent">21 ans • Étudiant • Tanger</p>
                 <div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i> <span>4.7/5</span></div>
@@ -441,7 +443,7 @@
                 <a href="#"><i class="fab fa-facebook"></i></a>
                 <a href="#"><i class="fab fa-instagram"></i></a>
                 <a href="#"><i class="fab fa-whatsapp"></i></a>
-                <a href="#"><i class="fab fa-google"></i></a> <!-- Gmail / Google icon -->
+                <a href="#"><i class="fab fa-google"></i></a>
             </div>
         </div>
     </div>
@@ -522,8 +524,9 @@
         </div>
         <h1 class="section-title" data-i18n="caregiversListTitle">Our dedicated caregivers</h1>
         <div class="caregiver-cards">
+            <!-- Mohamed Ayoub with local image Ayoub.jpg -->
             <div class="caregiver-card" onclick="showCaregiverProfile('mohamedAyoub')">
-                <div class="photo-placeholder"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80" alt="Mohamed Ayoub"></div>
+                <div class="photo-placeholder"><img src="Ayoub.jpg" alt="Mohamed Ayoub Benaich"></div>
                 <h3>Mohamed Ayoub Abinayach</h3>
                 <p data-i18n="ageStudent">21 ans • Étudiant • Tanger</p>
                 <div class="rating">4.7/5</div>
@@ -707,7 +710,7 @@
     </div>
 
     <script>
-        // ---------- TRANSLATIONS ----------
+        // ---------- TRANSLATIONS (unchanged) ----------
         const translations = {
             en: {
                 navHome: "Home",
@@ -734,6 +737,7 @@
                 homeWhy1: "Personalized care plans",
                 homeWhy2: "Kind and experienced caregivers",
                 homeWhy3: "24/7 availability",
+                serviceHomeDetail: "Our home care service provides assistance with daily activities such as bathing, dressing, meal preparation, and light housekeeping. We ensure your loved one feels safe and comfortable in their own home.",
                 medicalDetail: "We accompany elders to medical appointments, handle pharmacy pickups, and ensure medication schedules are followed. Our staff are trained to communicate with healthcare professionals.",
                 medicalWhy1: "Safe transport arrangement",
                 medicalWhy2: "Medication reminders",
@@ -800,6 +804,7 @@
                 homeWhy1: "خطط رعاية مخصصة",
                 homeWhy2: "مقدمو رعاية لطفاء وذوو خبرة",
                 homeWhy3: "توافر ٢٤/٧",
+                serviceHomeDetail: "تقدم خدمة الرعاية المنزلية لدينا المساعدة في الأنشطة اليومية مثل الاستحمام واللباس وإعداد الوجبات والتدبير المنزلي الخفيف. نضمن أن يشعر من تحب بالأمان والراحة في منزله.",
                 medicalDetail: "نرافق كبار السن إلى المواعيد الطبية، ونتولى استلام الأدوية من الصيدلية، ونتأكد من اتباع جداول الأدوية. موظفونا مدربون على التواصل مع المتخصصين في الرعاية الصحية.",
                 medicalWhy1: "ترتيب نقل آمن",
                 medicalWhy2: "تذكير بالأدوية",
@@ -866,6 +871,7 @@
                 homeWhy1: "Plans de soins personnalisés",
                 homeWhy2: "Soignants gentils et expérimentés",
                 homeWhy3: "Disponibilité 24h/24",
+                serviceHomeDetail: "Notre service de soins à domicile fournit une assistance pour les activités quotidiennes telles que le bain, l'habillage, la préparation des repas et l'entretien ménager léger. Nous assurons que votre proche se sente en sécurité et à l'aise chez lui.",
                 medicalDetail: "Nous accompagnons les personnes âgées aux rendez-vous médicaux, gérons les achats en pharmacie et assurons le suivi des médicaments. Notre personnel est formé pour communiquer avec les professionnels de santé.",
                 medicalWhy1: "Organisation du transport sécurisé",
                 medicalWhy2: "Rappels de médicaments",
@@ -912,10 +918,9 @@
         // Current language
         let currentLang = 'en';
 
-        // Function to update UI with selected language
+        // Function to update UI with selected language (unchanged)
         function setLanguage(lang) {
             currentLang = lang;
-            // Update active button
             document.querySelectorAll('.lang-btn').forEach(btn => {
                 if (btn.dataset.lang === lang) {
                     btn.classList.add('active');
@@ -923,42 +928,42 @@
                     btn.classList.remove('active');
                 }
             });
-            // Set RTL class on body for Arabic
             if (lang === 'ar') {
                 document.body.classList.add('rtl');
             } else {
                 document.body.classList.remove('rtl');
             }
-            // Update all elements with data-i18n
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.getAttribute('data-i18n');
                 if (translations[lang] && translations[lang][key]) {
-                    el.textContent = translations[lang][key];
+                    if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+                        el.placeholder = translations[lang][key];
+                    } else {
+                        el.textContent = translations[lang][key];
+                    }
                 }
             });
-            // Update placeholders
             document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
                 const key = el.getAttribute('data-i18n-placeholder');
                 if (translations[lang] && translations[lang][key]) {
                     el.placeholder = translations[lang][key];
                 }
             });
-            // Update selected slots display (if any) - handled separately
-            // Also update the "selectedSlotsDisplay" default text
             const slotsDisplay = document.getElementById('selectedSlotsDisplay');
             if (slotsDisplay && selectedSlots.length === 0) {
                 slotsDisplay.innerText = translations[lang].noHours;
+            } else if (slotsDisplay && selectedSlots.length > 0) {
+                slotsDisplay.innerHTML = '<strong>' + (lang === 'ar' ? 'الساعات المحددة:' : (lang === 'fr' ? 'Heures sélectionnées:' : 'Selected hours:')) + '</strong> ' + selectedSlots.join(' · ');
             }
         }
 
-        // Attach event listeners to language buttons
         document.querySelectorAll('.lang-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 setLanguage(btn.dataset.lang);
             });
         });
 
-        // ---------- EXISTING BOOKING STATE AND FUNCTIONS (keep as before) ----------
+        // ---------- BOOKING STATE AND FUNCTIONS (unchanged) ----------
         const serviceNames = {
             homeCare: 'Home Care',
             medicalAcc: 'Medical Accompaniment',
@@ -1029,10 +1034,9 @@
         let selectedService = 'homeCare';
         let clientInfo = {};
         let selectedDate = '';
-        let selectedSlots = []; // array of strings like "08:00 – 09:00"
+        let selectedSlots = [];
         let selectedCaregiverKey = null;
 
-        // ---------- navigation ----------
         function showView(viewId) {
             document.querySelectorAll('.view').forEach(v => v.classList.remove('active-view'));
             document.getElementById(viewId).classList.add('active-view');
@@ -1055,9 +1059,11 @@
                 tasksHtml += `<div class="task-item"><span>${t.task}</span> <span class="rating">${'★'.repeat(Math.floor(t.rating))}${t.rating%1? '½':''} ${t.rating}</span></div>`;
             });
             let skillsHtml = c.skills.map(s => `<span class="skill-tag">${s}</span>`).join('');
+            // Use local image for Mohamed Ayoub in profile as well
+            let profileImage = id === 'mohamedAyoub' ? 'Ayoub.jpg' : 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80';
             profileDiv.innerHTML = `
                 <div style="display:flex; flex-wrap:wrap; gap:2rem;">
-                    <div style="flex:1; min-width:200px;"><div class="photo-placeholder" style="width:150px;height:150px;"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80" alt="${c.name}"></div></div>
+                    <div style="flex:1; min-width:200px;"><div class="photo-placeholder" style="width:150px;height:150px;"><img src="${profileImage}" alt="${c.name}"></div></div>
                     <div style="flex:3;"><h2>${c.name}</h2><p>${c.age} years • ${c.occupation} • ${c.location}</p><div class="rating">★★★★${c.rating%1>=0.5?'½':''} <span>${c.rating}/5</span></div>
                     <p style="margin:1rem 0;"><strong>Bio:</strong> ${c.bio}</p></div>
                 </div>
@@ -1151,11 +1157,13 @@
             const container = document.getElementById('chooseCaregiverList');
             container.innerHTML = '';
             for (let [key, c] of Object.entries(caregivers)) {
+                // Use local image for Mohamed Ayoub in the selection list as well
+                let imgSrc = key === 'mohamedAyoub' ? 'Ayoub.jpg' : 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80';
                 const card = document.createElement('div');
                 card.className = 'caregiver-card';
                 card.style.cursor = 'pointer';
                 card.innerHTML = `
-                    <div class="photo-placeholder"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80" alt="${c.name}"></div>
+                    <div class="photo-placeholder"><img src="${imgSrc}" alt="${c.name}"></div>
                     <h3>${c.name}</h3>
                     <p>${c.age} ans • ${c.occupation} • ${c.location}</p>
                     <div class="rating">⭐ ${c.rating}/5</div>
@@ -1189,7 +1197,6 @@
             `;
         }
 
-        // Toggle card fields
         document.addEventListener('change', function(e) {
             if (e.target.name === 'paymentMethod') {
                 const cardFields = document.getElementById('cardFields');
