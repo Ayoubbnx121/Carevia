@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
     <title>CareVia | elderly care with heart</title>
-    <!-- Font Awesome 6 -->
+    <!-- Font Awesome 6 (free) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Google Fonts: Poppins & Open Sans -->
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+    <!-- Google Fonts: Poppins, Open Sans, and Cairo for Arabic -->
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Poppins:wght@500;600;700&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -20,11 +20,43 @@
             color: #1e293b;
             line-height: 1.5;
             overflow-x: hidden;
+            transition: background 0.2s;
+        }
+        /* RTL support */
+        body.rtl {
+            font-family: 'Cairo', 'Open Sans', sans-serif;
+            direction: rtl;
+            text-align: right;
+        }
+        body.rtl .navbar,
+        body.rtl .social-footer,
+        body.rtl .hero,
+        body.rtl .service-card,
+        body.rtl .caregiver-card {
+            text-align: right;
+        }
+        body.rtl .nav-links a {
+            margin-left: 0;
+            margin-right: 2rem;
+        }
+        body.rtl .social-icons a {
+            margin-left: 0;
+            margin-right: 2rem;
+        }
+        body.rtl .back-link i {
+            transform: rotate(180deg);
+        }
+        body.rtl .section-title::after {
+            left: auto;
+            right: 0;
         }
         h1, h2, h3, h4 {
             font-family: 'Poppins', sans-serif;
             font-weight: 600;
             letter-spacing: -0.02em;
+        }
+        body.rtl h1, body.rtl h2, body.rtl h3, body.rtl h4 {
+            font-family: 'Cairo', 'Poppins', sans-serif;
         }
         .view {
             display: none;
@@ -35,6 +67,28 @@
         }
         .active-view {
             display: block;
+        }
+        /* Language selector */
+        .lang-selector {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+        .lang-btn {
+            background: transparent;
+            border: 1px solid #cbdde9;
+            border-radius: 40px;
+            padding: 0.3rem 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            color: #1e3a5f;
+            font-size: 0.9rem;
+        }
+        .lang-btn.active {
+            background: #0f4c5c;
+            color: white;
+            border-color: #0f4c5c;
         }
         .navbar {
             display: flex;
@@ -53,12 +107,16 @@
             font-family: 'Poppins', sans-serif;
         }
         .logo span {
-            color: #3b8b9b;
+            color: #e76f51;
+        }
+        body.rtl .logo {
+            font-family: 'Cairo', 'Poppins', sans-serif;
         }
         .nav-links {
             display: flex;
             flex-wrap: wrap;
             gap: 1rem;
+            align-items: center;
         }
         .nav-links a {
             text-decoration: none;
@@ -69,7 +127,7 @@
             white-space: nowrap;
         }
         .nav-links a:hover {
-            color: #0f4c5c;
+            color: #e76f51;
         }
         .btn {
             display: inline-block;
@@ -86,24 +144,36 @@
             text-align: center;
             max-width: 100%;
         }
-        .btn-outline {
-            background: white;
-            color: #0f4c5c;
-            border: 1.5px solid #0f4c5c;
-            box-shadow: none;
-        }
-        .btn-sm {
-            padding: 0.5rem 1.5rem;
-            font-size: 0.9rem;
-        }
         .btn:hover {
-            background-color: #0b3b48;
+            background-color: #e76f51;
             transform: translateY(-2px);
+            box-shadow: 0 10px 18px rgba(231,111,81,0.2);
         }
-        .btn-outline:hover {
-            background: #e6f3f7;
+        .hero {
+            background: linear-gradient(145deg, #f0f9ff, white);
+            border-radius: 32px;
+            padding: 3rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 20px 30px -10px rgba(15,76,92,0.1);
+            border: 1px solid rgba(231,111,81,0.1);
+            position: relative;
+            overflow: hidden;
         }
-        /* cards & layout */
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 300px;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1581579438747-1dc8d17bbce4?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80') no-repeat center right/cover;
+            opacity: 0.1;
+            pointer-events: none;
+        }
+        .hero h1 {
+            font-size: 2.8rem;
+            color: #0f4c5c;
+        }
         .services-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -117,18 +187,18 @@
             text-align: center;
             box-shadow: 0 12px 24px -8px rgba(0,0,0,0.06);
             transition: 0.2s;
-            border: 1px solid #dceaf2;
+            border: 1px solid #f4e2d8;
             cursor: pointer;
             width: 100%;
         }
         .service-card:hover {
             transform: scale(1.02);
-            border-color: #8fc1d4;
-            box-shadow: 0 20px 30px -10px #0f4c5c33;
+            border-color: #e76f51;
+            box-shadow: 0 20px 30px -10px #e76f5140;
         }
         .service-card i {
             font-size: 2.8rem;
-            color: #0f4c5c;
+            color: #e76f51;
             margin-bottom: 1rem;
         }
         .caregiver-cards {
@@ -144,47 +214,41 @@
             flex: 1 1 260px;
             max-width: 100%;
             box-shadow: 0 15px 30px -8px rgba(15,76,92,0.1);
-            border: 1px solid #e2edf5;
+            border: 1px solid #f4e2d8;
             transition: 0.2s;
             cursor: pointer;
         }
         .caregiver-card:hover {
-            box-shadow: 0 25px 35px -12px #0f4c5c80;
+            box-shadow: 0 25px 35px -12px #e76f5180;
         }
         .photo-placeholder {
             width: 130px;
             height: 130px;
             border-radius: 50%;
-            background: linear-gradient(145deg, #c2ddec, #aac9df);
+            background: #f4e2d8;
             margin: 0 auto 1.2rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #154555;
+            color: #0f4c5c;
             font-size: 0.9rem;
             border: 4px solid white;
             box-shadow: 0 6px 12px rgba(0,0,0,0.05);
+            overflow: hidden;
+        }
+        .photo-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
         .rating {
             color: #f5b342;
             margin: 0.5rem 0;
         }
-        .rating span {
-            color: #1e293b;
-            margin-left: 0.3rem;
-        }
-        .detail-badge {
-            background: #ebf5fa;
-            border-radius: 50px;
-            padding: 0.25rem 1rem;
-            display: inline-block;
-            margin: 0.5rem 0;
-            font-size: 0.9rem;
-        }
         .social-footer {
             margin-top: 4rem;
             padding: 2rem 0 1rem;
-            border-top: 2px solid #cbdde9;
+            border-top: 2px solid #f4e2d8;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -200,8 +264,12 @@
         .social-icons a:first-child {
             margin-left: 0;
         }
+        body.rtl .social-icons a:first-child {
+            margin-right: 0;
+            margin-left: 2rem;
+        }
         .social-icons a:hover {
-            color: #0b3b48;
+            color: #e76f51;
             transform: translateY(-3px);
         }
         .booking-card {
@@ -220,20 +288,20 @@
             font-weight: 600;
             display: block;
             margin-bottom: 0.5rem;
-            color: #155a6b;
+            color: #0f4c5c;
         }
         .form-control {
             width: 100%;
             padding: 1rem 1.2rem;
-            border: 1.5px solid #c9dde9;
+            border: 1.5px solid #f4e2d8;
             border-radius: 60px;
             font-size: 1rem;
             transition: 0.2s;
         }
         .form-control:focus {
-            border-color: #0f4c5c;
+            border-color: #e76f51;
             outline: none;
-            box-shadow: 0 0 0 4px #b8d9e9;
+            box-shadow: 0 0 0 4px #f4e2d8;
         }
         .hours-grid {
             display: grid;
@@ -242,7 +310,7 @@
             margin: 1.5rem 0;
         }
         .hour-option {
-            background: #f0f7fc;
+            background: #f4e2d8;
             border-radius: 60px;
             padding: 0.8rem 0.5rem;
             text-align: center;
@@ -250,7 +318,6 @@
             transition: 0.1s;
             cursor: pointer;
             font-weight: 600;
-            word-break: keep-all;
         }
         .hour-option.selected {
             background: #0f4c5c;
@@ -260,812 +327,893 @@
         .section-title {
             font-size: 2.2rem;
             margin: 2rem 0 1.5rem;
-            color: #154555;
-            word-break: break-word;
-        }
-        .skills-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.6rem;
-            margin: 1rem 0;
-        }
-        .skill-tag {
-            background: #e1f0f7;
-            padding: 0.3rem 1.2rem;
-            border-radius: 40px;
-            font-size: 0.9rem;
-        }
-        .task-item {
-            background: #f6fafd;
-            border-radius: 40px;
-            padding: 0.8rem 1.5rem;
-            margin: 0.7rem 0;
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-        }
-        .back-link {
-            cursor: pointer;
             color: #0f4c5c;
-            font-weight: 600;
-            margin: 1rem 0;
+            position: relative;
             display: inline-block;
         }
-        hr {
-            border: 1px solid #d1e2ee;
-            margin: 2rem 0;
-        }
-        .selected-slots-list {
-            background: #e6f3f7;
-            border-radius: 40px;
-            padding: 1rem 1.5rem;
-            margin: 1rem 0;
-            word-break: break-word;
-        }
-        .payment-option {
-            background: #f2f7fc;
-            border-radius: 32px;
-            padding: 1.5rem;
-            margin: 1rem 0;
-        }
-        .credit-card-fields {
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr;
-            gap: 1rem;
-            margin-top: 1rem;
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 80px;
+            height: 4px;
+            background: #e76f51;
+            border-radius: 2px;
         }
         .checkmark {
             font-size: 6rem;
-            color: #0f4c5c;
+            color: #e76f51;
             text-align: center;
         }
-
-        /* ========== RESPONSIVE MOBILE OPTIMIZATIONS (refined) ========= */
+        /* mobile optimizations (same as before) */
         @media (max-width: 768px) {
-            .view {
-                padding: 1rem 1.2rem 1.5rem;
-            }
-            .navbar {
-                flex-direction: column;
-                align-items: stretch;
-                gap: 0.5rem;
-            }
-            .nav-links {
-                justify-content: center;
-                flex-wrap: wrap;
-                gap: 0.8rem 1.2rem;
-            }
-            .nav-links a {
-                font-size: 1.1rem;
-                white-space: nowrap;
-            }
-            .hero {
-                padding: 2rem 1.5rem !important;
-            }
-            .hero h1 {
-                font-size: 2rem !important;
-            }
-            .hero p {
-                font-size: 1.1rem !important;
-            }
-            .services-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 1rem;
-            }
-            .service-card {
-                padding: 1.5rem 0.8rem 1.2rem;
-            }
-            .service-card i {
-                font-size: 2.2rem;
-            }
-            .service-card h3 {
-                font-size: 1.3rem;
-            }
-            .service-card p {
-                font-size: 0.9rem;
-            }
-            .section-title {
-                font-size: 1.9rem;
-                margin: 1.5rem 0 1rem;
-            }
-            .caregiver-card {
-                flex: 1 1 100%;
-                max-width: 400px;
-                margin-left: auto;
-                margin-right: auto;
-                width: 100%;
-            }
-            .photo-placeholder {
-                width: 110px;
-                height: 110px;
-            }
-            .booking-card {
-                padding: 1.8rem;
-                margin: 1rem auto;
-            }
-            .hours-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            .hour-option {
-                font-size: 0.9rem;
-                padding: 0.7rem 0.2rem;
-            }
-            .credit-card-fields {
-                grid-template-columns: 1fr;
-                gap: 0.8rem;
-            }
-            .social-footer {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 1rem;
-            }
-            .social-icons a {
-                font-size: 2rem;
-                margin-left: 1.5rem;
-            }
-            .social-icons a:first-child {
-                margin-left: 0;
-            }
+            .view { padding: 1rem 1.2rem 1.5rem; }
+            .navbar { flex-direction: column; align-items: stretch; }
+            .nav-links { justify-content: center; }
+            .hero h1 { font-size: 2rem !important; }
+            .services-grid { grid-template-columns: repeat(2,1fr); gap:1rem; }
+            .caregiver-card { flex:1 1 100%; max-width:400px; margin:0 auto; }
+            .hours-grid { grid-template-columns: repeat(2,1fr); }
         }
-
         @media (max-width: 480px) {
-            .view {
-                padding: 0.8rem 1rem 1.2rem;
-            }
-            .hero h1 {
-                font-size: 1.7rem !important;
-            }
-            .hero p {
-                font-size: 1rem !important;
-            }
-            .services-grid {
-                grid-template-columns: 1fr;
-                gap: 1rem;
-            }
-            .service-card {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                padding: 1.5rem 1rem;
-            }
-            .service-card i {
-                font-size: 2.5rem;
-            }
-            .service-card h3 {
-                font-size: 1.5rem;
-            }
-            .service-card p {
-                font-size: 1rem;
-            }
-            .section-title {
-                font-size: 1.7rem;
-                text-align: center;
-            }
-            .caregiver-card {
-                padding: 1.5rem 1rem;
-            }
-            .caregiver-card h3 {
-                font-size: 1.4rem;
-            }
-            .booking-card {
-                padding: 1.5rem;
-                border-radius: 28px;
-            }
-            .booking-card h2 {
-                font-size: 1.6rem;
-            }
-            .form-group label {
-                font-size: 1rem;
-            }
-            .form-control {
-                padding: 0.8rem 1rem;
-            }
-            .hours-grid {
-                grid-template-columns: 1fr;
-            }
-            .hour-option {
-                font-size: 1rem;
-                padding: 0.9rem;
-            }
-            .selected-slots-list {
-                font-size: 0.95rem;
-            }
-            .task-item {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 0.3rem;
-            }
-            .payment-option {
-                padding: 1.2rem;
-            }
-            .credit-card-fields {
-                grid-template-columns: 1fr;
-            }
-            .social-footer {
-                align-items: center;
-                text-align: center;
-            }
-            .social-icons {
-                display: flex;
-                justify-content: center;
-                width: 100%;
-            }
-            .social-icons a {
-                margin: 0 1rem;
-                font-size: 2.2rem;
-            }
-            .back-link {
-                font-size: 1rem;
-            }
-            .checkmark {
-                font-size: 5rem;
-            }
-        }
-
-        /* extra small screens under 360px */
-        @media (max-width: 360px) {
-            .nav-links a {
-                font-size: 1rem;
-            }
-            .hero h1 {
-                font-size: 1.5rem !important;
-            }
-            .btn {
-                width: 100%;
-                text-align: center;
-                padding-left: 1rem;
-                padding-right: 1rem;
-            }
-            .service-card h3 {
-                font-size: 1.3rem;
-            }
-            .service-card p {
-                font-size: 0.9rem;
-            }
-        }
-
-        /* ensure no horizontal overflow */
-        img, .photo-placeholder, .booking-card, .caregiver-card {
-            max-width: 100%;
+            .services-grid { grid-template-columns:1fr; }
+            .hours-grid { grid-template-columns:1fr; }
+            .hero h1 { font-size:1.7rem !important; }
+            .section-title { font-size:1.7rem; }
         }
     </style>
 </head>
 <body>
-
-<!-- ========== HOME VIEW ========= -->
-<div id="homeView" class="view active-view">
-    <div class="navbar">
-        <div class="logo">Care<span>Via</span></div>
-        <div class="nav-links">
-            <a onclick="showView('homeView')">Home</a>
-            <a onclick="showView('servicesView')">Services</a>
-            <a onclick="showView('caregiversListView')">Caregivers</a>
-        </div>
-    </div>
-    <div class="hero" style="background: linear-gradient(145deg, #e1f0f7, white); border-radius: 32px; padding: 3rem; margin-bottom: 2rem;">
-        <h1 style="font-size: 2.8rem;">Compassionate care for your beloved elders</h1>
-        <p style="font-size: 1.2rem; margin: 1rem 0;">Professional, trustworthy caregivers at your doorstep in Tangier.</p>
-        <button class="btn" onclick="startBookingFlow()">Book a caregiver</button>
-    </div>
-
-    <h2 class="section-title">Our services</h2>
-    <div class="services-grid">
-        <div class="service-card" onclick="selectServiceAndGoToClientInfo('homeCare')">
-            <i class="fas fa-home"></i>
-            <h3>Home Care</h3>
-            <p>Daily assistance, hygiene, meals & comfort</p>
-        </div>
-        <div class="service-card" onclick="selectServiceAndGoToClientInfo('medicalAcc')">
-            <i class="fas fa-ambulance"></i>
-            <h3>Medical Accompaniment</h3>
-            <p>Clinic visits, medication reminders</p>
-        </div>
-        <div class="service-card" onclick="selectServiceAndGoToClientInfo('personalCare')">
-            <i class="fas fa-hand-holding-heart"></i>
-            <h3>Personal Care</h3>
-            <p>Bathing, grooming, dressing support</p>
-        </div>
-        <div class="service-card" onclick="selectServiceAndGoToClientInfo('companionship')">
-            <i class="fas fa-heart"></i>
-            <h3>Companionship</h3>
-            <p>Conversation, walks, emotional support</p>
-        </div>
-    </div>
-
-    <h2 class="section-title">Meet some caregivers</h2>
-    <div class="caregiver-cards">
-        <div class="caregiver-card" onclick="showCaregiverProfile('mohamedAyoub')">
-            <div class="photo-placeholder"><i class="fas fa-user fa-3x" style="opacity:0.4;"></i></div>
-            <h3>Mohamed Ayoub Abinayach</h3>
-            <p>21 ans • Étudiant • Tanger</p>
-            <div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i> <span>4.7/5</span></div>
-        </div>
-        <div class="caregiver-card" onclick="showCaregiverProfile('mohamedReda')">
-            <div class="photo-placeholder"><i class="fas fa-user fa-3x" style="opacity:0.4;"></i></div>
-            <h3>Mohamed Reda Saidi</h3>
-            <p>21 ans • Étudiant • Tanger</p>
-            <div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i> <span>4.6/5</span></div>
-        </div>
-        <div class="caregiver-card" onclick="showCaregiverProfile('fatimaZahra')">
-            <div class="photo-placeholder"><i class="fas fa-user fa-3x" style="opacity:0.4;"></i></div>
-            <h3>Fatima Zahra El Omari</h3>
-            <p>35 ans • Infirmière • Tanger</p>
-            <div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i> <span>4.9/5</span></div>
-        </div>
-    </div>
-
-    <div class="social-footer">
-        <div class="logo" style="font-size:1.6rem;">Care<span>Via</span></div>
-        <div class="social-icons">
-            <a href="#"><i class="fab fa-facebook"></i></a>
-            <a href="#"><i class="fab fa-instagram"></i></a>
-            <a href="#"><i class="fab fa-whatsapp"></i></a>
-        </div>
-    </div>
-</div>
-
-<!-- ========== SERVICES PAGE (detailed) ========= -->
-<div id="servicesView" class="view">
-    <div class="navbar">
-        <div class="logo">Care<span>Via</span></div>
-        <div class="nav-links">
-            <a onclick="showView('homeView')">Home</a>
-            <a onclick="showView('servicesView')">Services</a>
-            <a onclick="showView('caregiversListView')">Caregivers</a>
-        </div>
-    </div>
-    <h1 class="section-title" style="margin-top:0;">Our services in detail</h1>
-    <div style="display: grid; gap: 3rem;">
-        <!-- service 1 -->
-        <div style="background:white; border-radius: 48px; padding: 2.5rem;">
-            <div style="display: flex; gap: 2rem; flex-wrap: wrap;">
-                <div style="flex:1; min-width:250px;"><i class="fas fa-home" style="font-size:4rem; color:#0f4c5c;"></i></div>
-                <div style="flex:6;"><h2>Home Care</h2><p style="font-size:1.1rem;">Our home care service provides assistance with daily activities such as bathing, dressing, meal preparation, and light housekeeping. We ensure your loved one feels safe and comfortable in their own home.</p>
-                <h4>Why choose us?</h4><ul><li>Personalized care plans</li><li>Kind and experienced caregivers</li><li>24/7 availability</li></ul></div>
-            </div>
-        </div>
-        <!-- service 2 -->
-        <div style="background:white; border-radius: 48px; padding: 2.5rem;">
-            <div style="display: flex; gap: 2rem; flex-wrap: wrap;">
-                <div style="flex:1; min-width:250px;"><i class="fas fa-ambulance" style="font-size:4rem; color:#0f4c5c;"></i></div>
-                <div style="flex:6;"><h2>Medical Accompaniment</h2><p>We accompany elders to medical appointments, handle pharmacy pickups, and ensure medication schedules are followed. Our staff are trained to communicate with healthcare professionals.</p>
-                <h4>Why choose us?</h4><ul><li>Safe transport arrangement</li><li>Medication reminders</li><li>Report back to family</li></ul></div>
-            </div>
-        </div>
-        <!-- service 3 -->
-        <div style="background:white; border-radius: 48px; padding: 2.5rem;">
-            <div style="display: flex; gap: 2rem; flex-wrap: wrap;">
-                <div style="flex:1; min-width:250px;"><i class="fas fa-hand-holding-heart" style="font-size:4rem; color:#0f4c5c;"></i></div>
-                <div style="flex:6;"><h2>Personal Care</h2><p>Assistance with hygiene, grooming, and mobility. Our caregivers are trained to provide respectful and dignified support for daily personal tasks.</p>
-                <h4>Why choose us?</h4><ul><li>Respectful and gentle approach</li><li>Fall prevention techniques</li><li>Continuous supervision if needed</li></ul></div>
-            </div>
-        </div>
-        <!-- service 4 -->
-        <div style="background:white; border-radius: 48px; padding: 2.5rem;">
-            <div style="display: flex; gap: 2rem; flex-wrap: wrap;">
-                <div style="flex:1; min-width:250px;"><i class="fas fa-heart" style="font-size:4rem; color:#0f4c5c;"></i></div>
-                <div style="flex:6;"><h2>Companionship</h2><p>Social interaction, conversation, walks, and emotional support. We combat loneliness and keep seniors engaged and happy.</p>
-                <h4>Why choose us?</h4><ul><li>Friendly, screened companions</li><li>Activities tailored to interests</li><li>Regular family updates</li></ul></div>
-            </div>
-        </div>
-    </div>
-    <div class="social-footer">
-        <div class="social-icons"><a href="#"><i class="fab fa-facebook"></i></a><a href="#"><i class="fab fa-instagram"></i></a><a href="#"><i class="fab fa-whatsapp"></i></a></div>
-    </div>
-</div>
-
-<!-- ========== CAREGIVERS LIST VIEW ========= -->
-<div id="caregiversListView" class="view">
-    <div class="navbar">
-        <div class="logo">Care<span>Via</span></div>
-        <div class="nav-links">
-            <a onclick="showView('homeView')">Home</a>
-            <a onclick="showView('servicesView')">Services</a>
-            <a onclick="showView('caregiversListView')">Caregivers</a>
-        </div>
-    </div>
-    <h1 class="section-title">Our dedicated caregivers</h1>
-    <div class="caregiver-cards">
-        <div class="caregiver-card" onclick="showCaregiverProfile('mohamedAyoub')">
-            <div class="photo-placeholder"><i class="fas fa-user fa-3x" style="opacity:0.4;"></i></div>
-            <h3>Mohamed Ayoub Abinayach</h3>
-            <p>21 ans • Étudiant • Tanger</p>
-            <div class="rating">4.7/5</div>
-        </div>
-        <div class="caregiver-card" onclick="showCaregiverProfile('mohamedReda')">
-            <div class="photo-placeholder"><i class="fas fa-user fa-3x" style="opacity:0.4;"></i></div>
-            <h3>Mohamed Reda Saidi</h3>
-            <p>21 ans • Étudiant • Tanger</p>
-            <div class="rating">4.6/5</div>
-        </div>
-        <div class="caregiver-card" onclick="showCaregiverProfile('fatimaZahra')">
-            <div class="photo-placeholder"><i class="fas fa-user fa-3x" style="opacity:0.4;"></i></div>
-            <h3>Fatima Zahra El Omari</h3>
-            <p>35 ans • Infirmière • Tanger</p>
-            <div class="rating">4.9/5</div>
-        </div>
-        <div class="caregiver-card" onclick="showCaregiverProfile('youssefBenz')">
-            <div class="photo-placeholder"><i class="fas fa-user fa-3x" style="opacity:0.4;"></i></div>
-            <h3>Youssef Benzaid</h3>
-            <p>28 ans • Aide-soignant • Tanger</p>
-            <div class="rating">4.8/5</div>
-        </div>
-    </div>
-    <div class="social-footer"><div class="social-icons"><a href="#"><i class="fab fa-facebook"></i></a><a href="#"><i class="fab fa-instagram"></i></a><a href="#"><i class="fab fa-whatsapp"></i></a></div></div>
-</div>
-
-<!-- ========== CAREGIVER PROFILE VIEW (dynamic) ========= -->
-<div id="caregiverProfileView" class="view">
-    <div class="navbar">
-        <div class="logo">Care<span>Via</span></div>
-        <div class="nav-links">
-            <a onclick="showView('homeView')">Home</a>
-            <a onclick="showView('servicesView')">Services</a>
-            <a onclick="showView('caregiversListView')">Caregivers</a>
-        </div>
-    </div>
-    <div class="back-link" onclick="showView('caregiversListView')"><i class="fas fa-arrow-left"></i> Back to caregivers</div>
-    <div id="caregiverProfileContent" style="background:white; border-radius: 48px; padding: 2.5rem;">
-        <!-- filled by JS -->
-    </div>
-    <div class="social-footer"><div class="social-icons"><a href="#"><i class="fab fa-facebook"></i></a><a href="#"><i class="fab fa-instagram"></i></a><a href="#"><i class="fab fa-whatsapp"></i></a></div></div>
-</div>
-
-<!-- ========== CLIENT INFO VIEW ========= -->
-<div id="clientInfoView" class="view">
-    <div class="navbar">
-        <div class="logo">Care<span>Via</span></div>
-        <div class="nav-links">
-            <a onclick="showView('homeView')">Home</a>
-        </div>
-    </div>
-    <div class="booking-card">
-        <h2>Tell us about yourself</h2>
-        <div class="form-group"><label>First Name</label><input type="text" id="clientFirstName" class="form-control" placeholder="e.g. Ahmed"></div>
-        <div class="form-group"><label>Last Name</label><input type="text" id="clientLastName" class="form-control" placeholder="e.g. Benali"></div>
-        <div class="form-group"><label>City</label><input type="text" id="clientCity" class="form-control" value="Tangier"></div>
-        <div class="form-group"><label>Phone Number</label><input type="tel" id="clientPhone" class="form-control" placeholder="+212 6XX-XXXXXX"></div>
-        <div class="form-group"><label>Email Address</label><input type="email" id="clientEmail" class="form-control" placeholder="example@mail.com"></div>
-        <button class="btn" style="width:100%;" onclick="saveClientInfoAndGoToTimeSlot()">Continue →</button>
-    </div>
-    <div class="social-footer"><div class="social-icons"><a href="#"><i class="fab fa-facebook"></i></a><a href="#"><i class="fab fa-instagram"></i></a><a href="#"><i class="fab fa-whatsapp"></i></a></div></div>
-</div>
-
-<!-- ========== TIME SLOT VIEW (multiple hours, 24h format) ========= -->
-<div id="timeSlotView" class="view">
-    <div class="navbar">
-        <div class="logo">Care<span>Via</span></div>
-        <div class="nav-links"><a onclick="showView('homeView')">Home</a></div>
-    </div>
-    <div class="booking-card">
-        <h2>Select date & time (24h)</h2>
-        <div class="form-group"><label>Date (from today onward)</label><input type="date" id="slotDate" class="form-control"></div>
-        <div class="form-group"><label>Select hours (click multiple)</label>
-            <div class="hours-grid" id="hoursContainer"></div>
-        </div>
-        <div id="selectedSlotsDisplay" class="selected-slots-list">No hours selected</div>
-        <button class="btn" style="width:100%;" onclick="confirmTimeSlot()">Confirm & choose caregiver</button>
-        <div class="back-link" onclick="showView('clientInfoView')">← Edit your info</div>
-    </div>
-    <div class="social-footer"><div class="social-icons"><a href="#"><i class="fab fa-facebook"></i></a><a href="#"><i class="fab fa-instagram"></i></a><a href="#"><i class="fab fa-whatsapp"></i></a></div></div>
-</div>
-
-<!-- ========== CHOOSE CAREGIVER VIEW ========= -->
-<div id="chooseCaregiverView" class="view">
-    <div class="navbar"><div class="logo">Care<span>Via</span></div><div class="nav-links"><a onclick="showView('homeView')">Home</a></div></div>
-    <h2 class="section-title">Select a caregiver</h2>
-    <div class="caregiver-cards" id="chooseCaregiverList"></div>
-    <div class="back-link" onclick="showView('timeSlotView')">← Back to time slot</div>
-    <div class="social-footer"><div class="social-icons"><a href="#"><i class="fab fa-facebook"></i></a><a href="#"><i class="fab fa-instagram"></i></a><a href="#"><i class="fab fa-whatsapp"></i></a></div></div>
-</div>
-
-<!-- ========== PAYMENT METHOD VIEW ========= -->
-<div id="paymentMethodView" class="view">
-    <div class="navbar"><div class="logo">Care<span>Via</span></div><div class="nav-links"><a onclick="showView('homeView')">Home</a></div></div>
-    <div class="booking-card">
-        <h2>Payment method</h2>
-        <div id="paymentSummary" class="payment-summary" style="background:#f2f7fc; border-radius:32px; padding:1.5rem; margin-bottom:2rem;"></div>
-        
-        <div class="payment-option">
-            <label style="display:flex; align-items: center; gap:1rem;">
-                <input type="radio" name="paymentMethod" value="cash" checked> <strong>Cash (pay on arrival)</strong>
-            </label>
-        </div>
-        <div class="payment-option">
-            <label style="display:flex; align-items: center; gap:1rem;">
-                <input type="radio" name="paymentMethod" value="card"> <strong>Credit card</strong>
-            </label>
-            <div id="cardFields" style="display: none; margin-top:1.5rem;">
-                <div class="credit-card-fields">
-                    <input type="text" placeholder="Card number" class="form-control" id="cardNumber">
-                    <input type="text" placeholder="MM/YY" class="form-control" id="cardExpiry">
-                    <input type="text" placeholder="CVV" class="form-control" id="cardCvv">
+    <!-- ========== ALL VIEWS ========= -->
+    <!-- HOME VIEW -->
+    <div id="homeView" class="view active-view">
+        <div class="navbar">
+            <div class="logo">Care<span>Via</span></div>
+            <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
+                <div class="lang-selector">
+                    <button class="lang-btn active" data-lang="en">EN</button>
+                    <button class="lang-btn" data-lang="ar">عربي</button>
+                    <button class="lang-btn" data-lang="fr">FR</button>
+                </div>
+                <div class="nav-links">
+                    <a data-i18n="navHome" onclick="showView('homeView')">Home</a>
+                    <a data-i18n="navServices" onclick="showView('servicesView')">Services</a>
+                    <a data-i18n="navCaregivers" onclick="showView('caregiversListView')">Caregivers</a>
                 </div>
             </div>
         </div>
-        <button class="btn" style="width:100%; margin-top:2rem;" onclick="processPayment()">Confirm booking</button>
-        <div class="back-link" onclick="showView('chooseCaregiverView')">← Choose different caregiver</div>
-    </div>
-    <div class="social-footer"><div class="social-icons"><a href="#"><i class="fab fa-facebook"></i></a><a href="#"><i class="fab fa-instagram"></i></a><a href="#"><i class="fab fa-whatsapp"></i></a></div></div>
-</div>
+        <div class="hero">
+            <h1 data-i18n="heroTitle">Compassionate care for your beloved elders</h1>
+            <p data-i18n="heroSub" style="font-size: 1.2rem; margin: 1rem 0;">Professional, trustworthy caregivers at your doorstep in Tangier.</p>
+            <button class="btn" data-i18n="bookBtn" onclick="startBookingFlow()">Book a caregiver</button>
+        </div>
 
-<!-- ========== CONFIRMATION VIEW ========= -->
-<div id="confirmationView" class="view">
-    <div class="navbar"><div class="logo">Care<span>Via</span></div><div class="nav-links"><a onclick="showView('homeView')">Home</a></div></div>
-    <div class="booking-card" style="text-align: center;">
-        <div class="checkmark"><i class="fas fa-check-circle"></i></div>
-        <h2 style="margin: 2rem 0 1rem;">Appointment successfully scheduled!</h2>
-        <p style="font-size: 1.2rem;">We will contact you as soon as possible to confirm the details.</p>
-        <button class="btn" style="margin-top: 2rem;" onclick="showView('homeView')">Return to home</button>
-    </div>
-    <div class="social-footer"><div class="social-icons"><a href="#"><i class="fab fa-facebook"></i></a><a href="#"><i class="fab fa-instagram"></i></a><a href="#"><i class="fab fa-whatsapp"></i></a></div></div>
-</div>
-
-<script>
-    // ---------- DATA ----------
-    const serviceNames = {
-        homeCare: 'Home Care',
-        medicalAcc: 'Medical Accompaniment',
-        personalCare: 'Personal Care',
-        companionship: 'Companionship'
-    };
-
-    const caregivers = {
-        mohamedAyoub: {
-            name: 'Mohamed Ayoub Abinayach',
-            age: 21,
-            occupation: 'Student (Nursing)',
-            location: 'Tangier',
-            rating: 4.7,
-            bio: 'Mohamed Ayoub is a second-year nursing student with a passion for geriatric care. He has volunteered at local senior centers and provides empathetic, attentive support.',
-            tasks: [
-                { task: 'Home care assistance', rating: 4.8 },
-                { task: 'Medical appointment accompaniment', rating: 4.6 },
-                { task: 'Companionship & conversation', rating: 4.9 }
-            ],
-            skills: ['Medication reminders', 'Mobility support', 'First aid', 'Patient listener']
-        },
-        mohamedReda: {
-            name: 'Mohamed Reda Saidi',
-            age: 21,
-            occupation: 'Student (Psychology)',
-            location: 'Tangier',
-            rating: 4.6,
-            bio: 'Reda combines his psychology studies with a natural ability to connect with elders. He focuses on mental well-being and engaging activities.',
-            tasks: [
-                { task: 'Companionship', rating: 4.9 },
-                { task: 'Personal care', rating: 4.5 },
-                { task: 'Light housekeeping', rating: 4.5 }
-            ],
-            skills: ['Active listening', 'Memory games', 'Cooking', 'Patience']
-        },
-        fatimaZahra: {
-            name: 'Fatima Zahra El Omari',
-            age: 35,
-            occupation: 'Registered Nurse',
-            location: 'Tangier',
-            rating: 4.9,
-            bio: 'Fatima is an experienced nurse with 10 years in geriatric care. She excels in post-operative care and chronic condition management.',
-            tasks: [
-                { task: 'Medical accompaniment', rating: 5.0 },
-                { task: 'Wound care', rating: 4.9 },
-                { task: 'Medication management', rating: 5.0 }
-            ],
-            skills: ['Wound care', 'Catheter care', 'Vital monitoring', 'Diabetes management']
-        },
-        youssefBenz: {
-            name: 'Youssef Benzaid',
-            age: 28,
-            occupation: 'Certified nursing assistant',
-            location: 'Tangier',
-            rating: 4.8,
-            bio: 'Youssef is patient and strong, ideal for clients needing transfer assistance. He has 5 years of home care experience.',
-            tasks: [
-                { task: 'Mobility assistance', rating: 4.9 },
-                { task: 'Bathing & grooming', rating: 4.8 },
-                { task: 'Exercise supervision', rating: 4.7 }
-            ],
-            skills: ['Lifting techniques', 'Fall prevention', 'Physiotherapy exercises', 'Compassionate']
-        }
-    };
-
-    // global booking state
-    let selectedService = 'homeCare';
-    let clientInfo = {};
-    let selectedDate = '';
-    let selectedSlots = []; // array of strings like "08:00 – 09:00"
-    let selectedCaregiverKey = null;
-
-    // ---------- navigation ----------
-    function showView(viewId) {
-        document.querySelectorAll('.view').forEach(v => v.classList.remove('active-view'));
-        document.getElementById(viewId).classList.add('active-view');
-        // if timeSlotView, set min date and generate slots
-        if (viewId === 'timeSlotView') {
-            setMinDate();
-            generateHourSlots();
-        }
-        // if paymentMethodView, update summary
-        if (viewId === 'paymentMethodView') {
-            updatePaymentSummary();
-        }
-    }
-    window.showView = showView;
-
-    function showCaregiverProfile(id) {
-        const profileDiv = document.getElementById('caregiverProfileContent');
-        const c = caregivers[id];
-        if (!c) return;
-        let tasksHtml = '';
-        c.tasks.forEach(t => {
-            tasksHtml += `<div class="task-item"><span>${t.task}</span> <span class="rating">${'★'.repeat(Math.floor(t.rating))}${t.rating%1? '½':''} ${t.rating}</span></div>`;
-        });
-        let skillsHtml = c.skills.map(s => `<span class="skill-tag">${s}</span>`).join('');
-        profileDiv.innerHTML = `
-            <div style="display:flex; flex-wrap:wrap; gap:2rem;">
-                <div style="flex:1; min-width:200px;"><div class="photo-placeholder" style="width:150px;height:150px;"><i class="fas fa-user fa-4x"></i></div></div>
-                <div style="flex:3;"><h2>${c.name}</h2><p>${c.age} years • ${c.occupation} • ${c.location}</p><div class="rating">★★★★${c.rating%1>=0.5?'½':''} <span>${c.rating}/5</span></div>
-                <p style="margin:1rem 0;"><strong>Bio:</strong> ${c.bio}</p></div>
+        <h2 class="section-title" data-i18n="servicesTitle">Our services</h2>
+        <div class="services-grid">
+            <div class="service-card" onclick="selectServiceAndGoToClientInfo('homeCare')">
+                <i class="fas fa-home"></i>
+                <h3 data-i18n="serviceHome">Home Care</h3>
+                <p data-i18n="serviceHomeDesc">Daily assistance, hygiene, meals & comfort</p>
             </div>
-            <hr><h3>Completed tasks & ratings</h3>${tasksHtml}
-            <h3 style="margin-top:1.5rem;">Skills & competencies</h3><div class="skills-tags">${skillsHtml}</div>
-        `;
-        showView('caregiverProfileView');
-    }
-    window.showCaregiverProfile = showCaregiverProfile;
+            <div class="service-card" onclick="selectServiceAndGoToClientInfo('medicalAcc')">
+                <i class="fas fa-ambulance"></i>
+                <h3 data-i18n="serviceMedical">Medical Accompaniment</h3>
+                <p data-i18n="serviceMedicalDesc">Clinic visits, medication reminders</p>
+            </div>
+            <div class="service-card" onclick="selectServiceAndGoToClientInfo('personalCare')">
+                <i class="fas fa-hand-holding-heart"></i>
+                <h3 data-i18n="servicePersonal">Personal Care</h3>
+                <p data-i18n="servicePersonalDesc">Bathing, grooming, dressing support</p>
+            </div>
+            <div class="service-card" onclick="selectServiceAndGoToClientInfo('companionship')">
+                <i class="fas fa-heart"></i>
+                <h3 data-i18n="serviceCompanion">Companionship</h3>
+                <p data-i18n="serviceCompanionDesc">Conversation, walks, emotional support</p>
+            </div>
+        </div>
 
-    function startBookingFlow() {
-        selectedService = 'homeCare';
-        showView('clientInfoView');
-    }
-    window.startBookingFlow = startBookingFlow;
+        <h2 class="section-title" data-i18n="meetCaregiversTitle">Meet some caregivers</h2>
+        <div class="caregiver-cards">
+            <div class="caregiver-card" onclick="showCaregiverProfile('mohamedAyoub')">
+                <div class="photo-placeholder"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80" alt="Mohamed Ayoub"></div>
+                <h3>Mohamed Ayoub Abinayach</h3>
+                <p data-i18n="ageStudent">21 ans • Étudiant • Tanger</p>
+                <div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i> <span>4.7/5</span></div>
+            </div>
+            <div class="caregiver-card" onclick="showCaregiverProfile('mohamedReda')">
+                <div class="photo-placeholder"><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80" alt="Mohamed Reda"></div>
+                <h3>Mohamed Reda Saidi</h3>
+                <p data-i18n="ageStudent">21 ans • Étudiant • Tanger</p>
+                <div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i> <span>4.6/5</span></div>
+            </div>
+            <div class="caregiver-card" onclick="showCaregiverProfile('fatimaZahra')">
+                <div class="photo-placeholder"><img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80" alt="Fatima Zahra"></div>
+                <h3>Fatima Zahra El Omari</h3>
+                <p data-i18n="ageNurse">35 ans • Infirmière • Tanger</p>
+                <div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i> <span>4.9/5</span></div>
+            </div>
+        </div>
 
-    function selectServiceAndGoToClientInfo(serviceKey) {
-        selectedService = serviceKey;
-        showView('clientInfoView');
-    }
-    window.selectServiceAndGoToClientInfo = selectServiceAndGoToClientInfo;
+        <div class="social-footer">
+            <div class="logo" style="font-size:1.6rem;">Care<span>Via</span></div>
+            <div class="social-icons">
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-whatsapp"></i></a>
+                <a href="#"><i class="fab fa-google"></i></a> <!-- Gmail / Google icon -->
+            </div>
+        </div>
+    </div>
 
-    function saveClientInfoAndGoToTimeSlot() {
-        clientInfo = {
-            firstName: document.getElementById('clientFirstName').value.trim() || 'Ahmed',
-            lastName: document.getElementById('clientLastName').value.trim() || 'Benali',
-            city: document.getElementById('clientCity').value.trim() || 'Tangier',
-            phone: document.getElementById('clientPhone').value.trim() || '+212600000000',
-            email: document.getElementById('clientEmail').value.trim() || 'client@example.com'
+    <!-- SERVICES VIEW (detailed) -->
+    <div id="servicesView" class="view">
+        <div class="navbar">
+            <div class="logo">Care<span>Via</span></div>
+            <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
+                <div class="lang-selector">
+                    <button class="lang-btn active" data-lang="en">EN</button>
+                    <button class="lang-btn" data-lang="ar">عربي</button>
+                    <button class="lang-btn" data-lang="fr">FR</button>
+                </div>
+                <div class="nav-links">
+                    <a data-i18n="navHome" onclick="showView('homeView')">Home</a>
+                    <a data-i18n="navServices" onclick="showView('servicesView')">Services</a>
+                    <a data-i18n="navCaregivers" onclick="showView('caregiversListView')">Caregivers</a>
+                </div>
+            </div>
+        </div>
+        <h1 class="section-title" data-i18n="servicesDetailTitle" style="margin-top:0;">Our services in detail</h1>
+        <div style="display: grid; gap: 3rem;">
+            <!-- service 1 -->
+            <div style="background:white; border-radius: 48px; padding: 2.5rem;">
+                <div style="display: flex; gap: 2rem; flex-wrap: wrap;">
+                    <div style="flex:1; min-width:250px;"><i class="fas fa-home" style="font-size:4rem; color:#e76f51;"></i></div>
+                    <div style="flex:6;"><h2 data-i18n="serviceHome">Home Care</h2><p data-i18n="serviceHomeDetail" style="font-size:1.1rem;">Our home care service provides assistance with daily activities such as bathing, dressing, meal preparation, and light housekeeping. We ensure your loved one feels safe and comfortable in their own home.</p>
+                    <h4 data-i18n="whyChooseUs">Why choose us?</h4><ul><li data-i18n="homeWhy1">Personalized care plans</li><li data-i18n="homeWhy2">Kind and experienced caregivers</li><li data-i18n="homeWhy3">24/7 availability</li></ul></div>
+                </div>
+            </div>
+            <!-- service 2 -->
+            <div style="background:white; border-radius: 48px; padding: 2.5rem;">
+                <div style="display: flex; gap: 2rem; flex-wrap: wrap;">
+                    <div style="flex:1; min-width:250px;"><i class="fas fa-ambulance" style="font-size:4rem; color:#e76f51;"></i></div>
+                    <div style="flex:6;"><h2 data-i18n="serviceMedical">Medical Accompaniment</h2><p data-i18n="medicalDetail">We accompany elders to medical appointments, handle pharmacy pickups, and ensure medication schedules are followed. Our staff are trained to communicate with healthcare professionals.</p>
+                    <h4 data-i18n="whyChooseUs">Why choose us?</h4><ul><li data-i18n="medicalWhy1">Safe transport arrangement</li><li data-i18n="medicalWhy2">Medication reminders</li><li data-i18n="medicalWhy3">Report back to family</li></ul></div>
+                </div>
+            </div>
+            <!-- service 3 -->
+            <div style="background:white; border-radius: 48px; padding: 2.5rem;">
+                <div style="display: flex; gap: 2rem; flex-wrap: wrap;">
+                    <div style="flex:1; min-width:250px;"><i class="fas fa-hand-holding-heart" style="font-size:4rem; color:#e76f51;"></i></div>
+                    <div style="flex:6;"><h2 data-i18n="servicePersonal">Personal Care</h2><p data-i18n="personalDetail">Assistance with hygiene, grooming, and mobility. Our caregivers are trained to provide respectful and dignified support for daily personal tasks.</p>
+                    <h4 data-i18n="whyChooseUs">Why choose us?</h4><ul><li data-i18n="personalWhy1">Respectful and gentle approach</li><li data-i18n="personalWhy2">Fall prevention techniques</li><li data-i18n="personalWhy3">Continuous supervision if needed</li></ul></div>
+                </div>
+            </div>
+            <!-- service 4 -->
+            <div style="background:white; border-radius: 48px; padding: 2.5rem;">
+                <div style="display: flex; gap: 2rem; flex-wrap: wrap;">
+                    <div style="flex:1; min-width:250px;"><i class="fas fa-heart" style="font-size:4rem; color:#e76f51;"></i></div>
+                    <div style="flex:6;"><h2 data-i18n="serviceCompanion">Companionship</h2><p data-i18n="companionDetail">Social interaction, conversation, walks, and emotional support. We combat loneliness and keep seniors engaged and happy.</p>
+                    <h4 data-i18n="whyChooseUs">Why choose us?</h4><ul><li data-i18n="companionWhy1">Friendly, screened companions</li><li data-i18n="companionWhy2">Activities tailored to interests</li><li data-i18n="companionWhy3">Regular family updates</li></ul></div>
+                </div>
+            </div>
+        </div>
+        <div class="social-footer">
+            <div class="social-icons"><a href="#"><i class="fab fa-facebook"></i></a><a href="#"><i class="fab fa-instagram"></i></a><a href="#"><i class="fab fa-whatsapp"></i></a><a href="#"><i class="fab fa-google"></i></a></div>
+        </div>
+    </div>
+
+    <!-- CAREGIVERS LIST VIEW -->
+    <div id="caregiversListView" class="view">
+        <div class="navbar">
+            <div class="logo">Care<span>Via</span></div>
+            <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
+                <div class="lang-selector">
+                    <button class="lang-btn active" data-lang="en">EN</button>
+                    <button class="lang-btn" data-lang="ar">عربي</button>
+                    <button class="lang-btn" data-lang="fr">FR</button>
+                </div>
+                <div class="nav-links">
+                    <a data-i18n="navHome" onclick="showView('homeView')">Home</a>
+                    <a data-i18n="navServices" onclick="showView('servicesView')">Services</a>
+                    <a data-i18n="navCaregivers" onclick="showView('caregiversListView')">Caregivers</a>
+                </div>
+            </div>
+        </div>
+        <h1 class="section-title" data-i18n="caregiversListTitle">Our dedicated caregivers</h1>
+        <div class="caregiver-cards">
+            <div class="caregiver-card" onclick="showCaregiverProfile('mohamedAyoub')">
+                <div class="photo-placeholder"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80" alt="Mohamed Ayoub"></div>
+                <h3>Mohamed Ayoub Abinayach</h3>
+                <p data-i18n="ageStudent">21 ans • Étudiant • Tanger</p>
+                <div class="rating">4.7/5</div>
+            </div>
+            <div class="caregiver-card" onclick="showCaregiverProfile('mohamedReda')">
+                <div class="photo-placeholder"><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80" alt="Mohamed Reda"></div>
+                <h3>Mohamed Reda Saidi</h3>
+                <p data-i18n="ageStudent">21 ans • Étudiant • Tanger</p>
+                <div class="rating">4.6/5</div>
+            </div>
+            <div class="caregiver-card" onclick="showCaregiverProfile('fatimaZahra')">
+                <div class="photo-placeholder"><img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80" alt="Fatima Zahra"></div>
+                <h3>Fatima Zahra El Omari</h3>
+                <p data-i18n="ageNurse">35 ans • Infirmière • Tanger</p>
+                <div class="rating">4.9/5</div>
+            </div>
+            <div class="caregiver-card" onclick="showCaregiverProfile('youssefBenz')">
+                <div class="photo-placeholder"><img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80" alt="Youssef Benzaid"></div>
+                <h3>Youssef Benzaid</h3>
+                <p data-i18n="ageAssistant">28 ans • Aide-soignant • Tanger</p>
+                <div class="rating">4.8/5</div>
+            </div>
+        </div>
+        <div class="social-footer"><div class="social-icons"><a href="#"><i class="fab fa-facebook"></i></a><a href="#"><i class="fab fa-instagram"></i></a><a href="#"><i class="fab fa-whatsapp"></i></a><a href="#"><i class="fab fa-google"></i></a></div></div>
+    </div>
+
+    <!-- CAREGIVER PROFILE VIEW (dynamic) -->
+    <div id="caregiverProfileView" class="view">
+        <div class="navbar">
+            <div class="logo">Care<span>Via</span></div>
+            <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
+                <div class="lang-selector">
+                    <button class="lang-btn active" data-lang="en">EN</button>
+                    <button class="lang-btn" data-lang="ar">عربي</button>
+                    <button class="lang-btn" data-lang="fr">FR</button>
+                </div>
+                <div class="nav-links">
+                    <a data-i18n="navHome" onclick="showView('homeView')">Home</a>
+                    <a data-i18n="navServices" onclick="showView('servicesView')">Services</a>
+                    <a data-i18n="navCaregivers" onclick="showView('caregiversListView')">Caregivers</a>
+                </div>
+            </div>
+        </div>
+        <div class="back-link" onclick="showView('caregiversListView')"><i class="fas fa-arrow-left"></i> <span data-i18n="backToCaregivers">Back to caregivers</span></div>
+        <div id="caregiverProfileContent" style="background:white; border-radius: 48px; padding: 2.5rem;">
+            <!-- filled by JS -->
+        </div>
+        <div class="social-footer"><div class="social-icons"><a href="#"><i class="fab fa-facebook"></i></a><a href="#"><i class="fab fa-instagram"></i></a><a href="#"><i class="fab fa-whatsapp"></i></a><a href="#"><i class="fab fa-google"></i></a></div></div>
+    </div>
+
+    <!-- CLIENT INFO VIEW -->
+    <div id="clientInfoView" class="view">
+        <div class="navbar">
+            <div class="logo">Care<span>Via</span></div>
+            <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
+                <div class="lang-selector">
+                    <button class="lang-btn active" data-lang="en">EN</button>
+                    <button class="lang-btn" data-lang="ar">عربي</button>
+                    <button class="lang-btn" data-lang="fr">FR</button>
+                </div>
+                <div class="nav-links"><a data-i18n="navHome" onclick="showView('homeView')">Home</a></div>
+            </div>
+        </div>
+        <div class="booking-card">
+            <h2 data-i18n="clientInfoTitle">Tell us about yourself</h2>
+            <div class="form-group"><label data-i18n="firstName">First Name</label><input type="text" id="clientFirstName" class="form-control" placeholder="e.g. Ahmed"></div>
+            <div class="form-group"><label data-i18n="lastName">Last Name</label><input type="text" id="clientLastName" class="form-control" placeholder="e.g. Benali"></div>
+            <div class="form-group"><label data-i18n="city">City</label><input type="text" id="clientCity" class="form-control" value="Tangier"></div>
+            <div class="form-group"><label data-i18n="phone">Phone Number</label><input type="tel" id="clientPhone" class="form-control" placeholder="+212 6XX-XXXXXX"></div>
+            <div class="form-group"><label data-i18n="email">Email Address</label><input type="email" id="clientEmail" class="form-control" placeholder="example@mail.com"></div>
+            <button class="btn" style="width:100%;" data-i18n="continueBtn" onclick="saveClientInfoAndGoToTimeSlot()">Continue →</button>
+        </div>
+        <div class="social-footer"><div class="social-icons"><a href="#"><i class="fab fa-facebook"></i></a><a href="#"><i class="fab fa-instagram"></i></a><a href="#"><i class="fab fa-whatsapp"></i></a><a href="#"><i class="fab fa-google"></i></a></div></div>
+    </div>
+
+    <!-- TIME SLOT VIEW -->
+    <div id="timeSlotView" class="view">
+        <div class="navbar">
+            <div class="logo">Care<span>Via</span></div>
+            <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
+                <div class="lang-selector">
+                    <button class="lang-btn active" data-lang="en">EN</button>
+                    <button class="lang-btn" data-lang="ar">عربي</button>
+                    <button class="lang-btn" data-lang="fr">FR</button>
+                </div>
+                <div class="nav-links"><a data-i18n="navHome" onclick="showView('homeView')">Home</a></div>
+            </div>
+        </div>
+        <div class="booking-card">
+            <h2 data-i18n="selectDateTime">Select date & time (24h)</h2>
+            <div class="form-group"><label data-i18n="dateLabel">Date (from today onward)</label><input type="date" id="slotDate" class="form-control"></div>
+            <div class="form-group"><label data-i18n="selectHours">Select hours (click multiple)</label>
+                <div class="hours-grid" id="hoursContainer"></div>
+            </div>
+            <div id="selectedSlotsDisplay" class="selected-slots-list" data-i18n="noHours">No hours selected</div>
+            <button class="btn" style="width:100%;" data-i18n="confirmChooseCaregiver" onclick="confirmTimeSlot()">Confirm & choose caregiver</button>
+            <div class="back-link" onclick="showView('clientInfoView')"><i class="fas fa-arrow-left"></i> <span data-i18n="editInfo">Edit your info</span></div>
+        </div>
+        <div class="social-footer"><div class="social-icons"><a href="#"><i class="fab fa-facebook"></i></a><a href="#"><i class="fab fa-instagram"></i></a><a href="#"><i class="fab fa-whatsapp"></i></a><a href="#"><i class="fab fa-google"></i></a></div></div>
+    </div>
+
+    <!-- CHOOSE CAREGIVER VIEW -->
+    <div id="chooseCaregiverView" class="view">
+        <div class="navbar">
+            <div class="logo">Care<span>Via</span></div>
+            <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
+                <div class="lang-selector">
+                    <button class="lang-btn active" data-lang="en">EN</button>
+                    <button class="lang-btn" data-lang="ar">عربي</button>
+                    <button class="lang-btn" data-lang="fr">FR</button>
+                </div>
+                <div class="nav-links"><a data-i18n="navHome" onclick="showView('homeView')">Home</a></div>
+            </div>
+        </div>
+        <h2 class="section-title" data-i18n="selectCaregiverTitle">Select a caregiver</h2>
+        <div class="caregiver-cards" id="chooseCaregiverList"></div>
+        <div class="back-link" onclick="showView('timeSlotView')"><i class="fas fa-arrow-left"></i> <span data-i18n="backToTimeSlot">Back to time slot</span></div>
+        <div class="social-footer"><div class="social-icons"><a href="#"><i class="fab fa-facebook"></i></a><a href="#"><i class="fab fa-instagram"></i></a><a href="#"><i class="fab fa-whatsapp"></i></a><a href="#"><i class="fab fa-google"></i></a></div></div>
+    </div>
+
+    <!-- PAYMENT METHOD VIEW -->
+    <div id="paymentMethodView" class="view">
+        <div class="navbar">
+            <div class="logo">Care<span>Via</span></div>
+            <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
+                <div class="lang-selector">
+                    <button class="lang-btn active" data-lang="en">EN</button>
+                    <button class="lang-btn" data-lang="ar">عربي</button>
+                    <button class="lang-btn" data-lang="fr">FR</button>
+                </div>
+                <div class="nav-links"><a data-i18n="navHome" onclick="showView('homeView')">Home</a></div>
+            </div>
+        </div>
+        <div class="booking-card">
+            <h2 data-i18n="paymentMethodTitle">Payment method</h2>
+            <div id="paymentSummary" class="payment-summary" style="background:#f2f7fc; border-radius:32px; padding:1.5rem; margin-bottom:2rem;"></div>
+            
+            <div class="payment-option">
+                <label style="display:flex; align-items: center; gap:1rem;">
+                    <input type="radio" name="paymentMethod" value="cash" checked> <strong data-i18n="cashOption">Cash (pay on arrival)</strong>
+                </label>
+            </div>
+            <div class="payment-option">
+                <label style="display:flex; align-items: center; gap:1rem;">
+                    <input type="radio" name="paymentMethod" value="card"> <strong data-i18n="cardOption">Credit card</strong>
+                </label>
+                <div id="cardFields" style="display: none; margin-top:1.5rem;">
+                    <div class="credit-card-fields">
+                        <input type="text" placeholder="Card number" class="form-control" id="cardNumber" data-i18n-placeholder="cardNumberPlaceholder">
+                        <input type="text" placeholder="MM/YY" class="form-control" id="cardExpiry" data-i18n-placeholder="expiryPlaceholder">
+                        <input type="text" placeholder="CVV" class="form-control" id="cardCvv" data-i18n-placeholder="cvvPlaceholder">
+                    </div>
+                </div>
+            </div>
+            <button class="btn" style="width:100%; margin-top:2rem;" data-i18n="confirmBookingBtn" onclick="processPayment()">Confirm booking</button>
+            <div class="back-link" onclick="showView('chooseCaregiverView')"><i class="fas fa-arrow-left"></i> <span data-i18n="chooseDifferent">Choose different caregiver</span></div>
+        </div>
+        <div class="social-footer"><div class="social-icons"><a href="#"><i class="fab fa-facebook"></i></a><a href="#"><i class="fab fa-instagram"></i></a><a href="#"><i class="fab fa-whatsapp"></i></a><a href="#"><i class="fab fa-google"></i></a></div></div>
+    </div>
+
+    <!-- CONFIRMATION VIEW -->
+    <div id="confirmationView" class="view">
+        <div class="navbar">
+            <div class="logo">Care<span>Via</span></div>
+            <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
+                <div class="lang-selector">
+                    <button class="lang-btn active" data-lang="en">EN</button>
+                    <button class="lang-btn" data-lang="ar">عربي</button>
+                    <button class="lang-btn" data-lang="fr">FR</button>
+                </div>
+                <div class="nav-links"><a data-i18n="navHome" onclick="showView('homeView')">Home</a></div>
+            </div>
+        </div>
+        <div class="booking-card" style="text-align: center;">
+            <div class="checkmark"><i class="fas fa-check-circle"></i></div>
+            <h2 style="margin: 2rem 0 1rem;" data-i18n="confirmationTitle">Appointment successfully scheduled!</h2>
+            <p style="font-size: 1.2rem;" data-i18n="confirmationText">We will contact you as soon as possible to confirm the details.</p>
+            <button class="btn" style="margin-top: 2rem;" data-i18n="returnHome" onclick="showView('homeView')">Return to home</button>
+        </div>
+        <div class="social-footer"><div class="social-icons"><a href="#"><i class="fab fa-facebook"></i></a><a href="#"><i class="fab fa-instagram"></i></a><a href="#"><i class="fab fa-whatsapp"></i></a><a href="#"><i class="fab fa-google"></i></a></div></div>
+    </div>
+
+    <script>
+        // ---------- TRANSLATIONS ----------
+        const translations = {
+            en: {
+                navHome: "Home",
+                navServices: "Services",
+                navCaregivers: "Caregivers",
+                heroTitle: "Compassionate care for your beloved elders",
+                heroSub: "Professional, trustworthy caregivers at your doorstep in Tangier.",
+                bookBtn: "Book a caregiver",
+                servicesTitle: "Our services",
+                serviceHome: "Home Care",
+                serviceHomeDesc: "Daily assistance, hygiene, meals & comfort",
+                serviceMedical: "Medical Accompaniment",
+                serviceMedicalDesc: "Clinic visits, medication reminders",
+                servicePersonal: "Personal Care",
+                servicePersonalDesc: "Bathing, grooming, dressing support",
+                serviceCompanion: "Companionship",
+                serviceCompanionDesc: "Conversation, walks, emotional support",
+                meetCaregiversTitle: "Meet some caregivers",
+                ageStudent: "21 years • Student • Tangier",
+                ageNurse: "35 years • Nurse • Tangier",
+                ageAssistant: "28 years • Assistant • Tangier",
+                servicesDetailTitle: "Our services in detail",
+                whyChooseUs: "Why choose us?",
+                homeWhy1: "Personalized care plans",
+                homeWhy2: "Kind and experienced caregivers",
+                homeWhy3: "24/7 availability",
+                medicalDetail: "We accompany elders to medical appointments, handle pharmacy pickups, and ensure medication schedules are followed. Our staff are trained to communicate with healthcare professionals.",
+                medicalWhy1: "Safe transport arrangement",
+                medicalWhy2: "Medication reminders",
+                medicalWhy3: "Report back to family",
+                personalDetail: "Assistance with hygiene, grooming, and mobility. Our caregivers are trained to provide respectful and dignified support for daily personal tasks.",
+                personalWhy1: "Respectful and gentle approach",
+                personalWhy2: "Fall prevention techniques",
+                personalWhy3: "Continuous supervision if needed",
+                companionDetail: "Social interaction, conversation, walks, and emotional support. We combat loneliness and keep seniors engaged and happy.",
+                companionWhy1: "Friendly, screened companions",
+                companionWhy2: "Activities tailored to interests",
+                companionWhy3: "Regular family updates",
+                caregiversListTitle: "Our dedicated caregivers",
+                backToCaregivers: "Back to caregivers",
+                clientInfoTitle: "Tell us about yourself",
+                firstName: "First Name",
+                lastName: "Last Name",
+                city: "City",
+                phone: "Phone Number",
+                email: "Email Address",
+                continueBtn: "Continue →",
+                selectDateTime: "Select date & time (24h)",
+                dateLabel: "Date (from today onward)",
+                selectHours: "Select hours (click multiple)",
+                noHours: "No hours selected",
+                confirmChooseCaregiver: "Confirm & choose caregiver",
+                editInfo: "Edit your info",
+                selectCaregiverTitle: "Select a caregiver",
+                backToTimeSlot: "Back to time slot",
+                paymentMethodTitle: "Payment method",
+                cashOption: "Cash (pay on arrival)",
+                cardOption: "Credit card",
+                cardNumberPlaceholder: "Card number",
+                expiryPlaceholder: "MM/YY",
+                cvvPlaceholder: "CVV",
+                confirmBookingBtn: "Confirm booking",
+                chooseDifferent: "Choose different caregiver",
+                confirmationTitle: "Appointment successfully scheduled!",
+                confirmationText: "We will contact you as soon as possible to confirm the details.",
+                returnHome: "Return to home"
+            },
+            ar: {
+                navHome: "الرئيسية",
+                navServices: "الخدمات",
+                navCaregivers: "مقدمو الرعاية",
+                heroTitle: "رعاية حنونة لكبار السن",
+                heroSub: "مقدمو رعاية محترفون وموثوقون في منزلك بمدينة طنجة",
+                bookBtn: "احجز مقدم رعاية",
+                servicesTitle: "خدماتنا",
+                serviceHome: "الرعاية المنزلية",
+                serviceHomeDesc: "مساعدة يومية، نظافة، وجبات وراحة",
+                serviceMedical: "مرافقة طبية",
+                serviceMedicalDesc: "زيارات عيادية، تذكير بالأدوية",
+                servicePersonal: "عناية شخصية",
+                servicePersonalDesc: "استحمام، تنظيف، دعم في الارتداء",
+                serviceCompanion: "رفقة",
+                serviceCompanionDesc: "محادثة، نزهات، دعم عاطفي",
+                meetCaregiversTitle: "تعرف على بعض مقدمي الرعاية",
+                ageStudent: "٢١ سنة • طالب • طنجة",
+                ageNurse: "٣٥ سنة • ممرضة • طنجة",
+                ageAssistant: "٢٨ سنة • مساعد • طنجة",
+                servicesDetailTitle: "خدماتنا بالتفصيل",
+                whyChooseUs: "لماذا تختارنا؟",
+                homeWhy1: "خطط رعاية مخصصة",
+                homeWhy2: "مقدمو رعاية لطفاء وذوو خبرة",
+                homeWhy3: "توافر ٢٤/٧",
+                medicalDetail: "نرافق كبار السن إلى المواعيد الطبية، ونتولى استلام الأدوية من الصيدلية، ونتأكد من اتباع جداول الأدوية. موظفونا مدربون على التواصل مع المتخصصين في الرعاية الصحية.",
+                medicalWhy1: "ترتيب نقل آمن",
+                medicalWhy2: "تذكير بالأدوية",
+                medicalWhy3: "تقرير للعائلة",
+                personalDetail: "مساعدة في النظافة والاستمالة والتنقل. مقدمونا مدربون على تقديم دعم محترم وكريم للمهام الشخصية اليومية.",
+                personalWhy1: "نهج محترم ولطيف",
+                personalWhy2: "تقنيات منع السقوط",
+                personalWhy3: "إشراف مستمر إذا لزم الأمر",
+                companionDetail: "تفاعل اجتماعي، محادثة، نزهات، ودعم عاطفي. نحارب الوحدة ونساعد كبار السن على البقاء نشطين وسعداء.",
+                companionWhy1: "رفقاء ودودون ومُدققون",
+                companionWhy2: "أنشطة مصممة حسب الاهتمامات",
+                companionWhy3: "تحديثات منتظمة للعائلة",
+                caregiversListTitle: "مقدمو الرعاية المخلصون لدينا",
+                backToCaregivers: "العودة إلى قائمة مقدمي الرعاية",
+                clientInfoTitle: "أخبرنا عن نفسك",
+                firstName: "الاسم الأول",
+                lastName: "اسم العائلة",
+                city: "المدينة",
+                phone: "رقم الهاتف",
+                email: "البريد الإلكتروني",
+                continueBtn: "متابعة ←",
+                selectDateTime: "اختر التاريخ والوقت (24 ساعة)",
+                dateLabel: "التاريخ (من اليوم فصاعداً)",
+                selectHours: "اختر الساعات (اضغط لاختيار متعدد)",
+                noHours: "لم يتم اختيار أي ساعة",
+                confirmChooseCaregiver: "تأكيد واختيار مقدم الرعاية",
+                editInfo: "تعديل بياناتك",
+                selectCaregiverTitle: "اختر مقدم رعاية",
+                backToTimeSlot: "العودة لاختيار الوقت",
+                paymentMethodTitle: "طريقة الدفع",
+                cashOption: "نقداً (الدفع عند الوصول)",
+                cardOption: "بطاقة ائتمان",
+                cardNumberPlaceholder: "رقم البطاقة",
+                expiryPlaceholder: "شهر/سنة",
+                cvvPlaceholder: "CVV",
+                confirmBookingBtn: "تأكيد الحجز",
+                chooseDifferent: "اختيار مقدم رعاية آخر",
+                confirmationTitle: "تم جدولة الموعد بنجاح!",
+                confirmationText: "سنتواصل معك في أقرب وقت ممكن لتأكيد التفاصيل.",
+                returnHome: "العودة إلى الرئيسية"
+            },
+            fr: {
+                navHome: "Accueil",
+                navServices: "Services",
+                navCaregivers: "Soignants",
+                heroTitle: "Soins compatissants pour vos aînés bien-aimés",
+                heroSub: "Soignants professionnels et de confiance à votre porte à Tanger.",
+                bookBtn: "Réserver un soignant",
+                servicesTitle: "Nos services",
+                serviceHome: "Soins à domicile",
+                serviceHomeDesc: "Aide quotidienne, hygiène, repas et confort",
+                serviceMedical: "Accompagnement médical",
+                serviceMedicalDesc: "Visites cliniques, rappels de médicaments",
+                servicePersonal: "Soins personnels",
+                servicePersonalDesc: "Bain, toilette, aide à l'habillage",
+                serviceCompanion: "Compagnie",
+                serviceCompanionDesc: "Conversation, promenades, soutien émotionnel",
+                meetCaregiversTitle: "Rencontrez quelques soignants",
+                ageStudent: "21 ans • Étudiant • Tanger",
+                ageNurse: "35 ans • Infirmière • Tanger",
+                ageAssistant: "28 ans • Assistant • Tanger",
+                servicesDetailTitle: "Nos services en détail",
+                whyChooseUs: "Pourquoi nous choisir ?",
+                homeWhy1: "Plans de soins personnalisés",
+                homeWhy2: "Soignants gentils et expérimentés",
+                homeWhy3: "Disponibilité 24h/24",
+                medicalDetail: "Nous accompagnons les personnes âgées aux rendez-vous médicaux, gérons les achats en pharmacie et assurons le suivi des médicaments. Notre personnel est formé pour communiquer avec les professionnels de santé.",
+                medicalWhy1: "Organisation du transport sécurisé",
+                medicalWhy2: "Rappels de médicaments",
+                medicalWhy3: "Compte rendu à la famille",
+                personalDetail: "Assistance pour l'hygiène, la toilette et la mobilité. Nos soignants sont formés pour fournir un soutien respectueux et digne pour les tâches personnelles quotidiennes.",
+                personalWhy1: "Approche respectueuse et douce",
+                personalWhy2: "Techniques de prévention des chutes",
+                personalWhy3: "Surveillance continue si nécessaire",
+                companionDetail: "Interaction sociale, conversation, promenades et soutien émotionnel. Nous combattons la solitude et maintenons l'engagement et la joie de vivre des aînés.",
+                companionWhy1: "Compagnons amicaux et vérifiés",
+                companionWhy2: "Activités adaptées aux centres d'intérêt",
+                companionWhy3: "Nouvelles régulières à la famille",
+                caregiversListTitle: "Nos soignants dévoués",
+                backToCaregivers: "Retour aux soignants",
+                clientInfoTitle: "Parlez-nous de vous",
+                firstName: "Prénom",
+                lastName: "Nom de famille",
+                city: "Ville",
+                phone: "Numéro de téléphone",
+                email: "Adresse e-mail",
+                continueBtn: "Continuer →",
+                selectDateTime: "Choisissez la date et l'heure (24h)",
+                dateLabel: "Date (à partir d'aujourd'hui)",
+                selectHours: "Sélectionnez les heures (cliquez multiples)",
+                noHours: "Aucune heure sélectionnée",
+                confirmChooseCaregiver: "Confirmer et choisir le soignant",
+                editInfo: "Modifier vos informations",
+                selectCaregiverTitle: "Choisissez un soignant",
+                backToTimeSlot: "Retour au créneau horaire",
+                paymentMethodTitle: "Moyen de paiement",
+                cashOption: "Espèces (paiement à l'arrivée)",
+                cardOption: "Carte de crédit",
+                cardNumberPlaceholder: "Numéro de carte",
+                expiryPlaceholder: "MM/AA",
+                cvvPlaceholder: "CVV",
+                confirmBookingBtn: "Confirmer la réservation",
+                chooseDifferent: "Choisir un autre soignant",
+                confirmationTitle: "Rendez-vous programmé avec succès !",
+                confirmationText: "Nous vous contacterons dès que possible pour confirmer les détails.",
+                returnHome: "Retour à l'accueil"
+            }
         };
-        selectedSlots = []; // reset
-        showView('timeSlotView');
-    }
-    window.saveClientInfoAndGoToTimeSlot = saveClientInfoAndGoToTimeSlot;
 
-    // set min date to today
-    function setMinDate() {
-        const today = new Date().toISOString().split('T')[0];
-        document.getElementById('slotDate').setAttribute('min', today);
-        document.getElementById('slotDate').value = today;
-    }
+        // Current language
+        let currentLang = 'en';
 
-    // generate 24 hour slots in 24h format
-    function generateHourSlots() {
-        const container = document.getElementById('hoursContainer');
-        container.innerHTML = '';
-        for (let i = 0; i < 24; i++) {
-            const startHour = i;
-            const endHour = i + 1;
-            const startStr = startHour.toString().padStart(2,'0') + ':00';
-            const endStr = endHour === 24 ? '00:00' : endHour.toString().padStart(2,'0') + ':00';
-            const slotLabel = `${startStr} – ${endStr}`;
-            const div = document.createElement('div');
-            div.className = 'hour-option';
-            div.textContent = slotLabel;
-            div.dataset.slot = slotLabel;
-            div.onclick = () => toggleHourOption(div);
-            container.appendChild(div);
-        }
-    }
-
-    function toggleHourOption(el) {
-        const slot = el.dataset.slot;
-        if (el.classList.contains('selected')) {
-            el.classList.remove('selected');
-            selectedSlots = selectedSlots.filter(s => s !== slot);
-        } else {
-            el.classList.add('selected');
-            selectedSlots.push(slot);
-        }
-        updateSelectedSlotsDisplay();
-    }
-
-    function updateSelectedSlotsDisplay() {
-        const displayDiv = document.getElementById('selectedSlotsDisplay');
-        if (selectedSlots.length === 0) {
-            displayDiv.innerText = 'No hours selected';
-        } else {
-            displayDiv.innerHTML = '<strong>Selected hours:</strong> ' + selectedSlots.join(' · ');
-        }
-    }
-
-    function confirmTimeSlot() {
-        selectedDate = document.getElementById('slotDate').value;
-        if (!selectedDate) {
-            alert('Please select a date.');
-            return;
-        }
-        if (selectedSlots.length === 0) {
-            alert('Please select at least one hour slot.');
-            return;
-        }
-        // load choose caregiver list
-        const container = document.getElementById('chooseCaregiverList');
-        container.innerHTML = '';
-        for (let [key, c] of Object.entries(caregivers)) {
-            const card = document.createElement('div');
-            card.className = 'caregiver-card';
-            card.style.cursor = 'pointer';
-            card.innerHTML = `
-                <div class="photo-placeholder"><i class="fas fa-user fa-3x" style="opacity:0.4;"></i></div>
-                <h3>${c.name}</h3>
-                <p>${c.age} ans • ${c.occupation} • ${c.location}</p>
-                <div class="rating">⭐ ${c.rating}/5</div>
-            `;
-            card.onclick = () => selectCaregiver(key);
-            container.appendChild(card);
-        }
-        showView('chooseCaregiverView');
-    }
-    window.confirmTimeSlot = confirmTimeSlot;
-
-    function selectCaregiver(key) {
-        selectedCaregiverKey = key;
-        showView('paymentMethodView');
-    }
-    window.selectCaregiver = selectCaregiver;
-
-    function updatePaymentSummary() {
-        const c = caregivers[selectedCaregiverKey];
-        if (!c) return;
-        const totalHours = selectedSlots.length;
-        const totalAmount = totalHours * 50;
-        const summary = document.getElementById('paymentSummary');
-        summary.innerHTML = `
-            <p><strong>Service:</strong> ${serviceNames[selectedService]}</p>
-            <p><strong>Client:</strong> ${clientInfo.firstName} ${clientInfo.lastName}, ${clientInfo.city}</p>
-            <p><strong>Date:</strong> ${selectedDate}</p>
-            <p><strong>Hours:</strong> ${selectedSlots.join(' · ')} (${totalHours} hour${totalHours>1?'s':''})</p>
-            <p><strong>Caregiver:</strong> ${c.name} (${c.rating}/5)</p>
-            <hr><p style="font-size:1.8rem; font-weight:700;">Total: ${totalAmount} MAD</p>
-        `;
-    }
-
-    // toggle card fields based on radio
-    document.addEventListener('change', function(e) {
-        if (e.target.name === 'paymentMethod') {
-            const cardFields = document.getElementById('cardFields');
-            cardFields.style.display = e.target.value === 'card' ? 'block' : 'none';
-        }
-    });
-
-    function processPayment() {
-        const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
-        if (paymentMethod === 'card') {
-            const cardNum = document.getElementById('cardNumber').value.trim();
-            const expiry = document.getElementById('cardExpiry').value.trim();
-            const cvv = document.getElementById('cardCvv').value.trim();
-            if (!cardNum || !expiry || !cvv) {
-                alert('Please fill in all credit card details.');
-                return;
+        // Function to update UI with selected language
+        function setLanguage(lang) {
+            currentLang = lang;
+            // Update active button
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                if (btn.dataset.lang === lang) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+            // Set RTL class on body for Arabic
+            if (lang === 'ar') {
+                document.body.classList.add('rtl');
+            } else {
+                document.body.classList.remove('rtl');
+            }
+            // Update all elements with data-i18n
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) {
+                    el.textContent = translations[lang][key];
+                }
+            });
+            // Update placeholders
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-i18n-placeholder');
+                if (translations[lang] && translations[lang][key]) {
+                    el.placeholder = translations[lang][key];
+                }
+            });
+            // Update selected slots display (if any) - handled separately
+            // Also update the "selectedSlotsDisplay" default text
+            const slotsDisplay = document.getElementById('selectedSlotsDisplay');
+            if (slotsDisplay && selectedSlots.length === 0) {
+                slotsDisplay.innerText = translations[lang].noHours;
             }
         }
-        // proceed to confirmation
-        showView('confirmationView');
-    }
-    window.processPayment = processPayment;
 
-    function finishBooking() {
-        // not used directly now, but keep for reference
-    }
-</script>
+        // Attach event listeners to language buttons
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                setLanguage(btn.dataset.lang);
+            });
+        });
+
+        // ---------- EXISTING BOOKING STATE AND FUNCTIONS (keep as before) ----------
+        const serviceNames = {
+            homeCare: 'Home Care',
+            medicalAcc: 'Medical Accompaniment',
+            personalCare: 'Personal Care',
+            companionship: 'Companionship'
+        };
+
+        const caregivers = {
+            mohamedAyoub: {
+                name: 'Mohamed Ayoub Abinayach',
+                age: 21,
+                occupation: 'Student (Nursing)',
+                location: 'Tangier',
+                rating: 4.7,
+                bio: 'Mohamed Ayoub is a second-year nursing student with a passion for geriatric care. He has volunteered at local senior centers and provides empathetic, attentive support.',
+                tasks: [
+                    { task: 'Home care assistance', rating: 4.8 },
+                    { task: 'Medical appointment accompaniment', rating: 4.6 },
+                    { task: 'Companionship & conversation', rating: 4.9 }
+                ],
+                skills: ['Medication reminders', 'Mobility support', 'First aid', 'Patient listener']
+            },
+            mohamedReda: {
+                name: 'Mohamed Reda Saidi',
+                age: 21,
+                occupation: 'Student (Psychology)',
+                location: 'Tangier',
+                rating: 4.6,
+                bio: 'Reda combines his psychology studies with a natural ability to connect with elders. He focuses on mental well-being and engaging activities.',
+                tasks: [
+                    { task: 'Companionship', rating: 4.9 },
+                    { task: 'Personal care', rating: 4.5 },
+                    { task: 'Light housekeeping', rating: 4.5 }
+                ],
+                skills: ['Active listening', 'Memory games', 'Cooking', 'Patience']
+            },
+            fatimaZahra: {
+                name: 'Fatima Zahra El Omari',
+                age: 35,
+                occupation: 'Registered Nurse',
+                location: 'Tangier',
+                rating: 4.9,
+                bio: 'Fatima is an experienced nurse with 10 years in geriatric care. She excels in post-operative care and chronic condition management.',
+                tasks: [
+                    { task: 'Medical accompaniment', rating: 5.0 },
+                    { task: 'Wound care', rating: 4.9 },
+                    { task: 'Medication management', rating: 5.0 }
+                ],
+                skills: ['Wound care', 'Catheter care', 'Vital monitoring', 'Diabetes management']
+            },
+            youssefBenz: {
+                name: 'Youssef Benzaid',
+                age: 28,
+                occupation: 'Certified nursing assistant',
+                location: 'Tangier',
+                rating: 4.8,
+                bio: 'Youssef is patient and strong, ideal for clients needing transfer assistance. He has 5 years of home care experience.',
+                tasks: [
+                    { task: 'Mobility assistance', rating: 4.9 },
+                    { task: 'Bathing & grooming', rating: 4.8 },
+                    { task: 'Exercise supervision', rating: 4.7 }
+                ],
+                skills: ['Lifting techniques', 'Fall prevention', 'Physiotherapy exercises', 'Compassionate']
+            }
+        };
+
+        // global booking state
+        let selectedService = 'homeCare';
+        let clientInfo = {};
+        let selectedDate = '';
+        let selectedSlots = []; // array of strings like "08:00 – 09:00"
+        let selectedCaregiverKey = null;
+
+        // ---------- navigation ----------
+        function showView(viewId) {
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active-view'));
+            document.getElementById(viewId).classList.add('active-view');
+            if (viewId === 'timeSlotView') {
+                setMinDate();
+                generateHourSlots();
+            }
+            if (viewId === 'paymentMethodView') {
+                updatePaymentSummary();
+            }
+        }
+        window.showView = showView;
+
+        function showCaregiverProfile(id) {
+            const profileDiv = document.getElementById('caregiverProfileContent');
+            const c = caregivers[id];
+            if (!c) return;
+            let tasksHtml = '';
+            c.tasks.forEach(t => {
+                tasksHtml += `<div class="task-item"><span>${t.task}</span> <span class="rating">${'★'.repeat(Math.floor(t.rating))}${t.rating%1? '½':''} ${t.rating}</span></div>`;
+            });
+            let skillsHtml = c.skills.map(s => `<span class="skill-tag">${s}</span>`).join('');
+            profileDiv.innerHTML = `
+                <div style="display:flex; flex-wrap:wrap; gap:2rem;">
+                    <div style="flex:1; min-width:200px;"><div class="photo-placeholder" style="width:150px;height:150px;"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80" alt="${c.name}"></div></div>
+                    <div style="flex:3;"><h2>${c.name}</h2><p>${c.age} years • ${c.occupation} • ${c.location}</p><div class="rating">★★★★${c.rating%1>=0.5?'½':''} <span>${c.rating}/5</span></div>
+                    <p style="margin:1rem 0;"><strong>Bio:</strong> ${c.bio}</p></div>
+                </div>
+                <hr><h3>Completed tasks & ratings</h3>${tasksHtml}
+                <h3 style="margin-top:1.5rem;">Skills & competencies</h3><div class="skills-tags">${skillsHtml}</div>
+            `;
+            showView('caregiverProfileView');
+        }
+        window.showCaregiverProfile = showCaregiverProfile;
+
+        function startBookingFlow() {
+            selectedService = 'homeCare';
+            showView('clientInfoView');
+        }
+        window.startBookingFlow = startBookingFlow;
+
+        function selectServiceAndGoToClientInfo(serviceKey) {
+            selectedService = serviceKey;
+            showView('clientInfoView');
+        }
+        window.selectServiceAndGoToClientInfo = selectServiceAndGoToClientInfo;
+
+        function saveClientInfoAndGoToTimeSlot() {
+            clientInfo = {
+                firstName: document.getElementById('clientFirstName').value.trim() || 'Ahmed',
+                lastName: document.getElementById('clientLastName').value.trim() || 'Benali',
+                city: document.getElementById('clientCity').value.trim() || 'Tangier',
+                phone: document.getElementById('clientPhone').value.trim() || '+212600000000',
+                email: document.getElementById('clientEmail').value.trim() || 'client@example.com'
+            };
+            selectedSlots = [];
+            showView('timeSlotView');
+        }
+        window.saveClientInfoAndGoToTimeSlot = saveClientInfoAndGoToTimeSlot;
+
+        function setMinDate() {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('slotDate').setAttribute('min', today);
+            document.getElementById('slotDate').value = today;
+        }
+
+        function generateHourSlots() {
+            const container = document.getElementById('hoursContainer');
+            container.innerHTML = '';
+            for (let i = 0; i < 24; i++) {
+                const startHour = i;
+                const endHour = i + 1;
+                const startStr = startHour.toString().padStart(2,'0') + ':00';
+                const endStr = endHour === 24 ? '00:00' : endHour.toString().padStart(2,'0') + ':00';
+                const slotLabel = `${startStr} – ${endStr}`;
+                const div = document.createElement('div');
+                div.className = 'hour-option';
+                div.textContent = slotLabel;
+                div.dataset.slot = slotLabel;
+                div.onclick = () => toggleHourOption(div);
+                container.appendChild(div);
+            }
+        }
+
+        function toggleHourOption(el) {
+            const slot = el.dataset.slot;
+            if (el.classList.contains('selected')) {
+                el.classList.remove('selected');
+                selectedSlots = selectedSlots.filter(s => s !== slot);
+            } else {
+                el.classList.add('selected');
+                selectedSlots.push(slot);
+            }
+            updateSelectedSlotsDisplay();
+        }
+
+        function updateSelectedSlotsDisplay() {
+            const displayDiv = document.getElementById('selectedSlotsDisplay');
+            if (selectedSlots.length === 0) {
+                displayDiv.innerText = translations[currentLang].noHours;
+            } else {
+                displayDiv.innerHTML = '<strong>' + (currentLang === 'ar' ? 'الساعات المحددة:' : (currentLang === 'fr' ? 'Heures sélectionnées:' : 'Selected hours:')) + '</strong> ' + selectedSlots.join(' · ');
+            }
+        }
+
+        function confirmTimeSlot() {
+            selectedDate = document.getElementById('slotDate').value;
+            if (!selectedDate) {
+                alert(translations[currentLang].dateLabel + ' required');
+                return;
+            }
+            if (selectedSlots.length === 0) {
+                alert(translations[currentLang].noHours);
+                return;
+            }
+            const container = document.getElementById('chooseCaregiverList');
+            container.innerHTML = '';
+            for (let [key, c] of Object.entries(caregivers)) {
+                const card = document.createElement('div');
+                card.className = 'caregiver-card';
+                card.style.cursor = 'pointer';
+                card.innerHTML = `
+                    <div class="photo-placeholder"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80" alt="${c.name}"></div>
+                    <h3>${c.name}</h3>
+                    <p>${c.age} ans • ${c.occupation} • ${c.location}</p>
+                    <div class="rating">⭐ ${c.rating}/5</div>
+                `;
+                card.onclick = () => selectCaregiver(key);
+                container.appendChild(card);
+            }
+            showView('chooseCaregiverView');
+        }
+        window.confirmTimeSlot = confirmTimeSlot;
+
+        function selectCaregiver(key) {
+            selectedCaregiverKey = key;
+            showView('paymentMethodView');
+        }
+        window.selectCaregiver = selectCaregiver;
+
+        function updatePaymentSummary() {
+            const c = caregivers[selectedCaregiverKey];
+            if (!c) return;
+            const totalHours = selectedSlots.length;
+            const totalAmount = totalHours * 50;
+            const summary = document.getElementById('paymentSummary');
+            summary.innerHTML = `
+                <p><strong>${translations[currentLang].serviceHome}:</strong> ${serviceNames[selectedService]}</p>
+                <p><strong>${translations[currentLang].firstName}:</strong> ${clientInfo.firstName} ${clientInfo.lastName}, ${clientInfo.city}</p>
+                <p><strong>${translations[currentLang].dateLabel}:</strong> ${selectedDate}</p>
+                <p><strong>${translations[currentLang].selectHours}:</strong> ${selectedSlots.join(' · ')} (${totalHours} hour${totalHours>1?'s':''})</p>
+                <p><strong>${translations[currentLang].navCaregivers}:</strong> ${c.name} (${c.rating}/5)</p>
+                <hr><p style="font-size:1.8rem; font-weight:700;">Total: ${totalAmount} MAD</p>
+            `;
+        }
+
+        // Toggle card fields
+        document.addEventListener('change', function(e) {
+            if (e.target.name === 'paymentMethod') {
+                const cardFields = document.getElementById('cardFields');
+                cardFields.style.display = e.target.value === 'card' ? 'block' : 'none';
+            }
+        });
+
+        function processPayment() {
+            const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+            if (paymentMethod === 'card') {
+                const cardNum = document.getElementById('cardNumber').value.trim();
+                const expiry = document.getElementById('cardExpiry').value.trim();
+                const cvv = document.getElementById('cardCvv').value.trim();
+                if (!cardNum || !expiry || !cvv) {
+                    alert('Please fill in all credit card details.');
+                    return;
+                }
+            }
+            showView('confirmationView');
+        }
+        window.processPayment = processPayment;
+
+        // Initialize default language
+        setLanguage('en');
+    </script>
 </body>
 </html>
