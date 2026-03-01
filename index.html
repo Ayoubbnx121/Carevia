@@ -918,21 +918,13 @@
         // Current language
         let currentLang = 'en';
 
-        // Function to update UI with selected language (unchanged)
         function setLanguage(lang) {
             currentLang = lang;
             document.querySelectorAll('.lang-btn').forEach(btn => {
-                if (btn.dataset.lang === lang) {
-                    btn.classList.add('active');
-                } else {
-                    btn.classList.remove('active');
-                }
+                if (btn.dataset.lang === lang) btn.classList.add('active');
+                else btn.classList.remove('active');
             });
-            if (lang === 'ar') {
-                document.body.classList.add('rtl');
-            } else {
-                document.body.classList.remove('rtl');
-            }
+            document.body.classList.toggle('rtl', lang === 'ar');
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.getAttribute('data-i18n');
                 if (translations[lang] && translations[lang][key]) {
@@ -958,12 +950,10 @@
         }
 
         document.querySelectorAll('.lang-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                setLanguage(btn.dataset.lang);
-            });
+            btn.addEventListener('click', () => setLanguage(btn.dataset.lang));
         });
 
-        // ---------- BOOKING STATE AND FUNCTIONS (unchanged) ----------
+        // ---------- BOOKING STATE AND FUNCTIONS ----------
         const serviceNames = {
             homeCare: 'Home Care',
             medicalAcc: 'Medical Accompaniment',
@@ -1059,7 +1049,6 @@
                 tasksHtml += `<div class="task-item"><span>${t.task}</span> <span class="rating">${'★'.repeat(Math.floor(t.rating))}${t.rating%1? '½':''} ${t.rating}</span></div>`;
             });
             let skillsHtml = c.skills.map(s => `<span class="skill-tag">${s}</span>`).join('');
-            // Use local image for Mohamed Ayoub in profile as well
             let profileImage = id === 'mohamedAyoub' ? 'Ayoub.jpg' : 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80';
             profileDiv.innerHTML = `
                 <div style="display:flex; flex-wrap:wrap; gap:2rem;">
@@ -1157,7 +1146,6 @@
             const container = document.getElementById('chooseCaregiverList');
             container.innerHTML = '';
             for (let [key, c] of Object.entries(caregivers)) {
-                // Use local image for Mohamed Ayoub in the selection list as well
                 let imgSrc = key === 'mohamedAyoub' ? 'Ayoub.jpg' : 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80';
                 const card = document.createElement('div');
                 card.className = 'caregiver-card';
@@ -1204,6 +1192,9 @@
             }
         });
 
+        // Google Apps Script URL for exporting data
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzS6V2y_ZGE5xOtvYeY_iYUx5L86eeyGWzlxCkrwjO9V1InSZUevcTSkgpdjnDcD1e1/exec';
+
         function processPayment() {
             const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
             if (paymentMethod === 'card') {
@@ -1215,7 +1206,52 @@
                     return;
                 }
             }
-            showView('confirmationView');
+
+            // Prepare data for Google Sheet
+            const fullName = `${clientInfo.firstName} ${clientInfo.lastName}`.trim();
+            const email = clientInfo.email;
+            const phone = clientInfo.phone;
+            const date = selectedDate;
+            const hours = selectedSlots.join(', '); // e.g., "08:00-09:00, 10:00-11:00"
+
+            // Create form data
+            const formData = new URLSearchParams();
+            formData.append('A', fullName);      // Clients
+            formData.append('B', email);         // Email
+            formData.append('C', phone);         // Phone
+            formData.append('D', date);          // Date
+            formData.append('E', hours);         // Hours
+
+            // Show loading indicator (simple alert, but we can do better)
+            const confirmBtn = document.querySelector('#paymentMethodView .btn');
+            const originalText = confirmBtn.textContent;
+            confirmBtn.textContent = currentLang === 'ar' ? 'جاري الإرسال...' : currentLang === 'fr' ? 'Envoi...' : 'Submitting...';
+            confirmBtn.disabled = true;
+
+            fetch(GOOGLE_SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors', // important for Google Apps Script web app to avoid CORS
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: formData
+            })
+            .then(() => {
+                // Even with no-cors, we can't read response, but we assume success.
+                // Show confirmation view.
+                showView('confirmationView');
+            })
+            .catch(error => {
+                console.error('Error submitting to Google Sheet:', error);
+                alert(currentLang === 'ar' ? 'حدث خطأ في الإرسال. يرجى المحاولة مرة أخرى.' :
+                      currentLang === 'fr' ? 'Erreur d\'envoi. Veuillez réessayer.' :
+                      'Submission error. Please try again.');
+                // Still go to confirmation? Better to let user decide, but we'll keep them on payment page.
+            })
+            .finally(() => {
+                confirmBtn.textContent = originalText;
+                confirmBtn.disabled = false;
+            });
         }
         window.processPayment = processPayment;
 
