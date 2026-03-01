@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
     <title>SereneCare | elderly care with heart</title>
     <!-- Font Awesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -42,6 +42,7 @@
             border-bottom: 1px solid #e2e8f0;
             margin-bottom: 2rem;
             flex-wrap: wrap;
+            gap: 1rem;
         }
         .logo {
             font-size: 1.9rem;
@@ -52,13 +53,18 @@
         .logo span {
             color: #3b8b9b;
         }
+        .nav-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
         .nav-links a {
             text-decoration: none;
             color: #1e3a5f;
-            margin-left: 2rem;
             font-weight: 600;
             transition: 0.2s;
             cursor: pointer;
+            white-space: nowrap;
         }
         .nav-links a:hover {
             color: #0f4c5c;
@@ -75,6 +81,7 @@
             transition: 0.2s;
             font-size: 1rem;
             box-shadow: 0 6px 12px rgba(15,76,92,0.15);
+            text-align: center;
         }
         .btn-outline {
             background: white;
@@ -177,12 +184,16 @@
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
+            gap: 1.5rem;
         }
         .social-icons a {
             color: #0f4c5c;
             font-size: 1.8rem;
             margin-left: 2rem;
             transition: 0.2s;
+        }
+        .social-icons a:first-child {
+            margin-left: 0;
         }
         .social-icons a:hover {
             color: #0b3b48;
@@ -233,6 +244,7 @@
             transition: 0.1s;
             cursor: pointer;
             font-weight: 600;
+            word-break: keep-all;
         }
         .hour-option.selected {
             background: #0f4c5c;
@@ -263,6 +275,8 @@
             margin: 0.7rem 0;
             display: flex;
             justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 0.5rem;
         }
         .back-link {
             cursor: pointer;
@@ -280,6 +294,7 @@
             border-radius: 40px;
             padding: 1rem 1.5rem;
             margin: 1rem 0;
+            word-break: break-word;
         }
         .payment-option {
             background: #f2f7fc;
@@ -298,9 +313,200 @@
             color: #0f4c5c;
             text-align: center;
         }
-        @media (max-width: 800px) {
-            .services-grid { grid-template-columns: repeat(2, 1fr); }
-            .navbar { flex-direction: column; gap: 0.8rem; }
+
+        /* ========== RESPONSIVE MOBILE OPTIMIZATIONS ========= */
+        @media (max-width: 768px) {
+            .view {
+                padding: 1rem 1.2rem 1.5rem;
+            }
+            .navbar {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0.5rem;
+            }
+            .nav-links {
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 0.8rem 1.2rem;
+            }
+            .nav-links a {
+                font-size: 1.1rem;
+                white-space: nowrap;
+            }
+            .hero {
+                padding: 2rem 1.5rem !important;
+            }
+            .hero h1 {
+                font-size: 2rem !important;
+            }
+            .hero p {
+                font-size: 1.1rem !important;
+            }
+            .services-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+            .service-card {
+                padding: 1.5rem 0.8rem 1.2rem;
+            }
+            .service-card i {
+                font-size: 2.2rem;
+            }
+            .service-card h3 {
+                font-size: 1.3rem;
+            }
+            .service-card p {
+                font-size: 0.9rem;
+            }
+            .section-title {
+                font-size: 1.9rem;
+                margin: 1.5rem 0 1rem;
+            }
+            .caregiver-card {
+                flex: 1 1 100%;
+                max-width: 400px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .photo-placeholder {
+                width: 110px;
+                height: 110px;
+            }
+            .booking-card {
+                padding: 1.8rem;
+                margin: 1rem auto;
+            }
+            .hours-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .hour-option {
+                font-size: 0.9rem;
+                padding: 0.7rem 0.2rem;
+            }
+            .credit-card-fields {
+                grid-template-columns: 1fr;
+                gap: 0.8rem;
+            }
+            .social-footer {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            .social-icons a {
+                font-size: 2rem;
+                margin-left: 1.5rem;
+            }
+            .social-icons a:first-child {
+                margin-left: 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .view {
+                padding: 0.8rem 1rem 1.2rem;
+            }
+            .hero h1 {
+                font-size: 1.7rem !important;
+            }
+            .hero p {
+                font-size: 1rem !important;
+            }
+            .services-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            .service-card {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                padding: 1.5rem 1rem;
+            }
+            .service-card i {
+                font-size: 2.5rem;
+            }
+            .service-card h3 {
+                font-size: 1.5rem;
+            }
+            .service-card p {
+                font-size: 1rem;
+            }
+            .section-title {
+                font-size: 1.7rem;
+                text-align: center;
+            }
+            .caregiver-card {
+                padding: 1.5rem 1rem;
+            }
+            .caregiver-card h3 {
+                font-size: 1.4rem;
+            }
+            .booking-card {
+                padding: 1.5rem;
+                border-radius: 28px;
+            }
+            .booking-card h2 {
+                font-size: 1.6rem;
+            }
+            .form-group label {
+                font-size: 1rem;
+            }
+            .form-control {
+                padding: 0.8rem 1rem;
+            }
+            .hours-grid {
+                grid-template-columns: 1fr;
+            }
+            .hour-option {
+                font-size: 1rem;
+                padding: 0.9rem;
+            }
+            .selected-slots-list {
+                font-size: 0.95rem;
+            }
+            .task-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.3rem;
+            }
+            .payment-option {
+                padding: 1.2rem;
+            }
+            .credit-card-fields {
+                grid-template-columns: 1fr;
+            }
+            .social-footer {
+                align-items: center;
+                text-align: center;
+            }
+            .social-icons {
+                display: flex;
+                justify-content: center;
+                width: 100%;
+            }
+            .social-icons a {
+                margin: 0 1rem;
+                font-size: 2.2rem;
+            }
+            .back-link {
+                font-size: 1rem;
+            }
+            .checkmark {
+                font-size: 5rem;
+            }
+        }
+
+        /* extra small touch */
+        @media (max-width: 360px) {
+            .nav-links a {
+                font-size: 1rem;
+            }
+            .hero h1 {
+                font-size: 1.5rem !important;
+            }
+            .btn {
+                width: 100%;
+                text-align: center;
+            }
         }
     </style>
 </head>
