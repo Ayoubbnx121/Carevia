@@ -1,881 +1,263 @@
-I've streamlined the code to eliminate duplication, fixed the back button to navigate your steps accurately, corrected the bottom text overlap, and replaced the hero image with a crisp, shorter, and more professional visual.
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
     <title>CareVia | elderly care with heart</title>
-    <!-- Font Awesome 6 (free) -->
+    <!-- Font Awesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Google Fonts: Poppins, Open Sans, and Cairo for Arabic -->
+    <!-- Google Fonts: Poppins, Open Sans, Cairo -->
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Poppins:wght@500;600;700&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        /* CSS variables for light/dark modes */
         :root {
-            --bg-color: #f8fafc;
-            --text-color: #1e293b;
-            --card-bg: white;
-            --border-color: #e2e8f0;
-            --accent-light: #f4e2d8;
-            --accent-dark: #0f4c5c;
-            --accent-contrast: #e76f51;
-            --shadow-color: rgba(15,76,92,0.1);
-            --nav-link-color: #1e3a5f;
+            --bg: #f8fafc; --text: #1e293b; --card: white; --border: #e2e8f0;
+            --accent-light: #f4e2d8; --accent-dark: #0f4c5c; --accent-contrast: #e76f51;
+            --shadow: rgba(15,76,92,0.1); --nav-link: #1e3a5f;
             --hero-bg: linear-gradient(145deg, #f0f9ff, white);
-            --footer-border: #f4e2d8;
-            --input-bg: white;
-            --hour-option-bg: #f4e2d8;
-            --selected-slot-bg: #e6f3f7;
-            --notification-bg: #e76f51;
-            --notification-text: white;
+            --footer-border: #f4e2d8; --input-bg: white;
+            --hour-bg: #f4e2d8; --selected-slot-bg: #e6f3f7;
+            --notification-bg: #e76f51; --notification-text: white;
         }
-
-        body.dark-mode {
-            --bg-color: #1a1e2b;
-            --text-color: #e2e8f0;
-            --card-bg: #2d3748;
-            --border-color: #4a5568;
-            --accent-light: #2d3748;
-            --accent-dark: #63b3ed;
-            --accent-contrast: #f6ad55;
-            --shadow-color: rgba(0,0,0,0.3);
-            --nav-link-color: #cbd5e0;
+        .dark-mode {
+            --bg: #1a1e2b; --text: #e2e8f0; --card: #2d3748; --border: #4a5568;
+            --accent-light: #2d3748; --accent-dark: #63b3ed; --accent-contrast: #f6ad55;
+            --shadow: rgba(0,0,0,0.3); --nav-link: #cbd5e0;
             --hero-bg: linear-gradient(145deg, #2d3748, #1a202c);
-            --footer-border: #4a5568;
-            --input-bg: #2d3748;
-            --hour-option-bg: #4a5568;
-            --selected-slot-bg: #2c5282;
-            --notification-bg: #f6ad55;
-            --notification-text: #1a202c;
+            --footer-border: #4a5568; --input-bg: #2d3748;
+            --hour-bg: #4a5568; --selected-slot-bg: #2c5282;
+            --notification-bg: #f6ad55; --notification-text: #1a202c;
         }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin:0; padding:0; box-sizing:border-box; }
         body {
-            font-family: 'Open Sans', sans-serif;
-            background: var(--bg-color);
-            color: var(--text-color);
-            line-height: 1.5;
-            overflow-x: hidden;
-            transition: background 0.3s, color 0.3s;
+            font-family:'Open Sans',sans-serif; background:var(--bg); color:var(--text);
+            line-height:1.5; overflow-x:hidden; transition:background 0.3s,color 0.3s;
         }
-        /* RTL support */
-        body.rtl {
-            font-family: 'Cairo', 'Open Sans', sans-serif;
-            direction: rtl;
-            text-align: right;
-        }
-        body.rtl .navbar,
-        body.rtl .main-footer,
-        body.rtl .hero,
-        body.rtl .service-card,
-        body.rtl .caregiver-card {
-            text-align: right;
-        }
-        body.rtl .nav-links a {
-            margin-left: 0;
-            margin-right: 2rem;
-        }
-        body.rtl .social-icons a {
-            margin-left: 0;
-            margin-right: 2rem;
-        }
-        body.rtl .back-link i {
-            transform: rotate(180deg);
-        }
-        body.rtl .section-title::after {
-            left: auto;
-            right: 0;
-        }
+        body.rtl { font-family:'Cairo',sans-serif; direction:rtl; text-align:right; }
+        body.rtl .nav-links a { margin-left:0; margin-right:2rem; }
+        body.rtl .social-icons a { margin-left:0; margin-right:2rem; }
+        body.rtl .back-link i { transform:rotate(180deg); }
+        body.rtl .section-title::after { left:auto; right:0; }
 
-        /* Animations */
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-5px); }
-            100% { transform: translateY(0px); }
-        }
-        @keyframes slideInLeft {
-            from { opacity: 0; transform: translateX(-30px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-        @keyframes slideInRight {
-            from { opacity: 0; transform: translateX(30px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
+        /* animations */
+        @keyframes fadeUp { from{opacity:0;transform:translateY(20px);} to{opacity:1;transform:translateY(0);} }
+        @keyframes fadeIn { from{opacity:0;} to{opacity:1;} }
+        @keyframes slideLeft { from{opacity:0;transform:translateX(-30px);} to{opacity:1;transform:translateX(0);} }
+        @keyframes slideRight { from{opacity:0;transform:translateX(30px);} to{opacity:1;transform:translateX(0);} }
 
-        /* Custom notification */
+        /* notification */
         .notification {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: var(--notification-bg);
-            color: var(--notification-text);
-            padding: 1rem 1.5rem;
-            border-radius: 60px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-            z-index: 9999;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            transform: translateX(400px);
-            transition: transform 0.3s ease;
-            font-weight: 600;
-            max-width: 350px;
+            position:fixed; top:20px; right:20px; background:var(--notification-bg); color:var(--notification-text);
+            padding:1rem 1.5rem; border-radius:60px; box-shadow:0 10px 20px rgba(0,0,0,0.2); z-index:9999;
+            display:flex; align-items:center; gap:1rem; transform:translateX(400px); transition:transform 0.3s ease;
+            font-weight:600; max-width:350px;
         }
-        .notification.show {
-            transform: translateX(0);
-        }
-        .notification i {
-            font-size: 1.5rem;
-        }
-        .notification .close-btn {
-            cursor: pointer;
-            margin-left: auto;
-            font-size: 1.2rem;
-            opacity: 0.7;
-            transition: opacity 0.2s;
-        }
-        .notification .close-btn:hover {
-            opacity: 1;
-        }
-        body.rtl .notification {
-            right: auto;
-            left: 20px;
-            transform: translateX(-400px);
-        }
-        body.rtl .notification.show {
-            transform: translateX(0);
-        }
+        .notification.show { transform:translateX(0); }
+        .notification i { font-size:1.5rem; }
+        .notification .close-btn { cursor:pointer; margin-left:auto; font-size:1.2rem; opacity:0.7; }
+        .notification .close-btn:hover { opacity:1; }
+        body.rtl .notification { right:auto; left:20px; transform:translateX(-400px); }
+        body.rtl .notification.show { transform:translateX(0); }
 
-        .view {
-            display: none;
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 1.5rem 2rem 2rem;
-            width: 100%;
-            animation: fadeIn 0.5s ease-in-out;
-        }
-        .active-view {
-            display: block;
-        }
+        .view { display:none; max-width:1280px; margin:0 auto; padding:1.5rem 2rem 2rem; width:100%; animation:fadeIn 0.5s; }
+        .active-view { display:block; }
 
-        /* Logo clickable */
-        .logo-link {
-            text-decoration: none;
-            cursor: pointer;
-        }
-
-        /* Buttons */
+        .logo-link { text-decoration:none; cursor:pointer; }
         .btn {
-            display: inline-block;
-            background-color: var(--accent-dark);
-            color: white !important;
-            padding: 0.7rem 2rem;
-            border-radius: 40px;
-            font-weight: 600;
-            border: none;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 1rem;
-            box-shadow: 0 6px 12px var(--shadow-color);
-            text-align: center;
-            max-width: 100%;
+            display:inline-block; background:var(--accent-dark); color:white !important; padding:0.7rem 2rem;
+            border-radius:40px; font-weight:600; border:none; cursor:pointer; transition:all 0.3s;
+            font-size:1rem; box-shadow:0 6px 12px var(--shadow); text-align:center; max-width:100%;
         }
-        .btn:hover {
-            background-color: var(--accent-contrast) !important;
-            transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 15px 25px -8px var(--accent-contrast);
-        }
-        .btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
+        .btn:hover { background:var(--accent-contrast) !important; transform:translateY(-3px) scale(1.02); box-shadow:0 15px 25px -8px var(--accent-contrast); }
 
-        /* Hero section with crisp, shorter image */
+        /* hero – crisp, shorter image */
         .hero {
-            animation: fadeInUp 0.8s ease-out;
-            background: var(--hero-bg);
-            border-radius: 32px;
-            padding: 2.5rem 3rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 20px 30px -10px var(--shadow-color);
-            border: 1px solid rgba(231,111,81,0.1);
-            position: relative;
-            overflow: hidden;
-            min-height: 280px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+            background:var(--hero-bg); border-radius:32px; padding:2.5rem 3rem; margin-bottom:2rem;
+            box-shadow:0 20px 30px -10px var(--shadow); border:1px solid rgba(231,111,81,0.1);
+            position:relative; overflow:hidden; min-height:280px; display:flex; flex-direction:column; justify-content:center;
         }
         .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            left: 0;
-            background: linear-gradient(90deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.6) 40%, transparent 80%);
-            pointer-events: none;
-            z-index: 1;
+            content:''; position:absolute; top:0; right:0; bottom:0; left:0;
+            background:linear-gradient(90deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.6) 40%, transparent 80%);
+            pointer-events:none; z-index:1;
         }
-        body.dark-mode .hero::before {
-            background: linear-gradient(90deg, rgba(26,30,43,0.95) 0%, rgba(26,30,43,0.6) 40%, transparent 80%);
+        .dark-mode .hero::before {
+            background:linear-gradient(90deg, rgba(26,30,43,0.95) 0%, rgba(26,30,43,0.6) 40%, transparent 80%);
         }
         .hero::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 50%;
-            height: 100%;
-            background: url('https://images.unsplash.com/photo-1584516150909-c43483ee7932?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80') no-repeat center center/cover;
-            /* new image: professional caregiver with elderly, shorter and high quality */
-            opacity: 1;
-            pointer-events: none;
-            animation: slideInRight 1s ease-out;
-            z-index: 0;
+            content:''; position:absolute; top:0; right:0; width:50%; height:100%;
+            background:url('https://images.unsplash.com/photo-1584516150909-c43483ee7932?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80') no-repeat center center/cover;
+            opacity:1; pointer-events:none; animation:slideRight 1s; z-index:0;
         }
-        .hero h1, .hero p, .hero .btn {
-            position: relative;
-            z-index: 2;
-            max-width: 50%;
-        }
-        .hero h1 {
-            font-size: 2.4rem;
-            color: var(--accent-dark);
-            animation: slideInLeft 0.8s ease-out;
-        }
-        .hero p {
-            animation: slideInLeft 0.8s ease-out 0.1s both;
-        }
-        .hero .btn {
-            animation: pulse 2s infinite;
-            width: fit-content;
-        }
+        .hero h1, .hero p, .hero .btn { position:relative; z-index:2; max-width:50%; }
+        .hero h1 { font-size:2.4rem; color:var(--accent-dark); animation:slideLeft 0.8s; }
+        .hero p { animation:slideLeft 0.8s 0.1s both; }
+        .hero .btn { animation:fadeIn 1s; width:fit-content; }
 
-        .service-card {
-            animation: fadeInUp 0.6s ease-out;
-            animation-fill-mode: both;
-        }
-        .service-card:nth-child(1) { animation-delay: 0.1s; }
-        .service-card:nth-child(2) { animation-delay: 0.2s; }
-        .service-card:nth-child(3) { animation-delay: 0.3s; }
-        .service-card:nth-child(4) { animation-delay: 0.4s; }
-
-        .caregiver-card {
-            animation: fadeInUp 0.6s ease-out;
-            animation-fill-mode: both;
-        }
-        .caregiver-card:nth-child(1) { animation-delay: 0.15s; }
-        .caregiver-card:nth-child(2) { animation-delay: 0.3s; }
-        .caregiver-card:nth-child(3) { animation-delay: 0.45s; }
-
-        .section-title {
-            position: relative;
-            display: inline-block;
-            animation: fadeIn 0.8s ease-out;
-        }
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 0;
-            width: 80px;
-            height: 4px;
-            background: var(--accent-contrast);
-            border-radius: 2px;
-            animation: slideInLeft 0.5s ease-out 0.3s both;
-        }
-
-        .service-card, .caregiver-card {
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        .service-card:hover, .caregiver-card:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 25px 35px -12px var(--accent-contrast);
-        }
-
-        .photo-placeholder {
-            transition: transform 0.5s ease;
-        }
-        .caregiver-card:hover .photo-placeholder {
-            transform: scale(1.05) rotate(3deg);
-        }
-
-        .social-icons a {
-            transition: all 0.3s ease;
-            display: inline-block;
-        }
-        .social-icons a:hover {
-            transform: translateY(-5px) rotate(5deg);
-        }
-
-        .hour-option {
-            transition: all 0.2s ease;
-        }
-        .hour-option:hover {
-            transform: scale(1.05);
-            background: var(--accent-contrast);
-            color: white;
-        }
-
-        .back-link {
-            cursor: pointer;
-            color: var(--accent-dark);
-            font-weight: 600;
-            margin: 1rem 0;
-            display: inline-block;
-            transition: all 0.2s ease;
-        }
-        .back-link:hover {
-            transform: translateX(-5px);
-        }
-        body.rtl .back-link:hover {
-            transform: translateX(5px);
-        }
-
-        /* Floating shapes for background */
-        .view::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: -1;
-            opacity: 0.03;
-            background-image: 
-                radial-gradient(circle at 20% 30%, var(--accent-contrast) 2px, transparent 2px),
-                radial-gradient(circle at 80% 70%, var(--accent-dark) 3px, transparent 3px),
-                radial-gradient(circle at 40% 80%, var(--accent-contrast) 1px, transparent 1px),
-                radial-gradient(circle at 90% 20%, var(--accent-dark) 2px, transparent 2px);
-            background-size: 100px 100px;
-            animation: float 20s linear infinite;
-        }
-
-        /* Language selector and theme toggle */
-        .lang-selector, .theme-toggle {
-            display: flex;
-            gap: 0.5rem;
-            align-items: center;
-        }
-        .lang-btn, .theme-btn {
-            background: transparent;
-            border: 1px solid var(--border-color);
-            border-radius: 40px;
-            padding: 0.3rem 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            color: var(--nav-link-color);
-            font-size: 0.9rem;
-        }
-        .lang-btn.active {
-            background: var(--accent-dark);
-            color: white;
-            border-color: var(--accent-dark);
-        }
-        .lang-btn:hover, .theme-btn:hover {
-            transform: scale(1.05);
-            border-color: var(--accent-contrast);
-        }
-        .theme-btn {
-            padding: 0.3rem 1rem;
-            font-size: 1rem;
-        }
-
+        /* navbar */
         .navbar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0.8rem 0 1.2rem;
-            border-bottom: 1px solid var(--border-color);
-            margin-bottom: 2rem;
-            flex-wrap: wrap;
-            gap: 0.8rem;
-            animation: fadeIn 0.8s ease-out;
+            display:flex; align-items:center; justify-content:space-between; padding:0.8rem 0 1.2rem;
+            border-bottom:1px solid var(--border); margin-bottom:2rem; flex-wrap:wrap; gap:0.8rem;
+            animation:fadeIn 0.8s;
         }
-        .logo {
-            font-size: 1.9rem;
-            font-weight: 700;
-            color: var(--accent-dark);
-            font-family: 'Poppins', sans-serif;
-            transition: color 0.3s ease;
-        }
-        .logo span {
-            color: var(--accent-contrast);
-        }
-        .nav-links {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            align-items: center;
-        }
+        .logo { font-size:1.9rem; font-weight:700; color:var(--accent-dark); font-family:'Poppins',sans-serif; }
+        .logo span { color:var(--accent-contrast); }
+        .nav-links { display:flex; flex-wrap:wrap; gap:1rem; align-items:center; }
         .nav-links a {
-            text-decoration: none;
-            color: var(--nav-link-color);
-            font-weight: 600;
-            transition: all 0.2s ease;
-            cursor: pointer;
-            white-space: nowrap;
-            position: relative;
+            text-decoration:none; color:var(--nav-link); font-weight:600; transition:all 0.2s;
+            cursor:pointer; white-space:nowrap; position:relative;
         }
         .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--accent-contrast);
-            transition: width 0.3s ease;
+            content:''; position:absolute; bottom:-4px; left:0; width:0; height:2px;
+            background:var(--accent-contrast); transition:width 0.3s;
         }
-        .nav-links a:hover::after {
-            width: 100%;
-        }
+        .nav-links a:hover::after { width:100%; }
 
+        .lang-selector, .theme-toggle { display:flex; gap:0.5rem; align-items:center; }
+        .lang-btn, .theme-btn {
+            background:transparent; border:1px solid var(--border); border-radius:40px; padding:0.3rem 1rem;
+            font-weight:600; cursor:pointer; transition:all 0.2s; color:var(--nav-link); font-size:0.9rem;
+        }
+        .lang-btn.active { background:var(--accent-dark); color:white; border-color:var(--accent-dark); }
+        .lang-btn:hover, .theme-btn:hover { transform:scale(1.05); border-color:var(--accent-contrast); }
+        .theme-btn { padding:0.3rem 1rem; font-size:1rem; }
+
+        /* services grid */
         .services-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 2rem;
-            margin: 2.5rem 0;
+            display:grid; grid-template-columns:repeat(4,1fr); gap:2rem; margin:2.5rem 0;
         }
         .service-card {
-            background: var(--card-bg);
-            border-radius: 28px;
-            padding: 2rem 1.2rem 1.8rem;
-            text-align: center;
-            box-shadow: 0 12px 24px -8px var(--shadow-color);
-            transition: 0.3s;
-            border: 1px solid var(--accent-light);
-            cursor: pointer;
-            width: 100%;
+            background:var(--card); border-radius:28px; padding:2rem 1.2rem 1.8rem; text-align:center;
+            box-shadow:0 12px 24px -8px var(--shadow); transition:0.3s; border:1px solid var(--accent-light);
+            cursor:pointer; width:100%; animation:fadeUp 0.6s both;
         }
-        .service-card i {
-            font-size: 2.8rem;
-            color: var(--accent-contrast);
-            margin-bottom: 1rem;
-            transition: transform 0.3s ease;
-        }
-        .service-card:hover i {
-            transform: scale(1.2) rotate(5deg);
-        }
-        .caregiver-cards {
-            display: flex;
-            gap: 2rem;
-            flex-wrap: wrap;
-            margin: 2rem 0;
-        }
+        .service-card:nth-child(1) { animation-delay:0.1s; }
+        .service-card:nth-child(2) { animation-delay:0.2s; }
+        .service-card:nth-child(3) { animation-delay:0.3s; }
+        .service-card:nth-child(4) { animation-delay:0.4s; }
+        .service-card i { font-size:2.8rem; color:var(--accent-contrast); margin-bottom:1rem; transition:transform 0.3s; }
+        .service-card:hover i { transform:scale(1.2) rotate(5deg); }
+        .service-card:hover, .caregiver-card:hover { transform:translateY(-8px) scale(1.02); box-shadow:0 25px 35px -12px var(--accent-contrast); }
+
+        /* caregiver cards */
+        .caregiver-cards { display:flex; gap:2rem; flex-wrap:wrap; margin:2rem 0; }
         .caregiver-card {
-            background: var(--card-bg);
-            border-radius: 32px;
-            padding: 2rem 1.5rem 1.8rem;
-            flex: 1 1 260px;
-            max-width: 100%;
-            box-shadow: 0 15px 30px -8px var(--shadow-color);
-            border: 1px solid var(--accent-light);
-            transition: 0.3s;
-            cursor: pointer;
+            background:var(--card); border-radius:32px; padding:2rem 1.5rem 1.8rem; flex:1 1 260px; max-width:100%;
+            box-shadow:0 15px 30px -8px var(--shadow); border:1px solid var(--accent-light); transition:0.3s; cursor:pointer;
+            animation:fadeUp 0.6s both;
         }
+        .caregiver-card:nth-child(1) { animation-delay:0.15s; }
+        .caregiver-card:nth-child(2) { animation-delay:0.3s; }
+        .caregiver-card:nth-child(3) { animation-delay:0.45s; }
         .photo-placeholder {
-            width: 130px;
-            height: 130px;
-            border-radius: 50%;
-            background: var(--accent-light);
-            margin: 0 auto 1.2rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--accent-dark);
-            font-size: 0.9rem;
-            border: 4px solid var(--card-bg);
-            box-shadow: 0 6px 12px var(--shadow-color);
-            overflow: hidden;
-            transition: transform 0.3s ease;
+            width:130px; height:130px; border-radius:50%; background:var(--accent-light); margin:0 auto 1.2rem;
+            display:flex; align-items:center; justify-content:center; color:var(--accent-dark); font-size:0.9rem;
+            border:4px solid var(--card); box-shadow:0 6px 12px var(--shadow); overflow:hidden; transition:transform 0.3s;
         }
-        .photo-placeholder img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+        .photo-placeholder img { width:100%; height:100%; object-fit:cover; }
+        .rating { color:#f5b342; margin:0.5rem 0; }
+
+        /* section title */
+        .section-title {
+            position:relative; display:inline-block; animation:fadeIn 0.8s; margin:2rem 0 1.5rem; color:var(--accent-dark);
         }
-        .rating {
-            color: #f5b342;
-            margin: 0.5rem 0;
+        .section-title::after {
+            content:''; position:absolute; bottom:-10px; left:0; width:80px; height:4px;
+            background:var(--accent-contrast); border-radius:2px; animation:slideLeft 0.5s 0.3s both;
         }
 
-        /* Professional Footer (single, outside views, but will be appended to each view via JS) */
+        /* back link */
+        .back-link { cursor:pointer; color:var(--accent-dark); font-weight:600; margin:1rem 0; display:inline-block; transition:0.2s; }
+        .back-link:hover { transform:translateX(-5px); }
+        body.rtl .back-link:hover { transform:translateX(5px); }
+
+        /* footer – professional */
         .main-footer {
-            margin-top: 4rem;
-            padding: 3rem 2rem 2rem;
-            border-top: 2px solid var(--footer-border);
-            background: var(--card-bg);
-            border-radius: 48px 48px 0 0;
-            width: 100%;
+            margin-top:4rem; padding:3rem 2rem 2rem; border-top:2px solid var(--footer-border);
+            background:var(--card); border-radius:48px 48px 0 0;
         }
-        .footer-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        .footer-column h3 {
-            color: var(--accent-dark);
-            margin-bottom: 1rem;
-            font-size: 1.2rem;
-        }
-        .footer-column ul {
-            list-style: none;
-            padding: 0;
-        }
-        .footer-column ul li {
-            margin-bottom: 0.5rem;
-        }
-        .footer-column ul li a {
-            color: var(--text-color);
-            text-decoration: none;
-            transition: color 0.2s;
-        }
-        .footer-column ul li a:hover {
-            color: var(--accent-contrast);
-        }
-        .footer-column .social-icons {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-        .footer-column .social-icons a {
-            color: var(--accent-dark);
-            font-size: 1.5rem;
-        }
-        .footer-bottom {
-            text-align: center;
-            padding-top: 2rem;
-            color: var(--text-color);
-            opacity: 0.7;
-            font-size: 0.9rem;
-        }
+        .footer-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:2rem; max-width:1200px; margin:0 auto; }
+        .footer-column h3 { color:var(--accent-dark); margin-bottom:1rem; font-size:1.2rem; }
+        .footer-column ul { list-style:none; padding:0; }
+        .footer-column ul li { margin-bottom:0.5rem; }
+        .footer-column ul li a { color:var(--text); text-decoration:none; transition:color 0.2s; }
+        .footer-column ul li a:hover { color:var(--accent-contrast); }
+        .footer-column .social-icons { display:flex; gap:1rem; margin-top:1rem; }
+        .footer-column .social-icons a { color:var(--accent-dark); font-size:1.5rem; }
+        .footer-bottom { text-align:center; padding-top:2rem; color:var(--text); opacity:0.7; font-size:0.9rem; }
 
+        /* booking card & forms */
         .booking-card {
-            background: var(--card-bg);
-            border-radius: 36px;
-            padding: 2.5rem;
-            max-width: 700px;
-            margin: 2rem auto;
-            box-shadow: 0 25px 40px -15px var(--shadow-color);
-            width: 100%;
-            animation: fadeInUp 0.6s ease-out;
+            background:var(--card); border-radius:36px; padding:2.5rem; max-width:700px; margin:2rem auto;
+            box-shadow:0 25px 40px -15px var(--shadow); width:100%; animation:fadeUp 0.6s;
         }
-        .form-group {
-            margin-bottom: 2rem;
-        }
-        .form-group label {
-            font-weight: 600;
-            display: block;
-            margin-bottom: 0.5rem;
-            color: var(--accent-dark);
-        }
+        .form-group { margin-bottom:2rem; }
+        .form-group label { font-weight:600; display:block; margin-bottom:0.5rem; color:var(--accent-dark); }
         .form-control, .form-select {
-            width: 100%;
-            padding: 1rem 1.2rem;
-            border: 1.5px solid var(--accent-light);
-            border-radius: 60px;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            background: var(--input-bg);
-            color: var(--text-color);
+            width:100%; padding:1rem 1.2rem; border:1.5px solid var(--accent-light); border-radius:60px;
+            font-size:1rem; transition:0.3s; background:var(--input-bg); color:var(--text);
         }
-        .form-control:focus, .form-select:focus {
-            border-color: var(--accent-contrast);
-            outline: none;
-            box-shadow: 0 0 0 4px var(--accent-light);
-            transform: scale(1.02);
-        }
-        .hours-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-            gap: 0.8rem;
-            margin: 1.5rem 0;
-        }
+        .form-control:focus, .form-select:focus { border-color:var(--accent-contrast); outline:none; box-shadow:0 0 0 4px var(--accent-light); transform:scale(1.02); }
+        .hours-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(130px,1fr)); gap:0.8rem; margin:1.5rem 0; }
         .hour-option {
-            background: var(--hour-option-bg);
-            border-radius: 60px;
-            padding: 0.8rem 0.5rem;
-            text-align: center;
-            border: 1px solid transparent;
-            transition: 0.2s;
-            cursor: pointer;
-            font-weight: 600;
-            color: var(--text-color);
+            background:var(--hour-bg); border-radius:60px; padding:0.8rem 0.5rem; text-align:center;
+            border:1px solid transparent; transition:0.2s; cursor:pointer; font-weight:600; color:var(--text);
         }
-        .hour-option.selected {
-            background: var(--accent-dark);
-            color: white;
-            border-color: var(--accent-dark);
-        }
-        .selected-slots-list {
-            background: var(--selected-slot-bg);
-            border-radius: 40px;
-            padding: 1rem 1.5rem;
-            margin: 1rem 0;
-            word-break: break-word;
-            animation: fadeIn 0.5s ease-out;
-        }
-        .payment-option {
-            background: var(--bg-color);
-            border-radius: 32px;
-            padding: 1.5rem;
-            margin: 1rem 0;
-            transition: transform 0.2s ease;
-        }
-        .payment-option:hover {
-            transform: translateY(-3px);
-        }
-        .credit-card-fields {
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr;
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-        .checkmark {
-            font-size: 6rem;
-            color: var(--accent-contrast);
-            text-align: center;
-            animation: pulse 2s infinite;
-        }
-        /* mobile optimizations */
-        @media (max-width: 768px) {
-            .view { padding: 1rem 1.2rem 1.5rem; }
-            .navbar { flex-direction: column; align-items: stretch; }
-            .nav-links { justify-content: center; }
-            .hero h1 { font-size: 2rem !important; }
-            .hero h1, .hero p, .hero .btn { max-width: 100%; }
-            .hero::after { width: 100%; opacity: 0.3; }
-            .services-grid { grid-template-columns: repeat(2,1fr); gap:1rem; }
+        .hour-option.selected { background:var(--accent-dark); color:white; border-color:var(--accent-dark); }
+        .selected-slots-list { background:var(--selected-slot-bg); border-radius:40px; padding:1rem 1.5rem; margin:1rem 0; word-break:break-word; animation:fadeIn 0.5s; }
+
+        .payment-option { background:var(--bg); border-radius:32px; padding:1.5rem; margin:1rem 0; transition:0.2s; }
+        .payment-option:hover { transform:translateY(-3px); }
+        .credit-card-fields { display:grid; grid-template-columns:2fr 1fr 1fr; gap:1rem; margin-top:1rem; }
+
+        .checkmark { font-size:6rem; color:var(--accent-contrast); text-align:center; animation:pulse 2s infinite; }
+        @keyframes pulse { 0%{transform:scale(1);} 50%{transform:scale(1.05);} 100%{transform:scale(1);} }
+
+        /* mobile */
+        @media (max-width:768px) {
+            .view { padding:1rem 1.2rem 1.5rem; }
+            .navbar { flex-direction:column; align-items:stretch; }
+            .nav-links { justify-content:center; }
+            .hero h1 { font-size:2rem !important; }
+            .hero h1, .hero p, .hero .btn { max-width:100%; }
+            .hero::after { width:100%; opacity:0.3; }
+            .services-grid { grid-template-columns:repeat(2,1fr); gap:1rem; }
             .caregiver-card { flex:1 1 100%; max-width:400px; margin:0 auto; }
-            .hours-grid { grid-template-columns: repeat(2,1fr); }
-            .footer-grid { grid-template-columns: 1fr; }
+            .hours-grid { grid-template-columns:repeat(2,1fr); }
+            .footer-grid { grid-template-columns:1fr; }
         }
-        @media (max-width: 480px) {
+        @media (max-width:480px) {
             .services-grid { grid-template-columns:1fr; }
             .hours-grid { grid-template-columns:1fr; }
             .hero h1 { font-size:1.7rem !important; }
             .section-title { font-size:1.7rem; }
             .credit-card-fields { grid-template-columns:1fr; }
         }
-        /* City dropdown */
-        select.form-select {
-            appearance: none;
-            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-            background-repeat: no-repeat;
-            background-position: right 1rem center;
-            background-size: 1em;
-        }
+        select.form-select { appearance:none; background-image:url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e"); background-repeat:no-repeat; background-position:right 1rem center; background-size:1em; }
     </style>
 </head>
 <body>
-    <!-- Custom Notification Popup -->
-    <div id="notification" class="notification">
-        <i class="fas fa-exclamation-circle"></i>
-        <span id="notification-message"></span>
-        <span class="close-btn" onclick="hideNotification()"><i class="fas fa-times"></i></span>
-    </div>
+    <div id="notification" class="notification"><i class="fas fa-exclamation-circle"></i><span id="notifMsg"></span><span class="close-btn" onclick="hideNotif()"><i class="fas fa-times"></i></span></div>
 
-    <!-- ========== ALL VIEWS ========= -->
-    <!-- HOME VIEW -->
-    <div id="homeView" class="view active-view">
-        <div class="navbar">
-            <a class="logo-link" onclick="navigateTo('homeView')">
-                <div class="logo">Care<span>Via</span></div>
-            </a>
-            <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
-                <div class="lang-selector">
-                    <button class="lang-btn active" data-lang="en">EN</button>
-                    <button class="lang-btn" data-lang="ar">عربي</button>
-                    <button class="lang-btn" data-lang="fr">FR</button>
-                </div>
-                <div class="theme-toggle">
-                    <button class="theme-btn" id="themeToggle" title="Toggle light/dark mode">
-                        <i class="fas fa-moon"></i>
-                    </button>
-                </div>
-                <div class="nav-links">
-                    <a data-i18n="navHome" onclick="navigateTo('homeView')">Home</a>
-                    <a data-i18n="navServices" onclick="navigateTo('servicesView')">Services</a>
-                    <a data-i18n="navCaregivers" onclick="navigateTo('caregiversListView')">Caregivers</a>
-                </div>
-            </div>
-        </div>
-        <div class="hero">
-            <h1 data-i18n="heroTitle">Compassionate care for your beloved elders</h1>
-            <p data-i18n="heroSub" style="font-size: 1.2rem; margin: 1rem 0;">Professional, trustworthy caregivers at your doorstep in Tangier.</p>
-            <button class="btn" data-i18n="bookBtn" onclick="startBookingFlow()">Book a caregiver</button>
-        </div>
+    <!-- views -->
+    <div id="homeView" class="view active-view"><!-- populated by JS --></div>
+    <div id="servicesView" class="view"></div>
+    <div id="caregiversListView" class="view"></div>
+    <div id="caregiverProfileView" class="view"></div>
+    <div id="clientInfoView" class="view"></div>
+    <div id="timeSlotView" class="view"></div>
+    <div id="chooseCaregiverView" class="view"></div>
+    <div id="paymentMethodView" class="view"></div>
+    <div id="confirmationView" class="view"></div>
 
-        <h2 class="section-title" data-i18n="servicesTitle">Our services</h2>
-        <div class="services-grid">
-            <div class="service-card" onclick="selectServiceAndGoToClientInfo('homeCare')">
-                <i class="fas fa-home"></i>
-                <h3 data-i18n="serviceHome">Home Care</h3>
-                <p data-i18n="serviceHomeDesc">Daily assistance, hygiene, meals & comfort</p>
-            </div>
-            <div class="service-card" onclick="selectServiceAndGoToClientInfo('medicalAcc')">
-                <i class="fas fa-ambulance"></i>
-                <h3 data-i18n="serviceMedical">Medical Accompaniment</h3>
-                <p data-i18n="serviceMedicalDesc">Clinic visits, medication reminders</p>
-            </div>
-            <div class="service-card" onclick="selectServiceAndGoToClientInfo('personalCare')">
-                <i class="fas fa-hand-holding-heart"></i>
-                <h3 data-i18n="servicePersonal">Personal Care</h3>
-                <p data-i18n="servicePersonalDesc">Bathing, grooming, dressing support</p>
-            </div>
-            <div class="service-card" onclick="selectServiceAndGoToClientInfo('companionship')">
-                <i class="fas fa-heart"></i>
-                <h3 data-i18n="serviceCompanion">Companionship</h3>
-                <p data-i18n="serviceCompanionDesc">Conversation, walks, emotional support</p>
-            </div>
-        </div>
-
-        <h2 class="section-title" data-i18n="meetCaregiversTitle">Meet some caregivers</h2>
-        <div class="caregiver-cards">
-            <div class="caregiver-card" onclick="showCaregiverProfile('mohamedAyoub')">
-                <div class="photo-placeholder"><img src="Ayoub.jpg" alt="Mohamed Ayoub Benaich"></div>
-                <h3>Mohamed Ayoub Abinayach</h3>
-                <p data-i18n="ageStudent">21 ans • Étudiant • Tanger</p>
-                <div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i> <span>4.7/5</span></div>
-            </div>
-            <div class="caregiver-card" onclick="showCaregiverProfile('mohamedReda')">
-                <div class="photo-placeholder"><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80" alt="Mohamed Reda"></div>
-                <h3>Mohamed Reda Saidi</h3>
-                <p data-i18n="ageStudent">21 ans • Étudiant • Tanger</p>
-                <div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i> <span>4.6/5</span></div>
-            </div>
-            <div class="caregiver-card" onclick="showCaregiverProfile('fatimaZahra')">
-                <div class="photo-placeholder"><img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80" alt="Fatima Zahra"></div>
-                <h3>Fatima Zahra El Omari</h3>
-                <p data-i18n="ageNurse">35 ans • Infirmière • Tanger</p>
-                <div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i> <span>4.9/5</span></div>
-            </div>
-        </div>
-        <!-- Footer will be appended here by JS -->
-    </div>
-
-    <!-- SERVICES VIEW -->
-    <div id="servicesView" class="view">
-        <div class="navbar">
-            <a class="logo-link" onclick="navigateTo('homeView')">
-                <div class="logo">Care<span>Via</span></div>
-            </a>
-            <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
-                <div class="lang-selector">
-                    <button class="lang-btn active" data-lang="en">EN</button>
-                    <button class="lang-btn" data-lang="ar">عربي</button>
-                    <button class="lang-btn" data-lang="fr">FR</button>
-                </div>
-                <div class="theme-toggle">
-                    <button class="theme-btn" id="themeToggle2" title="Toggle light/dark mode">
-                        <i class="fas fa-moon"></i>
-                    </button>
-                </div>
-                <div class="nav-links">
-                    <a data-i18n="navHome" onclick="navigateTo('homeView')">Home</a>
-                    <a data-i18n="navServices" onclick="navigateTo('servicesView')">Services</a>
-                    <a data-i18n="navCaregivers" onclick="navigateTo('caregiversListView')">Caregivers</a>
-                </div>
-            </div>
-        </div>
-        <div class="back-link" onclick="goBack()"><i class="fas fa-arrow-left"></i> <span data-i18n="backHome">Back</span></div>
-        <h1 class="section-title" data-i18n="servicesDetailTitle">Our services in detail</h1>
-        <div style="display: grid; gap: 3rem;">
-            <!-- service details (same as before) -->
-            <div style="background:var(--card-bg); border-radius:48px; padding:2.5rem;">
-                <div style="display:flex; gap:2rem; flex-wrap:wrap;">
-                    <div style="flex:1; min-width:250px;"><i class="fas fa-home" style="font-size:4rem; color:#e76f51;"></i></div>
-                    <div style="flex:6;"><h2 data-i18n="serviceHome">Home Care</h2><p data-i18n="serviceHomeDetail">...</p></div>
-                </div>
-            </div>
-            <!-- etc. -->
-        </div>
-    </div>
-
-    <!-- CAREGIVERS LIST VIEW -->
-    <div id="caregiversListView" class="view">
-        <div class="navbar">...</div>
-        <div class="back-link" onclick="goBack()"><i class="fas fa-arrow-left"></i> <span data-i18n="backHome">Back</span></div>
-        <h1 class="section-title" data-i18n="caregiversListTitle">Our dedicated caregivers</h1>
-        <div class="caregiver-cards">...</div>
-    </div>
-
-    <!-- CAREGIVER PROFILE VIEW -->
-    <div id="caregiverProfileView" class="view">
-        <div class="navbar">...</div>
-        <div class="back-link" onclick="goBack()"><i class="fas fa-arrow-left"></i> <span data-i18n="backToCaregivers">Back</span></div>
-        <div id="caregiverProfileContent"></div>
-    </div>
-
-    <!-- CLIENT INFO VIEW -->
-    <div id="clientInfoView" class="view">
-        <div class="navbar">...</div>
-        <div class="back-link" onclick="goBack()"><i class="fas fa-arrow-left"></i> <span data-i18n="backHome">Back</span></div>
-        <div class="booking-card">...</div>
-    </div>
-
-    <!-- TIME SLOT VIEW -->
-    <div id="timeSlotView" class="view">
-        <div class="navbar">...</div>
-        <div class="back-link" onclick="goBack()"><i class="fas fa-arrow-left"></i> <span data-i18n="editInfo">Back</span></div>
-        <div class="booking-card">...</div>
-    </div>
-
-    <!-- CHOOSE CAREGIVER VIEW -->
-    <div id="chooseCaregiverView" class="view">
-        <div class="navbar">...</div>
-        <div class="back-link" onclick="goBack()"><i class="fas fa-arrow-left"></i> <span data-i18n="backToTimeSlot">Back</span></div>
-        <h2 class="section-title" data-i18n="selectCaregiverTitle">Select a caregiver</h2>
-        <div class="caregiver-cards" id="chooseCaregiverList"></div>
-    </div>
-
-    <!-- PAYMENT METHOD VIEW -->
-    <div id="paymentMethodView" class="view">
-        <div class="navbar">...</div>
-        <div class="back-link" onclick="goBack()"><i class="fas fa-arrow-left"></i> <span data-i18n="chooseDifferent">Back</span></div>
-        <div class="booking-card">...</div>
-    </div>
-
-    <!-- CONFIRMATION VIEW -->
-    <div id="confirmationView" class="view">
-        <div class="navbar">...</div>
-        <div class="booking-card" style="text-align:center;">...</div>
-    </div>
-
-    <!-- Hidden iframe for form submission -->
     <iframe id="hidden_iframe" name="hidden_iframe" style="display:none;"></iframe>
 
-    <!-- Single Footer Template (hidden, will be cloned into each view) -->
-    <div id="footer-template" style="display: none;">
+    <!-- footer template (hidden) -->
+    <div id="footer-template" style="display:none">
         <div class="main-footer">
             <div class="footer-grid">
                 <div class="footer-column">
                     <h3>CareVia</h3>
-                    <p>Compassionate care for your beloved elders.</p>
+                    <p data-i18n="footerTag">Compassionate care for your beloved elders.</p>
                     <div class="social-icons">
                         <a href="#"><i class="fab fa-facebook"></i></a>
                         <a href="#"><i class="fab fa-instagram"></i></a>
@@ -902,228 +284,574 @@ I've streamlined the code to eliminate duplication, fixed the back button to nav
                 <div class="footer-column">
                     <h3 data-i18n="legal">Legal</h3>
                     <ul>
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Terms of Service</a></li>
-                        <li><a href="#">Cookie Policy</a></li>
+                        <li><a href="#" data-i18n="privacy">Privacy Policy</a></li>
+                        <li><a href="#" data-i18n="terms">Terms of Service</a></li>
+                        <li><a href="#" data-i18n="cookie">Cookie Policy</a></li>
                     </ul>
                 </div>
             </div>
-            <div class="footer-bottom">
-                &copy; 2026 CareVia. All rights reserved.
-            </div>
+            <div class="footer-bottom">&copy; 2026 CareVia. All rights reserved.</div>
         </div>
     </div>
 
     <script>
-        // ---------- TRANSLATIONS (abridged, but full in final) ----------
+        // ---------- TRANSLATIONS ----------
         const translations = {
-            en: { /* ... full ... */ },
-            ar: { /* ... full ... */ },
-            fr: { /* ... full ... */ }
+            en: {
+                navHome: "Home", navServices: "Services", navCaregivers: "Caregivers",
+                heroTitle: "Compassionate care for your beloved elders",
+                heroSub: "Professional, trustworthy caregivers at your doorstep in Tangier.",
+                bookBtn: "Book a caregiver",
+                servicesTitle: "Our services",
+                serviceHome: "Home Care",
+                serviceHomeDesc: "Daily assistance, hygiene, meals & comfort",
+                serviceMedical: "Medical Accompaniment",
+                serviceMedicalDesc: "Clinic visits, medication reminders",
+                servicePersonal: "Personal Care",
+                servicePersonalDesc: "Bathing, grooming, dressing support",
+                serviceCompanion: "Companionship",
+                serviceCompanionDesc: "Conversation, walks, emotional support",
+                meetCaregiversTitle: "Meet some caregivers",
+                ageStudent: "21 years • Student • Tangier",
+                ageNurse: "35 years • Nurse • Tangier",
+                ageAssistant: "28 years • Assistant • Tangier",
+                servicesDetailTitle: "Our services in detail",
+                whyChooseUs: "Why choose us?",
+                homeWhy1: "Personalized care plans",
+                homeWhy2: "Kind and experienced caregivers",
+                homeWhy3: "24/7 availability",
+                serviceHomeDetail: "Our home care service provides assistance with daily activities such as bathing, dressing, meal preparation, and light housekeeping. We ensure your loved one feels safe and comfortable in their own home.",
+                medicalDetail: "We accompany elders to medical appointments, handle pharmacy pickups, and ensure medication schedules are followed.",
+                medicalWhy1: "Safe transport arrangement",
+                medicalWhy2: "Medication reminders",
+                medicalWhy3: "Report back to family",
+                personalDetail: "Assistance with hygiene, grooming, and mobility. Our caregivers are trained to provide respectful and dignified support.",
+                personalWhy1: "Respectful and gentle approach",
+                personalWhy2: "Fall prevention techniques",
+                personalWhy3: "Continuous supervision if needed",
+                companionDetail: "Social interaction, conversation, walks, and emotional support. We combat loneliness and keep seniors engaged.",
+                companionWhy1: "Friendly, screened companions",
+                companionWhy2: "Activities tailored to interests",
+                companionWhy3: "Regular family updates",
+                caregiversListTitle: "Our dedicated caregivers",
+                backToCaregivers: "Back to caregivers",
+                backHome: "Back",
+                clientInfoTitle: "Tell us about yourself",
+                firstName: "First Name",
+                lastName: "Last Name",
+                city: "City",
+                phone: "Phone Number",
+                email: "Email Address",
+                continueBtn: "Continue →",
+                selectDateTime: "Select date & time (24h)",
+                dateLabel: "Date (from today onward)",
+                selectHours: "Select hours (click multiple)",
+                noHours: "No hours selected",
+                confirmChooseCaregiver: "Confirm & choose caregiver",
+                editInfo: "Edit your info",
+                selectCaregiverTitle: "Select a caregiver",
+                backToTimeSlot: "Back to time slot",
+                paymentMethodTitle: "Payment method",
+                cashOption: "Cash (pay on arrival)",
+                cardOption: "Credit card",
+                cardNumberPlaceholder: "Card number",
+                expiryPlaceholder: "MM/YY",
+                cvvPlaceholder: "CVV",
+                confirmBookingBtn: "Confirm booking",
+                chooseDifferent: "Choose different caregiver",
+                confirmationTitle: "Appointment successfully scheduled!",
+                confirmationText: "We will contact you as soon as possible.",
+                returnHome: "Return to home",
+                footerTag: "Compassionate care for your beloved elders.",
+                quickLinks: "Quick Links",
+                contact: "Contact",
+                legal: "Legal",
+                privacy: "Privacy Policy",
+                terms: "Terms of Service",
+                cookie: "Cookie Policy"
+            },
+            ar: {
+                navHome: "الرئيسية", navServices: "الخدمات", navCaregivers: "مقدمو الرعاية",
+                heroTitle: "رعاية حنونة لكبار السن",
+                heroSub: "مقدمو رعاية محترفون وموثوقون في منزلك بمدينة طنجة",
+                bookBtn: "احجز مقدم رعاية",
+                servicesTitle: "خدماتنا",
+                serviceHome: "الرعاية المنزلية",
+                serviceHomeDesc: "مساعدة يومية، نظافة، وجبات وراحة",
+                serviceMedical: "مرافقة طبية",
+                serviceMedicalDesc: "زيارات عيادية، تذكير بالأدوية",
+                servicePersonal: "عناية شخصية",
+                servicePersonalDesc: "استحمام، تنظيف، دعم في الارتداء",
+                serviceCompanion: "رفقة",
+                serviceCompanionDesc: "محادثة، نزهات، دعم عاطفي",
+                meetCaregiversTitle: "تعرف على بعض مقدمي الرعاية",
+                ageStudent: "٢١ سنة • طالب • طنجة",
+                ageNurse: "٣٥ سنة • ممرضة • طنجة",
+                ageAssistant: "٢٨ سنة • مساعد • طنجة",
+                servicesDetailTitle: "خدماتنا بالتفصيل",
+                whyChooseUs: "لماذا تختارنا؟",
+                homeWhy1: "خطط رعاية مخصصة",
+                homeWhy2: "مقدمو رعاية لطفاء وذوو خبرة",
+                homeWhy3: "توافر ٢٤/٧",
+                serviceHomeDetail: "تقدم خدمة الرعاية المنزلية لدينا المساعدة في الأنشطة اليومية مثل الاستحمام واللباس وإعداد الوجبات والتدبير المنزلي الخفيف. نضمن أن يشعر من تحب بالأمان والراحة في منزله.",
+                medicalDetail: "نرافق كبار السن إلى المواعيد الطبية، ونتولى استلام الأدوية من الصيدلية، ونتأكد من اتباع جداول الأدوية.",
+                medicalWhy1: "ترتيب نقل آمن",
+                medicalWhy2: "تذكير بالأدوية",
+                medicalWhy3: "تقرير للعائلة",
+                personalDetail: "مساعدة في النظافة والاستمالة والتنقل. مقدمونا مدربون على تقديم دعم محترم وكريم.",
+                personalWhy1: "نهج محترم ولطيف",
+                personalWhy2: "تقنيات منع السقوط",
+                personalWhy3: "إشراف مستمر إذا لزم الأمر",
+                companionDetail: "تفاعل اجتماعي، محادثة، نزهات، ودعم عاطفي. نحارب الوحدة ونساعد كبار السن على البقاء نشطين وسعداء.",
+                companionWhy1: "رفقاء ودودون ومُدققون",
+                companionWhy2: "أنشطة مصممة حسب الاهتمامات",
+                companionWhy3: "تحديثات منتظمة للعائلة",
+                caregiversListTitle: "مقدمو الرعاية المخلصون لدينا",
+                backToCaregivers: "العودة إلى قائمة مقدمي الرعاية",
+                backHome: "رجوع",
+                clientInfoTitle: "أخبرنا عن نفسك",
+                firstName: "الاسم الأول",
+                lastName: "اسم العائلة",
+                city: "المدينة",
+                phone: "رقم الهاتف",
+                email: "البريد الإلكتروني",
+                continueBtn: "متابعة ←",
+                selectDateTime: "اختر التاريخ والوقت (24 ساعة)",
+                dateLabel: "التاريخ (من اليوم فصاعداً)",
+                selectHours: "اختر الساعات (اضغط لاختيار متعدد)",
+                noHours: "لم يتم اختيار أي ساعة",
+                confirmChooseCaregiver: "تأكيد واختيار مقدم الرعاية",
+                editInfo: "تعديل بياناتك",
+                selectCaregiverTitle: "اختر مقدم رعاية",
+                backToTimeSlot: "العودة لاختيار الوقت",
+                paymentMethodTitle: "طريقة الدفع",
+                cashOption: "نقداً (الدفع عند الوصول)",
+                cardOption: "بطاقة ائتمان",
+                cardNumberPlaceholder: "رقم البطاقة",
+                expiryPlaceholder: "شهر/سنة",
+                cvvPlaceholder: "CVV",
+                confirmBookingBtn: "تأكيد الحجز",
+                chooseDifferent: "اختيار مقدم رعاية آخر",
+                confirmationTitle: "تم جدولة الموعد بنجاح!",
+                confirmationText: "سنتواصل معك في أقرب وقت ممكن.",
+                returnHome: "العودة إلى الرئيسية",
+                footerTag: "رعاية حنونة لكبار السن.",
+                quickLinks: "روابط سريعة",
+                contact: "اتصل بنا",
+                legal: "قانوني",
+                privacy: "سياسة الخصوصية",
+                terms: "شروط الخدمة",
+                cookie: "سياسة ملفات تعريف الارتباط"
+            },
+            fr: {
+                navHome: "Accueil", navServices: "Services", navCaregivers: "Soignants",
+                heroTitle: "Soins compatissants pour vos aînés bien-aimés",
+                heroSub: "Soignants professionnels et de confiance à votre porte à Tanger.",
+                bookBtn: "Réserver un soignant",
+                servicesTitle: "Nos services",
+                serviceHome: "Soins à domicile",
+                serviceHomeDesc: "Aide quotidienne, hygiène, repas et confort",
+                serviceMedical: "Accompagnement médical",
+                serviceMedicalDesc: "Visites cliniques, rappels de médicaments",
+                servicePersonal: "Soins personnels",
+                servicePersonalDesc: "Bain, toilette, aide à l'habillage",
+                serviceCompanion: "Compagnie",
+                serviceCompanionDesc: "Conversation, promenades, soutien émotionnel",
+                meetCaregiversTitle: "Rencontrez quelques soignants",
+                ageStudent: "21 ans • Étudiant • Tanger",
+                ageNurse: "35 ans • Infirmière • Tanger",
+                ageAssistant: "28 ans • Assistant • Tanger",
+                servicesDetailTitle: "Nos services en détail",
+                whyChooseUs: "Pourquoi nous choisir ?",
+                homeWhy1: "Plans de soins personnalisés",
+                homeWhy2: "Soignants gentils et expérimentés",
+                homeWhy3: "Disponibilité 24h/24",
+                serviceHomeDetail: "Notre service de soins à domicile fournit une assistance pour les activités quotidiennes telles que le bain, l'habillage, la préparation des repas et l'entretien ménager léger. Nous assurons que votre proche se sente en sécurité et à l'aise chez lui.",
+                medicalDetail: "Nous accompagnons les personnes âgées aux rendez-vous médicaux, gérons les achats en pharmacie et assurons le suivi des médicaments.",
+                medicalWhy1: "Organisation du transport sécurisé",
+                medicalWhy2: "Rappels de médicaments",
+                medicalWhy3: "Compte rendu à la famille",
+                personalDetail: "Assistance pour l'hygiène, la toilette et la mobilité. Nos soignants sont formés pour fournir un soutien respectueux et digne.",
+                personalWhy1: "Approche respectueuse et douce",
+                personalWhy2: "Techniques de prévention des chutes",
+                personalWhy3: "Surveillance continue si nécessaire",
+                companionDetail: "Interaction sociale, conversation, promenades et soutien émotionnel. Nous combattons la solitude et maintenons l'engagement.",
+                companionWhy1: "Compagnons amicaux et vérifiés",
+                companionWhy2: "Activités adaptées aux centres d'intérêt",
+                companionWhy3: "Nouvelles régulières à la famille",
+                caregiversListTitle: "Nos soignants dévoués",
+                backToCaregivers: "Retour aux soignants",
+                backHome: "Retour",
+                clientInfoTitle: "Parlez-nous de vous",
+                firstName: "Prénom",
+                lastName: "Nom de famille",
+                city: "Ville",
+                phone: "Numéro de téléphone",
+                email: "Adresse e-mail",
+                continueBtn: "Continuer →",
+                selectDateTime: "Choisissez la date et l'heure (24h)",
+                dateLabel: "Date (à partir d'aujourd'hui)",
+                selectHours: "Sélectionnez les heures (cliquez multiples)",
+                noHours: "Aucune heure sélectionnée",
+                confirmChooseCaregiver: "Confirmer et choisir le soignant",
+                editInfo: "Modifier vos informations",
+                selectCaregiverTitle: "Choisissez un soignant",
+                backToTimeSlot: "Retour au créneau horaire",
+                paymentMethodTitle: "Moyen de paiement",
+                cashOption: "Espèces (paiement à l'arrivée)",
+                cardOption: "Carte de crédit",
+                cardNumberPlaceholder: "Numéro de carte",
+                expiryPlaceholder: "MM/AA",
+                cvvPlaceholder: "CVV",
+                confirmBookingBtn: "Confirmer la réservation",
+                chooseDifferent: "Choisir un autre soignant",
+                confirmationTitle: "Rendez-vous programmé avec succès !",
+                confirmationText: "Nous vous contacterons dès que possible.",
+                returnHome: "Retour à l'accueil",
+                footerTag: "Soins compatissants pour vos aînés.",
+                quickLinks: "Liens rapides",
+                contact: "Contact",
+                legal: "Mentions légales",
+                privacy: "Politique de confidentialité",
+                terms: "Conditions d'utilisation",
+                cookie: "Politique des cookies"
+            }
         };
 
         let currentLang = 'en';
-        function setLanguage(lang) { /* ... same as before ... */ }
-        document.querySelectorAll('.lang-btn').forEach(btn => btn.addEventListener('click', () => setLanguage(btn.dataset.lang)));
-
-        // Theme toggle
-        function toggleTheme() { /* ... same ... */ }
-        function initTheme() { /* ... same ... */ }
-        document.querySelectorAll('.theme-btn').forEach(btn => btn.addEventListener('click', toggleTheme));
-        initTheme();
-
-        // Notification
-        function showNotification(message) {
-            document.getElementById('notification-message').textContent = message;
-            document.getElementById('notification').classList.add('show');
-            setTimeout(() => document.getElementById('notification').classList.remove('show'), 4000);
+        function setLanguage(lang) {
+            currentLang = lang;
+            document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
+            document.body.classList.toggle('rtl', lang === 'ar');
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.dataset.i18n;
+                if (translations[lang]?.[key]) {
+                    if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') el.placeholder = translations[lang][key];
+                    else el.textContent = translations[lang][key];
+                }
+            });
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                const key = el.dataset.i18nPlaceholder;
+                if (translations[lang]?.[key]) el.placeholder = translations[lang][key];
+            });
+            updateSelectedSlotsDisplay?.();
         }
-        window.hideNotification = () => document.getElementById('notification').classList.remove('show');
 
-        // ---------- HISTORY MANAGEMENT (Fixed) ----------
-        const viewStack = ['homeView']; // visited views in order
+        // notification
+        function showNotif(msg) { document.getElementById('notifMsg').innerText = msg; document.getElementById('notification').classList.add('show'); setTimeout(()=>hideNotif(),4000); }
+        window.hideNotif = ()=>document.getElementById('notification').classList.remove('show');
 
+        // history & navigation
+        let viewStack = ['homeView'];
         function navigateTo(viewId) {
-            const currentView = document.querySelector('.active-view').id;
-            if (currentView !== viewId) {
+            if (document.querySelector('.active-view').id !== viewId) {
                 viewStack.push(viewId);
-                history.pushState({ view: viewId, stack: viewStack.slice() }, '', '#' + viewId);
+                history.pushState({view:viewId, stack:viewStack.slice()}, '', '#'+viewId);
                 showView(viewId);
             }
         }
-
         function goBack() {
-            if (viewStack.length > 1) {
-                viewStack.pop(); // remove current
-                const previousView = viewStack[viewStack.length - 1];
-                history.pushState({ view: previousView, stack: viewStack.slice() }, '', '#' + previousView);
-                showView(previousView);
-            } else {
-                // Already at home, do nothing but could go to home if not home
-                if (document.querySelector('.active-view').id !== 'homeView') {
-                    viewStack.length = 1;
-                    viewStack[0] = 'homeView';
-                    history.pushState({ view: 'homeView', stack: ['homeView'] }, '', '#homeView');
-                    showView('homeView');
-                }
-            }
-        }
-
-        window.addEventListener('popstate', (event) => {
-            if (event.state && event.state.view) {
-                const target = event.state.view;
-                // Restore the stack from state if available
-                if (event.state.stack) {
-                    viewStack.length = 0;
-                    viewStack.push(...event.state.stack);
-                } else {
-                    // fallback: ensure target is in stack
-                    if (!viewStack.includes(target)) viewStack.push(target);
-                }
-                showView(target);
-            } else {
-                // fallback to home
-                viewStack.length = 1;
-                viewStack[0] = 'homeView';
+            if (viewStack.length>1) {
+                viewStack.pop();
+                const prev = viewStack[viewStack.length-1];
+                history.pushState({view:prev, stack:viewStack.slice()}, '', '#'+prev);
+                showView(prev);
+            } else if (document.querySelector('.active-view').id !== 'homeView') {
+                viewStack = ['homeView'];
+                history.pushState({view:'homeView', stack:['homeView']}, '', '#homeView');
                 showView('homeView');
             }
-        });
+        }
+        window.onpopstate = (e) => {
+            if (e.state?.view) {
+                viewStack = e.state.stack || [e.state.view];
+                showView(e.state.view);
+            } else { viewStack = ['homeView']; showView('homeView'); }
+        };
 
         function showView(viewId) {
             document.querySelectorAll('.view').forEach(v => v.classList.remove('active-view'));
             document.getElementById(viewId).classList.add('active-view');
-
-            // Ensure footer is present in this view (clone if needed)
-            ensureFooterInView(viewId);
-
-            // View-specific setups
+            if (!document.getElementById(viewId).querySelector('.main-footer')) {
+                const footer = document.getElementById('footer-template').firstElementChild.cloneNode(true);
+                document.getElementById(viewId).appendChild(footer);
+                setLanguage(currentLang); // update footer i18n
+            }
             if (viewId === 'timeSlotView') { setMinDate(); generateHourSlots(); }
             if (viewId === 'paymentMethodView') updatePaymentSummary();
         }
 
-        // ---------- FOOTER DUPLICATION FIX ----------
-        function ensureFooterInView(viewId) {
-            const view = document.getElementById(viewId);
-            // Check if footer already exists in this view
-            if (view.querySelector('.main-footer')) return;
-            // Clone footer from template
-            const footerTemplate = document.getElementById('footer-template').firstElementChild.cloneNode(true);
-            // Update i18n attributes for the cloned footer (they will be handled by setLanguage later)
-            view.appendChild(footerTemplate);
+        // build home view
+        function buildHomeView() {
+            let html = `<div class="navbar"><a class="logo-link" onclick="navigateTo('homeView')"><div class="logo">Care<span>Via</span></div></a><div style="display:flex;gap:1rem;align-items:center;flex-wrap:wrap;"><div class="lang-selector">${['en','ar','fr'].map(l=>`<button class="lang-btn${l==='en'?' active':''}" data-lang="${l}">${l.toUpperCase()}</button>`).join('')}</div><div class="theme-toggle"><button class="theme-btn" id="themeToggle" title="Toggle light/dark mode"><i class="fas fa-moon"></i></button></div><div class="nav-links"><a data-i18n="navHome" onclick="navigateTo('homeView')">Home</a><a data-i18n="navServices" onclick="navigateTo('servicesView')">Services</a><a data-i18n="navCaregivers" onclick="navigateTo('caregiversListView')">Caregivers</a></div></div></div>`;
+            html += `<div class="hero"><h1 data-i18n="heroTitle">Compassionate care for your beloved elders</h1><p data-i18n="heroSub" style="font-size:1.2rem;margin:1rem 0;">Professional, trustworthy caregivers at your doorstep in Tangier.</p><button class="btn" data-i18n="bookBtn" onclick="startBookingFlow()">Book a caregiver</button></div>`;
+            html += `<h2 class="section-title" data-i18n="servicesTitle">Our services</h2><div class="services-grid">`;
+            const services = ['homeCare','medicalAcc','personalCare','companionship'];
+            services.forEach(s => html += `<div class="service-card" onclick="selectServiceAndGoToClientInfo('${s}')"><i class="fas fa-${s==='homeCare'?'home':s==='medicalAcc'?'ambulance':s==='personalCare'?'hand-holding-heart':'heart'}"></i><h3 data-i18n="service${s[0].toUpperCase()+s.slice(1)}">${s}</h3><p data-i18n="service${s[0].toUpperCase()+s.slice(1)}Desc">desc</p></div>`);
+            html += `</div><h2 class="section-title" data-i18n="meetCaregiversTitle">Meet some caregivers</h2><div class="caregiver-cards">`;
+            const caregivers = ['mohamedAyoub','mohamedReda','fatimaZahra'];
+            caregivers.forEach(c => html += `<div class="caregiver-card" onclick="showCaregiverProfile('${c}')"><div class="photo-placeholder"><img src="${c==='mohamedAyoub'?'Ayoub.jpg':'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80'}" alt=""></div><h3>${c==='mohamedAyoub'?'Mohamed Ayoub Abinayach':c==='mohamedReda'?'Mohamed Reda Saidi':'Fatima Zahra El Omari'}</h3><p data-i18n="ageStudent">21 ans • Étudiant • Tanger</p><div class="rating">⭐ 4.7/5</div></div>`);
+            html += `</div>`;
+            document.getElementById('homeView').innerHTML = html;
         }
 
-        // After language change, update footers as well
-        const originalSetLanguage = setLanguage;
-        setLanguage = function(lang) {
-            originalSetLanguage(lang);
-            // Also update any footers (they have data-i18n attributes)
-            document.querySelectorAll('.main-footer [data-i18n]').forEach(el => {
-                const key = el.getAttribute('data-i18n');
-                if (translations[lang] && translations[lang][key]) {
-                    if (el.tagName === 'A' || el.tagName === 'SPAN' || el.tagName === 'H3') {
-                        el.textContent = translations[lang][key];
-                    }
-                }
+        // services view
+        function buildServicesView() {
+            let html = `<div class="navbar">... (same navbar) ...</div><div class="back-link" onclick="goBack()"><i class="fas fa-arrow-left"></i> <span data-i18n="backHome">Back</span></div><h1 class="section-title" data-i18n="servicesDetailTitle">Our services in detail</h1>`;
+            // details for each service – we'll create dynamically
+            html += `<div style="display:grid;gap:3rem;">`;
+            ['homeCare','medicalAcc','personalCare','companionship'].forEach(s => {
+                html += `<div style="background:var(--card);border-radius:48px;padding:2.5rem;"><div style="display:flex;gap:2rem;flex-wrap:wrap;"><div style="flex:1;min-width:250px;"><i class="fas fa-${s==='homeCare'?'home':s==='medicalAcc'?'ambulance':s==='personalCare'?'hand-holding-heart':'heart'}" style="font-size:4rem;color:#e76f51;"></i></div><div style="flex:6;"><h2 data-i18n="service${s[0].toUpperCase()+s.slice(1)}">${s}</h2><p data-i18n="${s==='homeCare'?'serviceHomeDetail':s==='medicalAcc'?'medicalDetail':s==='personalCare'?'personalDetail':'companionDetail'}" style="font-size:1.1rem;">detail</p><h4 data-i18n="whyChooseUs">Why choose us?</h4><ul><li data-i18n="${s==='homeCare'?'homeWhy1':s==='medicalAcc'?'medicalWhy1':s==='personalCare'?'personalWhy1':'companionWhy1'}">point1</li><li data-i18n="${s==='homeCare'?'homeWhy2':s==='medicalAcc'?'medicalWhy2':s==='personalCare'?'personalWhy2':'companionWhy2'}">point2</li><li data-i18n="${s==='homeCare'?'homeWhy3':s==='medicalAcc'?'medicalWhy3':s==='personalCare'?'personalWhy3':'companionWhy3'}">point3</li></ul></div></div></div>`;
             });
+            html += `</div>`;
+            document.getElementById('servicesView').innerHTML = html;
+        }
+
+        // caregivers list view
+        function buildCaregiversListView() {
+            let html = `<div class="navbar">...</div><div class="back-link" onclick="goBack()"><i class="fas fa-arrow-left"></i> <span data-i18n="backHome">Back</span></div><h1 class="section-title" data-i18n="caregiversListTitle">Our dedicated caregivers</h1><div class="caregiver-cards" id="caregiversListContainer"></div>`;
+            document.getElementById('caregiversListView').innerHTML = html;
+            renderCaregiversList();
+        }
+
+        function renderCaregiversList() {
+            const container = document.getElementById('caregiversListContainer');
+            if (!container) return;
+            container.innerHTML = '';
+            const list = [
+                {key:'mohamedAyoub', name:'Mohamed Ayoub Abinayach', age:21, occ:'Student', loc:'Tangier', rating:4.7, img:'Ayoub.jpg'},
+                {key:'mohamedReda', name:'Mohamed Reda Saidi', age:21, occ:'Student', loc:'Tangier', rating:4.6, img:'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80'},
+                {key:'fatimaZahra', name:'Fatima Zahra El Omari', age:35, occ:'Nurse', loc:'Tangier', rating:4.9, img:'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80'},
+                {key:'youssefBenz', name:'Youssef Benzaid', age:28, occ:'Assistant', loc:'Tangier', rating:4.8, img:'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80'}
+            ];
+            list.forEach(c => {
+                const card = document.createElement('div');
+                card.className = 'caregiver-card';
+                card.onclick = () => showCaregiverProfile(c.key);
+                card.innerHTML = `<div class="photo-placeholder"><img src="${c.img}" alt="${c.name}"></div><h3>${c.name}</h3><p data-i18n="ageStudent">${c.age} ans • ${c.occ} • ${c.loc}</p><div class="rating">⭐ ${c.rating}/5</div>`;
+                container.appendChild(card);
+            });
+        }
+
+        // caregiver profile data
+        const caregiversData = {
+            mohamedAyoub: { name:'Mohamed Ayoub Abinayach', age:21, occ:'Student (Nursing)', loc:'Tangier', rating:4.7,
+                bio:'Mohamed Ayoub is a second-year nursing student with a passion for geriatric care.',
+                tasks:[{task:'Home care assistance', rating:4.8},{task:'Medical accompaniment', rating:4.6},{task:'Companionship', rating:4.9}],
+                skills:['Medication reminders','Mobility support','First aid','Patient listener'] },
+            mohamedReda: { name:'Mohamed Reda Saidi', age:21, occ:'Student (Psychology)', loc:'Tangier', rating:4.6,
+                bio:'Reda combines psychology studies with a natural ability to connect with elders.',
+                tasks:[{task:'Companionship', rating:4.9},{task:'Personal care', rating:4.5},{task:'Light housekeeping', rating:4.5}],
+                skills:['Active listening','Memory games','Cooking','Patience'] },
+            fatimaZahra: { name:'Fatima Zahra El Omari', age:35, occ:'Registered Nurse', loc:'Tangier', rating:4.9,
+                bio:'Fatima is an experienced nurse with 10 years in geriatric care.',
+                tasks:[{task:'Medical accompaniment', rating:5.0},{task:'Wound care', rating:4.9},{task:'Medication management', rating:5.0}],
+                skills:['Wound care','Catheter care','Vital monitoring','Diabetes management'] },
+            youssefBenz: { name:'Youssef Benzaid', age:28, occ:'Nursing assistant', loc:'Tangier', rating:4.8,
+                bio:'Youssef is patient and strong, ideal for clients needing transfer assistance.',
+                tasks:[{task:'Mobility assistance', rating:4.9},{task:'Bathing & grooming', rating:4.8},{task:'Exercise supervision', rating:4.7}],
+                skills:['Lifting techniques','Fall prevention','Physiotherapy exercises','Compassionate'] }
         };
 
-        // ---------- BOOKING STATE AND FUNCTIONS (unchanged but ensure navigateTo is used) ----------
-        const serviceNames = { homeCare: 'Home Care', medicalAcc: 'Medical Accompaniment', personalCare: 'Personal Care', companionship: 'Companionship' };
-        const caregivers = { /* ... full data ... */ };
-        let selectedService = 'homeCare';
-        let clientInfo = {};
-        let selectedDate = '';
-        let selectedSlots = [];
-        let selectedCaregiverKey = null;
-
-        function showCaregiverProfile(id) {
-            // ... generate profile ...
+        function showCaregiverProfile(key) {
+            const c = caregiversData[key];
+            if (!c) return;
+            let html = `<div style="display:flex;flex-wrap:wrap;gap:2rem;"><div style="flex:1;min-width:200px;"><div class="photo-placeholder" style="width:150px;height:150px;"><img src="${key==='mohamedAyoub'?'Ayoub.jpg':'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80'}" alt="${c.name}"></div></div><div style="flex:3;"><h2>${c.name}</h2><p>${c.age} years • ${c.occ} • ${c.loc}</p><div class="rating">★★★★${c.rating%1>=0.5?'½':''} <span>${c.rating}/5</span></div><p style="margin:1rem 0;"><strong>Bio:</strong> ${c.bio}</p></div></div><hr><h3>Completed tasks & ratings</h3>`;
+            c.tasks.forEach(t => html += `<div class="task-item"><span>${t.task}</span> <span class="rating">${'★'.repeat(Math.floor(t.rating))}${t.rating%1?'½':''} ${t.rating}</span></div>`);
+            html += `<h3 style="margin-top:1.5rem;">Skills & competencies</h3><div class="skills-tags">${c.skills.map(s=>`<span class="skill-tag">${s}</span>`).join('')}</div>`;
+            document.getElementById('caregiverProfileView').innerHTML = `<div class="navbar">...</div><div class="back-link" onclick="goBack()"><i class="fas fa-arrow-left"></i> <span data-i18n="backToCaregivers">Back</span></div><div style="background:var(--card);border-radius:48px;padding:2.5rem;">${html}</div>`;
             navigateTo('caregiverProfileView');
         }
 
-        function startBookingFlow() { selectedService = 'homeCare'; navigateTo('clientInfoView'); }
-        function selectServiceAndGoToClientInfo(serviceKey) { selectedService = serviceKey; navigateTo('clientInfoView'); }
+        // client info view
+        function buildClientInfoView() {
+            const cities = ['Tangier','Casablanca','Rabat','Fes','Marrakech','Agadir','Meknes','Oujda','Kenitra','Tetouan','Safi','El Jadida','Nador','Beni Mellal','Larache'];
+            let html = `<div class="navbar">...</div><div class="back-link" onclick="goBack()"><i class="fas fa-arrow-left"></i> <span data-i18n="backHome">Back</span></div><div class="booking-card"><h2 data-i18n="clientInfoTitle">Tell us about yourself</h2>`;
+            html += `<div class="form-group"><label data-i18n="firstName">First Name</label><input type="text" id="clientFirstName" class="form-control" placeholder="e.g. Ahmed"></div>`;
+            html += `<div class="form-group"><label data-i18n="lastName">Last Name</label><input type="text" id="clientLastName" class="form-control" placeholder="e.g. Benali"></div>`;
+            html += `<div class="form-group"><label data-i18n="city">City</label><select id="clientCity" class="form-select">${cities.map(c=>`<option value="${c}">${c}</option>`).join('')}</select></div>`;
+            html += `<div class="form-group"><label data-i18n="phone">Phone Number</label><input type="tel" id="clientPhone" class="form-control" placeholder="+212 6XX-XXXXXX"></div>`;
+            html += `<div class="form-group"><label data-i18n="email">Email Address</label><input type="email" id="clientEmail" class="form-control" placeholder="example@mail.com"></div>`;
+            html += `<button class="btn" style="width:100%;" data-i18n="continueBtn" onclick="saveClientInfoAndGoToTimeSlot()">Continue →</button></div>`;
+            document.getElementById('clientInfoView').innerHTML = html;
+        }
+
+        // time slot view
+        function buildTimeSlotView() {
+            let html = `<div class="navbar">...</div><div class="back-link" onclick="goBack()"><i class="fas fa-arrow-left"></i> <span data-i18n="editInfo">Back</span></div><div class="booking-card"><h2 data-i18n="selectDateTime">Select date & time (24h)</h2><div class="form-group"><label data-i18n="dateLabel">Date</label><input type="date" id="slotDate" class="form-control"></div><div class="form-group"><label data-i18n="selectHours">Select hours</label><div class="hours-grid" id="hoursContainer"></div></div><div id="selectedSlotsDisplay" class="selected-slots-list" data-i18n="noHours">No hours selected</div><button class="btn" style="width:100%;" data-i18n="confirmChooseCaregiver" onclick="confirmTimeSlot()">Confirm & choose caregiver</button></div>`;
+            document.getElementById('timeSlotView').innerHTML = html;
+        }
+
+        // choose caregiver view
+        function buildChooseCaregiverView() {
+            document.getElementById('chooseCaregiverView').innerHTML = `<div class="navbar">...</div><div class="back-link" onclick="goBack()"><i class="fas fa-arrow-left"></i> <span data-i18n="backToTimeSlot">Back</span></div><h2 class="section-title" data-i18n="selectCaregiverTitle">Select a caregiver</h2><div class="caregiver-cards" id="chooseCaregiverList"></div>`;
+        }
+
+        // payment view
+        function buildPaymentView() {
+            let html = `<div class="navbar">...</div><div class="back-link" onclick="goBack()"><i class="fas fa-arrow-left"></i> <span data-i18n="chooseDifferent">Back</span></div><div class="booking-card"><h2 data-i18n="paymentMethodTitle">Payment method</h2><div id="paymentSummary" class="payment-summary" style="background:var(--bg);border-radius:32px;padding:1.5rem;margin-bottom:2rem;"></div>`;
+            html += `<div class="payment-option"><label style="display:flex;align-items:center;gap:1rem;"><input type="radio" name="paymentMethod" value="cash" checked> <strong data-i18n="cashOption">Cash</strong></label></div>`;
+            html += `<div class="payment-option"><label style="display:flex;align-items:center;gap:1rem;"><input type="radio" name="paymentMethod" value="card"> <strong data-i18n="cardOption">Credit card</strong></label><div id="cardFields" style="display:none;margin-top:1.5rem;"><div class="credit-card-fields"><input type="text" placeholder="Card number" class="form-control" id="cardNumber" data-i18n-placeholder="cardNumberPlaceholder" maxlength="16" inputmode="numeric"><input type="text" placeholder="MM/YY" class="form-control" id="cardExpiry" data-i18n-placeholder="expiryPlaceholder" maxlength="5"><input type="text" placeholder="CVV" class="form-control" id="cardCvv" data-i18n-placeholder="cvvPlaceholder" maxlength="3" inputmode="numeric"></div></div></div>`;
+            html += `<button class="btn" style="width:100%;margin-top:2rem;" data-i18n="confirmBookingBtn" onclick="processPayment()">Confirm booking</button></div>`;
+            document.getElementById('paymentMethodView').innerHTML = html;
+        }
+
+        // confirmation view
+        function buildConfirmationView() {
+            document.getElementById('confirmationView').innerHTML = `<div class="navbar">...</div><div class="booking-card" style="text-align:center;"><div class="checkmark"><i class="fas fa-check-circle"></i></div><h2 style="margin:2rem 0 1rem;" data-i18n="confirmationTitle">Appointment scheduled!</h2><p style="font-size:1.2rem;" data-i18n="confirmationText">We will contact you soon.</p><button class="btn" style="margin-top:2rem;" data-i18n="returnHome" onclick="navigateTo('homeView')">Return home</button></div>`;
+        }
+
+        // booking state
+        let selectedService = 'homeCare';
+        let clientInfo = {};
+        let selectedDate = '', selectedSlots = [], selectedCaregiverKey = null;
+        const serviceNames = { homeCare:'Home Care', medicalAcc:'Medical Accompaniment', personalCare:'Personal Care', companionship:'Companionship' };
+
+        function startBookingFlow() { selectedService='homeCare'; navigateTo('clientInfoView'); }
+        function selectServiceAndGoToClientInfo(s) { selectedService=s; navigateTo('clientInfoView'); }
+
         function saveClientInfoAndGoToTimeSlot() {
-            clientInfo = { /* ... */ };
+            clientInfo = {
+                firstName: document.getElementById('clientFirstName')?.value.trim() || 'Ahmed',
+                lastName: document.getElementById('clientLastName')?.value.trim() || 'Benali',
+                city: document.getElementById('clientCity')?.value || 'Tangier',
+                phone: document.getElementById('clientPhone')?.value.trim() || '+212600000000',
+                email: document.getElementById('clientEmail')?.value.trim() || 'client@example.com'
+            };
             selectedSlots = [];
             navigateTo('timeSlotView');
         }
-        function setMinDate() { /* ... */ }
-        function generateHourSlots() { /* ... */ }
-        function toggleHourOption(el) { /* ... */ }
-        function updateSelectedSlotsDisplay() { /* ... */ }
+
+        function setMinDate() {
+            const today = new Date().toISOString().split('T')[0];
+            const el = document.getElementById('slotDate');
+            if (el) { el.setAttribute('min', today); el.value = today; }
+        }
+        function generateHourSlots() {
+            const container = document.getElementById('hoursContainer');
+            if (!container) return;
+            container.innerHTML = '';
+            for (let i=0; i<24; i++) {
+                const start = i.toString().padStart(2,'0')+':00', end = (i+1).toString().padStart(2,'0')+':00';
+                const div = document.createElement('div');
+                div.className = 'hour-option'; div.textContent = `${start} – ${end}`;
+                div.dataset.slot = `${start} – ${end}`;
+                div.onclick = () => {
+                    div.classList.toggle('selected');
+                    if (div.classList.contains('selected')) selectedSlots.push(div.dataset.slot);
+                    else selectedSlots = selectedSlots.filter(s => s !== div.dataset.slot);
+                    updateSelectedSlotsDisplay();
+                };
+                container.appendChild(div);
+            }
+        }
+        function updateSelectedSlotsDisplay() {
+            const d = document.getElementById('selectedSlotsDisplay');
+            if (!d) return;
+            if (selectedSlots.length===0) d.innerText = translations[currentLang].noHours;
+            else d.innerHTML = '<strong>' + (currentLang==='ar'?'الساعات المحددة:':currentLang==='fr'?'Heures sélectionnées:':'Selected hours:') + '</strong> ' + selectedSlots.join(' · ');
+        }
+
         function confirmTimeSlot() {
-            selectedDate = document.getElementById('slotDate').value;
-            if (!selectedDate) { showNotification(translations[currentLang].dateLabel + ' required'); return; }
-            if (selectedSlots.length === 0) { showNotification(translations[currentLang].noHours); return; }
-            // populate chooseCaregiverList
+            selectedDate = document.getElementById('slotDate')?.value;
+            if (!selectedDate) { showNotif(translations[currentLang].dateLabel + ' required'); return; }
+            if (selectedSlots.length===0) { showNotif(translations[currentLang].noHours); return; }
             const container = document.getElementById('chooseCaregiverList');
             container.innerHTML = '';
-            for (let [key, c] of Object.entries(caregivers)) {
-                let imgSrc = key === 'mohamedAyoub' ? 'Ayoub.jpg' : 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80';
+            Object.entries(caregiversData).forEach(([key,c]) => {
+                const imgSrc = key==='mohamedAyoub'?'Ayoub.jpg':'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80';
                 const card = document.createElement('div');
-                card.className = 'caregiver-card';
-                card.style.cursor = 'pointer';
-                card.innerHTML = `<div class="photo-placeholder"><img src="${imgSrc}" alt="${c.name}"></div><h3>${c.name}</h3><p>${c.age} ans • ${c.occupation} • ${c.location}</p><div class="rating">⭐ ${c.rating}/5</div>`;
+                card.className = 'caregiver-card'; card.style.cursor = 'pointer';
+                card.innerHTML = `<div class="photo-placeholder"><img src="${imgSrc}" alt="${c.name}"></div><h3>${c.name}</h3><p>${c.age} ans • ${c.occ} • ${c.loc}</p><div class="rating">⭐ ${c.rating}/5</div>`;
                 card.onclick = () => { selectedCaregiverKey = key; navigateTo('paymentMethodView'); };
                 container.appendChild(card);
-            }
+            });
             navigateTo('chooseCaregiverView');
         }
-        function updatePaymentSummary() { /* ... */ }
-        document.addEventListener('change', (e) => { if (e.target.name === 'paymentMethod') document.getElementById('cardFields').style.display = e.target.value === 'card' ? 'block' : 'none'; });
-        document.getElementById('cardExpiry')?.addEventListener('input', function(e) {
-            let value = e.target.value.replace(/\D/g, '');
-            if (value.length >= 2) value = value.slice(0,2) + '/' + value.slice(2,4);
-            e.target.value = value;
-        });
 
-        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzS6V2y_ZGE5xOtvYeY_iYUx5L86eeyGWzlxCkrwjO9V1InSZUevcTSkgpdjnDcD1e1/exec';
-
-        function processPayment() {
-            const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
-            if (paymentMethod === 'card') {
-                const cardNum = document.getElementById('cardNumber').value.trim();
-                const expiry = document.getElementById('cardExpiry').value.trim();
-                const cvv = document.getElementById('cardCvv').value.trim();
-                if (!/^\d{16}$/.test(cardNum)) { showNotification('Card number must be exactly 16 digits.'); return; }
-                if (!/^\d{2}\/\d{2}$/.test(expiry)) { showNotification('Expiry date must be in MM/YY format.'); return; }
-                const [month, year] = expiry.split('/').map(Number);
-                if (month < 1 || month > 12) { showNotification('Month must be between 01 and 12.'); return; }
-                const now = new Date();
-                const currentYear = now.getFullYear() % 100;
-                const currentMonth = now.getMonth() + 1;
-                if (year < currentYear || (year === currentYear && month < currentMonth)) { showNotification('Expiry date must be in the future.'); return; }
-                if (!/^\d{3}$/.test(cvv)) { showNotification('CVV must be exactly 3 digits.'); return; }
-            }
-            // Submit to Google Sheet
-            const fullName = `${clientInfo.firstName} ${clientInfo.lastName}`.trim();
-            const email = clientInfo.email;
-            const phone = clientInfo.phone;
-            const date = selectedDate;
-            const hours = selectedSlots.join(', ');
-            const form = document.createElement('form');
-            form.method = 'POST';
-            form.action = GOOGLE_SCRIPT_URL;
-            form.target = 'hidden_iframe';
-            form.style.display = 'none';
-            const fields = { 'A': fullName, 'B': email, 'C': phone, 'D': date, 'E': hours };
-            for (const [name, value] of Object.entries(fields)) {
-                const input = document.createElement('input');
-                input.type = 'hidden'; input.name = name; input.value = value;
-                form.appendChild(input);
-            }
-            document.body.appendChild(form);
-            form.submit();
-            setTimeout(() => { document.body.removeChild(form); navigateTo('confirmationView'); }, 2000);
+        function updatePaymentSummary() {
+            const c = caregiversData[selectedCaregiverKey];
+            if (!c) return;
+            const total = selectedSlots.length * 50;
+            document.getElementById('paymentSummary').innerHTML = `
+                <p><strong>${translations[currentLang].serviceHome}:</strong> ${serviceNames[selectedService]}</p>
+                <p><strong>${translations[currentLang].firstName}:</strong> ${clientInfo.firstName} ${clientInfo.lastName}, ${clientInfo.city}</p>
+                <p><strong>${translations[currentLang].dateLabel}:</strong> ${selectedDate}</p>
+                <p><strong>${translations[currentLang].selectHours}:</strong> ${selectedSlots.join(' · ')} (${selectedSlots.length}h)</p>
+                <p><strong>${translations[currentLang].navCaregivers}:</strong> ${c.name} (${c.rating}/5)</p>
+                <hr><p style="font-size:1.8rem; font-weight:700;">Total: ${total} MAD</p>
+            `;
         }
 
-        // Initialize
-        setLanguage('en');
-        // Inject footer into all views initially
-        document.querySelectorAll('.view').forEach(view => ensureFooterInView(view.id));
-        history.replaceState({ view: 'homeView', stack: ['homeView'] }, '', '#homeView');
+        // payment validation
+        document.addEventListener('change', e => {
+            if (e.target.name === 'paymentMethod') {
+                document.getElementById('cardFields').style.display = e.target.value === 'card' ? 'block' : 'none';
+            }
+        });
+        document.addEventListener('input', e => {
+            if (e.target.id === 'cardExpiry') {
+                let val = e.target.value.replace(/\D/g,'');
+                if (val.length>=2) val = val.slice(0,2)+'/'+val.slice(2,4);
+                e.target.value = val;
+            }
+        });
+
+        function processPayment() {
+            const method = document.querySelector('input[name="paymentMethod"]:checked').value;
+            if (method === 'card') {
+                const num = document.getElementById('cardNumber').value.trim();
+                const exp = document.getElementById('cardExpiry').value.trim();
+                const cvv = document.getElementById('cardCvv').value.trim();
+                if (!/^\d{16}$/.test(num)) { showNotif('Card number must be exactly 16 digits.'); return; }
+                if (!/^\d{2}\/\d{2}$/.test(exp)) { showNotif('Expiry must be MM/YY.'); return; }
+                const [m,y] = exp.split('/').map(Number);
+                if (m<1||m>12) { showNotif('Month invalid.'); return; }
+                const now = new Date(), curY = now.getFullYear()%100, curM = now.getMonth()+1;
+                if (y<curY || (y===curY && m<curM)) { showNotif('Expiry must be future.'); return; }
+                if (!/^\d{3}$/.test(cvv)) { showNotif('CVV must be 3 digits.'); return; }
+            }
+            // submit to sheet (simulated)
+            const form = document.createElement('form');
+            form.method='POST'; form.action='https://script.google.com/macros/s/AKfycbzS6V2y_ZGE5xOtvYeY_iYUx5L86eeyGWzlxCkrwjO9V1InSZUevcTSkgpdjnDcD1e1/exec'; form.target='hidden_iframe'; form.style.display='none';
+            const fields = {A:`${clientInfo.firstName} ${clientInfo.lastName}`, B:clientInfo.email, C:clientInfo.phone, D:selectedDate, E:selectedSlots.join(', ')};
+            for (let [k,v] of Object.entries(fields)) { let inp = document.createElement('input'); inp.type='hidden'; inp.name=k; inp.value=v; form.appendChild(inp); }
+            document.body.appendChild(form); form.submit();
+            setTimeout(()=>{ document.body.removeChild(form); navigateTo('confirmationView'); },1500);
+        }
+
+        // initialize all views
+        function init() {
+            buildHomeView(); buildServicesView(); buildCaregiversListView(); buildClientInfoView(); buildTimeSlotView(); buildChooseCaregiverView(); buildPaymentView(); buildConfirmationView();
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.addEventListener('click', ()=>setLanguage(btn.dataset.lang)));
+            document.querySelectorAll('.theme-btn').forEach(btn => btn.addEventListener('click', toggleTheme));
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme==='dark') document.body.classList.add('dark-mode');
+            setLanguage('en');
+            history.replaceState({view:'homeView',stack:['homeView']},'','#homeView');
+            // inject footers
+            document.querySelectorAll('.view').forEach(v => {
+                if (!v.querySelector('.main-footer')) {
+                    v.appendChild(document.getElementById('footer-template').firstElementChild.cloneNode(true));
+                }
+            });
+            setLanguage('en'); // update footers
+        }
+
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            localStorage.setItem('theme', document.body.classList.contains('dark-mode')?'dark':'light');
+        }
+
+        window.onload = init;
+
+        // expose globals
+        window.navigateTo = navigateTo; window.goBack = goBack; window.startBookingFlow = startBookingFlow;
+        window.selectServiceAndGoToClientInfo = selectServiceAndGoToClientInfo;
+        window.saveClientInfoAndGoToTimeSlot = saveClientInfoAndGoToTimeSlot;
+        window.confirmTimeSlot = confirmTimeSlot;
+        window.processPayment = processPayment;
+        window.showCaregiverProfile = showCaregiverProfile;
     </script>
 </body>
 </html>
-```
