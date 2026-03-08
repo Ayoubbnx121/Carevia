@@ -1090,8 +1090,8 @@
         <div class="back-link" onclick="navigateTo('homeView')"><i class="fas fa-arrow-left"></i> <span data-i18n="backHome">Back to Home</span></div>
         <div class="booking-card">
             <h2 data-i18n="clientInfoTitle">Tell us about yourself</h2>
-            <div class="form-group"><label data-i18n="firstName">First Name</label><input type="text" id="clientFirstName" class="form-control" placeholder="e.g. Ahmed"></div>
-            <div class="form-group"><label data-i18n="lastName">Last Name</label><input type="text" id="clientLastName" class="form-control" placeholder="e.g. Benali"></div>
+            <div class="form-group"><label data-i18n="firstName">First Name *</label><input type="text" id="clientFirstName" class="form-control" placeholder="e.g. Ahmed" required></div>
+            <div class="form-group"><label data-i18n="lastName">Last Name *</label><input type="text" id="clientLastName" class="form-control" placeholder="e.g. Benali" required></div>
             <div class="form-group"><label data-i18n="city">City</label>
                 <select id="clientCity" class="form-select">
                     <option value="Tangier">Tangier</option>
@@ -1111,9 +1111,9 @@
                     <option value="Larache">Larache</option>
                 </select>
             </div>
-            <div class="form-group"><label data-i18n="phone">Phone Number</label><input type="tel" id="clientPhone" class="form-control" placeholder="+212 6XX-XXXXXX"></div>
-            <div class="form-group"><label data-i18n="email">Email Address</label><input type="email" id="clientEmail" class="form-control" placeholder="example@mail.com"></div>
-            <button class="btn" style="width:100%;" data-i18n="continueBtn" onclick="saveClientInfoAndGoToTimeSlot()">Continue →</button>
+            <div class="form-group"><label data-i18n="phone">Phone Number * (Moroccan format)</label><input type="tel" id="clientPhone" class="form-control" placeholder="+212 6XX-XXXXXX or 06XXXXXXXX" required></div>
+            <div class="form-group"><label data-i18n="email">Email Address *</label><input type="email" id="clientEmail" class="form-control" placeholder="example@mail.com" required></div>
+            <button class="btn" style="width:100%;" data-i18n="continueBtn" onclick="validateAndSaveClientInfo()">Continue →</button>
         </div>
         <!-- Enhanced Footer -->
         <div class="social-footer">
@@ -1455,11 +1455,11 @@
                 backToCaregivers: "Back to caregivers",
                 backHome: "Back to Home",
                 clientInfoTitle: "Tell us about yourself",
-                firstName: "First Name",
-                lastName: "Last Name",
+                firstName: "First Name *",
+                lastName: "Last Name *",
                 city: "City",
-                phone: "Phone Number",
-                email: "Email Address",
+                phone: "Phone Number * (Moroccan format)",
+                email: "Email Address *",
                 continueBtn: "Continue →",
                 selectDateTime: "Select date & time (24h)",
                 dateLabel: "Date (from today onward)",
@@ -1489,7 +1489,10 @@
                 validationExpiry: "Expiry date must be in MM/YY format (e.g., 04/26) and in the future.",
                 validationCvv: "CVV must be exactly 3 digits.",
                 validationDate: "Please select a date.",
-                validationHours: "Please select at least one hour."
+                validationHours: "Please select at least one hour.",
+                validationPhone: "Please enter a valid Moroccan phone number (e.g., +2126XXXXXXXX or 06XXXXXXXX).",
+                validationEmail: "Please enter a valid email address containing '@'.",
+                validationName: "Please enter your first and last name."
             },
             ar: {
                 navHome: "الرئيسية",
@@ -1533,11 +1536,11 @@
                 backToCaregivers: "العودة إلى قائمة مقدمي الرعاية",
                 backHome: "العودة إلى الرئيسية",
                 clientInfoTitle: "أخبرنا عن نفسك",
-                firstName: "الاسم الأول",
-                lastName: "اسم العائلة",
+                firstName: "الاسم الأول *",
+                lastName: "اسم العائلة *",
                 city: "المدينة",
-                phone: "رقم الهاتف",
-                email: "البريد الإلكتروني",
+                phone: "رقم الهاتف * (صيغة مغربية)",
+                email: "البريد الإلكتروني *",
                 continueBtn: "متابعة ←",
                 selectDateTime: "اختر التاريخ والوقت (24 ساعة)",
                 dateLabel: "التاريخ (من اليوم فصاعداً)",
@@ -1567,7 +1570,10 @@
                 validationExpiry: "يجب أن يكون تاريخ الانتهاء بصيغة MM/YY (مثال: 04/26) ويكون في المستقبل.",
                 validationCvv: "يجب أن يتكون CVV من 3 أرقام بالضبط.",
                 validationDate: "الرجاء اختيار تاريخ.",
-                validationHours: "الرجاء اختيار ساعة واحدة على الأقل."
+                validationHours: "الرجاء اختيار ساعة واحدة على الأقل.",
+                validationPhone: "الرجاء إدخال رقم هاتف مغربي صحيح (مثل +2126XXXXXXXX أو 06XXXXXXXX).",
+                validationEmail: "الرجاء إدخال بريد إلكتروني صحيح يحتوي على '@'.",
+                validationName: "الرجاء إدخال الاسم الأول واسم العائلة."
             },
             fr: {
                 navHome: "Accueil",
@@ -1611,11 +1617,11 @@
                 backToCaregivers: "Retour aux soignants",
                 backHome: "Retour à l'accueil",
                 clientInfoTitle: "Parlez-nous de vous",
-                firstName: "Prénom",
-                lastName: "Nom de famille",
+                firstName: "Prénom *",
+                lastName: "Nom de famille *",
                 city: "Ville",
-                phone: "Numéro de téléphone",
-                email: "Adresse e-mail",
+                phone: "Numéro de téléphone * (format marocain)",
+                email: "Adresse e-mail *",
                 continueBtn: "Continuer →",
                 selectDateTime: "Choisissez la date et l'heure (24h)",
                 dateLabel: "Date (à partir d'aujourd'hui)",
@@ -1645,7 +1651,10 @@
                 validationExpiry: "La date d'expiration doit être au format MM/AA (ex: 04/26) et dans le futur.",
                 validationCvv: "Le CVV doit comporter exactement 3 chiffres.",
                 validationDate: "Veuillez sélectionner une date.",
-                validationHours: "Veuillez sélectionner au moins une heure."
+                validationHours: "Veuillez sélectionner au moins une heure.",
+                validationPhone: "Veuillez entrer un numéro de téléphone marocain valide (ex: +2126XXXXXXXX ou 06XXXXXXXX).",
+                validationEmail: "Veuillez entrer une adresse e-mail valide contenant '@'.",
+                validationName: "Veuillez entrer votre prénom et nom."
             }
         };
 
@@ -1883,18 +1892,46 @@
         }
         window.selectServiceAndGoToClientInfo = selectServiceAndGoToClientInfo;
 
-        function saveClientInfoAndGoToTimeSlot() {
+        // Validation function for client info
+        function validateAndSaveClientInfo() {
+            const firstName = document.getElementById('clientFirstName').value.trim();
+            const lastName = document.getElementById('clientLastName').value.trim();
+            const phone = document.getElementById('clientPhone').value.trim();
+            const email = document.getElementById('clientEmail').value.trim();
+
+            // Check required fields
+            if (!firstName || !lastName) {
+                showPopup(translations[currentLang].validationName);
+                return;
+            }
+            if (!phone) {
+                showPopup(translations[currentLang].validationPhone);
+                return;
+            }
+            // Moroccan phone validation: either +2126XXXXXXXX or 06XXXXXXXX or 07XXXXXXXX (10 digits starting with 0)
+            const phoneRegex = /^(\+212|0)[5-7]\d{8}$/; // Simplified: +212 or 0 followed by 5,6,7 and 8 digits total 12 or 10 digits
+            // More precise: +2126XXXXXXXX (13 chars) or 06XXXXXXXX (10 chars) or 07XXXXXXXX
+            const cleanedPhone = phone.replace(/\s/g, '');
+            if (!cleanedPhone.match(/^(\+212[5-7]\d{8})$|^(0[5-7]\d{8})$/)) {
+                showPopup(translations[currentLang].validationPhone);
+                return;
+            }
+            if (!email || !email.includes('@') || !email.includes('.')) {
+                showPopup(translations[currentLang].validationEmail);
+                return;
+            }
+
             clientInfo = {
-                firstName: document.getElementById('clientFirstName').value.trim() || 'Ahmed',
-                lastName: document.getElementById('clientLastName').value.trim() || 'Benali',
+                firstName: firstName,
+                lastName: lastName,
                 city: document.getElementById('clientCity').value,
-                phone: document.getElementById('clientPhone').value.trim() || '+212600000000',
-                email: document.getElementById('clientEmail').value.trim() || 'client@example.com'
+                phone: cleanedPhone,
+                email: email
             };
             selectedSlots = [];
             navigateTo('timeSlotView');
         }
-        window.saveClientInfoAndGoToTimeSlot = saveClientInfoAndGoToTimeSlot;
+        window.validateAndSaveClientInfo = validateAndSaveClientInfo;
 
         function setMinDate() {
             const today = new Date().toISOString().split('T')[0];
@@ -1977,11 +2014,21 @@
         }
         window.selectCaregiver = selectCaregiver;
 
+        // New pricing function: 15% discount for each additional hour beyond first
+        function calculateTotalPrice(hours) {
+            if (hours <= 0) return 0;
+            const basePrice = hours * 50;
+            // discount = 15% * (hours - 1) of base price, but not more than 100%
+            let discountFactor = Math.min(0.15 * (hours - 1), 1); // cap at 100% discount
+            let total = basePrice * (1 - discountFactor);
+            return Math.max(total, 0); // ensure non-negative
+        }
+
         function updatePaymentSummary() {
             const c = caregivers[selectedCaregiverKey];
             if (!c) return;
             const totalHours = selectedSlots.length;
-            const totalAmount = totalHours * 50;
+            const totalAmount = calculateTotalPrice(totalHours);
             const summary = document.getElementById('paymentSummary');
             summary.innerHTML = `
                 <p><strong>${translations[currentLang].serviceHome}:</strong> ${serviceNames[selectedService]}</p>
@@ -1989,7 +2036,7 @@
                 <p><strong>${translations[currentLang].dateLabel}:</strong> ${selectedDate}</p>
                 <p><strong>${translations[currentLang].selectHours}:</strong> ${selectedSlots.join(' · ')} (${totalHours} hour${totalHours>1?'s':''})</p>
                 <p><strong>${translations[currentLang].navCaregivers}:</strong> ${c.name} (${c.rating}/5)</p>
-                <hr><p style="font-size:1.8rem; font-weight:700;">Total: ${totalAmount} MAD</p>
+                <hr><p style="font-size:1.8rem; font-weight:700;">Total: ${totalAmount.toFixed(2)} MAD</p>
             `;
         }
 
