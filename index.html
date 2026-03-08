@@ -171,7 +171,7 @@
             cursor: not-allowed;
         }
 
-        /* Animated elements */
+        /* Hero section with vibrant image */
         .hero {
             animation: fadeInUp 0.8s ease-out;
             background: var(--hero-bg);
@@ -182,18 +182,39 @@
             border: 1px solid rgba(231,111,81,0.1);
             position: relative;
             overflow: hidden;
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background: linear-gradient(90deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.4) 50%, transparent 80%);
+            pointer-events: none;
+            z-index: 1;
         }
         .hero::after {
             content: '';
             position: absolute;
             top: 0;
             right: 0;
-            width: 300px;
+            width: 60%;
             height: 100%;
             background: url('https://images.unsplash.com/photo-1581579438747-1dc8d17bbce4?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80') no-repeat center right/cover;
-            opacity: 0.1;
+            opacity: 0.9;
             pointer-events: none;
             animation: fadeIn 1.5s ease-in;
+            z-index: 0;
+        }
+        .hero h1, .hero p, .hero .btn {
+            position: relative;
+            z-index: 2;
+            max-width: 50%;
         }
         .hero h1 {
             font-size: 2.8rem;
@@ -205,6 +226,7 @@
         }
         .hero .btn {
             animation: pulse 2s infinite;
+            width: fit-content;
         }
 
         .service-card {
@@ -574,6 +596,8 @@
             .navbar { flex-direction: column; align-items: stretch; }
             .nav-links { justify-content: center; }
             .hero h1 { font-size: 2rem !important; }
+            .hero h1, .hero p, .hero .btn { max-width: 100%; }
+            .hero::after { width: 100%; opacity: 0.3; }
             .services-grid { grid-template-columns: repeat(2,1fr); gap:1rem; }
             .caregiver-card { flex:1 1 100%; max-width:400px; margin:0 auto; }
             .hours-grid { grid-template-columns: repeat(2,1fr); }
@@ -1539,6 +1563,15 @@
             }
         });
 
+        // Auto-format expiry with slash
+        document.getElementById('cardExpiry')?.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length >= 2) {
+                value = value.slice(0,2) + '/' + value.slice(2,4);
+            }
+            e.target.value = value;
+        });
+
         // Google Apps Script URL
         const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzS6V2y_ZGE5xOtvYeY_iYUx5L86eeyGWzlxCkrwjO9V1InSZUevcTSkgpdjnDcD1e1/exec';
 
@@ -1555,7 +1588,7 @@
                     return;
                 }
 
-                // Expiry validation: format MM/YY, with slash, and date >= 04/2026
+                // Expiry validation: format MM/YY, with slash, and date >= current month
                 if (!/^\d{2}\/\d{2}$/.test(expiry)) {
                     alert('Expiry date must be in MM/YY format (e.g., 04/26).');
                     return;
@@ -1565,10 +1598,11 @@
                     alert('Month must be between 01 and 12.');
                     return;
                 }
-                const expiryDate = new Date(2000 + year, month - 1); // month is 0-indexed
-                const minDate = new Date(2026, 3); // April 2026 (month 3 = April)
-                if (expiryDate < minDate) {
-                    alert('Expiry date must be 04/2026 or later.');
+                const now = new Date();
+                const currentYear = now.getFullYear() % 100;
+                const currentMonth = now.getMonth() + 1; // 1-12
+                if (year < currentYear || (year === currentYear && month < currentMonth)) {
+                    alert('Expiry date must be in the future (current month or later).');
                     return;
                 }
 
@@ -1622,467 +1656,5 @@
         // Initialize default language
         setLanguage('en');
     </script>
-<!-- PROFESSIONAL FOOTER -->
-<footer class="site-footer">
-    <div class="footer-container">
-    
-    <div class="footer-col">
-    <h3>CareVia</h3>
-    <p>Professional elderly care services with compassion and trust.</p>
-    </div>
-    
-    <div class="footer-col">
-    <h4>Quick Links</h4>
-    <a href="#">Home</a>
-    <a href="#">Services</a>
-    <a href="#">Booking</a>
-    <a href="#">Contact</a>
-    </div>
-    
-    <div class="footer-col">
-    <h4>Support</h4>
-    <a href="#">Help Center</a>
-    <a href="#">Privacy Policy</a>
-    <a href="#">Terms</a>
-    </div>
-    
-    <div class="footer-col">
-    <h4>Contact</h4>
-    <p>Email: support@carevia.com</p>
-    <p>Phone: +212 600000000</p>
-    </div>
-    
-    </div>
-    
-    <div class="footer-bottom">
-    © 2026 CareVia. All rights reserved.
-    </div>
-    </footer>
-    
-    
-    <style>
-    .site-footer{
-    background:#0f4c5c;
-    color:white;
-    padding:50px 20px 20px;
-    margin-top:60px;
-    font-family:Poppins, sans-serif;
-    }
-    
-    .footer-container{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-    gap:30px;
-    max-width:1200px;
-    margin:auto;
-    }
-    
-    .footer-col h3,
-    .footer-col h4{
-    margin-bottom:15px;
-    }
-    
-    .footer-col a{
-    display:block;
-    color:#d1e7ef;
-    text-decoration:none;
-    margin-bottom:8px;
-    transition:0.3s;
-    }
-    
-    .footer-col a:hover{
-    color:white;
-    padding-left:6px;
-    }
-    
-    .footer-bottom{
-    text-align:center;
-    margin-top:30px;
-    border-top:1px solid rgba(255,255,255,0.2);
-    padding-top:15px;
-    font-size:14px;
-    }
-    </style>
-    
-    
-    <script>
-    
-    document.addEventListener("DOMContentLoaded", function(){
-    
-    /* CARD NUMBER VALIDATION */
-    
-    let cardInput=document.querySelector("#cardNumber");
-    
-    if(cardInput){
-    cardInput.setAttribute("maxlength","16");
-    
-    cardInput.addEventListener("blur",function(){
-    
-    let value=this.value.replace(/\s/g,'');
-    
-    if(value.length!==16){
-    
-    showPopup("Please enter a valid 16 digit card number");
-    
-    }
-    
-    });
-    }
-    
-    
-    /* EXPIRY DATE AUTO / */
-    
-    let expiry=document.querySelector("#expiryDate");
-    
-    if(expiry){
-    
-    expiry.setAttribute("placeholder","MM/YY");
-    expiry.setAttribute("maxlength","5");
-    
-    expiry.addEventListener("input",function(){
-    
-    let value=this.value.replace(/\D/g,'');
-    
-    if(value.length>=3){
-    
-    this.value=value.substring(0,2)+"/"+value.substring(2,4);
-    
-    }else{
-    
-    this.value=value;
-    
-    }
-    
-    });
-    
-    }
-    
-    });
-    
-    
-    /* POPUP MESSAGE */
-    
-    function showPopup(message){
-    
-    let popup=document.createElement("div");
-    
-    popup.innerHTML=message;
-    
-    popup.style.position="fixed";
-    popup.style.top="20px";
-    popup.style.left="50%";
-    popup.style.transform="translateX(-50%)";
-    popup.style.background="#0f4c5c";
-    popup.style.color="white";
-    popup.style.padding="14px 25px";
-    popup.style.borderRadius="10px";
-    popup.style.boxShadow="0 10px 30px rgba(0,0,0,0.2)";
-    popup.style.zIndex="9999";
-    popup.style.fontSize="15px";
-    
-    document.body.appendChild(popup);
-    
-    setTimeout(()=>{
-    
-    popup.remove();
-    
-    },3000);
-    
-    }
-    
-    
-    /* BACK BUTTON SUPPORT */
-    
-    window.addEventListener("popstate", function () {
-    history.back();
-    });
-    
-    </script>
-<!-- PROFESSIONAL FOOTER -->
-<footer class="site-footer">
-
-    <div class="footer-container">
-    
-    <div class="footer-col">
-    <h3>CareVia</h3>
-    <p>Professional elderly care services with compassion and trust.</p>
-    </div>
-    
-    <div class="footer-col">
-    <h4>Quick Links</h4>
-    <a href="#">Home</a>
-    <a href="#">Services</a>
-    <a href="#">Booking</a>
-    <a href="#">Contact</a>
-    </div>
-    
-    <div class="footer-col">
-    <h4>Support</h4>
-    <a href="#">Help Center</a>
-    <a href="#">Privacy Policy</a>
-    <a href="#">Terms</a>
-    </div>
-    
-    <div class="footer-col">
-    <h4>Secure Payments</h4>
-    <p>Visa • Mastercard • SecurePay</p>
-    </div>
-    
-    </div>
-    
-    <div class="footer-bottom">
-    © 2026 CareVia. All rights reserved.
-    </div>
-    
-    </footer>
-    
-    
-    <!-- BACK TO TOP BUTTON -->
-    <button id="topBtn">↑</button>
-    
-    
-    <style>
-    
-    .site-footer{
-    background:#0f4c5c;
-    color:white;
-    padding:50px 20px 20px;
-    margin-top:60px;
-    font-family:Poppins, sans-serif;
-    }
-    
-    .footer-container{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-    gap:30px;
-    max-width:1200px;
-    margin:auto;
-    }
-    
-    .footer-col h3,
-    .footer-col h4{
-    margin-bottom:15px;
-    }
-    
-    .footer-col a{
-    display:block;
-    color:#d1e7ef;
-    text-decoration:none;
-    margin-bottom:8px;
-    transition:0.3s;
-    }
-    
-    .footer-col a:hover{
-    color:white;
-    padding-left:6px;
-    }
-    
-    .footer-bottom{
-    text-align:center;
-    margin-top:30px;
-    border-top:1px solid rgba(255,255,255,0.2);
-    padding-top:15px;
-    font-size:14px;
-    }
-    
-    
-    /* BACK TO TOP */
-    
-    #topBtn{
-    position:fixed;
-    bottom:30px;
-    right:30px;
-    background:#0f4c5c;
-    color:white;
-    border:none;
-    padding:12px 16px;
-    border-radius:50%;
-    font-size:18px;
-    cursor:pointer;
-    box-shadow:0 5px 15px rgba(0,0,0,0.2);
-    display:none;
-    }
-    
-    
-    /* POPUP */
-    
-    .popup-msg{
-    position:fixed;
-    top:20px;
-    left:50%;
-    transform:translateX(-50%);
-    background:#0f4c5c;
-    color:white;
-    padding:14px 25px;
-    border-radius:10px;
-    box-shadow:0 10px 30px rgba(0,0,0,0.2);
-    z-index:9999;
-    font-size:15px;
-    }
-    
-    
-    /* PAYMENT LOADING */
-    
-    .pay-loading{
-    position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    background:rgba(255,255,255,0.9);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:22px;
-    color:#0f4c5c;
-    z-index:9999;
-    }
-    
-    </style>
-    
-    
-    <script>
-    
-    document.addEventListener("DOMContentLoaded",function(){
-    
-    
-    /* BACK TO TOP */
-    
-    let topBtn=document.getElementById("topBtn");
-    
-    window.onscroll=function(){
-    
-    if(document.body.scrollTop>200||document.documentElement.scrollTop>200){
-    
-    topBtn.style.display="block";
-    
-    }else{
-    
-    topBtn.style.display="none";
-    
-    }
-    
-    };
-    
-    topBtn.onclick=function(){
-    
-    window.scrollTo({top:0,behavior:"smooth"});
-    
-    };
-    
-    
-    /* CARD NUMBER VALIDATION */
-    
-    let card=document.querySelector("#cardNumber");
-    
-    if(card){
-    
-    card.setAttribute("maxlength","16");
-    
-    card.addEventListener("blur",function(){
-    
-    let value=this.value.replace(/\s/g,'');
-    
-    if(value.length!==16){
-    
-    showPopup("Please enter a valid 16 digit card number");
-    
-    }
-    
-    });
-    
-    }
-    
-    
-    /* EXPIRY DATE */
-    
-    let expiry=document.querySelector("#expiryDate");
-    
-    if(expiry){
-    
-    expiry.setAttribute("placeholder","MM/YY");
-    expiry.setAttribute("maxlength","5");
-    
-    expiry.addEventListener("input",function(){
-    
-    let value=this.value.replace(/\D/g,'');
-    
-    if(value.length>=3){
-    
-    this.value=value.substring(0,2)+"/"+value.substring(2,4);
-    
-    }else{
-    
-    this.value=value;
-    
-    }
-    
-    });
-    
-    }
-    
-    
-    /* PAYMENT BUTTON ANIMATION */
-    
-    let payBtn=document.querySelector("#payButton");
-    
-    if(payBtn){
-    
-    payBtn.addEventListener("click",function(){
-    
-    let loading=document.createElement("div");
-    
-    loading.className="pay-loading";
-    
-    loading.innerHTML="Processing payment...";
-    
-    document.body.appendChild(loading);
-    
-    setTimeout(function(){
-    
-    loading.remove();
-    
-    showPopup("Payment processed successfully");
-    
-    },2000);
-    
-    });
-    
-    }
-    
-    
-    });
-    
-    
-    /* POPUP FUNCTION */
-    
-    function showPopup(message){
-    
-    let popup=document.createElement("div");
-    
-    popup.className="popup-msg";
-    
-    popup.innerHTML=message;
-    
-    document.body.appendChild(popup);
-    
-    setTimeout(function(){
-    
-    popup.remove();
-    
-    },3000);
-    
-    }
-    
-    
-    /* BACK BUTTON SUPPORT */
-    
-    window.addEventListener("popstate",function(){
-    
-    history.back();
-    
-    });
-    
-    </script>س
 </body>
 </html>
