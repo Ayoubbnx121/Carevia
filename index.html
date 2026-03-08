@@ -26,6 +26,7 @@
             --hour-option-bg: #f4e2d8;
             --selected-slot-bg: #e6f3f7;
             --animation-speed: 0.3s;
+            --overlay-bg: rgba(0,0,0,0.5);
         }
 
         body.dark-mode {
@@ -43,6 +44,7 @@
             --input-bg: #2d3748;
             --hour-option-bg: #4a5568;
             --selected-slot-bg: #2c5282;
+            --overlay-bg: rgba(0,0,0,0.7);
         }
 
         * {
@@ -171,7 +173,7 @@
             cursor: not-allowed;
         }
 
-        /* Hero section with vibrant image */
+        /* Hero section with vibrant image - fixed text readability */
         .hero {
             animation: fadeInUp 0.8s ease-out;
             background: var(--hero-bg);
@@ -194,7 +196,7 @@
             right: 0;
             bottom: 0;
             left: 0;
-            background: linear-gradient(90deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.4) 50%, transparent 80%);
+            background: linear-gradient(90deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.3) 50%, transparent 80%);
             pointer-events: none;
             z-index: 1;
         }
@@ -206,7 +208,7 @@
             width: 60%;
             height: 100%;
             background: url('https://images.unsplash.com/photo-1581579438747-1dc8d17bbce4?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80') no-repeat center right/cover;
-            opacity: 0.9;
+            opacity: 0.5;
             pointer-events: none;
             animation: fadeIn 1.5s ease-in;
             z-index: 0;
@@ -215,18 +217,32 @@
             position: relative;
             z-index: 2;
             max-width: 50%;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
         }
         .hero h1 {
             font-size: 2.8rem;
-            color: var(--accent-dark);
+            color: white;
             animation: slideInLeft 0.8s ease-out;
         }
         .hero p {
             animation: slideInLeft 0.8s ease-out 0.1s both;
+            color: white;
         }
         .hero .btn {
             animation: pulse 2s infinite;
             width: fit-content;
+        }
+        body.dark-mode .hero h1,
+        body.dark-mode .hero p {
+            color: white;
+        }
+
+        /* Override for RTL hero text alignment */
+        body.rtl .hero h1,
+        body.rtl .hero p,
+        body.rtl .hero .btn {
+            max-width: 50%;
         }
 
         .service-card {
@@ -479,30 +495,65 @@
             color: #f5b342;
             margin: 0.5rem 0;
         }
+        /* Enhanced footer */
         .social-footer {
             margin-top: 4rem;
-            padding: 2rem 0 1rem;
+            padding: 3rem 0 1rem;
             border-top: 2px solid var(--footer-border);
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            align-items: flex-start;
             flex-wrap: wrap;
-            gap: 1.5rem;
+            gap: 2rem;
             animation: fadeIn 1s ease-out;
+            background: var(--card-bg);
+            border-radius: 32px 32px 0 0;
+            padding: 2rem;
         }
-        .social-icons a {
+        .footer-col {
+            flex: 1 1 200px;
+        }
+        .footer-col h4 {
+            color: var(--accent-contrast);
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+        .footer-col ul {
+            list-style: none;
+        }
+        .footer-col ul li {
+            margin-bottom: 0.5rem;
+        }
+        .footer-col ul li a {
+            color: var(--text-color);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .footer-col ul li a:hover {
+            color: var(--accent-contrast);
+        }
+        .footer-col p {
+            margin-bottom: 0.5rem;
+        }
+        .footer-col .social-icons {
+            margin-top: 1rem;
+        }
+        .footer-col .social-icons a {
             color: var(--accent-dark);
             font-size: 1.8rem;
-            margin-left: 2rem;
-            transition: 0.3s;
+            margin-right: 1rem;
         }
-        .social-icons a:first-child {
-            margin-left: 0;
-        }
-        body.rtl .social-icons a:first-child {
+        .footer-col .social-icons a:last-child {
             margin-right: 0;
-            margin-left: 2rem;
         }
+        body.rtl .footer-col .social-icons a {
+            margin-right: 0;
+            margin-left: 1rem;
+        }
+        .footer-col .social-icons a:hover {
+            color: var(--accent-contrast);
+        }
+
         .booking-card {
             background: var(--card-bg);
             border-radius: 36px;
@@ -590,6 +641,53 @@
             text-align: center;
             animation: pulse 2s infinite;
         }
+        /* Popup modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s;
+        }
+        .modal-content {
+            background-color: var(--card-bg);
+            margin: auto;
+            padding: 2rem;
+            border-radius: 32px;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 25px 40px -15px var(--shadow-color);
+            animation: slideInUp 0.3s;
+        }
+        .modal-content i {
+            font-size: 3rem;
+            color: var(--accent-contrast);
+            margin-bottom: 1rem;
+        }
+        .modal-content p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+        .modal-content .btn {
+            width: 100%;
+        }
+        @keyframes slideInUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
         /* mobile optimizations */
         @media (max-width: 768px) {
             .view { padding: 1rem 1.2rem 1.5rem; }
@@ -601,6 +699,8 @@
             .services-grid { grid-template-columns: repeat(2,1fr); gap:1rem; }
             .caregiver-card { flex:1 1 100%; max-width:400px; margin:0 auto; }
             .hours-grid { grid-template-columns: repeat(2,1fr); }
+            .social-footer { flex-direction: column; align-items: flex-start; }
+            .credit-card-fields { grid-template-columns:1fr; }
         }
         @media (max-width: 480px) {
             .services-grid { grid-template-columns:1fr; }
@@ -624,7 +724,7 @@
     <!-- HOME VIEW -->
     <div id="homeView" class="view active-view">
         <div class="navbar">
-            <a class="logo-link" onclick="showView('homeView')">
+            <a class="logo-link" onclick="navigateTo('homeView')">
                 <div class="logo">Care<span>Via</span></div>
             </a>
             <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
@@ -639,9 +739,9 @@
                     </button>
                 </div>
                 <div class="nav-links">
-                    <a data-i18n="navHome" onclick="showView('homeView')">Home</a>
-                    <a data-i18n="navServices" onclick="showView('servicesView')">Services</a>
-                    <a data-i18n="navCaregivers" onclick="showView('caregiversListView')">Caregivers</a>
+                    <a data-i18n="navHome" onclick="navigateTo('homeView')">Home</a>
+                    <a data-i18n="navServices" onclick="navigateTo('servicesView')">Services</a>
+                    <a data-i18n="navCaregivers" onclick="navigateTo('caregiversListView')">Caregivers</a>
                 </div>
             </div>
         </div>
@@ -698,13 +798,34 @@
             </div>
         </div>
 
+        <!-- Enhanced Footer -->
         <div class="social-footer">
-            <div class="logo" style="font-size:1.6rem;">Care<span>Via</span></div>
-            <div class="social-icons">
-                <a href="#"><i class="fab fa-facebook"></i></a>
-                <a href="#"><i class="fab fa-instagram"></i></a>
-                <a href="#"><i class="fab fa-whatsapp"></i></a>
-                <a href="#"><i class="fab fa-google"></i></a>
+            <div class="footer-col">
+                <div class="logo" style="font-size:1.6rem;">Care<span>Via</span></div>
+                <p data-i18n="footerTagline">Compassionate care for your beloved elders.</p>
+            </div>
+            <div class="footer-col">
+                <h4 data-i18n="quickLinks">Quick Links</h4>
+                <ul>
+                    <li><a onclick="navigateTo('homeView')" data-i18n="navHome">Home</a></li>
+                    <li><a onclick="navigateTo('servicesView')" data-i18n="navServices">Services</a></li>
+                    <li><a onclick="navigateTo('caregiversListView')" data-i18n="navCaregivers">Caregivers</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4 data-i18n="contactUs">Contact Us</h4>
+                <p><i class="fas fa-phone"></i> +212 600 000 000</p>
+                <p><i class="fas fa-envelope"></i> contact@carevia.ma</p>
+                <p><i class="fas fa-map-marker-alt"></i> Tangier, Morocco</p>
+            </div>
+            <div class="footer-col">
+                <h4 data-i18n="followUs">Follow Us</h4>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    <a href="#"><i class="fab fa-google"></i></a>
+                </div>
             </div>
         </div>
     </div>
@@ -712,7 +833,7 @@
     <!-- SERVICES VIEW (detailed) -->
     <div id="servicesView" class="view">
         <div class="navbar">
-            <a class="logo-link" onclick="showView('homeView')">
+            <a class="logo-link" onclick="navigateTo('homeView')">
                 <div class="logo">Care<span>Via</span></div>
             </a>
             <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
@@ -727,14 +848,13 @@
                     </button>
                 </div>
                 <div class="nav-links">
-                    <a data-i18n="navHome" onclick="showView('homeView')">Home</a>
-                    <a data-i18n="navServices" onclick="showView('servicesView')">Services</a>
-                    <a data-i18n="navCaregivers" onclick="showView('caregiversListView')">Caregivers</a>
+                    <a data-i18n="navHome" onclick="navigateTo('homeView')">Home</a>
+                    <a data-i18n="navServices" onclick="navigateTo('servicesView')">Services</a>
+                    <a data-i18n="navCaregivers" onclick="navigateTo('caregiversListView')">Caregivers</a>
                 </div>
             </div>
         </div>
-        <!-- Back arrow to previous page (services has no previous except home, but we can go home) -->
-        <div class="back-link" onclick="showView('homeView')"><i class="fas fa-arrow-left"></i> <span data-i18n="backHome">Back to Home</span></div>
+        <div class="back-link" onclick="navigateTo('homeView')"><i class="fas fa-arrow-left"></i> <span data-i18n="backHome">Back to Home</span></div>
         <h1 class="section-title" data-i18n="servicesDetailTitle" style="margin-top:0;">Our services in detail</h1>
         <div style="display: grid; gap: 3rem;">
             <!-- service 1 -->
@@ -770,15 +890,42 @@
                 </div>
             </div>
         </div>
+        <!-- Enhanced Footer -->
         <div class="social-footer">
-            <div class="social-icons"><a href="#"><i class="fab fa-facebook"></i></a><a href="#"><i class="fab fa-instagram"></i></a><a href="#"><i class="fab fa-whatsapp"></i></a><a href="#"><i class="fab fa-google"></i></a></div>
+            <div class="footer-col">
+                <div class="logo" style="font-size:1.6rem;">Care<span>Via</span></div>
+                <p data-i18n="footerTagline">Compassionate care for your beloved elders.</p>
+            </div>
+            <div class="footer-col">
+                <h4 data-i18n="quickLinks">Quick Links</h4>
+                <ul>
+                    <li><a onclick="navigateTo('homeView')" data-i18n="navHome">Home</a></li>
+                    <li><a onclick="navigateTo('servicesView')" data-i18n="navServices">Services</a></li>
+                    <li><a onclick="navigateTo('caregiversListView')" data-i18n="navCaregivers">Caregivers</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4 data-i18n="contactUs">Contact Us</h4>
+                <p><i class="fas fa-phone"></i> +212 600 000 000</p>
+                <p><i class="fas fa-envelope"></i> contact@carevia.ma</p>
+                <p><i class="fas fa-map-marker-alt"></i> Tangier, Morocco</p>
+            </div>
+            <div class="footer-col">
+                <h4 data-i18n="followUs">Follow Us</h4>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    <a href="#"><i class="fab fa-google"></i></a>
+                </div>
+            </div>
         </div>
     </div>
 
     <!-- CAREGIVERS LIST VIEW -->
     <div id="caregiversListView" class="view">
         <div class="navbar">
-            <a class="logo-link" onclick="showView('homeView')">
+            <a class="logo-link" onclick="navigateTo('homeView')">
                 <div class="logo">Care<span>Via</span></div>
             </a>
             <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
@@ -793,13 +940,13 @@
                     </button>
                 </div>
                 <div class="nav-links">
-                    <a data-i18n="navHome" onclick="showView('homeView')">Home</a>
-                    <a data-i18n="navServices" onclick="showView('servicesView')">Services</a>
-                    <a data-i18n="navCaregivers" onclick="showView('caregiversListView')">Caregivers</a>
+                    <a data-i18n="navHome" onclick="navigateTo('homeView')">Home</a>
+                    <a data-i18n="navServices" onclick="navigateTo('servicesView')">Services</a>
+                    <a data-i18n="navCaregivers" onclick="navigateTo('caregiversListView')">Caregivers</a>
                 </div>
             </div>
         </div>
-        <div class="back-link" onclick="showView('homeView')"><i class="fas fa-arrow-left"></i> <span data-i18n="backHome">Back to Home</span></div>
+        <div class="back-link" onclick="navigateTo('homeView')"><i class="fas fa-arrow-left"></i> <span data-i18n="backHome">Back to Home</span></div>
         <h1 class="section-title" data-i18n="caregiversListTitle">Our dedicated caregivers</h1>
         <div class="caregiver-cards">
             <!-- Mohamed Ayoub with local image Ayoub.jpg -->
@@ -828,13 +975,42 @@
                 <div class="rating">4.8/5</div>
             </div>
         </div>
-        <div class="social-footer"><div class="social-icons"><a href="#"><i class="fab fa-facebook"></i></a><a href="#"><i class="fab fa-instagram"></i></a><a href="#"><i class="fab fa-whatsapp"></i></a><a href="#"><i class="fab fa-google"></i></a></div></div>
+        <!-- Enhanced Footer -->
+        <div class="social-footer">
+            <div class="footer-col">
+                <div class="logo" style="font-size:1.6rem;">Care<span>Via</span></div>
+                <p data-i18n="footerTagline">Compassionate care for your beloved elders.</p>
+            </div>
+            <div class="footer-col">
+                <h4 data-i18n="quickLinks">Quick Links</h4>
+                <ul>
+                    <li><a onclick="navigateTo('homeView')" data-i18n="navHome">Home</a></li>
+                    <li><a onclick="navigateTo('servicesView')" data-i18n="navServices">Services</a></li>
+                    <li><a onclick="navigateTo('caregiversListView')" data-i18n="navCaregivers">Caregivers</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4 data-i18n="contactUs">Contact Us</h4>
+                <p><i class="fas fa-phone"></i> +212 600 000 000</p>
+                <p><i class="fas fa-envelope"></i> contact@carevia.ma</p>
+                <p><i class="fas fa-map-marker-alt"></i> Tangier, Morocco</p>
+            </div>
+            <div class="footer-col">
+                <h4 data-i18n="followUs">Follow Us</h4>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    <a href="#"><i class="fab fa-google"></i></a>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- CAREGIVER PROFILE VIEW (dynamic) -->
     <div id="caregiverProfileView" class="view">
         <div class="navbar">
-            <a class="logo-link" onclick="showView('homeView')">
+            <a class="logo-link" onclick="navigateTo('homeView')">
                 <div class="logo">Care<span>Via</span></div>
             </a>
             <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
@@ -849,23 +1025,52 @@
                     </button>
                 </div>
                 <div class="nav-links">
-                    <a data-i18n="navHome" onclick="showView('homeView')">Home</a>
-                    <a data-i18n="navServices" onclick="showView('servicesView')">Services</a>
-                    <a data-i18n="navCaregivers" onclick="showView('caregiversListView')">Caregivers</a>
+                    <a data-i18n="navHome" onclick="navigateTo('homeView')">Home</a>
+                    <a data-i18n="navServices" onclick="navigateTo('servicesView')">Services</a>
+                    <a data-i18n="navCaregivers" onclick="navigateTo('caregiversListView')">Caregivers</a>
                 </div>
             </div>
         </div>
-        <div class="back-link" onclick="showView('caregiversListView')"><i class="fas fa-arrow-left"></i> <span data-i18n="backToCaregivers">Back to caregivers</span></div>
+        <div class="back-link" onclick="navigateTo('caregiversListView')"><i class="fas fa-arrow-left"></i> <span data-i18n="backToCaregivers">Back to caregivers</span></div>
         <div id="caregiverProfileContent" style="background:var(--card-bg); border-radius: 48px; padding: 2.5rem; animation: fadeInUp 0.6s ease-out;">
             <!-- filled by JS -->
         </div>
-        <div class="social-footer"><div class="social-icons"><a href="#"><i class="fab fa-facebook"></i></a><a href="#"><i class="fab fa-instagram"></i></a><a href="#"><i class="fab fa-whatsapp"></i></a><a href="#"><i class="fab fa-google"></i></a></div></div>
+        <!-- Enhanced Footer -->
+        <div class="social-footer">
+            <div class="footer-col">
+                <div class="logo" style="font-size:1.6rem;">Care<span>Via</span></div>
+                <p data-i18n="footerTagline">Compassionate care for your beloved elders.</p>
+            </div>
+            <div class="footer-col">
+                <h4 data-i18n="quickLinks">Quick Links</h4>
+                <ul>
+                    <li><a onclick="navigateTo('homeView')" data-i18n="navHome">Home</a></li>
+                    <li><a onclick="navigateTo('servicesView')" data-i18n="navServices">Services</a></li>
+                    <li><a onclick="navigateTo('caregiversListView')" data-i18n="navCaregivers">Caregivers</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4 data-i18n="contactUs">Contact Us</h4>
+                <p><i class="fas fa-phone"></i> +212 600 000 000</p>
+                <p><i class="fas fa-envelope"></i> contact@carevia.ma</p>
+                <p><i class="fas fa-map-marker-alt"></i> Tangier, Morocco</p>
+            </div>
+            <div class="footer-col">
+                <h4 data-i18n="followUs">Follow Us</h4>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    <a href="#"><i class="fab fa-google"></i></a>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- CLIENT INFO VIEW -->
     <div id="clientInfoView" class="view">
         <div class="navbar">
-            <a class="logo-link" onclick="showView('homeView')">
+            <a class="logo-link" onclick="navigateTo('homeView')">
                 <div class="logo">Care<span>Via</span></div>
             </a>
             <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
@@ -879,10 +1084,10 @@
                         <i class="fas fa-moon"></i>
                     </button>
                 </div>
-                <div class="nav-links"><a data-i18n="navHome" onclick="showView('homeView')">Home</a></div>
+                <div class="nav-links"><a data-i18n="navHome" onclick="navigateTo('homeView')">Home</a></div>
             </div>
         </div>
-        <div class="back-link" onclick="showView('homeView')"><i class="fas fa-arrow-left"></i> <span data-i18n="backHome">Back to Home</span></div>
+        <div class="back-link" onclick="navigateTo('homeView')"><i class="fas fa-arrow-left"></i> <span data-i18n="backHome">Back to Home</span></div>
         <div class="booking-card">
             <h2 data-i18n="clientInfoTitle">Tell us about yourself</h2>
             <div class="form-group"><label data-i18n="firstName">First Name</label><input type="text" id="clientFirstName" class="form-control" placeholder="e.g. Ahmed"></div>
@@ -910,13 +1115,42 @@
             <div class="form-group"><label data-i18n="email">Email Address</label><input type="email" id="clientEmail" class="form-control" placeholder="example@mail.com"></div>
             <button class="btn" style="width:100%;" data-i18n="continueBtn" onclick="saveClientInfoAndGoToTimeSlot()">Continue →</button>
         </div>
-        <div class="social-footer"><div class="social-icons"><a href="#"><i class="fab fa-facebook"></i></a><a href="#"><i class="fab fa-instagram"></i></a><a href="#"><i class="fab fa-whatsapp"></i></a><a href="#"><i class="fab fa-google"></i></a></div></div>
+        <!-- Enhanced Footer -->
+        <div class="social-footer">
+            <div class="footer-col">
+                <div class="logo" style="font-size:1.6rem;">Care<span>Via</span></div>
+                <p data-i18n="footerTagline">Compassionate care for your beloved elders.</p>
+            </div>
+            <div class="footer-col">
+                <h4 data-i18n="quickLinks">Quick Links</h4>
+                <ul>
+                    <li><a onclick="navigateTo('homeView')" data-i18n="navHome">Home</a></li>
+                    <li><a onclick="navigateTo('servicesView')" data-i18n="navServices">Services</a></li>
+                    <li><a onclick="navigateTo('caregiversListView')" data-i18n="navCaregivers">Caregivers</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4 data-i18n="contactUs">Contact Us</h4>
+                <p><i class="fas fa-phone"></i> +212 600 000 000</p>
+                <p><i class="fas fa-envelope"></i> contact@carevia.ma</p>
+                <p><i class="fas fa-map-marker-alt"></i> Tangier, Morocco</p>
+            </div>
+            <div class="footer-col">
+                <h4 data-i18n="followUs">Follow Us</h4>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    <a href="#"><i class="fab fa-google"></i></a>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- TIME SLOT VIEW -->
     <div id="timeSlotView" class="view">
         <div class="navbar">
-            <a class="logo-link" onclick="showView('homeView')">
+            <a class="logo-link" onclick="navigateTo('homeView')">
                 <div class="logo">Care<span>Via</span></div>
             </a>
             <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
@@ -930,10 +1164,10 @@
                         <i class="fas fa-moon"></i>
                     </button>
                 </div>
-                <div class="nav-links"><a data-i18n="navHome" onclick="showView('homeView')">Home</a></div>
+                <div class="nav-links"><a data-i18n="navHome" onclick="navigateTo('homeView')">Home</a></div>
             </div>
         </div>
-        <div class="back-link" onclick="showView('clientInfoView')"><i class="fas fa-arrow-left"></i> <span data-i18n="editInfo">Edit your info</span></div>
+        <div class="back-link" onclick="navigateTo('clientInfoView')"><i class="fas fa-arrow-left"></i> <span data-i18n="editInfo">Edit your info</span></div>
         <div class="booking-card">
             <h2 data-i18n="selectDateTime">Select date & time (24h)</h2>
             <div class="form-group"><label data-i18n="dateLabel">Date (from today onward)</label><input type="date" id="slotDate" class="form-control"></div>
@@ -943,13 +1177,42 @@
             <div id="selectedSlotsDisplay" class="selected-slots-list" data-i18n="noHours">No hours selected</div>
             <button class="btn" style="width:100%;" data-i18n="confirmChooseCaregiver" onclick="confirmTimeSlot()">Confirm & choose caregiver</button>
         </div>
-        <div class="social-footer"><div class="social-icons"><a href="#"><i class="fab fa-facebook"></i></a><a href="#"><i class="fab fa-instagram"></i></a><a href="#"><i class="fab fa-whatsapp"></i></a><a href="#"><i class="fab fa-google"></i></a></div></div>
+        <!-- Enhanced Footer -->
+        <div class="social-footer">
+            <div class="footer-col">
+                <div class="logo" style="font-size:1.6rem;">Care<span>Via</span></div>
+                <p data-i18n="footerTagline">Compassionate care for your beloved elders.</p>
+            </div>
+            <div class="footer-col">
+                <h4 data-i18n="quickLinks">Quick Links</h4>
+                <ul>
+                    <li><a onclick="navigateTo('homeView')" data-i18n="navHome">Home</a></li>
+                    <li><a onclick="navigateTo('servicesView')" data-i18n="navServices">Services</a></li>
+                    <li><a onclick="navigateTo('caregiversListView')" data-i18n="navCaregivers">Caregivers</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4 data-i18n="contactUs">Contact Us</h4>
+                <p><i class="fas fa-phone"></i> +212 600 000 000</p>
+                <p><i class="fas fa-envelope"></i> contact@carevia.ma</p>
+                <p><i class="fas fa-map-marker-alt"></i> Tangier, Morocco</p>
+            </div>
+            <div class="footer-col">
+                <h4 data-i18n="followUs">Follow Us</h4>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    <a href="#"><i class="fab fa-google"></i></a>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- CHOOSE CAREGIVER VIEW -->
     <div id="chooseCaregiverView" class="view">
         <div class="navbar">
-            <a class="logo-link" onclick="showView('homeView')">
+            <a class="logo-link" onclick="navigateTo('homeView')">
                 <div class="logo">Care<span>Via</span></div>
             </a>
             <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
@@ -963,19 +1226,48 @@
                         <i class="fas fa-moon"></i>
                     </button>
                 </div>
-                <div class="nav-links"><a data-i18n="navHome" onclick="showView('homeView')">Home</a></div>
+                <div class="nav-links"><a data-i18n="navHome" onclick="navigateTo('homeView')">Home</a></div>
             </div>
         </div>
-        <div class="back-link" onclick="showView('timeSlotView')"><i class="fas fa-arrow-left"></i> <span data-i18n="backToTimeSlot">Back to time slot</span></div>
+        <div class="back-link" onclick="navigateTo('timeSlotView')"><i class="fas fa-arrow-left"></i> <span data-i18n="backToTimeSlot">Back to time slot</span></div>
         <h2 class="section-title" data-i18n="selectCaregiverTitle">Select a caregiver</h2>
         <div class="caregiver-cards" id="chooseCaregiverList"></div>
-        <div class="social-footer"><div class="social-icons"><a href="#"><i class="fab fa-facebook"></i></a><a href="#"><i class="fab fa-instagram"></i></a><a href="#"><i class="fab fa-whatsapp"></i></a><a href="#"><i class="fab fa-google"></i></a></div></div>
+        <!-- Enhanced Footer -->
+        <div class="social-footer">
+            <div class="footer-col">
+                <div class="logo" style="font-size:1.6rem;">Care<span>Via</span></div>
+                <p data-i18n="footerTagline">Compassionate care for your beloved elders.</p>
+            </div>
+            <div class="footer-col">
+                <h4 data-i18n="quickLinks">Quick Links</h4>
+                <ul>
+                    <li><a onclick="navigateTo('homeView')" data-i18n="navHome">Home</a></li>
+                    <li><a onclick="navigateTo('servicesView')" data-i18n="navServices">Services</a></li>
+                    <li><a onclick="navigateTo('caregiversListView')" data-i18n="navCaregivers">Caregivers</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4 data-i18n="contactUs">Contact Us</h4>
+                <p><i class="fas fa-phone"></i> +212 600 000 000</p>
+                <p><i class="fas fa-envelope"></i> contact@carevia.ma</p>
+                <p><i class="fas fa-map-marker-alt"></i> Tangier, Morocco</p>
+            </div>
+            <div class="footer-col">
+                <h4 data-i18n="followUs">Follow Us</h4>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    <a href="#"><i class="fab fa-google"></i></a>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- PAYMENT METHOD VIEW -->
     <div id="paymentMethodView" class="view">
         <div class="navbar">
-            <a class="logo-link" onclick="showView('homeView')">
+            <a class="logo-link" onclick="navigateTo('homeView')">
                 <div class="logo">Care<span>Via</span></div>
             </a>
             <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
@@ -989,10 +1281,10 @@
                         <i class="fas fa-moon"></i>
                     </button>
                 </div>
-                <div class="nav-links"><a data-i18n="navHome" onclick="showView('homeView')">Home</a></div>
+                <div class="nav-links"><a data-i18n="navHome" onclick="navigateTo('homeView')">Home</a></div>
             </div>
         </div>
-        <div class="back-link" onclick="showView('chooseCaregiverView')"><i class="fas fa-arrow-left"></i> <span data-i18n="chooseDifferent">Choose different caregiver</span></div>
+        <div class="back-link" onclick="navigateTo('chooseCaregiverView')"><i class="fas fa-arrow-left"></i> <span data-i18n="chooseDifferent">Choose different caregiver</span></div>
         <div class="booking-card">
             <h2 data-i18n="paymentMethodTitle">Payment method</h2>
             <div id="paymentSummary" class="payment-summary" style="background:var(--bg-color); border-radius:32px; padding:1.5rem; margin-bottom:2rem;"></div>
@@ -1016,13 +1308,42 @@
             </div>
             <button class="btn" style="width:100%; margin-top:2rem;" data-i18n="confirmBookingBtn" onclick="processPayment()">Confirm booking</button>
         </div>
-        <div class="social-footer"><div class="social-icons"><a href="#"><i class="fab fa-facebook"></i></a><a href="#"><i class="fab fa-instagram"></i></a><a href="#"><i class="fab fa-whatsapp"></i></a><a href="#"><i class="fab fa-google"></i></a></div></div>
+        <!-- Enhanced Footer -->
+        <div class="social-footer">
+            <div class="footer-col">
+                <div class="logo" style="font-size:1.6rem;">Care<span>Via</span></div>
+                <p data-i18n="footerTagline">Compassionate care for your beloved elders.</p>
+            </div>
+            <div class="footer-col">
+                <h4 data-i18n="quickLinks">Quick Links</h4>
+                <ul>
+                    <li><a onclick="navigateTo('homeView')" data-i18n="navHome">Home</a></li>
+                    <li><a onclick="navigateTo('servicesView')" data-i18n="navServices">Services</a></li>
+                    <li><a onclick="navigateTo('caregiversListView')" data-i18n="navCaregivers">Caregivers</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4 data-i18n="contactUs">Contact Us</h4>
+                <p><i class="fas fa-phone"></i> +212 600 000 000</p>
+                <p><i class="fas fa-envelope"></i> contact@carevia.ma</p>
+                <p><i class="fas fa-map-marker-alt"></i> Tangier, Morocco</p>
+            </div>
+            <div class="footer-col">
+                <h4 data-i18n="followUs">Follow Us</h4>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    <a href="#"><i class="fab fa-google"></i></a>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- CONFIRMATION VIEW -->
     <div id="confirmationView" class="view">
         <div class="navbar">
-            <a class="logo-link" onclick="showView('homeView')">
+            <a class="logo-link" onclick="navigateTo('homeView')">
                 <div class="logo">Care<span>Via</span></div>
             </a>
             <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
@@ -1036,20 +1357,58 @@
                         <i class="fas fa-moon"></i>
                     </button>
                 </div>
-                <div class="nav-links"><a data-i18n="navHome" onclick="showView('homeView')">Home</a></div>
+                <div class="nav-links"><a data-i18n="navHome" onclick="navigateTo('homeView')">Home</a></div>
             </div>
         </div>
         <div class="booking-card" style="text-align: center;">
             <div class="checkmark"><i class="fas fa-check-circle"></i></div>
             <h2 style="margin: 2rem 0 1rem;" data-i18n="confirmationTitle">Appointment successfully scheduled!</h2>
             <p style="font-size: 1.2rem;" data-i18n="confirmationText">We will contact you as soon as possible to confirm the details.</p>
-            <button class="btn" style="margin-top: 2rem;" data-i18n="returnHome" onclick="showView('homeView')">Return to home</button>
+            <button class="btn" style="margin-top: 2rem;" data-i18n="returnHome" onclick="navigateTo('homeView')">Return to home</button>
         </div>
-        <div class="social-footer"><div class="social-icons"><a href="#"><i class="fab fa-facebook"></i></a><a href="#"><i class="fab fa-instagram"></i></a><a href="#"><i class="fab fa-whatsapp"></i></a><a href="#"><i class="fab fa-google"></i></a></div></div>
+        <!-- Enhanced Footer -->
+        <div class="social-footer">
+            <div class="footer-col">
+                <div class="logo" style="font-size:1.6rem;">Care<span>Via</span></div>
+                <p data-i18n="footerTagline">Compassionate care for your beloved elders.</p>
+            </div>
+            <div class="footer-col">
+                <h4 data-i18n="quickLinks">Quick Links</h4>
+                <ul>
+                    <li><a onclick="navigateTo('homeView')" data-i18n="navHome">Home</a></li>
+                    <li><a onclick="navigateTo('servicesView')" data-i18n="navServices">Services</a></li>
+                    <li><a onclick="navigateTo('caregiversListView')" data-i18n="navCaregivers">Caregivers</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4 data-i18n="contactUs">Contact Us</h4>
+                <p><i class="fas fa-phone"></i> +212 600 000 000</p>
+                <p><i class="fas fa-envelope"></i> contact@carevia.ma</p>
+                <p><i class="fas fa-map-marker-alt"></i> Tangier, Morocco</p>
+            </div>
+            <div class="footer-col">
+                <h4 data-i18n="followUs">Follow Us</h4>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    <a href="#"><i class="fab fa-google"></i></a>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Hidden iframe for form submission -->
     <iframe id="hidden_iframe" name="hidden_iframe" style="display:none;"></iframe>
+
+    <!-- Popup Modal -->
+    <div id="popupModal" class="modal">
+        <div class="modal-content">
+            <i class="fas fa-exclamation-circle"></i>
+            <p id="popupMessage">Validation error</p>
+            <button class="btn" onclick="closePopup()">OK</button>
+        </div>
+    </div>
 
     <script>
         // ---------- TRANSLATIONS ----------
@@ -1120,7 +1479,17 @@
                 chooseDifferent: "Choose different caregiver",
                 confirmationTitle: "Appointment successfully scheduled!",
                 confirmationText: "We will contact you as soon as possible to confirm the details.",
-                returnHome: "Return to home"
+                returnHome: "Return to home",
+                footerTagline: "Compassionate care for your beloved elders.",
+                quickLinks: "Quick Links",
+                contactUs: "Contact Us",
+                followUs: "Follow Us",
+                validationRequired: "This field is required.",
+                validationCardNumber: "Card number must be exactly 16 digits.",
+                validationExpiry: "Expiry date must be in MM/YY format (e.g., 04/26) and in the future.",
+                validationCvv: "CVV must be exactly 3 digits.",
+                validationDate: "Please select a date.",
+                validationHours: "Please select at least one hour."
             },
             ar: {
                 navHome: "الرئيسية",
@@ -1188,7 +1557,17 @@
                 chooseDifferent: "اختيار مقدم رعاية آخر",
                 confirmationTitle: "تم جدولة الموعد بنجاح!",
                 confirmationText: "سنتواصل معك في أقرب وقت ممكن لتأكيد التفاصيل.",
-                returnHome: "العودة إلى الرئيسية"
+                returnHome: "العودة إلى الرئيسية",
+                footerTagline: "رعاية حنونة لكبار السن.",
+                quickLinks: "روابط سريعة",
+                contactUs: "اتصل بنا",
+                followUs: "تابعنا",
+                validationRequired: "هذا الحقل مطلوب.",
+                validationCardNumber: "يجب أن يتكون رقم البطاقة من 16 رقماً بالضبط.",
+                validationExpiry: "يجب أن يكون تاريخ الانتهاء بصيغة MM/YY (مثال: 04/26) ويكون في المستقبل.",
+                validationCvv: "يجب أن يتكون CVV من 3 أرقام بالضبط.",
+                validationDate: "الرجاء اختيار تاريخ.",
+                validationHours: "الرجاء اختيار ساعة واحدة على الأقل."
             },
             fr: {
                 navHome: "Accueil",
@@ -1256,7 +1635,17 @@
                 chooseDifferent: "Choisir un autre soignant",
                 confirmationTitle: "Rendez-vous programmé avec succès !",
                 confirmationText: "Nous vous contacterons dès que possible pour confirmer les détails.",
-                returnHome: "Retour à l'accueil"
+                returnHome: "Retour à l'accueil",
+                footerTagline: "Soins compatissants pour vos aînés bien-aimés.",
+                quickLinks: "Liens rapides",
+                contactUs: "Contactez-nous",
+                followUs: "Suivez-nous",
+                validationRequired: "Ce champ est requis.",
+                validationCardNumber: "Le numéro de carte doit comporter exactement 16 chiffres.",
+                validationExpiry: "La date d'expiration doit être au format MM/AA (ex: 04/26) et dans le futur.",
+                validationCvv: "Le CVV doit comporter exactement 3 chiffres.",
+                validationDate: "Veuillez sélectionner une date.",
+                validationHours: "Veuillez sélectionner au moins une heure."
             }
         };
 
@@ -1323,6 +1712,67 @@
         });
 
         initTheme();
+
+        // ---------- POPUP MODAL ----------
+        function showPopup(message) {
+            document.getElementById('popupMessage').innerText = message;
+            document.getElementById('popupModal').style.display = 'flex';
+        }
+
+        function closePopup() {
+            document.getElementById('popupModal').style.display = 'none';
+        }
+
+        // ---------- HISTORY MANAGEMENT ----------
+        let viewHistory = [];
+
+        function navigateTo(viewId, pushHistory = true) {
+            // Hide all views
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active-view'));
+            // Show target view
+            document.getElementById(viewId).classList.add('active-view');
+            
+            if (pushHistory) {
+                // Push state to browser history
+                history.pushState({ view: viewId }, '', `#${viewId}`);
+                // Add to our history stack
+                viewHistory.push(viewId);
+            }
+
+            // Special handling for certain views
+            if (viewId === 'timeSlotView') {
+                setMinDate();
+                generateHourSlots();
+            }
+            if (viewId === 'paymentMethodView') {
+                updatePaymentSummary();
+            }
+        }
+
+        // Override showView calls with navigateTo
+        window.showView = navigateTo; // For backward compatibility, but we'll use navigateTo directly
+
+        // Handle browser back button
+        window.addEventListener('popstate', function(event) {
+            if (event.state && event.state.view) {
+                // Go to the view from state, but don't push history again
+                navigateTo(event.state.view, false);
+                // Remove last from our history stack if needed (popstate already removed it)
+                if (viewHistory.length > 0) {
+                    viewHistory.pop(); // Remove the current one
+                }
+            } else {
+                // If no state, default to home
+                navigateTo('homeView', false);
+            }
+        });
+
+        // Initialize with home view in history
+        window.addEventListener('load', function() {
+            // Set initial history
+            history.replaceState({ view: 'homeView' }, '', '#homeView');
+            viewHistory = ['homeView'];
+        });
 
         // ---------- BOOKING STATE AND FUNCTIONS ----------
         const serviceNames = {
@@ -1398,19 +1848,6 @@
         let selectedSlots = [];
         let selectedCaregiverKey = null;
 
-        function showView(viewId) {
-            document.querySelectorAll('.view').forEach(v => v.classList.remove('active-view'));
-            document.getElementById(viewId).classList.add('active-view');
-            if (viewId === 'timeSlotView') {
-                setMinDate();
-                generateHourSlots();
-            }
-            if (viewId === 'paymentMethodView') {
-                updatePaymentSummary();
-            }
-        }
-        window.showView = showView;
-
         function showCaregiverProfile(id) {
             const profileDiv = document.getElementById('caregiverProfileContent');
             const c = caregivers[id];
@@ -1430,19 +1867,19 @@
                 <hr><h3>Completed tasks & ratings</h3>${tasksHtml}
                 <h3 style="margin-top:1.5rem;">Skills & competencies</h3><div class="skills-tags">${skillsHtml}</div>
             `;
-            showView('caregiverProfileView');
+            navigateTo('caregiverProfileView');
         }
         window.showCaregiverProfile = showCaregiverProfile;
 
         function startBookingFlow() {
             selectedService = 'homeCare';
-            showView('clientInfoView');
+            navigateTo('clientInfoView');
         }
         window.startBookingFlow = startBookingFlow;
 
         function selectServiceAndGoToClientInfo(serviceKey) {
             selectedService = serviceKey;
-            showView('clientInfoView');
+            navigateTo('clientInfoView');
         }
         window.selectServiceAndGoToClientInfo = selectServiceAndGoToClientInfo;
 
@@ -1455,7 +1892,7 @@
                 email: document.getElementById('clientEmail').value.trim() || 'client@example.com'
             };
             selectedSlots = [];
-            showView('timeSlotView');
+            navigateTo('timeSlotView');
         }
         window.saveClientInfoAndGoToTimeSlot = saveClientInfoAndGoToTimeSlot;
 
@@ -1507,11 +1944,11 @@
         function confirmTimeSlot() {
             selectedDate = document.getElementById('slotDate').value;
             if (!selectedDate) {
-                alert(translations[currentLang].dateLabel + ' required');
+                showPopup(translations[currentLang].validationDate);
                 return;
             }
             if (selectedSlots.length === 0) {
-                alert(translations[currentLang].noHours);
+                showPopup(translations[currentLang].validationHours);
                 return;
             }
             const container = document.getElementById('chooseCaregiverList');
@@ -1530,13 +1967,13 @@
                 card.onclick = () => selectCaregiver(key);
                 container.appendChild(card);
             }
-            showView('chooseCaregiverView');
+            navigateTo('chooseCaregiverView');
         }
         window.confirmTimeSlot = confirmTimeSlot;
 
         function selectCaregiver(key) {
             selectedCaregiverKey = key;
-            showView('paymentMethodView');
+            navigateTo('paymentMethodView');
         }
         window.selectCaregiver = selectCaregiver;
 
@@ -1584,31 +2021,31 @@
 
                 // Card number validation: exactly 16 digits
                 if (!/^\d{16}$/.test(cardNum)) {
-                    alert('Card number must be exactly 16 digits.');
+                    showPopup(translations[currentLang].validationCardNumber);
                     return;
                 }
 
                 // Expiry validation: format MM/YY, with slash, and date >= current month
                 if (!/^\d{2}\/\d{2}$/.test(expiry)) {
-                    alert('Expiry date must be in MM/YY format (e.g., 04/26).');
+                    showPopup(translations[currentLang].validationExpiry);
                     return;
                 }
                 const [month, year] = expiry.split('/').map(Number);
                 if (month < 1 || month > 12) {
-                    alert('Month must be between 01 and 12.');
+                    showPopup(translations[currentLang].validationExpiry);
                     return;
                 }
                 const now = new Date();
                 const currentYear = now.getFullYear() % 100;
                 const currentMonth = now.getMonth() + 1; // 1-12
                 if (year < currentYear || (year === currentYear && month < currentMonth)) {
-                    alert('Expiry date must be in the future (current month or later).');
+                    showPopup(translations[currentLang].validationExpiry);
                     return;
                 }
 
                 // CVV: exactly 3 digits
                 if (!/^\d{3}$/.test(cvv)) {
-                    alert('CVV must be exactly 3 digits.');
+                    showPopup(translations[currentLang].validationCvv);
                     return;
                 }
             }
@@ -1648,7 +2085,7 @@
                 document.body.removeChild(form);
                 confirmBtn.textContent = originalText;
                 confirmBtn.disabled = false;
-                showView('confirmationView');
+                navigateTo('confirmationView');
             }, 2000);
         }
         window.processPayment = processPayment;
