@@ -139,6 +139,38 @@
             display: block;
         }
 
+        /* Logo clickable */
+        .logo-link {
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* Buttons - ensure consistent design */
+        .btn {
+            display: inline-block;
+            background-color: var(--accent-dark);
+            color: white !important;
+            padding: 0.7rem 2rem;
+            border-radius: 40px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            box-shadow: 0 6px 12px var(--shadow-color);
+            text-align: center;
+            max-width: 100%;
+        }
+        .btn:hover {
+            background-color: var(--accent-contrast) !important;
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 15px 25px -8px var(--accent-contrast);
+        }
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
         /* Animated elements */
         .hero {
             animation: fadeInUp 0.8s ease-out;
@@ -209,16 +241,6 @@
             animation: slideInLeft 0.5s ease-out 0.3s both;
         }
 
-        .btn {
-            transition: all 0.3s ease;
-            animation: fadeIn 1s ease-out;
-        }
-        .btn:hover {
-            background-color: var(--accent-contrast);
-            transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 15px 25px -8px var(--accent-contrast);
-        }
-
         .service-card, .caregiver-card {
             transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
@@ -252,6 +274,11 @@
         }
 
         .back-link {
+            cursor: pointer;
+            color: var(--accent-dark);
+            font-weight: 600;
+            margin: 1rem 0;
+            display: inline-block;
             transition: all 0.2s ease;
         }
         .back-link:hover {
@@ -473,7 +500,7 @@
             margin-bottom: 0.5rem;
             color: var(--accent-dark);
         }
-        .form-control {
+        .form-control, .form-select {
             width: 100%;
             padding: 1rem 1.2rem;
             border: 1.5px solid var(--accent-light);
@@ -483,7 +510,7 @@
             background: var(--input-bg);
             color: var(--text-color);
         }
-        .form-control:focus {
+        .form-control:focus, .form-select:focus {
             border-color: var(--accent-contrast);
             outline: none;
             box-shadow: 0 0 0 4px var(--accent-light);
@@ -558,6 +585,14 @@
             .section-title { font-size:1.7rem; }
             .credit-card-fields { grid-template-columns:1fr; }
         }
+        /* City dropdown */
+        select.form-select {
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 1em;
+        }
     </style>
 </head>
 <body>
@@ -565,7 +600,9 @@
     <!-- HOME VIEW -->
     <div id="homeView" class="view active-view">
         <div class="navbar">
-            <div class="logo">Care<span>Via</span></div>
+            <a class="logo-link" onclick="showView('homeView')">
+                <div class="logo">Care<span>Via</span></div>
+            </a>
             <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
                 <div class="lang-selector">
                     <button class="lang-btn active" data-lang="en">EN</button>
@@ -651,7 +688,9 @@
     <!-- SERVICES VIEW (detailed) -->
     <div id="servicesView" class="view">
         <div class="navbar">
-            <div class="logo">Care<span>Via</span></div>
+            <a class="logo-link" onclick="showView('homeView')">
+                <div class="logo">Care<span>Via</span></div>
+            </a>
             <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
                 <div class="lang-selector">
                     <button class="lang-btn active" data-lang="en">EN</button>
@@ -670,6 +709,8 @@
                 </div>
             </div>
         </div>
+        <!-- Back arrow to previous page (services has no previous except home, but we can go home) -->
+        <div class="back-link" onclick="showView('homeView')"><i class="fas fa-arrow-left"></i> <span data-i18n="backHome">Back to Home</span></div>
         <h1 class="section-title" data-i18n="servicesDetailTitle" style="margin-top:0;">Our services in detail</h1>
         <div style="display: grid; gap: 3rem;">
             <!-- service 1 -->
@@ -713,7 +754,9 @@
     <!-- CAREGIVERS LIST VIEW -->
     <div id="caregiversListView" class="view">
         <div class="navbar">
-            <div class="logo">Care<span>Via</span></div>
+            <a class="logo-link" onclick="showView('homeView')">
+                <div class="logo">Care<span>Via</span></div>
+            </a>
             <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
                 <div class="lang-selector">
                     <button class="lang-btn active" data-lang="en">EN</button>
@@ -732,6 +775,7 @@
                 </div>
             </div>
         </div>
+        <div class="back-link" onclick="showView('homeView')"><i class="fas fa-arrow-left"></i> <span data-i18n="backHome">Back to Home</span></div>
         <h1 class="section-title" data-i18n="caregiversListTitle">Our dedicated caregivers</h1>
         <div class="caregiver-cards">
             <!-- Mohamed Ayoub with local image Ayoub.jpg -->
@@ -766,7 +810,9 @@
     <!-- CAREGIVER PROFILE VIEW (dynamic) -->
     <div id="caregiverProfileView" class="view">
         <div class="navbar">
-            <div class="logo">Care<span>Via</span></div>
+            <a class="logo-link" onclick="showView('homeView')">
+                <div class="logo">Care<span>Via</span></div>
+            </a>
             <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
                 <div class="lang-selector">
                     <button class="lang-btn active" data-lang="en">EN</button>
@@ -795,7 +841,9 @@
     <!-- CLIENT INFO VIEW -->
     <div id="clientInfoView" class="view">
         <div class="navbar">
-            <div class="logo">Care<span>Via</span></div>
+            <a class="logo-link" onclick="showView('homeView')">
+                <div class="logo">Care<span>Via</span></div>
+            </a>
             <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
                 <div class="lang-selector">
                     <button class="lang-btn active" data-lang="en">EN</button>
@@ -810,11 +858,30 @@
                 <div class="nav-links"><a data-i18n="navHome" onclick="showView('homeView')">Home</a></div>
             </div>
         </div>
+        <div class="back-link" onclick="showView('homeView')"><i class="fas fa-arrow-left"></i> <span data-i18n="backHome">Back to Home</span></div>
         <div class="booking-card">
             <h2 data-i18n="clientInfoTitle">Tell us about yourself</h2>
             <div class="form-group"><label data-i18n="firstName">First Name</label><input type="text" id="clientFirstName" class="form-control" placeholder="e.g. Ahmed"></div>
             <div class="form-group"><label data-i18n="lastName">Last Name</label><input type="text" id="clientLastName" class="form-control" placeholder="e.g. Benali"></div>
-            <div class="form-group"><label data-i18n="city">City</label><input type="text" id="clientCity" class="form-control" value="Tangier"></div>
+            <div class="form-group"><label data-i18n="city">City</label>
+                <select id="clientCity" class="form-select">
+                    <option value="Tangier">Tangier</option>
+                    <option value="Casablanca">Casablanca</option>
+                    <option value="Rabat">Rabat</option>
+                    <option value="Fes">Fes</option>
+                    <option value="Marrakech">Marrakech</option>
+                    <option value="Agadir">Agadir</option>
+                    <option value="Meknes">Meknes</option>
+                    <option value="Oujda">Oujda</option>
+                    <option value="Kenitra">Kenitra</option>
+                    <option value="Tetouan">Tetouan</option>
+                    <option value="Safi">Safi</option>
+                    <option value="El Jadida">El Jadida</option>
+                    <option value="Nador">Nador</option>
+                    <option value="Beni Mellal">Beni Mellal</option>
+                    <option value="Larache">Larache</option>
+                </select>
+            </div>
             <div class="form-group"><label data-i18n="phone">Phone Number</label><input type="tel" id="clientPhone" class="form-control" placeholder="+212 6XX-XXXXXX"></div>
             <div class="form-group"><label data-i18n="email">Email Address</label><input type="email" id="clientEmail" class="form-control" placeholder="example@mail.com"></div>
             <button class="btn" style="width:100%;" data-i18n="continueBtn" onclick="saveClientInfoAndGoToTimeSlot()">Continue →</button>
@@ -825,7 +892,9 @@
     <!-- TIME SLOT VIEW -->
     <div id="timeSlotView" class="view">
         <div class="navbar">
-            <div class="logo">Care<span>Via</span></div>
+            <a class="logo-link" onclick="showView('homeView')">
+                <div class="logo">Care<span>Via</span></div>
+            </a>
             <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
                 <div class="lang-selector">
                     <button class="lang-btn active" data-lang="en">EN</button>
@@ -840,6 +909,7 @@
                 <div class="nav-links"><a data-i18n="navHome" onclick="showView('homeView')">Home</a></div>
             </div>
         </div>
+        <div class="back-link" onclick="showView('clientInfoView')"><i class="fas fa-arrow-left"></i> <span data-i18n="editInfo">Edit your info</span></div>
         <div class="booking-card">
             <h2 data-i18n="selectDateTime">Select date & time (24h)</h2>
             <div class="form-group"><label data-i18n="dateLabel">Date (from today onward)</label><input type="date" id="slotDate" class="form-control"></div>
@@ -848,7 +918,6 @@
             </div>
             <div id="selectedSlotsDisplay" class="selected-slots-list" data-i18n="noHours">No hours selected</div>
             <button class="btn" style="width:100%;" data-i18n="confirmChooseCaregiver" onclick="confirmTimeSlot()">Confirm & choose caregiver</button>
-            <div class="back-link" onclick="showView('clientInfoView')"><i class="fas fa-arrow-left"></i> <span data-i18n="editInfo">Edit your info</span></div>
         </div>
         <div class="social-footer"><div class="social-icons"><a href="#"><i class="fab fa-facebook"></i></a><a href="#"><i class="fab fa-instagram"></i></a><a href="#"><i class="fab fa-whatsapp"></i></a><a href="#"><i class="fab fa-google"></i></a></div></div>
     </div>
@@ -856,7 +925,9 @@
     <!-- CHOOSE CAREGIVER VIEW -->
     <div id="chooseCaregiverView" class="view">
         <div class="navbar">
-            <div class="logo">Care<span>Via</span></div>
+            <a class="logo-link" onclick="showView('homeView')">
+                <div class="logo">Care<span>Via</span></div>
+            </a>
             <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
                 <div class="lang-selector">
                     <button class="lang-btn active" data-lang="en">EN</button>
@@ -871,16 +942,18 @@
                 <div class="nav-links"><a data-i18n="navHome" onclick="showView('homeView')">Home</a></div>
             </div>
         </div>
+        <div class="back-link" onclick="showView('timeSlotView')"><i class="fas fa-arrow-left"></i> <span data-i18n="backToTimeSlot">Back to time slot</span></div>
         <h2 class="section-title" data-i18n="selectCaregiverTitle">Select a caregiver</h2>
         <div class="caregiver-cards" id="chooseCaregiverList"></div>
-        <div class="back-link" onclick="showView('timeSlotView')"><i class="fas fa-arrow-left"></i> <span data-i18n="backToTimeSlot">Back to time slot</span></div>
         <div class="social-footer"><div class="social-icons"><a href="#"><i class="fab fa-facebook"></i></a><a href="#"><i class="fab fa-instagram"></i></a><a href="#"><i class="fab fa-whatsapp"></i></a><a href="#"><i class="fab fa-google"></i></a></div></div>
     </div>
 
     <!-- PAYMENT METHOD VIEW -->
     <div id="paymentMethodView" class="view">
         <div class="navbar">
-            <div class="logo">Care<span>Via</span></div>
+            <a class="logo-link" onclick="showView('homeView')">
+                <div class="logo">Care<span>Via</span></div>
+            </a>
             <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
                 <div class="lang-selector">
                     <button class="lang-btn active" data-lang="en">EN</button>
@@ -895,6 +968,7 @@
                 <div class="nav-links"><a data-i18n="navHome" onclick="showView('homeView')">Home</a></div>
             </div>
         </div>
+        <div class="back-link" onclick="showView('chooseCaregiverView')"><i class="fas fa-arrow-left"></i> <span data-i18n="chooseDifferent">Choose different caregiver</span></div>
         <div class="booking-card">
             <h2 data-i18n="paymentMethodTitle">Payment method</h2>
             <div id="paymentSummary" class="payment-summary" style="background:var(--bg-color); border-radius:32px; padding:1.5rem; margin-bottom:2rem;"></div>
@@ -910,14 +984,13 @@
                 </label>
                 <div id="cardFields" style="display: none; margin-top:1.5rem;">
                     <div class="credit-card-fields">
-                        <input type="text" placeholder="Card number" class="form-control" id="cardNumber" data-i18n-placeholder="cardNumberPlaceholder">
-                        <input type="text" placeholder="MM/YY" class="form-control" id="cardExpiry" data-i18n-placeholder="expiryPlaceholder">
-                        <input type="text" placeholder="CVV" class="form-control" id="cardCvv" data-i18n-placeholder="cvvPlaceholder">
+                        <input type="text" placeholder="Card number" class="form-control" id="cardNumber" data-i18n-placeholder="cardNumberPlaceholder" maxlength="16" inputmode="numeric" pattern="\d*">
+                        <input type="text" placeholder="MM/YY" class="form-control" id="cardExpiry" data-i18n-placeholder="expiryPlaceholder" maxlength="5" placeholder="MM/YY">
+                        <input type="text" placeholder="CVV" class="form-control" id="cardCvv" data-i18n-placeholder="cvvPlaceholder" maxlength="3" inputmode="numeric" pattern="\d*">
                     </div>
                 </div>
             </div>
             <button class="btn" style="width:100%; margin-top:2rem;" data-i18n="confirmBookingBtn" onclick="processPayment()">Confirm booking</button>
-            <div class="back-link" onclick="showView('chooseCaregiverView')"><i class="fas fa-arrow-left"></i> <span data-i18n="chooseDifferent">Choose different caregiver</span></div>
         </div>
         <div class="social-footer"><div class="social-icons"><a href="#"><i class="fab fa-facebook"></i></a><a href="#"><i class="fab fa-instagram"></i></a><a href="#"><i class="fab fa-whatsapp"></i></a><a href="#"><i class="fab fa-google"></i></a></div></div>
     </div>
@@ -925,7 +998,9 @@
     <!-- CONFIRMATION VIEW -->
     <div id="confirmationView" class="view">
         <div class="navbar">
-            <div class="logo">Care<span>Via</span></div>
+            <a class="logo-link" onclick="showView('homeView')">
+                <div class="logo">Care<span>Via</span></div>
+            </a>
             <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
                 <div class="lang-selector">
                     <button class="lang-btn active" data-lang="en">EN</button>
@@ -953,7 +1028,7 @@
     <iframe id="hidden_iframe" name="hidden_iframe" style="display:none;"></iframe>
 
     <script>
-        // ---------- TRANSLATIONS (unchanged) ----------
+        // ---------- TRANSLATIONS ----------
         const translations = {
             en: {
                 navHome: "Home",
@@ -995,6 +1070,7 @@
                 companionWhy3: "Regular family updates",
                 caregiversListTitle: "Our dedicated caregivers",
                 backToCaregivers: "Back to caregivers",
+                backHome: "Back to Home",
                 clientInfoTitle: "Tell us about yourself",
                 firstName: "First Name",
                 lastName: "Last Name",
@@ -1062,6 +1138,7 @@
                 companionWhy3: "تحديثات منتظمة للعائلة",
                 caregiversListTitle: "مقدمو الرعاية المخلصون لدينا",
                 backToCaregivers: "العودة إلى قائمة مقدمي الرعاية",
+                backHome: "العودة إلى الرئيسية",
                 clientInfoTitle: "أخبرنا عن نفسك",
                 firstName: "الاسم الأول",
                 lastName: "اسم العائلة",
@@ -1129,6 +1206,7 @@
                 companionWhy3: "Nouvelles régulières à la famille",
                 caregiversListTitle: "Nos soignants dévoués",
                 backToCaregivers: "Retour aux soignants",
+                backHome: "Retour à l'accueil",
                 clientInfoTitle: "Parlez-nous de vous",
                 firstName: "Prénom",
                 lastName: "Nom de famille",
@@ -1206,7 +1284,6 @@
             localStorage.setItem('theme', isDark ? 'dark' : 'light');
         }
 
-        // Initialize theme from localStorage
         function initTheme() {
             const savedTheme = localStorage.getItem('theme');
             if (savedTheme === 'dark') {
@@ -1349,7 +1426,7 @@
             clientInfo = {
                 firstName: document.getElementById('clientFirstName').value.trim() || 'Ahmed',
                 lastName: document.getElementById('clientLastName').value.trim() || 'Benali',
-                city: document.getElementById('clientCity').value.trim() || 'Tangier',
+                city: document.getElementById('clientCity').value,
                 phone: document.getElementById('clientPhone').value.trim() || '+212600000000',
                 email: document.getElementById('clientEmail').value.trim() || 'client@example.com'
             };
@@ -1462,7 +1539,7 @@
             }
         });
 
-        // Google Apps Script URL for exporting data
+        // Google Apps Script URL
         const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzS6V2y_ZGE5xOtvYeY_iYUx5L86eeyGWzlxCkrwjO9V1InSZUevcTSkgpdjnDcD1e1/exec';
 
         function processPayment() {
@@ -1471,8 +1548,33 @@
                 const cardNum = document.getElementById('cardNumber').value.trim();
                 const expiry = document.getElementById('cardExpiry').value.trim();
                 const cvv = document.getElementById('cardCvv').value.trim();
-                if (!cardNum || !expiry || !cvv) {
-                    alert('Please fill in all credit card details.');
+
+                // Card number validation: exactly 16 digits
+                if (!/^\d{16}$/.test(cardNum)) {
+                    alert('Card number must be exactly 16 digits.');
+                    return;
+                }
+
+                // Expiry validation: format MM/YY, with slash, and date >= 04/2026
+                if (!/^\d{2}\/\d{2}$/.test(expiry)) {
+                    alert('Expiry date must be in MM/YY format (e.g., 04/26).');
+                    return;
+                }
+                const [month, year] = expiry.split('/').map(Number);
+                if (month < 1 || month > 12) {
+                    alert('Month must be between 01 and 12.');
+                    return;
+                }
+                const expiryDate = new Date(2000 + year, month - 1); // month is 0-indexed
+                const minDate = new Date(2026, 3); // April 2026 (month 3 = April)
+                if (expiryDate < minDate) {
+                    alert('Expiry date must be 04/2026 or later.');
+                    return;
+                }
+
+                // CVV: exactly 3 digits
+                if (!/^\d{3}$/.test(cvv)) {
+                    alert('CVV must be exactly 3 digits.');
                     return;
                 }
             }
@@ -1482,24 +1584,15 @@
             const email = clientInfo.email;
             const phone = clientInfo.phone;
             const date = selectedDate;
-            const hours = selectedSlots.join(', '); // e.g., "08:00-09:00, 10:00-11:00"
+            const hours = selectedSlots.join(', ');
 
-            // Create a hidden form that posts to the Google Script
             const form = document.createElement('form');
             form.method = 'POST';
             form.action = GOOGLE_SCRIPT_URL;
-            form.target = 'hidden_iframe';  // submit to hidden iframe
+            form.target = 'hidden_iframe';
             form.style.display = 'none';
 
-            // Add form fields with the exact parameter names expected by the script
-            const fields = {
-                'A': fullName,
-                'B': email,
-                'C': phone,
-                'D': date,
-                'E': hours
-            };
-
+            const fields = { 'A': fullName, 'B': email, 'C': phone, 'D': date, 'E': hours };
             for (const [name, value] of Object.entries(fields)) {
                 const input = document.createElement('input');
                 input.type = 'hidden';
@@ -1510,23 +1603,19 @@
 
             document.body.appendChild(form);
 
-            // Show loading on button
             const confirmBtn = document.querySelector('#paymentMethodView .btn');
             const originalText = confirmBtn.textContent;
             confirmBtn.textContent = currentLang === 'ar' ? 'جاري الإرسال...' : currentLang === 'fr' ? 'Envoi...' : 'Submitting...';
             confirmBtn.disabled = true;
 
-            // Submit the form
             form.submit();
 
-            // After a short delay, assume success and show confirmation
             setTimeout(() => {
-                // Remove the form
                 document.body.removeChild(form);
                 confirmBtn.textContent = originalText;
                 confirmBtn.disabled = false;
                 showView('confirmationView');
-            }, 2000); // 2 seconds delay to ensure submission
+            }, 2000);
         }
         window.processPayment = processPayment;
 
