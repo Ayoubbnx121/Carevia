@@ -688,6 +688,72 @@
             }
         }
 
+        /* Service detail view specific */
+        .service-detail-card {
+            background: var(--card-bg);
+            border-radius: 48px;
+            padding: 3rem;
+            margin: 2rem 0;
+            box-shadow: 0 25px 40px -15px var(--shadow-color);
+            animation: fadeInUp 0.6s ease-out;
+        }
+        .service-icon-large {
+            font-size: 5rem;
+            color: var(--accent-contrast);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        .service-detail-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        .service-detail-header h1 {
+            font-size: 2.5rem;
+            color: var(--accent-dark);
+            margin-bottom: 1rem;
+        }
+        .service-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+        .feature-item {
+            background: var(--bg-color);
+            border-radius: 32px;
+            padding: 2rem 1.5rem;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        .feature-item:hover {
+            transform: translateY(-5px);
+        }
+        .feature-item i {
+            font-size: 2.5rem;
+            color: var(--accent-contrast);
+            margin-bottom: 1rem;
+        }
+        .feature-item h3 {
+            margin-bottom: 0.5rem;
+            color: var(--accent-dark);
+        }
+        .service-description {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin: 2rem 0;
+            padding: 2rem;
+            background: var(--bg-color);
+            border-radius: 32px;
+        }
+        .book-section {
+            text-align: center;
+            margin: 3rem 0 1rem;
+        }
+        .book-section .btn {
+            font-size: 1.2rem;
+            padding: 1rem 3rem;
+        }
+
         /* mobile optimizations */
         @media (max-width: 768px) {
             .view { padding: 1rem 1.2rem 1.5rem; }
@@ -701,6 +767,7 @@
             .hours-grid { grid-template-columns: repeat(2,1fr); }
             .social-footer { flex-direction: column; align-items: flex-start; }
             .credit-card-fields { grid-template-columns:1fr; }
+            .service-features { grid-template-columns: 1fr; }
         }
         @media (max-width: 480px) {
             .services-grid { grid-template-columns:1fr; }
@@ -708,6 +775,7 @@
             .hero h1 { font-size:1.7rem !important; }
             .section-title { font-size:1.7rem; }
             .credit-card-fields { grid-template-columns:1fr; }
+            .service-detail-card { padding: 1.5rem; }
         }
         /* City dropdown */
         select.form-select {
@@ -753,22 +821,22 @@
 
         <h2 class="section-title" data-i18n="servicesTitle">Our services</h2>
         <div class="services-grid">
-            <div class="service-card" onclick="selectServiceAndGoToClientInfo('homeCare')">
+            <div class="service-card" onclick="showServiceDetail('homeCare')">
                 <i class="fas fa-home"></i>
                 <h3 data-i18n="serviceHome">Home Care</h3>
                 <p data-i18n="serviceHomeDesc">Daily assistance, hygiene, meals & comfort</p>
             </div>
-            <div class="service-card" onclick="selectServiceAndGoToClientInfo('medicalAcc')">
+            <div class="service-card" onclick="showServiceDetail('medicalAcc')">
                 <i class="fas fa-ambulance"></i>
                 <h3 data-i18n="serviceMedical">Medical Accompaniment</h3>
                 <p data-i18n="serviceMedicalDesc">Clinic visits, medication reminders</p>
             </div>
-            <div class="service-card" onclick="selectServiceAndGoToClientInfo('personalCare')">
+            <div class="service-card" onclick="showServiceDetail('personalCare')">
                 <i class="fas fa-hand-holding-heart"></i>
                 <h3 data-i18n="servicePersonal">Personal Care</h3>
                 <p data-i18n="servicePersonalDesc">Bathing, grooming, dressing support</p>
             </div>
-            <div class="service-card" onclick="selectServiceAndGoToClientInfo('companionship')">
+            <div class="service-card" onclick="showServiceDetail('companionship')">
                 <i class="fas fa-heart"></i>
                 <h3 data-i18n="serviceCompanion">Companionship</h3>
                 <p data-i18n="serviceCompanionDesc">Conversation, walks, emotional support</p>
@@ -858,37 +926,93 @@
         <h1 class="section-title" data-i18n="servicesDetailTitle" style="margin-top:0;">Our services in detail</h1>
         <div style="display: grid; gap: 3rem;">
             <!-- service 1 -->
-            <div style="background:var(--card-bg); border-radius: 48px; padding: 2.5rem; animation: fadeInUp 0.6s ease-out;">
+            <div style="background:var(--card-bg); border-radius: 48px; padding: 2.5rem; cursor: pointer;" onclick="showServiceDetail('homeCare')">
                 <div style="display: flex; gap: 2rem; flex-wrap: wrap;">
-                    <div style="flex:1; min-width:250px;"><i class="fas fa-home" style="font-size:4rem; color:#e76f51; transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.1) rotate(5deg)'" onmouseout="this.style.transform='scale(1) rotate(0)'"></i></div>
-                    <div style="flex:6;"><h2 data-i18n="serviceHome">Home Care</h2><p data-i18n="serviceHomeDetail" style="font-size:1.1rem;">Our home care service provides assistance with daily activities such as bathing, dressing, meal preparation, and light housekeeping. We ensure your loved one feels safe and comfortable in their own home.</p>
-                    <h4 data-i18n="whyChooseUs">Why choose us?</h4><ul><li data-i18n="homeWhy1">Personalized care plans</li><li data-i18n="homeWhy2">Kind and experienced caregivers</li><li data-i18n="homeWhy3">24/7 availability</li></ul></div>
+                    <div style="flex:1; min-width:250px;"><i class="fas fa-home" style="font-size:4rem; color:#e76f51;"></i></div>
+                    <div style="flex:6;"><h2 data-i18n="serviceHome">Home Care</h2><p data-i18n="serviceHomeDetail">Our home care service provides assistance with daily activities...</p></div>
                 </div>
             </div>
             <!-- service 2 -->
-            <div style="background:var(--card-bg); border-radius: 48px; padding: 2.5rem; animation: fadeInUp 0.6s ease-out 0.1s both;">
+            <div style="background:var(--card-bg); border-radius: 48px; padding: 2.5rem; cursor: pointer;" onclick="showServiceDetail('medicalAcc')">
                 <div style="display: flex; gap: 2rem; flex-wrap: wrap;">
-                    <div style="flex:1; min-width:250px;"><i class="fas fa-ambulance" style="font-size:4rem; color:#e76f51; transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.1) rotate(5deg)'" onmouseout="this.style.transform='scale(1) rotate(0)'"></i></div>
-                    <div style="flex:6;"><h2 data-i18n="serviceMedical">Medical Accompaniment</h2><p data-i18n="medicalDetail">We accompany elders to medical appointments, handle pharmacy pickups, and ensure medication schedules are followed. Our staff are trained to communicate with healthcare professionals.</p>
-                    <h4 data-i18n="whyChooseUs">Why choose us?</h4><ul><li data-i18n="medicalWhy1">Safe transport arrangement</li><li data-i18n="medicalWhy2">Medication reminders</li><li data-i18n="medicalWhy3">Report back to family</li></ul></div>
+                    <div style="flex:1; min-width:250px;"><i class="fas fa-ambulance" style="font-size:4rem; color:#e76f51;"></i></div>
+                    <div style="flex:6;"><h2 data-i18n="serviceMedical">Medical Accompaniment</h2><p data-i18n="medicalDetail">We accompany elders to medical appointments...</p></div>
                 </div>
             </div>
             <!-- service 3 -->
-            <div style="background:var(--card-bg); border-radius: 48px; padding: 2.5rem; animation: fadeInUp 0.6s ease-out 0.2s both;">
+            <div style="background:var(--card-bg); border-radius: 48px; padding: 2.5rem; cursor: pointer;" onclick="showServiceDetail('personalCare')">
                 <div style="display: flex; gap: 2rem; flex-wrap: wrap;">
-                    <div style="flex:1; min-width:250px;"><i class="fas fa-hand-holding-heart" style="font-size:4rem; color:#e76f51; transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.1) rotate(5deg)'" onmouseout="this.style.transform='scale(1) rotate(0)'"></i></div>
-                    <div style="flex:6;"><h2 data-i18n="servicePersonal">Personal Care</h2><p data-i18n="personalDetail">Assistance with hygiene, grooming, and mobility. Our caregivers are trained to provide respectful and dignified support for daily personal tasks.</p>
-                    <h4 data-i18n="whyChooseUs">Why choose us?</h4><ul><li data-i18n="personalWhy1">Respectful and gentle approach</li><li data-i18n="personalWhy2">Fall prevention techniques</li><li data-i18n="personalWhy3">Continuous supervision if needed</li></ul></div>
+                    <div style="flex:1; min-width:250px;"><i class="fas fa-hand-holding-heart" style="font-size:4rem; color:#e76f51;"></i></div>
+                    <div style="flex:6;"><h2 data-i18n="servicePersonal">Personal Care</h2><p data-i18n="personalDetail">Assistance with hygiene, grooming, and mobility...</p></div>
                 </div>
             </div>
             <!-- service 4 -->
-            <div style="background:var(--card-bg); border-radius: 48px; padding: 2.5rem; animation: fadeInUp 0.6s ease-out 0.3s both;">
+            <div style="background:var(--card-bg); border-radius: 48px; padding: 2.5rem; cursor: pointer;" onclick="showServiceDetail('companionship')">
                 <div style="display: flex; gap: 2rem; flex-wrap: wrap;">
-                    <div style="flex:1; min-width:250px;"><i class="fas fa-heart" style="font-size:4rem; color:#e76f51; transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.1) rotate(5deg)'" onmouseout="this.style.transform='scale(1) rotate(0)'"></i></div>
-                    <div style="flex:6;"><h2 data-i18n="serviceCompanion">Companionship</h2><p data-i18n="companionDetail">Social interaction, conversation, walks, and emotional support. We combat loneliness and keep seniors engaged and happy.</p>
-                    <h4 data-i18n="whyChooseUs">Why choose us?</h4><ul><li data-i18n="companionWhy1">Friendly, screened companions</li><li data-i18n="companionWhy2">Activities tailored to interests</li><li data-i18n="companionWhy3">Regular family updates</li></ul></div>
+                    <div style="flex:1; min-width:250px;"><i class="fas fa-heart" style="font-size:4rem; color:#e76f51;"></i></div>
+                    <div style="flex:6;"><h2 data-i18n="serviceCompanion">Companionship</h2><p data-i18n="companionDetail">Social interaction, conversation, walks...</p></div>
                 </div>
             </div>
+        </div>
+        <!-- Enhanced Footer -->
+        <div class="social-footer">
+            <div class="footer-col">
+                <div class="logo" style="font-size:1.6rem;">Care<span>Via</span></div>
+                <p data-i18n="footerTagline">Compassionate care for your beloved elders.</p>
+            </div>
+            <div class="footer-col">
+                <h4 data-i18n="quickLinks">Quick Links</h4>
+                <ul>
+                    <li><a onclick="navigateTo('homeView')" data-i18n="navHome">Home</a></li>
+                    <li><a onclick="navigateTo('servicesView')" data-i18n="navServices">Services</a></li>
+                    <li><a onclick="navigateTo('caregiversListView')" data-i18n="navCaregivers">Caregivers</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4 data-i18n="contactUs">Contact Us</h4>
+                <p><i class="fas fa-phone"></i> +212 600 000 000</p>
+                <p><i class="fas fa-envelope"></i> contact@carevia.ma</p>
+                <p><i class="fas fa-map-marker-alt"></i> Tangier, Morocco</p>
+            </div>
+            <div class="footer-col">
+                <h4 data-i18n="followUs">Follow Us</h4>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    <a href="#"><i class="fab fa-google"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SERVICE DETAIL VIEW -->
+    <div id="serviceDetailView" class="view">
+        <div class="navbar">
+            <a class="logo-link" onclick="navigateTo('homeView')">
+                <div class="logo">Care<span>Via</span></div>
+            </a>
+            <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
+                <div class="lang-selector">
+                    <button class="lang-btn active" data-lang="en">EN</button>
+                    <button class="lang-btn" data-lang="ar">عربي</button>
+                    <button class="lang-btn" data-lang="fr">FR</button>
+                </div>
+                <div class="theme-toggle">
+                    <button class="theme-btn" id="themeToggle10" title="Toggle light/dark mode">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </div>
+                <div class="nav-links">
+                    <a data-i18n="navHome" onclick="navigateTo('homeView')">Home</a>
+                    <a data-i18n="navServices" onclick="navigateTo('servicesView')">Services</a>
+                    <a data-i18n="navCaregivers" onclick="navigateTo('caregiversListView')">Caregivers</a>
+                </div>
+            </div>
+        </div>
+        <div class="back-link" onclick="navigateTo('servicesView')"><i class="fas fa-arrow-left"></i> <span data-i18n="backToServices">Back to Services</span></div>
+        <div id="serviceDetailContent" class="service-detail-card">
+            <!-- Dynamic content filled by JS -->
         </div>
         <!-- Enhanced Footer -->
         <div class="social-footer">
@@ -1087,7 +1211,7 @@
                 <div class="nav-links"><a data-i18n="navHome" onclick="navigateTo('homeView')">Home</a></div>
             </div>
         </div>
-        <div class="back-link" onclick="navigateTo('homeView')"><i class="fas fa-arrow-left"></i> <span data-i18n="backHome">Back to Home</span></div>
+        <div class="back-link" onclick="navigateTo('serviceDetailView')"><i class="fas fa-arrow-left"></i> <span data-i18n="backToService">Back to Service</span></div>
         <div class="booking-card">
             <h2 data-i18n="clientInfoTitle">Tell us about yourself</h2>
             <div class="form-group"><label data-i18n="firstName">First Name *</label><input type="text" id="clientFirstName" class="form-control" placeholder="e.g. Ahmed" required></div>
@@ -1454,6 +1578,8 @@
                 caregiversListTitle: "Our dedicated caregivers",
                 backToCaregivers: "Back to caregivers",
                 backHome: "Back to Home",
+                backToServices: "Back to Services",
+                backToService: "Back to Service",
                 clientInfoTitle: "Tell us about yourself",
                 firstName: "First Name *",
                 lastName: "Last Name *",
@@ -1492,7 +1618,8 @@
                 validationHours: "Please select at least one hour.",
                 validationPhone: "Please enter a valid Moroccan phone number (e.g., +2126XXXXXXXX or 06XXXXXXXX).",
                 validationEmail: "Please enter a valid email address containing '@'.",
-                validationName: "Please enter your first and last name."
+                validationName: "Please enter your first and last name.",
+                bookThisService: "Book this service"
             },
             ar: {
                 navHome: "الرئيسية",
@@ -1535,6 +1662,8 @@
                 caregiversListTitle: "مقدمو الرعاية المخلصون لدينا",
                 backToCaregivers: "العودة إلى قائمة مقدمي الرعاية",
                 backHome: "العودة إلى الرئيسية",
+                backToServices: "العودة إلى الخدمات",
+                backToService: "العودة إلى الخدمة",
                 clientInfoTitle: "أخبرنا عن نفسك",
                 firstName: "الاسم الأول *",
                 lastName: "اسم العائلة *",
@@ -1573,7 +1702,8 @@
                 validationHours: "الرجاء اختيار ساعة واحدة على الأقل.",
                 validationPhone: "الرجاء إدخال رقم هاتف مغربي صحيح (مثل +2126XXXXXXXX أو 06XXXXXXXX).",
                 validationEmail: "الرجاء إدخال بريد إلكتروني صحيح يحتوي على '@'.",
-                validationName: "الرجاء إدخال الاسم الأول واسم العائلة."
+                validationName: "الرجاء إدخال الاسم الأول واسم العائلة.",
+                bookThisService: "احجز هذه الخدمة"
             },
             fr: {
                 navHome: "Accueil",
@@ -1616,6 +1746,8 @@
                 caregiversListTitle: "Nos soignants dévoués",
                 backToCaregivers: "Retour aux soignants",
                 backHome: "Retour à l'accueil",
+                backToServices: "Retour aux services",
+                backToService: "Retour au service",
                 clientInfoTitle: "Parlez-nous de vous",
                 firstName: "Prénom *",
                 lastName: "Nom de famille *",
@@ -1654,7 +1786,8 @@
                 validationHours: "Veuillez sélectionner au moins une heure.",
                 validationPhone: "Veuillez entrer un numéro de téléphone marocain valide (ex: +2126XXXXXXXX ou 06XXXXXXXX).",
                 validationEmail: "Veuillez entrer une adresse e-mail valide contenant '@'.",
-                validationName: "Veuillez entrer votre prénom et nom."
+                validationName: "Veuillez entrer votre prénom et nom.",
+                bookThisService: "Réserver ce service"
             }
         };
 
@@ -1741,6 +1874,9 @@
             // Show target view
             document.getElementById(viewId).classList.add('active-view');
             
+            // Scroll to top of the page
+            window.scrollTo(0, 0);
+            
             if (pushHistory) {
                 // Push state to browser history
                 history.pushState({ view: viewId }, '', `#${viewId}`);
@@ -1757,9 +1893,6 @@
                 updatePaymentSummary();
             }
         }
-
-        // Override showView calls with navigateTo
-        window.showView = navigateTo; // For backward compatibility, but we'll use navigateTo directly
 
         // Handle browser back button
         window.addEventListener('popstate', function(event) {
@@ -1789,6 +1922,13 @@
             medicalAcc: 'Medical Accompaniment',
             personalCare: 'Personal Care',
             companionship: 'Companionship'
+        };
+
+        const serviceIcons = {
+            homeCare: 'fa-home',
+            medicalAcc: 'fa-ambulance',
+            personalCare: 'fa-hand-holding-heart',
+            companionship: 'fa-heart'
         };
 
         const caregivers = {
@@ -1880,17 +2020,65 @@
         }
         window.showCaregiverProfile = showCaregiverProfile;
 
+        function showServiceDetail(serviceKey) {
+            selectedService = serviceKey;
+            const contentDiv = document.getElementById('serviceDetailContent');
+            const service = serviceNames[serviceKey];
+            const icon = serviceIcons[serviceKey];
+            const features = [
+                { icon: 'fa-clock', title: 'Flexible hours', desc: 'Choose hours that suit you' },
+                { icon: 'fa-user-check', title: 'Trained caregivers', desc: 'All caregivers are vetted' },
+                { icon: 'fa-heart', title: 'Personalized care', desc: 'Tailored to your needs' },
+                { icon: 'fa-shield-alt', title: 'Safety first', desc: 'We prioritize safety' }
+            ];
+            let featuresHtml = '';
+            features.forEach(f => {
+                featuresHtml += `
+                    <div class="feature-item">
+                        <i class="fas ${f.icon}"></i>
+                        <h3>${f.title}</h3>
+                        <p>${f.desc}</p>
+                    </div>
+                `;
+            });
+            let description = '';
+            switch(serviceKey) {
+                case 'homeCare':
+                    description = translations[currentLang].serviceHomeDetail;
+                    break;
+                case 'medicalAcc':
+                    description = translations[currentLang].medicalDetail;
+                    break;
+                case 'personalCare':
+                    description = translations[currentLang].personalDetail;
+                    break;
+                case 'companionship':
+                    description = translations[currentLang].companionDetail;
+                    break;
+            }
+            contentDiv.innerHTML = `
+                <div class="service-icon-large"><i class="fas ${icon}"></i></div>
+                <div class="service-detail-header">
+                    <h1>${service}</h1>
+                    <p class="service-description">${description}</p>
+                </div>
+                <div class="service-features">
+                    ${featuresHtml}
+                </div>
+                <div class="book-section">
+                    <button class="btn" onclick="navigateTo('clientInfoView')">${translations[currentLang].bookThisService}</button>
+                </div>
+            `;
+            navigateTo('serviceDetailView');
+        }
+        window.showServiceDetail = showServiceDetail;
+
         function startBookingFlow() {
+            // For the "Book a caregiver" button, we can directly go to client info or show a default service detail
             selectedService = 'homeCare';
-            navigateTo('clientInfoView');
+            showServiceDetail('homeCare');
         }
         window.startBookingFlow = startBookingFlow;
-
-        function selectServiceAndGoToClientInfo(serviceKey) {
-            selectedService = serviceKey;
-            navigateTo('clientInfoView');
-        }
-        window.selectServiceAndGoToClientInfo = selectServiceAndGoToClientInfo;
 
         // Validation function for client info
         function validateAndSaveClientInfo() {
@@ -1909,8 +2097,6 @@
                 return;
             }
             // Moroccan phone validation: either +2126XXXXXXXX or 06XXXXXXXX or 07XXXXXXXX (10 digits starting with 0)
-            const phoneRegex = /^(\+212|0)[5-7]\d{8}$/; // Simplified: +212 or 0 followed by 5,6,7 and 8 digits total 12 or 10 digits
-            // More precise: +2126XXXXXXXX (13 chars) or 06XXXXXXXX (10 chars) or 07XXXXXXXX
             const cleanedPhone = phone.replace(/\s/g, '');
             if (!cleanedPhone.match(/^(\+212[5-7]\d{8})$|^(0[5-7]\d{8})$/)) {
                 showPopup(translations[currentLang].validationPhone);
@@ -2014,7 +2200,7 @@
         }
         window.selectCaregiver = selectCaregiver;
 
-        // New pricing function: 15% discount for each additional hour beyond first
+        // Pricing function: 15% discount for each additional hour beyond first
         function calculateTotalPrice(hours) {
             if (hours <= 0) return 0;
             const basePrice = hours * 50;
