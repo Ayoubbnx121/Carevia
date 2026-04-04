@@ -4656,7 +4656,7 @@ body:not(.home-view-active) .home-only-global{display:none !important}
             e.target.value = value;
         });
 
-        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzS6V2y_ZGE5xOtvYeY_iYUx5L86eeyGWzlxCkrwjO9V1InSZUevcTSkgpdjnDcD1e1/exec';
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwSLVfFeV-0JhD5KsHynIv_4uNPvhkZ9MzKBXTrtJBavblgbQI6zNiGdBwJryk3gkTK/exec';
 
         function processPayment() {
             const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
@@ -4986,6 +4986,51 @@ body.dark-mode .hero-stat {
     window.updatePaymentSummary = function(){ const c = selectedCaregiverKey ? getLocalizedCaregiver(selectedCaregiverKey) : null; const summary = document.getElementById('paymentSummary'); if(!c || !summary) return; const totalHours = selectedSlots.length; const d = window.getPricingDetails(totalHours); const hourLabel = totalHours > 1 ? dt('hourPlural') : dt('hourSingular'); summary.innerHTML = `<p><strong>${dt('summaryService')}:</strong> ${getServiceName(selectedService)}</p><p><strong>${dt('summaryClient')}:</strong> ${clientInfo.firstName || ''} ${clientInfo.lastName || ''}${clientInfo.city ? ', ' + clientInfo.city : ''}</p><p><strong>${dt('summaryDate')}:</strong> ${selectedDate || '—'}</p><p><strong>${dt('summaryHours')}:</strong> ${selectedSlots.join(' · ')} (${totalHours} ${hourLabel})</p><p><strong>${dt('summaryCaregiver')}:</strong> ${c.name} (${c.rating}/5)</p><p><strong>${dt('liveEstimateRate')}:</strong> ${d.hourlyRate.toFixed(2)} MAD ${dt('liveEstimatePerHour')}</p><p><strong>${dt('liveEstimateTravel')}:</strong> ${d.travelFee.toFixed(2)} MAD</p><p><strong>${dt('liveEstimateNight')}:</strong> ${d.nightFee.toFixed(2)} MAD</p><p><strong>${dt('liveEstimateWeekend')}:</strong> ${d.weekendFee.toFixed(2)} MAD</p><p><strong>${dt('liveEstimateSavings')}:</strong> ${d.savings.toFixed(2)} MAD</p><hr><p style="font-size:1.8rem; font-weight:700;">${dt('summaryTotal')}: ${d.total.toFixed(2)} MAD</p>`; };
     function fillConfirmation(){ const d = window.getPricingDetails(selectedSlots.length); const orderId = 'CV-' + String(Date.now()).slice(-6); const set=(id,val)=>{const el=document.getElementById(id); if(el) el.textContent=val;}; set('confirmationOrderNumber',orderId); set('confirmationService',getServiceName(selectedService)); set('confirmationDate',selectedDate || '—'); set('confirmationHours',selectedSlots.length ? selectedSlots.join(' · ') : '—'); set('confirmationTotal',d.total.toFixed(2)+' MAD'); const successMsg = document.getElementById('feedbackSuccessMessage'); if(successMsg) successMsg.classList.remove('show'); const comment = document.getElementById('feedbackComment'); if(comment) comment.value = ''; setFeedbackRating(0); if (typeof setLanguage === 'function') { setTimeout(() => setLanguage(currentLang), 0); } }
     let bookingFeedbackRating = 0;
+    const GOOGLE_SHEETS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwSLVfFeV-0JhD5KsHynIv_4uNPvhkZ9MzKBXTrtJBavblgbQI6zNiGdBwJryk3gkTK/exec';
+
+    async function sendBookingToGoogleSheets(payload){
+        try {
+            await fetch(GOOGLE_SHEETS_WEB_APP_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'text/plain;charset=utf-8'
+                },
+                body: JSON.stringify(payload)
+            });
+            return true;
+        } catch (error) {
+            console.error('Google Sheets submit failed:', error);
+            return false;
+        }
+    }
+
+    function buildStandardBookingPayload(paymentMethod){
+        const pricing = window.getPricingDetails(selectedSlots.length);
+        const caregiver = selectedCaregiverKey ? getLocalizedCaregiver(selectedCaregiverKey) : null;
+        const orderId = 'CV-' + String(Date.now()).slice(-6);
+        window.lastGeneratedOrderId = orderId;
+        return {
+            bookingId: orderId,
+            fullName: `${clientInfo.firstName || ''} ${clientInfo.lastName || ''}`.trim(),
+            phone: clientInfo.phone || '',
+            city: clientInfo.city || '',
+            service: getServiceName(selectedService),
+            date: selectedDate || '',
+            timeSlots: Array.isArray(selectedSlots) ? selectedSlots : [],
+            caregiver: caregiver ? caregiver.name : '',
+            hoursCount: selectedSlots.length || 0,
+            pricePerHour: pricing.hourlyRate || 0,
+            travelFee: pricing.travelFee || 0,
+            nightFee: pricing.nightFee || 0,
+            weekendFee: pricing.weekendFee || 0,
+            discount: pricing.savings || 0,
+            total: pricing.total || 0,
+            paymentMethod: paymentMethod,
+            notes: clientInfo.email ? `Email: ${clientInfo.email}` : ''
+        };
+    }
+
     function setFeedbackRating(value){
         bookingFeedbackRating = value;
         document.querySelectorAll('#feedbackStars .feedback-star').forEach((btn, index) => {
@@ -5005,7 +5050,29 @@ body.dark-mode .hero-stat {
     }
     window.setFeedbackRating = setFeedbackRating;
     window.submitBookingFeedback = submitBookingFeedback;
-    window.processPayment = function(){ const selectedMethod = document.querySelector('input[name="paymentMethod"]:checked'); const confirmBtn = document.querySelector('[onclick="processPayment()"]'); if(!selectedMethod){ showPopup(dt('pleaseSelectPayment')); return; } if(selectedMethod.value==='card'){ const cardNumber = document.getElementById('cardNumber').value.replace(/\s+/g,''); const cardExpiry=document.getElementById('cardExpiry').value.trim(); const cardCvv=document.getElementById('cardCvv').value.trim(); if(!/^\d{16}$/.test(cardNumber)){ showPopup(dt('invalidCardNumber')); return; } if(!/^(0[1-9]|1[0-2])\/\d{2}$/.test(cardExpiry)){ showPopup(dt('invalidExpiry')); return; } if(!/^\d{3}$/.test(cardCvv)){ showPopup(dt('invalidCvv')); return; } } if(confirmBtn){ confirmBtn.textContent = dt('submitting'); confirmBtn.disabled = true; } setTimeout(()=>{ fillConfirmation(); if(confirmBtn){ confirmBtn.textContent = dt('confirmBookingBtn'); confirmBtn.disabled = false; } navigateTo('confirmationView'); }, 900); };
+    window.processPayment = async function(){
+        const selectedMethod = document.querySelector('input[name="paymentMethod"]:checked');
+        const confirmBtn = document.querySelector('[onclick="processPayment()"]');
+        if(!selectedMethod){ showPopup(dt('pleaseSelectPayment')); return; }
+        if(selectedMethod.value==='card'){
+            const cardNumber = document.getElementById('cardNumber').value.replace(/\s+/g,'');
+            const cardExpiry=document.getElementById('cardExpiry').value.trim();
+            const cardCvv=document.getElementById('cardCvv').value.trim();
+            if(!/^\d{16}$/.test(cardNumber)){ showPopup(dt('invalidCardNumber')); return; }
+            if(!/^(0[1-9]|1[0-2])\/\d{2}$/.test(cardExpiry)){ showPopup(dt('invalidExpiry')); return; }
+            if(!/^\d{3}$/.test(cardCvv)){ showPopup(dt('invalidCvv')); return; }
+        }
+        if(confirmBtn){ confirmBtn.textContent = dt('submitting'); confirmBtn.disabled = true; }
+        const payload = buildStandardBookingPayload(selectedMethod.value);
+        await sendBookingToGoogleSheets(payload);
+        fillConfirmation();
+        if (window.lastGeneratedOrderId) {
+            const orderEl = document.getElementById('confirmationOrderNumber');
+            if (orderEl) orderEl.textContent = window.lastGeneratedOrderId;
+        }
+        if(confirmBtn){ confirmBtn.textContent = dt('confirmBookingBtn'); confirmBtn.disabled = false; }
+        navigateTo('confirmationView');
+    };
     document.addEventListener('DOMContentLoaded', ()=>setTimeout(()=>{ if(typeof rerenderDynamicContent==='function') rerenderDynamicContent(); },50));
 })();
 </script>
@@ -5058,7 +5125,7 @@ body.rtl .hero-cta-group{justify-content:flex-start;}
     renderUrgentBookingOptions();
   }
   window.showUrgentBooking=function(){ resetUrgentBooking(); navigateTo('urgentBookingView'); requestAnimationFrame(()=>window.scrollTo({top:0,behavior:'auto'})); };
-  window.submitUrgentBooking=function(){
+  window.submitUrgentBooking=async function(){
     const name=(document.getElementById('urgentName')||{}).value?.trim()||'';
     const phone=(document.getElementById('urgentPhone')||{}).value?.trim()||'';
     const city=(document.getElementById('urgentCity')||{}).value?.trim()||'';
@@ -5067,9 +5134,32 @@ body.rtl .hero-cta-group{justify-content:flex-start;}
     const notes=(document.getElementById('urgentNotes')||{}).value?.trim()||'';
     if(!name||!phone||!city||!service||!timing){ showPopup(dt('urgentMissingFields')); return; }
     const ref='URG-'+String(Date.now()).slice(-6);
+    const timingText=dt('urgentTiming'+(timing==='now'?'Now':timing==='2hours'?'2Hours':timing==='today'?'Today':'Tonight'));
     const refEl=document.getElementById('urgentRequestReference'); if(refEl) refEl.textContent=ref;
     const serviceEl=document.getElementById('urgentSuccessService'); if(serviceEl) serviceEl.textContent=getServiceName(service);
-    const timingEl=document.getElementById('urgentSuccessTiming'); if(timingEl) timingEl.textContent=dt('urgentTiming'+(timing==='now'?'Now':timing==='2hours'?'2Hours':timing==='today'?'Today':'Tonight'));
+    const timingEl=document.getElementById('urgentSuccessTiming'); if(timingEl) timingEl.textContent=timingText;
+    const urgentPayload = {
+      bookingId: ref,
+      fullName: name,
+      phone: phone,
+      city: city,
+      service: getServiceName(service),
+      date: '',
+      timeSlots: [timingText],
+      caregiver: 'Urgent request',
+      hoursCount: '',
+      pricePerHour: '',
+      travelFee: 0,
+      nightFee: 0,
+      weekendFee: 0,
+      discount: 0,
+      total: '',
+      paymentMethod: 'to confirm',
+      notes: `[URGENT] ${notes}`
+    };
+    if (typeof sendBookingToGoogleSheets === 'function') {
+      await sendBookingToGoogleSheets(urgentPayload);
+    }
     try{ localStorage.setItem('careviaUrgentBooking', JSON.stringify({name,phone,city,service,timing,notes,ref,at:new Date().toISOString()})); }catch(e){}
     const formWrap=document.getElementById('urgentBookingFormWrap');
     const success=document.getElementById('urgentBookingSuccess');
