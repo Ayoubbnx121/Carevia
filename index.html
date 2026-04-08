@@ -4657,9 +4657,7 @@ body:not(.home-view-active) .home-only-global{display:none !important}
             e.target.value = value;
         });
 
-        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby6LWc0A-sp87Yb62C5XiI00ViewyEkHf9074PRKdB1Bv0fkvDvWpkr7ADo_EvxuhRZ/exec';
-    // Updated to the latest deployed Google Apps Script web app URL.
-        // Updated to the latest deployed Google Apps Script web app URL.
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwEhRfWIs017foJmAqgw0cGcJB7MiGpkrGA0Hux9bfzidV9f_FSr3gZqYSq3HBv6LWc/exec';
 
         function processPayment() {
             const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
@@ -4980,20 +4978,17 @@ body.dark-mode .hero-stat {
         companionship:{hourlyRate:70,minHours:2,travelFee:0,nightExtra:15,weekendExtra:15,startingFrom:140}
     };
 
-    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby6LWc0A-sp87Yb62C5XiI00ViewyEkHf9074PRKdB1Bv0fkvDvWpkr7ADo_EvxuhRZ/exec';
+    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwEhRfWIs017foJmAqgw0cGcJB7MiGpkrGA0Hux9bfzidV9f_FSr3gZqYSq3HBv6LWc/exec';
 
     async function postJsonToAppsScript(payload){
-        const response = await fetch(GOOGLE_SCRIPT_URL, {
+        await fetch(GOOGLE_SCRIPT_URL, {
             method: 'POST',
+            mode: 'no-cors',
             headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-            body: JSON.stringify(payload)
+            body: JSON.stringify(payload),
+            keepalive: true
         });
-        const raw = await response.text();
-        try {
-            return JSON.parse(raw);
-        } catch (error) {
-            return { ok: response.ok, raw };
-        }
+        return { ok: true };
     }
     function servicePricing(){ return PRICING[selectedService] || PRICING.homeCare; }
     function isWeekendSelected(){ if(!selectedDate) return false; const d = new Date(selectedDate+'T12:00:00'); const day=d.getDay(); return day===0||day===6; }
