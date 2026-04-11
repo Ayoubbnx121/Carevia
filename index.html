@@ -2797,17 +2797,27 @@ body:not(.home-view-active) .home-only-global{display:none !important}
 <p class="urgent-intro" data-i18n="urgentIntro">Send a shorter urgent request and we will review availability first.</p>
 <div class="urgent-note"><i class="fas fa-circle-info"></i><span data-i18n="urgentAvailabilityNote">Urgent requests are subject to availability and may include a priority fee.</span></div>
 <div id="urgentBookingFormWrap">
+<div class="split-form-grid">
 <div class="form-group">
-<label data-i18n="urgentNameLabel" for="urgentName">Contact name</label>
-<input class="form-control" id="urgentName" type="text"/>
+<label data-i18n="urgentFirstNameLabel" for="urgentFirstName">First name</label>
+<input class="form-control" id="urgentFirstName" type="text"/>
+</div>
+<div class="form-group">
+<label data-i18n="urgentLastNameLabel" for="urgentLastName">Last name</label>
+<input class="form-control" id="urgentLastName" type="text"/>
+</div>
 </div>
 <div class="form-group">
 <label data-i18n="urgentPhoneLabel" for="urgentPhone">Phone number</label>
 <input class="form-control" id="urgentPhone" inputmode="tel" type="tel"/>
 </div>
 <div class="form-group">
+<label data-i18n="urgentEmailLabel" for="urgentEmail">Email</label>
+<input class="form-control" data-i18n-placeholder="placeholderEmail" id="urgentEmail" type="email" placeholder="example@mail.com"/>
+</div>
+<div class="form-group">
 <label data-i18n="urgentCityLabel" for="urgentCity">City</label>
-<input class="form-control" id="urgentCity" type="text"/>
+<select class="form-select" id="urgentCity"></select>
 </div>
 <div class="form-group">
 <label data-i18n="urgentServiceLabel" for="urgentService">Service</label>
@@ -2820,6 +2830,7 @@ body:not(.home-view-active) .home-only-global{display:none !important}
 <div class="form-group">
 <label data-i18n="urgentNotesLabel" for="urgentNotes">Notes</label>
 <textarea class="form-control" data-i18n-placeholder="urgentNotesPlaceholder" id="urgentNotes" rows="4" placeholder="Any important detail about the elder or the request"></textarea>
+<div class="field-help-text" data-i18n="urgentNotesHelp">Please fill in the notes to help us process urgent requests faster.</div>
 </div>
 <button class="btn" data-i18n="urgentSubmitBtn" onclick="submitUrgentBooking()" style="width:100%;">Send urgent request</button>
 </div>
@@ -2831,10 +2842,127 @@ body:not(.home-view-active) .home-only-global{display:none !important}
 <div class="urgent-summary-grid">
 <div class="urgent-summary-item"><span data-i18n="urgentServiceLabel">Service</span><strong id="urgentSuccessService">—</strong></div>
 <div class="urgent-summary-item"><span data-i18n="urgentTimingLabel">When do you need help?</span><strong id="urgentSuccessTiming">—</strong></div>
+<div class="urgent-summary-item"><span data-i18n="urgentCityLabel">City</span><strong id="urgentSuccessCity">—</strong></div>
 </div>
 <div class="feedback-actions">
 <button class="btn" data-i18n="urgentBackStandard" onclick="showServiceSelection()" type="button">Standard booking</button>
 <button class="btn btn-secondary-soft" data-i18n="urgentBackHome" onclick="navigateTo('homeView')" type="button">Return home</button>
+</div>
+</div>
+</div>
+</div>
+
+<div class="view" id="joinUsView">
+<div class="navbar">
+<a class="logo-link" onclick="navigateTo('homeView')"><div class="logo">Care<span>Via</span></div></a>
+<div class="nav-links"><a data-i18n="navHome" onclick="navigateTo('homeView')">Home</a></div>
+</div>
+<div class="back-link" onclick="navigateTo('homeView')"><i class="fas fa-arrow-left"></i> <span data-i18n="backHome">Back to home</span></div>
+<div class="booking-card careers-card">
+<div class="urgent-chip careers-chip"><i class="fas fa-user-plus"></i><span data-i18n="joinUsBadge">We are hiring</span></div>
+<h1 data-i18n="joinUsTitle">Join the CareVia team</h1>
+<p class="urgent-intro" data-i18n="joinUsIntro">Fill in your information and send your application. We will review it and reply by email.</p>
+<div class="urgent-note careers-note"><i class="fas fa-circle-info"></i><span data-i18n="joinUsNote">Make sure your information is correct and upload your CV and a clear selfie photo.</span></div>
+<div id="joinUsFormWrap">
+<div class="split-form-grid">
+<div class="form-group">
+<label data-i18n="joinFirstNameLabel" for="joinFirstName">First name</label>
+<input class="form-control" id="joinFirstName" type="text"/>
+</div>
+<div class="form-group">
+<label data-i18n="joinLastNameLabel" for="joinLastName">Last name</label>
+<input class="form-control" id="joinLastName" type="text"/>
+</div>
+</div>
+<div class="split-form-grid">
+<div class="form-group">
+<label data-i18n="joinBirthDateLabel" for="joinBirthDate">Date of birth</label>
+<input class="form-control" id="joinBirthDate" type="date"/>
+</div>
+<div class="form-group">
+<label data-i18n="joinResidenceLabel" for="joinResidence">Place of residence</label>
+<input class="form-control" id="joinResidence" type="text"/>
+</div>
+</div>
+<div class="form-group">
+<label data-i18n="joinAddressLabel" for="joinAddress">Address</label>
+<input class="form-control" id="joinAddress" type="text"/>
+</div>
+<div class="split-form-grid">
+<div class="form-group">
+<label data-i18n="joinCityLabel" for="joinCity">City</label>
+<select class="form-select" id="joinCity"></select>
+</div>
+<div class="form-group">
+<label data-i18n="joinPhoneLabel" for="joinPhone">Phone number</label>
+<input class="form-control" id="joinPhone" inputmode="tel" type="tel"/>
+</div>
+</div>
+<div class="form-group">
+<label data-i18n="joinEmailLabel" for="joinEmail">Email</label>
+<input class="form-control" id="joinEmail" type="email"/>
+</div>
+<div class="form-group">
+<label data-i18n="joinEducationLevelLabel" for="joinEducationLevel">Education level</label>
+<input class="form-control" id="joinEducationLevel" type="text"/>
+</div>
+<div class="split-form-grid">
+<div class="form-group">
+<label data-i18n="joinDiplomasLabel" for="joinDiplomas">Diplomas</label>
+<textarea class="form-control" id="joinDiplomas" rows="3"></textarea>
+</div>
+<div class="form-group">
+<label data-i18n="joinCertificatesLabel" for="joinCertificates">Certificates</label>
+<textarea class="form-control" id="joinCertificates" rows="3"></textarea>
+</div>
+</div>
+<div class="form-group">
+<label data-i18n="joinFormationsLabel" for="joinFormations">Training courses</label>
+<textarea class="form-control" id="joinFormations" rows="3"></textarea>
+</div>
+<div class="split-form-grid">
+<div class="form-group file-upload-group">
+<label data-i18n="joinCvLabel" for="joinCv">Upload your CV</label>
+<input class="form-control" id="joinCv" accept=".pdf,.doc,.docx,image/*" type="file"/>
+<div class="upload-file-name" id="joinCvFileName" data-i18n="joinNoFile">No file selected</div>
+</div>
+<div class="form-group file-upload-group">
+<label data-i18n="joinSelfieLabel" for="joinSelfie">Upload a selfie photo</label>
+<input class="form-control" id="joinSelfie" accept="image/*" type="file"/>
+<div class="upload-file-name" id="joinSelfieFileName" data-i18n="joinNoFile">No file selected</div>
+</div>
+</div>
+<div class="split-form-grid">
+<div class="form-group">
+<label data-i18n="joinCurrentStatusLabel" for="joinCurrentStatus">What are you doing now?</label>
+<select class="form-select" id="joinCurrentStatus"></select>
+</div>
+<div class="form-group" id="joinStudentFieldWrap" style="display:none;">
+<label data-i18n="joinStudentStudyLabel" for="joinStudentStudy">If you are a student, what do you study?</label>
+<input class="form-control" id="joinStudentStudy" type="text"/>
+</div>
+<div class="form-group" id="joinWorkerFieldWrap" style="display:none;">
+<label data-i18n="joinWorkerJobLabel" for="joinWorkerJob">If you are working, what is your current job?</label>
+<input class="form-control" id="joinWorkerJob" type="text"/>
+</div>
+</div>
+<div class="form-group">
+<label data-i18n="joinJobTypeLabel" for="joinJobType">Are you applying for a main job or part-time?</label>
+<select class="form-select" id="joinJobType"></select>
+</div>
+<button class="btn" data-i18n="joinSubmitBtn" onclick="submitJoinUsApplication()" style="width:100%;">Send application</button>
+</div>
+<div class="urgent-success-card" id="joinUsSuccess" style="display:none;">
+<div class="checkmark"><i class="fas fa-circle-check"></i></div>
+<h2 data-i18n="joinSuccessTitle">Application received</h2>
+<p data-i18n="joinSuccessText">Your application has been registered. We will reply to the email address you entered.</p>
+<div class="urgent-summary-grid">
+<div class="urgent-summary-item"><span data-i18n="joinEmailLabel">Email</span><strong id="joinSuccessEmail">—</strong></div>
+<div class="urgent-summary-item"><span data-i18n="joinJobTypeLabel">Application type</span><strong id="joinSuccessJobType">—</strong></div>
+<div class="urgent-summary-item"><span data-i18n="joinCurrentStatusLabel">Current status</span><strong id="joinSuccessStatus">—</strong></div>
+</div>
+<div class="feedback-actions">
+<button class="btn" data-i18n="joinBackHome" onclick="navigateTo('homeView')" type="button">Back home</button>
 </div>
 </div>
 </div>
@@ -3756,13 +3884,17 @@ body:not(.home-view-active) .home-only-global{display:none !important}
                 urgentTitle: "Need help quickly?",
                 urgentIntro: "Send a shorter urgent request and we will review availability first.",
                 urgentAvailabilityNote: "Urgent requests are subject to availability and may include a priority fee.",
-                urgentNameLabel: "Contact name",
+                urgentFirstNameLabel: "First name",
+                urgentLastNameLabel: "Last name",
                 urgentPhoneLabel: "Phone number",
+                urgentEmailLabel: "Email",
                 urgentCityLabel: "City",
+                urgentCityPrompt: "Choose a city",
                 urgentServiceLabel: "Service",
                 urgentTimingLabel: "When do you need help?",
                 urgentNotesLabel: "Notes",
-                urgentNotesPlaceholder: "Any important detail about the elder or the request",
+                urgentNotesPlaceholder: "Tell us the case details and any note that can help us act faster",
+                urgentNotesHelp: "Please fill in the notes to help us process urgent requests faster.",
                 urgentSubmitBtn: "Send urgent request",
                 urgentSuccessTitle: "Urgent request sent",
                 urgentSuccessText: "We will review availability first and contact you quickly to confirm.",
@@ -3775,7 +3907,50 @@ body:not(.home-view-active) .home-only-global{display:none !important}
                 urgentTiming2Hours: "Within 2 hours",
                 urgentTimingToday: "Later today",
                 urgentTimingTonight: "Tonight",
-                urgentMissingFields: "Please enter your name, phone number, city, service, and urgency level.",
+                urgentMissingFields: "Please enter first name, last name, phone number, email, city, service, urgency level, and notes.",
+                urgentPhoneInvalid: "Please enter a valid Moroccan phone number.",
+                urgentEmailInvalid: "Please enter a valid email address.",
+                joinUsButton: "Join us",
+                joinUsBadge: "We are hiring",
+                joinUsTitle: "Join the CareVia team",
+                joinUsIntro: "Fill in your information and send your application. We will review it and reply by email.",
+                joinUsNote: "Make sure your information is correct and upload your CV and a clear selfie photo.",
+                joinFirstNameLabel: "First name",
+                joinLastNameLabel: "Last name",
+                joinBirthDateLabel: "Date of birth",
+                joinResidenceLabel: "Place of residence",
+                joinAddressLabel: "Address",
+                joinCityLabel: "City",
+                joinCityPrompt: "Choose a city",
+                joinPhoneLabel: "Phone number",
+                joinEmailLabel: "Email",
+                joinEducationLevelLabel: "Education level",
+                joinDiplomasLabel: "Diplomas",
+                joinCertificatesLabel: "Certificates",
+                joinFormationsLabel: "Training courses",
+                joinCvLabel: "Upload your CV",
+                joinSelfieLabel: "Upload a selfie photo",
+                joinNoFile: "No file selected",
+                joinCurrentStatusLabel: "What are you doing now?",
+                joinCurrentStatusPrompt: "Choose your current status",
+                joinStatusStudent: "Student",
+                joinStatusWorking: "Working",
+                joinStatusOther: "Other",
+                joinStudentStudyLabel: "If you are a student, what do you study?",
+                joinWorkerJobLabel: "If you are working, what is your current job?",
+                joinJobTypeLabel: "Are you applying for a main job or part-time?",
+                joinJobTypePrompt: "Choose application type",
+                joinJobTypeMain: "Main job",
+                joinJobTypePartTime: "Part-time job",
+                joinSubmitBtn: "Send application",
+                joinSuccessTitle: "Application received",
+                joinSuccessText: "Your application has been registered. We will reply to the email address you entered.",
+                joinBackHome: "Back home",
+                joinMissingFields: "Please complete all required fields and upload your CV and selfie.",
+                joinPhoneInvalid: "Please enter a valid Moroccan phone number.",
+                joinEmailInvalid: "Please enter a valid email address.",
+                joinStudentStudyRequired: "Please tell us what you study.",
+                joinWorkerJobRequired: "Please tell us your current job.",
                 placeholderFirstName: "e.g. Ahmed",
                 placeholderLastName: "e.g. Benali",
                 placeholderPhone: "+212 6XX-XXXXXX or 06XXXXXXXX",
@@ -3828,13 +4003,17 @@ body:not(.home-view-active) .home-only-global{display:none !important}
                 urgentTitle: "هل تحتاجون المساعدة بسرعة؟",
                 urgentIntro: "أرسلوا طلباً مستعجلاً ومختصراً وسنراجع التوفر أولاً.",
                 urgentAvailabilityNote: "الطلبات المستعجلة تبقى حسب التوفر وقد يضاف لها رسم أولوية.",
-                urgentNameLabel: "اسم جهة الاتصال",
+                urgentFirstNameLabel: "الاسم الشخصي",
+                urgentLastNameLabel: "النسب",
                 urgentPhoneLabel: "رقم الهاتف",
+                urgentEmailLabel: "البريد الإلكتروني",
                 urgentCityLabel: "المدينة",
+                urgentCityPrompt: "اختر المدينة",
                 urgentServiceLabel: "الخدمة",
                 urgentTimingLabel: "متى تحتاجون المساعدة؟",
                 urgentNotesLabel: "ملاحظات",
-                urgentNotesPlaceholder: "أي معلومة مهمة عن الحالة أو الطلب",
+                urgentNotesPlaceholder: "اكتب تفاصيل الحالة وأي ملاحظة تساعدنا نعالجو الطلب بسرعة",
+                urgentNotesHelp: "المرجو ملء خانة الملاحظات لتسريع معالجة الطلب المستعجل.",
                 urgentSubmitBtn: "إرسال الطلب المستعجل",
                 urgentSuccessTitle: "تم إرسال الطلب المستعجل",
                 urgentSuccessText: "سنراجع التوفر أولاً ونتواصل معكم سريعاً للتأكيد.",
@@ -3847,7 +4026,50 @@ body:not(.home-view-active) .home-only-global{display:none !important}
                 urgentTiming2Hours: "خلال ساعتين",
                 urgentTimingToday: "في وقت لاحق اليوم",
                 urgentTimingTonight: "هذه الليلة",
-                urgentMissingFields: "المرجو إدخال الاسم ورقم الهاتف والمدينة والخدمة ودرجة الاستعجال.",
+                urgentMissingFields: "المرجو إدخال الاسم الشخصي والنسب ورقم الهاتف والبريد الإلكتروني والمدينة والخدمة ودرجة الاستعجال والملاحظات.",
+                urgentPhoneInvalid: "المرجو إدخال رقم هاتف مغربي صحيح.",
+                urgentEmailInvalid: "المرجو إدخال بريد إلكتروني صحيح.",
+                joinUsButton: "انضم إلينا",
+                joinUsBadge: "نحن نوظف",
+                joinUsTitle: "انضم إلى فريق CareVia",
+                joinUsIntro: "املأ معلوماتك وأرسل طلبك، وسنراجعه ثم نرد عليك عبر البريد الإلكتروني.",
+                joinUsNote: "تأكد من صحة معلوماتك وارفع السيرة الذاتية وصورة سيلفي واضحة.",
+                joinFirstNameLabel: "الاسم الشخصي",
+                joinLastNameLabel: "النسب",
+                joinBirthDateLabel: "تاريخ الازدياد",
+                joinResidenceLabel: "مكان الإقامة",
+                joinAddressLabel: "العنوان",
+                joinCityLabel: "المدينة",
+                joinCityPrompt: "اختر المدينة",
+                joinPhoneLabel: "رقم الهاتف",
+                joinEmailLabel: "البريد الإلكتروني",
+                joinEducationLevelLabel: "المستوى الدراسي",
+                joinDiplomasLabel: "الدبلومات",
+                joinCertificatesLabel: "الشواهد",
+                joinFormationsLabel: "التكوينات",
+                joinCvLabel: "ارفع السيرة الذاتية",
+                joinSelfieLabel: "ارفع صورة سيلفي",
+                joinNoFile: "لم يتم اختيار ملف",
+                joinCurrentStatusLabel: "شنو كتدير دابا؟",
+                joinCurrentStatusPrompt: "اختر وضعك الحالي",
+                joinStatusStudent: "طالب",
+                joinStatusWorking: "خدام",
+                joinStatusOther: "وضع آخر",
+                joinStudentStudyLabel: "إلى كنت طالب، شنو كتقرا؟",
+                joinWorkerJobLabel: "إلى كنت خدام، شنو الخدمة ديالك دابا؟",
+                joinJobTypeLabel: "بغيتيها خدمة رئيسية ولا part-time job؟",
+                joinJobTypePrompt: "اختر نوع العمل",
+                joinJobTypeMain: "خدمة رئيسية",
+                joinJobTypePartTime: "Part-time job",
+                joinSubmitBtn: "إرسال الطلب",
+                joinSuccessTitle: "تم تسجيل الطلب",
+                joinSuccessText: "تم تسجيل طلبك، وغادي نردو عليك فالإيميل اللي دخلتي.",
+                joinBackHome: "الرجوع للرئيسية",
+                joinMissingFields: "المرجو ملء جميع الخانات الضرورية ورفع السيرة الذاتية وصورة السيلفي.",
+                joinPhoneInvalid: "المرجو إدخال رقم هاتف مغربي صحيح.",
+                joinEmailInvalid: "المرجو إدخال بريد إلكتروني صحيح.",
+                joinStudentStudyRequired: "المرجو كتابة شنو كتقرا.",
+                joinWorkerJobRequired: "المرجو كتابة الخدمة اللي كتدير دابا.",
                 placeholderFirstName: "مثال: أحمد",
                 placeholderLastName: "مثال: بنعلي",
                 placeholderPhone: "+212 6XX-XXXXXX أو 06XXXXXXXX",
@@ -3900,13 +4122,17 @@ body:not(.home-view-active) .home-only-global{display:none !important}
                 urgentTitle: "Besoin d’aide rapidement ?",
                 urgentIntro: "Envoyez une demande urgente plus courte et nous vérifierons d’abord la disponibilité.",
                 urgentAvailabilityNote: "Les demandes urgentes restent soumises à disponibilité et peuvent inclure un supplément de priorité.",
-                urgentNameLabel: "Nom du contact",
+                urgentFirstNameLabel: "Prénom",
+                urgentLastNameLabel: "Nom",
                 urgentPhoneLabel: "Numéro de téléphone",
+                urgentEmailLabel: "E-mail",
                 urgentCityLabel: "Ville",
+                urgentCityPrompt: "Choisissez une ville",
                 urgentServiceLabel: "Service",
                 urgentTimingLabel: "Quand avez-vous besoin d’aide ?",
                 urgentNotesLabel: "Notes",
-                urgentNotesPlaceholder: "Tout détail important sur la personne âgée ou la demande",
+                urgentNotesPlaceholder: "Donnez les détails du cas et toute note utile pour accélérer le traitement",
+                urgentNotesHelp: "Merci de remplir la zone notes pour accélérer le traitement de la demande urgente.",
                 urgentSubmitBtn: "Envoyer la demande urgente",
                 urgentSuccessTitle: "Demande urgente envoyée",
                 urgentSuccessText: "Nous allons d’abord vérifier la disponibilité puis vous contacter rapidement pour confirmer.",
@@ -3919,7 +4145,50 @@ body:not(.home-view-active) .home-only-global{display:none !important}
                 urgentTiming2Hours: "Dans les 2 heures",
                 urgentTimingToday: "Plus tard aujourd’hui",
                 urgentTimingTonight: "Ce soir",
-                urgentMissingFields: "Veuillez saisir le nom, le téléphone, la ville, le service et le niveau d’urgence.",
+                urgentMissingFields: "Veuillez saisir le prénom, le nom, le téléphone, l’e-mail, la ville, le service, le niveau d’urgence et les notes.",
+                urgentPhoneInvalid: "Veuillez saisir un numéro marocain valide.",
+                urgentEmailInvalid: "Veuillez saisir une adresse e-mail valide.",
+                joinUsButton: "Rejoignez-nous",
+                joinUsBadge: "Nous recrutons",
+                joinUsTitle: "Rejoignez l’équipe CareVia",
+                joinUsIntro: "Remplissez vos informations et envoyez votre candidature. Nous l’étudierons puis nous répondrons par email.",
+                joinUsNote: "Assurez-vous que vos informations sont correctes et ajoutez votre CV ainsi qu’une photo selfie claire.",
+                joinFirstNameLabel: "Prénom",
+                joinLastNameLabel: "Nom",
+                joinBirthDateLabel: "Date de naissance",
+                joinResidenceLabel: "Lieu de résidence",
+                joinAddressLabel: "Adresse",
+                joinCityLabel: "Ville",
+                joinCityPrompt: "Choisissez une ville",
+                joinPhoneLabel: "Téléphone",
+                joinEmailLabel: "Email",
+                joinEducationLevelLabel: "Niveau d’études",
+                joinDiplomasLabel: "Diplômes",
+                joinCertificatesLabel: "Certificats",
+                joinFormationsLabel: "Formations",
+                joinCvLabel: "Téléchargez votre CV",
+                joinSelfieLabel: "Téléchargez une photo selfie",
+                joinNoFile: "Aucun fichier sélectionné",
+                joinCurrentStatusLabel: "Que faites-vous actuellement ?",
+                joinCurrentStatusPrompt: "Choisissez votre situation actuelle",
+                joinStatusStudent: "Étudiant",
+                joinStatusWorking: "En emploi",
+                joinStatusOther: "Autre",
+                joinStudentStudyLabel: "Si vous êtes étudiant, qu’étudiez-vous ?",
+                joinWorkerJobLabel: "Si vous travaillez, quel est votre poste actuel ?",
+                joinJobTypeLabel: "Cherchez-vous un emploi principal ou un temps partiel ?",
+                joinJobTypePrompt: "Choisissez le type de poste",
+                joinJobTypeMain: "Emploi principal",
+                joinJobTypePartTime: "Temps partiel",
+                joinSubmitBtn: "Envoyer la candidature",
+                joinSuccessTitle: "Candidature reçue",
+                joinSuccessText: "Votre candidature a été enregistrée. Nous vous répondrons à l’adresse email saisie.",
+                joinBackHome: "Retour à l’accueil",
+                joinMissingFields: "Veuillez remplir tous les champs requis et ajouter le CV ainsi que le selfie.",
+                joinPhoneInvalid: "Veuillez saisir un numéro marocain valide.",
+                joinEmailInvalid: "Veuillez saisir une adresse email valide.",
+                joinStudentStudyRequired: "Merci d’indiquer ce que vous étudiez.",
+                joinWorkerJobRequired: "Merci d’indiquer votre poste actuel.",
                 placeholderFirstName: "ex. Ahmed",
                 placeholderLastName: "ex. Benali",
                 placeholderPhone: "+212 6XX-XXXXXX ou 06XXXXXXXX",
@@ -4657,7 +4926,7 @@ body:not(.home-view-active) .home-only-global{display:none !important}
             e.target.value = value;
         });
 
-        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx68ofXGwdtAJO18xW1yqOsTTvqtYIJFWr5h0F3xnECJDzL5fv0KAlh5zq95mADN0rB/exec';
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz2JyyfxUM6qFJvylDtD6lh1n9i7v8WPvpZbEtuSqyEGZJ1G27m41Hd2Z7oan_fyb1T1w/exec';
 
         function processPayment() {
             const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
@@ -4978,7 +5247,7 @@ body.dark-mode .hero-stat {
         companionship:{hourlyRate:70,minHours:2,travelFee:0,nightExtra:15,weekendExtra:15,startingFrom:140}
     };
 
-    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx68ofXGwdtAJO18xW1yqOsTTvqtYIJFWr5h0F3xnECJDzL5fv0KAlh5zq95mADN0rB/exec';
+    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz2JyyfxUM6qFJvylDtD6lh1n9i7v8WPvpZbEtuSqyEGZJ1G27m41Hd2Z7oan_fyb1T1w/exec';
 
     async function postJsonToAppsScript(payload){
         await fetch(GOOGLE_SCRIPT_URL, {
@@ -5041,6 +5310,14 @@ body.dark-mode .btn-urgent-hero:hover{background:linear-gradient(135deg,#a2d975,
 .urgent-summary-item{background:var(--bg-color);border:1px solid var(--border-color);border-radius:24px;padding:1rem 1.1rem;text-align:center;}
 .urgent-summary-item span{display:block;font-size:.92rem;opacity:.82;margin-bottom:.35rem;}
 .urgent-summary-item strong{font-size:1.08rem;}
+.split-form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;}
+.field-help-text{font-size:.92rem;opacity:.8;margin-top:.45rem;}
+.file-upload-group input[type="file"]{padding:.8rem;}
+.upload-file-name{font-size:.92rem;opacity:.82;margin-top:.45rem;word-break:break-word;}
+.join-us-btn{display:inline-flex;align-items:center;justify-content:center;gap:.55rem;margin-top:.9rem;width:100%;}
+.careers-card h1{font-size:2rem;color:var(--accent-dark);margin-bottom:.6rem;}
+.careers-chip{background:rgba(118,184,79,0.16);color:var(--accent-dark);}
+@media (max-width:768px){.split-form-grid{grid-template-columns:1fr;}}
 .btn-secondary-soft{background:var(--bg-color)!important;color:var(--accent-dark)!important;border:1px solid var(--border-color);box-shadow:none;}
 .btn-secondary-soft:hover{background:var(--accent-light)!important;color:var(--accent-dark)!important;box-shadow:none;}
 body.rtl .hero-cta-group{justify-content:flex-start;}
@@ -5048,66 +5325,50 @@ body.rtl .hero-cta-group{justify-content:flex-start;}
 </style>
 <script id="urgent-booking-v15-script">
 (function(){
+  const CAREVIA_CITY_OPTIONS = ['Tangier','Casablanca','Rabat','Fes','Marrakech','Agadir','Meknes','Oujda','Kenitra','Tetouan','Safi','El Jadida','Nador','Beni Mellal','Larache'];
+  function getMoroccanPhonePlaceholder(){ return currentLang==='ar' ? '06XXXXXXXX أو +2126XXXXXXXX' : (currentLang==='fr' ? '06XXXXXXXX ou +2126XXXXXXXX' : '06XXXXXXXX or +2126XXXXXXXX'); }
+  function normalizeMoroccanPhone(value){ return String(value||'').replace(/[\s-]+/g,''); }
+  function isValidMoroccanPhone(value){ return /^(\+212[5-7]\d{8}|0[5-7]\d{8})$/.test(normalizeMoroccanPhone(value)); }
+  function cityLabel(city){ return currentLang==='ar' ? ({Tangier:'طنجة',Casablanca:'الدار البيضاء',Rabat:'الرباط',Fes:'فاس',Marrakech:'مراكش',Agadir:'أكادير',Meknes:'مكناس',Oujda:'وجدة',Kenitra:'القنيطرة',Tetouan:'تطوان',Safi:'آسفي','El Jadida':'الجديدة',Nador:'الناظور','Beni Mellal':'بني ملال',Larache:'العرائش'}[city] || city) : city; }
+  function readFileAsDataUrl(file){ return new Promise((resolve,reject)=>{ const reader=new FileReader(); reader.onload=()=>resolve(String(reader.result||'')); reader.onerror=()=>reject(new Error('read_error')); reader.readAsDataURL(file); }); }
+  function setUploadName(inputId, outputId){ const input=document.getElementById(inputId); const output=document.getElementById(outputId); if(!input || !output) return; const file=input.files && input.files[0]; output.textContent = file ? file.name : dt('joinNoFile'); }
+  function renderCitySelect(selectId, promptKey){ const select=document.getElementById(selectId); if(!select) return; const current=select.value; select.innerHTML = `<option value="">${dt(promptKey)}</option>` + CAREVIA_CITY_OPTIONS.map(city=>`<option value="${city}">${cityLabel(city)}</option>`).join(''); if(current) select.value=current; }
   function renderUrgentBookingOptions(){
     const serviceSelect=document.getElementById('urgentService');
     const timingSelect=document.getElementById('urgentTiming');
-    if(serviceSelect){
-      const current=serviceSelect.value;
-      serviceSelect.innerHTML=`<option value="">${dt('urgentServicePrompt')}</option><option value="homeCare">${getServiceName('homeCare')}</option><option value="medicalAcc">${getServiceName('medicalAcc')}</option><option value="personalCare">${getServiceName('personalCare')}</option><option value="companionship">${getServiceName('companionship')}</option>`;
-      if(current) serviceSelect.value=current;
-    }
-    if(timingSelect){
-      const current=timingSelect.value;
-      timingSelect.innerHTML=`<option value="">${dt('urgentTimingPrompt')}</option><option value="now">${dt('urgentTimingNow')}</option><option value="2hours">${dt('urgentTiming2Hours')}</option><option value="today">${dt('urgentTimingToday')}</option><option value="tonight">${dt('urgentTimingTonight')}</option>`;
-      if(current) timingSelect.value=current;
-    }
+    const phone=document.getElementById('urgentPhone');
+    renderCitySelect('urgentCity','urgentCityPrompt');
+    if(phone) phone.placeholder = getMoroccanPhonePlaceholder();
+    if(serviceSelect){ const current=serviceSelect.value; serviceSelect.innerHTML=`<option value="">${dt('urgentServicePrompt')}</option><option value="homeCare">${getServiceName('homeCare')}</option><option value="medicalAcc">${getServiceName('medicalAcc')}</option><option value="personalCare">${getServiceName('personalCare')}</option><option value="companionship">${getServiceName('companionship')}</option>`; if(current) serviceSelect.value=current; }
+    if(timingSelect){ const current=timingSelect.value; timingSelect.innerHTML=`<option value="">${dt('urgentTimingPrompt')}</option><option value="now">${dt('urgentTimingNow')}</option><option value="2hours">${dt('urgentTiming2Hours')}</option><option value="today">${dt('urgentTimingToday')}</option><option value="tonight">${dt('urgentTimingTonight')}</option>`; if(current) timingSelect.value=current; }
   }
-  function resetUrgentBooking(){
-    ['urgentName','urgentPhone','urgentCity','urgentNotes'].forEach(id=>{const el=document.getElementById(id); if(el) el.value='';});
-    ['urgentService','urgentTiming'].forEach(id=>{const el=document.getElementById(id); if(el) el.value='';});
-    const formWrap=document.getElementById('urgentBookingFormWrap');
-    const success=document.getElementById('urgentBookingSuccess');
-    if(formWrap) formWrap.style.display='block';
-    if(success) success.style.display='none';
-    renderUrgentBookingOptions();
+  function resetUrgentBooking(){ ['urgentFirstName','urgentLastName','urgentPhone','urgentEmail','urgentNotes'].forEach(id=>{const el=document.getElementById(id); if(el) el.value='';}); ['urgentCity','urgentService','urgentTiming'].forEach(id=>{const el=document.getElementById(id); if(el) el.value='';}); const formWrap=document.getElementById('urgentBookingFormWrap'); const success=document.getElementById('urgentBookingSuccess'); if(formWrap) formWrap.style.display='block'; if(success) success.style.display='none'; renderUrgentBookingOptions(); }
+  function renderJoinUsOptions(){
+    renderCitySelect('joinCity','joinCityPrompt');
+    const status=document.getElementById('joinCurrentStatus'); const jobType=document.getElementById('joinJobType'); const phone=document.getElementById('joinPhone');
+    if(phone) phone.placeholder = getMoroccanPhonePlaceholder();
+    if(status){ const current=status.value; status.innerHTML=`<option value="">${dt('joinCurrentStatusPrompt')}</option><option value="student">${dt('joinStatusStudent')}</option><option value="working">${dt('joinStatusWorking')}</option><option value="other">${dt('joinStatusOther')}</option>`; if(current) status.value=current; }
+    if(jobType){ const current=jobType.value; jobType.innerHTML=`<option value="">${dt('joinJobTypePrompt')}</option><option value="main">${dt('joinJobTypeMain')}</option><option value="partTime">${dt('joinJobTypePartTime')}</option>`; if(current) jobType.value=current; }
+    updateJoinUsConditionalFields(); setUploadName('joinCv','joinCvFileName'); setUploadName('joinSelfie','joinSelfieFileName');
   }
+  function updateJoinUsConditionalFields(){ const value=(document.getElementById('joinCurrentStatus')||{}).value||''; const studentWrap=document.getElementById('joinStudentFieldWrap'); const workerWrap=document.getElementById('joinWorkerFieldWrap'); const studentInput=document.getElementById('joinStudentStudy'); const workerInput=document.getElementById('joinWorkerJob'); if(studentWrap) studentWrap.style.display = value==='student' ? 'block' : 'none'; if(workerWrap) workerWrap.style.display = value==='working' ? 'block' : 'none'; if(value!=='student' && studentInput) studentInput.value=''; if(value!=='working' && workerInput) workerInput.value=''; }
+  function resetJoinUsForm(){ ['joinFirstName','joinLastName','joinBirthDate','joinResidence','joinAddress','joinPhone','joinEmail','joinEducationLevel','joinDiplomas','joinCertificates','joinFormations','joinStudentStudy','joinWorkerJob'].forEach(id=>{const el=document.getElementById(id); if(el) el.value='';}); ['joinCity','joinCurrentStatus','joinJobType'].forEach(id=>{const el=document.getElementById(id); if(el) el.value='';}); ['joinCv','joinSelfie'].forEach(id=>{ const el=document.getElementById(id); if(el) el.value=''; }); const formWrap=document.getElementById('joinUsFormWrap'); const success=document.getElementById('joinUsSuccess'); if(formWrap) formWrap.style.display='block'; if(success) success.style.display='none'; renderJoinUsOptions(); }
+  function injectJoinUsButtons(){ document.querySelectorAll('.footer-col').forEach(col=>{ const heading=col.querySelector('h4[data-i18n="contactUs"]'); if(!heading) return; const existing=col.querySelector('.join-us-btn'); if(existing){ const span=existing.querySelector('span'); if(span) span.textContent = dt('joinUsButton'); return; } const btn=document.createElement('button'); btn.className='btn join-us-btn'; btn.type='button'; btn.innerHTML=`<i class="fas fa-user-plus"></i><span>${dt('joinUsButton')}</span>`; btn.onclick=()=>{ resetJoinUsForm(); navigateTo('joinUsView'); requestAnimationFrame(()=>window.scrollTo({top:0,behavior:'auto'})); }; col.appendChild(btn); }); }
   window.showUrgentBooking=function(){ resetUrgentBooking(); navigateTo('urgentBookingView'); requestAnimationFrame(()=>window.scrollTo({top:0,behavior:'auto'})); };
-  window.submitUrgentBooking=async function(){
-    const name=(document.getElementById('urgentName')||{}).value?.trim()||'';
-    const phone=(document.getElementById('urgentPhone')||{}).value?.trim()||'';
-    const city=(document.getElementById('urgentCity')||{}).value?.trim()||'';
-    const service=(document.getElementById('urgentService')||{}).value||'';
-    const timing=(document.getElementById('urgentTiming')||{}).value||'';
-    const notes=(document.getElementById('urgentNotes')||{}).value?.trim()||'';
-    const submitBtn=document.querySelector('[onclick="submitUrgentBooking()"]');
-    if(!name||!phone||!city||!service||!timing){ showPopup(dt('urgentMissingFields')); return; }
-    const ref='URG-'+String(Date.now()).slice(-6);
-    if(submitBtn){ submitBtn.textContent = dt('submitting'); submitBtn.disabled = true; }
-    const payload = { type:'urgent', bookingId: ref, fullName: name, email:'', phone, city, service: getServiceName(service), serviceKey: service, date:'', timeSlots: [], caregiver:'', caregiverKey:'', hoursCount: 0, pricePerHour: 0, travelFee: 0, nightFee: 0, weekendFee: 0, discount: 0, total: 0, paymentMethod: 'urgent-request', notes: `${dt('urgentTimingLabel')}: ${dt('urgentTiming'+(timing==='now'?'Now':timing==='2Hours'?'2Hours':timing==='today'?'Today':'Tonight'))} | ${notes}`.trim(), urgency: timing, createdAt: new Date().toISOString() };
-    try {
-      const result = await postJsonToAppsScript(payload);
-      if(result && result.ok === false){ throw new Error(result.error || result.message || 'Request failed'); }
-      const refEl=document.getElementById('urgentRequestReference'); if(refEl) refEl.textContent=ref;
-      const serviceEl=document.getElementById('urgentSuccessService'); if(serviceEl) serviceEl.textContent=getServiceName(service);
-      const timingEl=document.getElementById('urgentSuccessTiming'); if(timingEl) timingEl.textContent=dt('urgentTiming'+(timing==='now'?'Now':timing==='2hours'?'2Hours':timing==='today'?'Today':'Tonight'));
-      try{ localStorage.setItem('careviaUrgentBooking', JSON.stringify({name,phone,city,service,timing,notes,ref,at:new Date().toISOString()})); }catch(e){}
-      const formWrap=document.getElementById('urgentBookingFormWrap');
-      const success=document.getElementById('urgentBookingSuccess');
-      if(formWrap) formWrap.style.display='none';
-      if(success) success.style.display='block';
-      if (typeof setLanguage === 'function') setTimeout(()=>setLanguage(currentLang),0);
-    } catch(error){
-      console.error(error);
-      showPopup(currentLang==='ar' ? 'وقع مشكل فإرسال الطلب المستعجل.' : (currentLang==='fr' ? 'Un problème est survenu lors de l’envoi de la demande urgente.' : 'There was a problem sending the urgent request.'));
-    } finally {
-      if(submitBtn){ submitBtn.textContent = dt('urgentSubmitBtn'); submitBtn.disabled = false; }
-    }
+  window.submitUrgentBooking=async function(){ const firstName=(document.getElementById('urgentFirstName')||{}).value?.trim()||''; const lastName=(document.getElementById('urgentLastName')||{}).value?.trim()||''; const phoneRaw=(document.getElementById('urgentPhone')||{}).value?.trim()||''; const phone=normalizeMoroccanPhone(phoneRaw); const email=(document.getElementById('urgentEmail')||{}).value?.trim()||''; const city=(document.getElementById('urgentCity')||{}).value||''; const service=(document.getElementById('urgentService')||{}).value||''; const timing=(document.getElementById('urgentTiming')||{}).value||''; const notes=(document.getElementById('urgentNotes')||{}).value?.trim()||''; const submitBtn=document.querySelector('[onclick="submitUrgentBooking()"]'); if(!firstName||!lastName||!phone||!email||!city||!service||!timing||!notes){ showPopup(dt('urgentMissingFields')); return; } if(!isValidMoroccanPhone(phone)){ showPopup(dt('urgentPhoneInvalid')); return; } if(!isValidEmail(email)){ showPopup(dt('urgentEmailInvalid')); return; } const ref='URG-'+String(Date.now()).slice(-6); if(submitBtn){ submitBtn.textContent = dt('submitting'); submitBtn.disabled = true; } const fullName=`${firstName} ${lastName}`.trim(); const timingLabel = dt('urgentTiming'+(timing==='now'?'Now':timing==='2hours'?'2Hours':timing==='today'?'Today':'Tonight')); const payload = { type:'urgent', bookingId: ref, fullName, firstName, lastName, email, phone, city, service: getServiceName(service), serviceKey: service, date:'', timeSlots: [], caregiver:'', caregiverKey:'', hoursCount: 0, pricePerHour: 0, travelFee: 0, nightFee: 0, weekendFee: 0, discount: 0, total: 0, paymentMethod: 'urgent-request', notes: `${dt('urgentTimingLabel')}: ${timingLabel} | ${notes}`.trim(), urgency: timing, createdAt: new Date().toISOString() };
+    try { const result = await postJsonToAppsScript(payload); if(result && result.ok === false){ throw new Error(result.error || result.message || 'Request failed'); } const refEl=document.getElementById('urgentRequestReference'); if(refEl) refEl.textContent=ref; const serviceEl=document.getElementById('urgentSuccessService'); if(serviceEl) serviceEl.textContent=getServiceName(service); const timingEl=document.getElementById('urgentSuccessTiming'); if(timingEl) timingEl.textContent=timingLabel; const cityEl=document.getElementById('urgentSuccessCity'); if(cityEl) cityEl.textContent=cityLabel(city); try{ localStorage.setItem('careviaUrgentBooking', JSON.stringify({firstName,lastName,phone,email,city,service,timing,notes,ref,at:new Date().toISOString()})); }catch(e){} const formWrap=document.getElementById('urgentBookingFormWrap'); const success=document.getElementById('urgentBookingSuccess'); if(formWrap) formWrap.style.display='none'; if(success) success.style.display='block'; if (typeof setLanguage === 'function') setTimeout(()=>setLanguage(currentLang),0); }
+    catch(error){ console.error(error); showPopup(currentLang==='ar' ? 'وقع مشكل فإرسال الطلب المستعجل.' : (currentLang==='fr' ? 'Un problème est survenu lors de l’envoi de la demande urgente.' : 'There was a problem sending the urgent request.')); }
+    finally { if(submitBtn){ submitBtn.textContent = dt('urgentSubmitBtn'); submitBtn.disabled = false; } }
   };
-  const originalSetLanguage = setLanguage;
-  setLanguage = function(lang){ originalSetLanguage(lang); renderUrgentBookingOptions(); };
-  window.setLanguage = setLanguage;
-  document.addEventListener('DOMContentLoaded', renderUrgentBookingOptions);
-  setTimeout(renderUrgentBookingOptions, 30);
+  window.submitJoinUsApplication=async function(){ const submitBtn=document.querySelector('[onclick="submitJoinUsApplication()"]'); const data = { firstName:(document.getElementById('joinFirstName')||{}).value?.trim()||'', lastName:(document.getElementById('joinLastName')||{}).value?.trim()||'', birthDate:(document.getElementById('joinBirthDate')||{}).value||'', residence:(document.getElementById('joinResidence')||{}).value?.trim()||'', address:(document.getElementById('joinAddress')||{}).value?.trim()||'', city:(document.getElementById('joinCity')||{}).value||'', phone:normalizeMoroccanPhone((document.getElementById('joinPhone')||{}).value?.trim()||''), email:(document.getElementById('joinEmail')||{}).value?.trim()||'', educationLevel:(document.getElementById('joinEducationLevel')||{}).value?.trim()||'', diplomas:(document.getElementById('joinDiplomas')||{}).value?.trim()||'', certificates:(document.getElementById('joinCertificates')||{}).value?.trim()||'', formations:(document.getElementById('joinFormations')||{}).value?.trim()||'', currentStatus:(document.getElementById('joinCurrentStatus')||{}).value||'', studentStudy:(document.getElementById('joinStudentStudy')||{}).value?.trim()||'', workerJob:(document.getElementById('joinWorkerJob')||{}).value?.trim()||'', jobType:(document.getElementById('joinJobType')||{}).value||'' };
+    const cvFile=(document.getElementById('joinCv')||{}).files?.[0] || null; const selfieFile=(document.getElementById('joinSelfie')||{}).files?.[0] || null; if(!data.firstName||!data.lastName||!data.birthDate||!data.residence||!data.address||!data.city||!data.phone||!data.email||!data.educationLevel||!data.currentStatus||!data.jobType||!cvFile||!selfieFile){ showPopup(dt('joinMissingFields')); return; } if(!isValidMoroccanPhone(data.phone)){ showPopup(dt('joinPhoneInvalid')); return; } if(!data.email.includes('@') || !data.email.includes('.')){ showPopup(dt('joinEmailInvalid')); return; } if(data.currentStatus==='student' && !data.studentStudy){ showPopup(dt('joinStudentStudyRequired')); return; } if(data.currentStatus==='working' && !data.workerJob){ showPopup(dt('joinWorkerJobRequired')); return; } if(submitBtn){ submitBtn.textContent=dt('submitting'); submitBtn.disabled=true; }
+    try { const [cvData, selfieData] = await Promise.all([readFileAsDataUrl(cvFile), readFileAsDataUrl(selfieFile)]); const payload = { type:'job_application', bookingId:'JOB-'+String(Date.now()).slice(-6), fullName:`${data.firstName} ${data.lastName}`.trim(), email:data.email, phone:data.phone, city:data.city, service:'CareVia recruitment', serviceKey:'join-us', date:'', timeSlots:[], caregiver:'', caregiverKey:'', hoursCount:0, pricePerHour:0, travelFee:0, nightFee:0, weekendFee:0, discount:0, total:0, paymentMethod:'not-applicable', notes: JSON.stringify({ applicationType:'join-us', birthDate:data.birthDate, residence:data.residence, address:data.address, educationLevel:data.educationLevel, diplomas:data.diplomas, certificates:data.certificates, formations:data.formations, currentStatus:data.currentStatus, studentStudy:data.studentStudy, workerJob:data.workerJob, jobType:data.jobType, cvFileName:cvFile.name, selfieFileName:selfieFile.name, cvData, selfieData }), createdAt:new Date().toISOString() }; const result = await postJsonToAppsScript(payload); if(result && result.ok===false){ throw new Error(result.error || result.message || 'Request failed'); } const formWrap=document.getElementById('joinUsFormWrap'); const success=document.getElementById('joinUsSuccess'); if(formWrap) formWrap.style.display='none'; if(success) success.style.display='block'; const set=(id,val)=>{ const el=document.getElementById(id); if(el) el.textContent=val; }; set('joinSuccessEmail', data.email); set('joinSuccessJobType', dt(data.jobType==='main' ? 'joinJobTypeMain' : 'joinJobTypePartTime')); set('joinSuccessStatus', dt(data.currentStatus==='student' ? 'joinStatusStudent' : data.currentStatus==='working' ? 'joinStatusWorking' : 'joinStatusOther')); if (typeof setLanguage === 'function') setTimeout(()=>setLanguage(currentLang),0); }
+    catch(error){ console.error(error); showPopup(currentLang==='ar' ? 'وقع مشكل فإرسال طلب الانضمام.' : (currentLang==='fr' ? 'Un problème est survenu lors de l’envoi de la candidature.' : 'There was a problem sending the application.')); }
+    finally { if(submitBtn){ submitBtn.textContent=dt('joinSubmitBtn'); submitBtn.disabled=false; } }
+  };
+  const originalSetLanguage = setLanguage; setLanguage = function(lang){ originalSetLanguage(lang); renderUrgentBookingOptions(); renderJoinUsOptions(); injectJoinUsButtons(); }; window.setLanguage = setLanguage;
+  document.addEventListener('DOMContentLoaded', ()=>{ renderUrgentBookingOptions(); renderJoinUsOptions(); injectJoinUsButtons(); const joinStatus=document.getElementById('joinCurrentStatus'); if(joinStatus) joinStatus.addEventListener('change', updateJoinUsConditionalFields); const joinCv=document.getElementById('joinCv'); if(joinCv) joinCv.addEventListener('change', ()=>setUploadName('joinCv','joinCvFileName')); const joinSelfie=document.getElementById('joinSelfie'); if(joinSelfie) joinSelfie.addEventListener('change', ()=>setUploadName('joinSelfie','joinSelfieFileName')); });
+  setTimeout(()=>{ renderUrgentBookingOptions(); renderJoinUsOptions(); injectJoinUsButtons(); }, 30);
 })();
 </script>
 </body>
