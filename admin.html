@@ -1,190 +1,182 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CareVia Admin Panel V1</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+  <title>CareVia Admin Panel</title>
   <style>
     :root {
       --bg: #f4f8f7;
+      --sidebar: #ffffff;
       --card: #ffffff;
       --text: #173042;
-      --muted: #64808f;
-      --border: #dce8e5;
+      --muted: #6b7280;
       --primary: #0f5873;
-      --primary-2: #127b87;
-      --accent: #76b84f;
+      --secondary: #76b84f;
+      --border: #d8e8e4;
       --danger: #d9534f;
       --warning: #f0ad4e;
-      --success: #2c9b62;
-      --shadow: 0 16px 40px rgba(15, 88, 115, 0.12);
+      --success: #5cb85c;
+      --shadow: 0 12px 28px rgba(15, 88, 115, 0.08);
       --radius: 18px;
     }
 
-    * { box-sizing: border-box; }
-    body {
+    * {
+      box-sizing: border-box;
       margin: 0;
-      font-family: 'Poppins', 'Cairo', sans-serif;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
       background: var(--bg);
       color: var(--text);
     }
 
-    .hidden { display: none !important; }
+    .hidden {
+      display: none !important;
+    }
 
-    .login-wrap {
+    .login-screen {
       min-height: 100vh;
-      display: grid;
-      place-items: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       padding: 20px;
-      background: linear-gradient(135deg, #f8fcfb, #ebf5f3);
+      background: linear-gradient(135deg, #f4f8f7, #eef6f4);
     }
 
     .login-card {
       width: 100%;
       max-width: 430px;
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 28px;
+      background: #fff;
+      border-radius: 22px;
       box-shadow: var(--shadow);
-      padding: 30px;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      margin-bottom: 18px;
-    }
-
-    .brand img {
-      width: 56px;
-      height: 56px;
-      border-radius: 16px;
-      object-fit: contain;
-      background: #fff;
       border: 1px solid var(--border);
-      padding: 5px;
+      padding: 30px 24px;
     }
 
-    .brand h1 {
-      font-size: 1.55rem;
-      margin: 0;
+    .login-card h1 {
+      font-size: 30px;
       color: var(--primary);
-    }
-
-    .brand span { color: var(--accent); }
-
-    .sub {
-      margin: 0 0 22px;
-      color: var(--muted);
-      font-size: 0.95rem;
-    }
-
-    .field { margin-bottom: 14px; }
-    .field label {
-      display: block;
       margin-bottom: 8px;
-      font-size: 0.92rem;
-      font-weight: 600;
     }
 
-    .field input, .field select {
+    .login-card p {
+      color: var(--muted);
+      margin-bottom: 24px;
+    }
+
+    .brand-inline span {
+      color: var(--secondary);
+    }
+
+    .input-group {
+      margin-bottom: 16px;
+    }
+
+    .input-group label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .input-group input,
+    .input-group select,
+    textarea {
       width: 100%;
-      padding: 13px 14px;
-      border-radius: 14px;
       border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 14px;
+      font-size: 14px;
       outline: none;
-      font: inherit;
       background: #fff;
-    }
-
-    .field input:focus, .field select:focus {
-      border-color: var(--primary-2);
-      box-shadow: 0 0 0 4px rgba(18, 123, 135, 0.08);
     }
 
     .btn {
       border: none;
+      border-radius: 12px;
+      padding: 11px 16px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: 0.2s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      opacity: 0.95;
+    }
+
+    .btn-primary {
       background: var(--primary);
       color: #fff;
-      padding: 12px 18px;
-      border-radius: 14px;
-      font: inherit;
-      font-weight: 600;
-      cursor: pointer;
-      transition: .2s ease;
     }
 
-    .btn:hover { transform: translateY(-1px); background: var(--primary-2); }
-    .btn.secondary { background: #fff; color: var(--primary); border: 1px solid var(--border); }
-    .btn.success { background: var(--success); }
-    .btn.warning { background: var(--warning); color: #fff; }
-    .btn.danger { background: var(--danger); }
-    .btn.sm { padding: 8px 12px; border-radius: 10px; font-size: 0.88rem; }
-    .btn.block { width: 100%; }
-
-    .msg {
-      padding: 12px 14px;
-      border-radius: 14px;
-      margin-top: 12px;
-      font-size: 0.92rem;
-      display: none;
+    .btn-secondary {
+      background: var(--secondary);
+      color: #fff;
     }
-    .msg.show { display: block; }
-    .msg.error { background: #fff1f0; color: #b42318; border: 1px solid #fecaca; }
-    .msg.success { background: #ecfdf3; color: #027a48; border: 1px solid #b7ebc6; }
 
-    .app {
+    .btn-danger {
+      background: var(--danger);
+      color: #fff;
+    }
+
+    .btn-warning {
+      background: var(--warning);
+      color: #fff;
+    }
+
+    .btn-success {
+      background: var(--success);
+      color: #fff;
+    }
+
+    .app-layout {
       display: grid;
-      grid-template-columns: 270px 1fr;
+      grid-template-columns: 260px 1fr;
       min-height: 100vh;
     }
 
     .sidebar {
-      background: #0d3141;
-      color: #fff;
-      padding: 22px 18px;
-      position: sticky;
-      top: 0;
-      height: 100vh;
+      background: var(--sidebar);
+      border-right: 1px solid var(--border);
+      padding: 24px 18px;
     }
 
-    .sidebar .brand {
-      margin-bottom: 24px;
+    .brand {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--primary);
+      margin-bottom: 28px;
     }
 
-    .sidebar .brand h1 { color: #fff; }
-    .sidebar .brand img { border-color: rgba(255,255,255,0.12); background: rgba(255,255,255,0.08); }
+    .brand span {
+      color: var(--secondary);
+    }
 
-    .nav-btn {
+    .menu button {
       width: 100%;
       text-align: left;
-      border: 0;
-      background: transparent;
-      color: #d9e8ee;
       padding: 13px 14px;
-      border-radius: 14px;
-      font: inherit;
+      border: none;
+      border-radius: 12px;
+      background: transparent;
       cursor: pointer;
       margin-bottom: 8px;
-      font-weight: 500;
+      font-size: 15px;
+      color: var(--text);
     }
 
-    .nav-btn.active, .nav-btn:hover {
-      background: rgba(255,255,255,0.12);
-      color: #fff;
+    .menu button:hover,
+    .menu button.active {
+      background: #eef6f4;
+      color: var(--primary);
+      font-weight: bold;
     }
 
-    .side-foot {
-      margin-top: auto;
-      padding-top: 18px;
-      border-top: 1px solid rgba(255,255,255,0.12);
-    }
-
-    .main {
+    .content {
       padding: 24px;
     }
 
@@ -193,25 +185,19 @@
       justify-content: space-between;
       align-items: center;
       gap: 12px;
-      margin-bottom: 20px;
+      margin-bottom: 22px;
       flex-wrap: wrap;
     }
 
     .topbar h2 {
-      margin: 0;
-      font-size: 1.55rem;
-    }
-
-    .topbar p {
-      margin: 4px 0 0;
-      color: var(--muted);
+      font-size: 28px;
     }
 
     .cards {
       display: grid;
-      grid-template-columns: repeat(6, minmax(150px, 1fr));
-      gap: 14px;
-      margin-bottom: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
     }
 
     .card {
@@ -219,253 +205,247 @@
       border: 1px solid var(--border);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
-      padding: 18px;
+      padding: 20px;
     }
 
-    .stat .label {
+    .card h3 {
+      font-size: 14px;
       color: var(--muted);
-      font-size: .92rem;
+      margin-bottom: 10px;
     }
 
-    .stat .value {
-      margin-top: 6px;
-      font-size: 1.8rem;
-      font-weight: 700;
+    .card .value {
+      font-size: 28px;
+      font-weight: 800;
       color: var(--primary);
+    }
+
+    .section {
+      display: none;
+    }
+
+    .section.active {
+      display: block;
     }
 
     .toolbar {
       display: flex;
-      gap: 10px;
+      gap: 12px;
       flex-wrap: wrap;
-      margin-bottom: 14px;
+      margin-bottom: 16px;
+      align-items: center;
     }
 
-    .toolbar input, .toolbar select {
+    .toolbar input,
+    .toolbar select {
       min-width: 180px;
-      flex: 1 1 180px;
-      padding: 12px 14px;
-      border-radius: 12px;
-      border: 1px solid var(--border);
-      background: #fff;
-      font: inherit;
     }
 
     .table-wrap {
-      overflow: auto;
-      border-radius: var(--radius);
       background: #fff;
       border: 1px solid var(--border);
+      border-radius: var(--radius);
       box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .table-scroll {
+      overflow: auto;
     }
 
     table {
       width: 100%;
       border-collapse: collapse;
-      min-width: 980px;
+      min-width: 900px;
     }
 
     th, td {
       padding: 14px 12px;
-      border-bottom: 1px solid #eef3f2;
+      border-bottom: 1px solid #edf2f1;
       text-align: left;
-      font-size: .92rem;
+      font-size: 14px;
       vertical-align: top;
     }
 
     th {
       background: #f9fcfb;
-      color: #375666;
-      font-size: .86rem;
-      position: sticky;
-      top: 0;
-      z-index: 1;
+      color: var(--primary);
+      font-weight: 700;
     }
 
-    tr:hover td { background: #fcfefe; }
-
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 7px 10px;
+    .status-badge {
+      display: inline-block;
+      padding: 6px 10px;
       border-radius: 999px;
-      font-size: .8rem;
-      font-weight: 600;
+      background: #eef6f4;
+      color: var(--primary);
+      font-size: 12px;
+      font-weight: bold;
       white-space: nowrap;
     }
 
-    .status-en-attente { background: #fff4df; color: #9a6700; }
-    .status-confirme { background: #eafaf1; color: #067647; }
-    .status-termine { background: #eef4ff; color: #1d4ed8; }
-    .status-annule { background: #fff1f0; color: #b42318; }
-
-    .section { display: none; }
-    .section.active { display: block; }
-
-    .modal {
-      position: fixed;
-      inset: 0;
-      background: rgba(10, 26, 35, .5);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 18px;
-      z-index: 20;
-    }
-
-    .modal.show { display: flex; }
-
-    .modal-card {
-      width: 100%;
-      max-width: 760px;
-      max-height: 90vh;
-      overflow: auto;
-      background: #fff;
-      border-radius: 24px;
-      box-shadow: 0 28px 80px rgba(0,0,0,.18);
-      border: 1px solid var(--border);
-      padding: 22px;
-    }
-
-    .modal-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: start;
-      gap: 14px;
-      margin-bottom: 18px;
-    }
-
-    .grid-details {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(220px, 1fr));
-      gap: 12px;
-    }
-
-    .detail-box {
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 14px;
-      background: #fbfefd;
-    }
-
-    .detail-box .k {
-      color: var(--muted);
-      font-size: .82rem;
-      margin-bottom: 6px;
-    }
-
-    .detail-box .v {
-      font-weight: 600;
-      word-break: break-word;
-    }
-
-    .empty {
-      padding: 28px;
-      text-align: center;
-      color: var(--muted);
-    }
-
-    .actions-row {
+    .actions {
       display: flex;
       gap: 8px;
       flex-wrap: wrap;
     }
 
-    .loading {
-      padding: 16px;
+    .actions .btn {
+      padding: 8px 10px;
+      font-size: 12px;
+      border-radius: 10px;
+    }
+
+    .muted {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .empty-state {
+      padding: 22px;
+      text-align: center;
       color: var(--muted);
     }
 
-    @media (max-width: 1100px) {
-      .app { grid-template-columns: 1fr; }
-      .sidebar {
-        position: relative;
-        height: auto;
-      }
-      .cards { grid-template-columns: repeat(2, minmax(160px, 1fr)); }
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.4);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      z-index: 1000;
     }
 
-    @media (max-width: 700px) {
-      .main { padding: 16px; }
-      .cards { grid-template-columns: 1fr; }
-      .grid-details { grid-template-columns: 1fr; }
-      .login-card { padding: 22px; }
-      .topbar h2 { font-size: 1.25rem; }
+    .modal-overlay.show {
+      display: flex;
+    }
+
+    .modal {
+      width: 100%;
+      max-width: 760px;
+      background: #fff;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+    }
+
+    .modal-header {
+      padding: 18px 20px;
+      background: #f8fbfa;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .modal-body {
+      padding: 20px;
+      max-height: 75vh;
+      overflow: auto;
+    }
+
+    .detail-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+    }
+
+    .detail-item {
+      background: #fbfdfc;
+      border: 1px solid #edf2f1;
+      border-radius: 14px;
+      padding: 14px;
+    }
+
+    .detail-item strong {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--primary);
+      font-size: 13px;
+    }
+
+    .login-error {
+      margin-top: 12px;
+      color: var(--danger);
+      font-size: 14px;
+    }
+
+    @media (max-width: 920px) {
+      .app-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+      }
     }
   </style>
 </head>
 <body>
-  <div id="loginView" class="login-wrap">
+  <div id="loginScreen" class="login-screen">
     <div class="login-card">
-      <div class="brand">
-        <img src="https://raw.githubusercontent.com/Ayoubbnx121/Carevia/8ea8f0cd928dcb19861ab59f8313a29d3f6f6f71/logo.jpg" alt="CareVia logo">
-        <h1>Care<span>Via</span> Admin</h1>
-      </div>
-      <p class="sub">Connexion simple pour l'administration V1.</p>
+      <h1 class="brand-inline">Care<span>Via</span> Admin</h1>
+      <p>Connexion à l’espace d’administration</p>
 
-      <div class="field">
+      <div class="input-group">
         <label for="adminEmail">Email</label>
-        <input type="email" id="adminEmail" placeholder="admin@carevia.ma">
+        <input type="email" id="adminEmail" placeholder="admin@carevia.ma" />
       </div>
 
-      <div class="field">
+      <div class="input-group">
         <label for="adminPassword">Mot de passe</label>
-        <input type="password" id="adminPassword" placeholder="••••••••">
+        <input type="password" id="adminPassword" placeholder="********" />
       </div>
 
-      <button class="btn block" id="loginBtn">Login</button>
-      <div id="loginMsg" class="msg error"></div>
+      <button class="btn btn-primary" style="width:100%;" onclick="loginAdmin()">Login</button>
+      <div id="loginError" class="login-error"></div>
     </div>
   </div>
 
-  <div id="appView" class="app hidden">
+  <div id="adminApp" class="app-layout hidden">
     <aside class="sidebar">
-      <div style="display:flex;flex-direction:column;height:100%;">
-        <div>
-          <div class="brand">
-            <img src="https://raw.githubusercontent.com/Ayoubbnx121/Carevia/8ea8f0cd928dcb19861ab59f8313a29d3f6f6f71/logo.jpg" alt="CareVia logo">
-            <h1>Care<span>Via</span></h1>
-          </div>
-
-          <button class="nav-btn active" data-section="dashboard">Dashboard</button>
-          <button class="nav-btn" data-section="bookings">Bookings</button>
-          <button class="nav-btn" data-section="joinus">Join Us</button>
-          <button class="nav-btn" data-section="caregivers">Caregivers</button>
-        </div>
-
-        <div class="side-foot">
-          <button class="btn secondary block" id="logoutBtn">Logout</button>
-        </div>
+      <div class="brand">Care<span>Via</span></div>
+      <div class="menu">
+        <button class="active" onclick="showSection('dashboard', this)">Dashboard</button>
+        <button onclick="showSection('bookings', this)">Bookings</button>
+        <button onclick="showSection('joinus', this)">Join Us</button>
+        <button onclick="showSection('caregivers', this)">Caregivers</button>
+        <button onclick="logoutAdmin()">Logout</button>
       </div>
     </aside>
 
-    <main class="main">
+    <main class="content">
+      <div class="topbar">
+        <h2 id="pageTitle">Dashboard</h2>
+        <button class="btn btn-primary" onclick="refreshAll()">Refresh</button>
+      </div>
+
       <section id="dashboard" class="section active">
-        <div class="topbar">
-          <div>
-            <h2>Dashboard</h2>
-            <p>Vue rapide sur les réservations et les candidatures.</p>
-          </div>
-          <button class="btn" id="refreshDashboardBtn">Refresh</button>
+        <div class="cards">
+          <div class="card"><h3>Total Bookings</h3><div class="value" id="statTotalBookings">0</div></div>
+          <div class="card"><h3>En attente</h3><div class="value" id="statPending">0</div></div>
+          <div class="card"><h3>Confirmé</h3><div class="value" id="statConfirmed">0</div></div>
+          <div class="card"><h3>Terminé</h3><div class="value" id="statCompleted">0</div></div>
+          <div class="card"><h3>Annulé</h3><div class="value" id="statCancelled">0</div></div>
+          <div class="card"><h3>Join Us</h3><div class="value" id="statJoinUs">0</div></div>
+          <div class="card"><h3>Caregivers</h3><div class="value" id="statCaregivers">0</div></div>
         </div>
 
-        <div class="cards" id="statsCards"></div>
+        <div class="card">
+          <h3 style="margin-bottom:10px;">Résumé</h3>
+          <p class="muted">من هنا تقدر تشوف الطلبات، تبدل status، وتشوف الترشيحات ومعلومات الـ caregivers.</p>
+        </div>
       </section>
 
       <section id="bookings" class="section">
-        <div class="topbar">
-          <div>
-            <h2>Bookings</h2>
-            <p>Recherche, filtres et mise à jour du statut.</p>
-          </div>
-          <button class="btn" id="refreshBookingsBtn">Refresh</button>
-        </div>
-
         <div class="toolbar">
-          <input type="text" id="bookingSearch" placeholder="Search by name, phone, booking ID, email">
-          <select id="bookingStatusFilter">
-            <option value="">All statuses</option>
+          <input type="text" id="bookingSearch" placeholder="Search by name, phone, booking ID..." oninput="renderBookings()" />
+          <select id="bookingStatusFilter" onchange="renderBookings()">
+            <option value="">All Status</option>
             <option value="en attente">en attente</option>
             <option value="confirmé">confirmé</option>
             <option value="terminé">terminé</option>
@@ -474,164 +454,412 @@
         </div>
 
         <div class="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>Booking ID</th>
-                <th>Nom</th>
-                <th>Téléphone</th>
-                <th>Email</th>
-                <th>Ville</th>
-                <th>Service</th>
-                <th>Date</th>
-                <th>Caregiver</th>
-                <th>Total</th>
-                <th>Status</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody id="bookingsTableBody">
-              <tr><td colspan="11" class="loading">Loading bookings...</td></tr>
-            </tbody>
-          </table>
+          <div class="table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>Booking ID</th>
+                  <th>Nom</th>
+                  <th>Téléphone</th>
+                  <th>Email</th>
+                  <th>Ville</th>
+                  <th>Service</th>
+                  <th>Date</th>
+                  <th>Total</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="bookingsTableBody"></tbody>
+            </table>
+          </div>
+          <div id="bookingsEmpty" class="empty-state hidden">Aucun booking trouvé.</div>
         </div>
       </section>
 
       <section id="joinus" class="section">
-        <div class="topbar">
-          <div>
-            <h2>Join Us</h2>
-            <p>Liste des candidatures reçues.</p>
-          </div>
-          <button class="btn" id="refreshJoinUsBtn">Refresh</button>
-        </div>
-
         <div class="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>Date</th>
-                <th>Nom</th>
-                <th>Téléphone</th>
-                <th>Email</th>
-                <th>Ville</th>
-                <th>Niveau</th>
-                <th>CV</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody id="joinUsTableBody">
-              <tr><td colspan="8" class="loading">Loading join us data...</td></tr>
-            </tbody>
-          </table>
+          <div class="table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>First Name</th>
+                  <th>Last Name</th>
+                  <th>Phone</th>
+                  <th>Email</th>
+                  <th>City</th>
+                  <th>Education</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="joinUsTableBody"></tbody>
+            </table>
+          </div>
+          <div id="joinUsEmpty" class="empty-state hidden">Aucune candidature trouvée.</div>
         </div>
       </section>
 
       <section id="caregivers" class="section">
-        <div class="topbar">
-          <div>
-            <h2>Caregivers</h2>
-            <p>Liste simple des caregivers.</p>
-          </div>
-          <button class="btn" id="refreshCaregiversBtn">Refresh</button>
-        </div>
-
         <div class="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>Nom</th>
-                <th>Téléphone</th>
-                <th>Ville</th>
-                <th>Services</th>
-                <th>Disponibilité</th>
-                <th>Notes</th>
-              </tr>
-            </thead>
-            <tbody id="caregiversTableBody">
-              <tr><td colspan="6" class="loading">Loading caregivers...</td></tr>
-            </tbody>
-          </table>
+          <div class="table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Full Name</th>
+                  <th>Phone</th>
+                  <th>Email</th>
+                  <th>City</th>
+                  <th>Services</th>
+                  <th>Availability</th>
+                  <th>Notes</th>
+                </tr>
+              </thead>
+              <tbody id="caregiversTableBody"></tbody>
+            </table>
+          </div>
+          <div id="caregiversEmpty" class="empty-state hidden">Aucun caregiver trouvé.</div>
         </div>
       </section>
     </main>
   </div>
 
-  <div class="modal" id="detailsModal">
-    <div class="modal-card">
-      <div class="modal-head">
-        <div>
-          <h3 id="modalTitle" style="margin:0;">Details</h3>
-          <p id="modalSubtitle" style="margin:6px 0 0;color:var(--muted);"></p>
-        </div>
-        <button class="btn secondary sm" id="closeModalBtn">Close</button>
+  <div id="detailsModalOverlay" class="modal-overlay">
+    <div class="modal">
+      <div class="modal-header">
+        <h3>Détails du booking</h3>
+        <button class="btn btn-danger" onclick="closeModal()">Close</button>
       </div>
-      <div id="modalBody"></div>
+      <div class="modal-body">
+        <div id="bookingDetailGrid" class="detail-grid"></div>
+
+        <div style="margin-top:20px;">
+          <label for="statusUpdateSelect" style="display:block;font-weight:bold;margin-bottom:8px;">Changer le status</label>
+          <select id="statusUpdateSelect">
+            <option value="en attente">en attente</option>
+            <option value="confirmé">confirmé</option>
+            <option value="terminé">terminé</option>
+            <option value="annulé">annulé</option>
+          </select>
+          <button class="btn btn-primary" style="margin-top:12px;" onclick="saveBookingStatus()">Save status</button>
+        </div>
+      </div>
     </div>
   </div>
 
   <script>
     const CONFIG = {
-      WEB_APP_URL: 'PASTE_YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE',
+      WEB_APP_URL: 'https://script.google.com/macros/s/AKfycbxf3gnZ5ZPXdqK-xB-zrXTSptJ1dm_aG3SXB-HducyGFUAlyip6CgSuM_Kb6VdLjdjt/exec',
       ADMIN_EMAIL: 'admin@carevia.ma',
-      ADMIN_PASSWORD: '12345678',
-      SESSION_KEY: 'carevia_admin_logged_in'
+      ADMIN_PASSWORD: '12345678'
     };
 
     const state = {
       bookings: [],
       joinUs: [],
-      caregivers: []
+      caregivers: [],
+      currentBooking: null
     };
 
-    const loginView = document.getElementById('loginView');
-    const appView = document.getElementById('appView');
-    const loginBtn = document.getElementById('loginBtn');
-    const loginMsg = document.getElementById('loginMsg');
-    const detailsModal = document.getElementById('detailsModal');
-    const modalBody = document.getElementById('modalBody');
-    const modalTitle = document.getElementById('modalTitle');
-    const modalSubtitle = document.getElementById('modalSubtitle');
+    function loginAdmin() {
+      const email = document.getElementById('adminEmail').value.trim();
+      const password = document.getElementById('adminPassword').value.trim();
+      const errorEl = document.getElementById('loginError');
 
-    function showLoginMessage(text) {
-      loginMsg.textContent = text;
-      loginMsg.className = 'msg error show';
+      if (email === CONFIG.ADMIN_EMAIL && password === CONFIG.ADMIN_PASSWORD) {
+        sessionStorage.setItem('carevia_admin_logged_in', 'true');
+        document.getElementById('loginScreen').classList.add('hidden');
+        document.getElementById('adminApp').classList.remove('hidden');
+        loadInitialData();
+        return;
+      }
+
+      errorEl.textContent = 'Invalid email or password';
     }
 
-    function hideLoginMessage() {
-      loginMsg.className = 'msg error';
-      loginMsg.textContent = '';
+    function logoutAdmin() {
+      sessionStorage.removeItem('carevia_admin_logged_in');
+      location.reload();
     }
 
-    function saveSession() {
-      localStorage.setItem(CONFIG.SESSION_KEY, '1');
+    function checkSession() {
+      const ok = sessionStorage.getItem('carevia_admin_logged_in') === 'true';
+      if (ok) {
+        document.getElementById('loginScreen').classList.add('hidden');
+        document.getElementById('adminApp').classList.remove('hidden');
+        loadInitialData();
+      }
     }
 
-    function clearSession() {
-      localStorage.removeItem(CONFIG.SESSION_KEY);
+    function showSection(sectionId, btn) {
+      document.querySelectorAll('.section').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.menu button').forEach(el => el.classList.remove('active'));
+
+      document.getElementById(sectionId).classList.add('active');
+      if (btn) btn.classList.add('active');
+
+      const titles = {
+        dashboard: 'Dashboard',
+        bookings: 'Bookings',
+        joinus: 'Join Us',
+        caregivers: 'Caregivers'
+      };
+
+      document.getElementById('pageTitle').textContent = titles[sectionId] || 'Dashboard';
     }
 
-    function isLoggedIn() {
-      return localStorage.getItem(CONFIG.SESSION_KEY) === '1';
+    async function apiGet(action) {
+      const response = await fetch(`${CONFIG.WEB_APP_URL}?action=${encodeURIComponent(action)}`);
+      return await response.json();
     }
 
-    function showApp() {
-      loginView.classList.add('hidden');
-      appView.classList.remove('hidden');
+    async function apiPost(payload) {
+      const response = await fetch(CONFIG.WEB_APP_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'text/plain;charset=utf-8'
+        },
+        body: JSON.stringify(payload)
+      });
+      return await response.json();
     }
 
-    function showLogin() {
-      appView.classList.add('hidden');
-      loginView.classList.remove('hidden');
+    async function loadInitialData() {
+      await refreshAll();
     }
 
-    function formatCurrency(value) {
-      const num = Number(value || 0);
-      return num.toLocaleString('fr-FR') + ' MAD';
+    async function refreshAll() {
+      try {
+        const [bookingsRes, joinUsRes, caregiversRes] = await Promise.all([
+          apiGet('getBookings'),
+          apiGet('getJoinUs'),
+          apiGet('getCaregivers')
+        ]);
+
+        state.bookings = bookingsRes.ok ? bookingsRes.bookings : [];
+        state.joinUs = joinUsRes.ok ? joinUsRes.joinUs : [];
+        state.caregivers = caregiversRes.ok ? caregiversRes.caregivers : [];
+
+        updateStats();
+        renderBookings();
+        renderJoinUs();
+        renderCaregivers();
+      } catch (error) {
+        console.error(error);
+        alert('Error while loading data');
+      }
+    }
+
+    function normalizeStatus(value) {
+      return String(value || '').trim().toLowerCase();
+    }
+
+    function updateStats() {
+      document.getElementById('statTotalBookings').textContent = state.bookings.length;
+      document.getElementById('statPending').textContent = state.bookings.filter(x => normalizeStatus(x.status) === 'en attente').length;
+      document.getElementById('statConfirmed').textContent = state.bookings.filter(x => normalizeStatus(x.status) === 'confirmé').length;
+      document.getElementById('statCompleted').textContent = state.bookings.filter(x => normalizeStatus(x.status) === 'terminé').length;
+      document.getElementById('statCancelled').textContent = state.bookings.filter(x => normalizeStatus(x.status) === 'annulé').length;
+      document.getElementById('statJoinUs').textContent = state.joinUs.length;
+      document.getElementById('statCaregivers').textContent = state.caregivers.length;
+    }
+
+    function renderBookings() {
+      const tbody = document.getElementById('bookingsTableBody');
+      const empty = document.getElementById('bookingsEmpty');
+      const search = document.getElementById('bookingSearch').value.trim().toLowerCase();
+      const status = document.getElementById('bookingStatusFilter').value.trim().toLowerCase();
+
+      const filtered = state.bookings.filter(item => {
+        const matchSearch =
+          !search ||
+          String(item.bookingId || '').toLowerCase().includes(search) ||
+          String(item.fullName || '').toLowerCase().includes(search) ||
+          String(item.phone || '').toLowerCase().includes(search) ||
+          String(item.email || '').toLowerCase().includes(search);
+
+        const matchStatus = !status || normalizeStatus(item.status) === status;
+        return matchSearch && matchStatus;
+      });
+
+      tbody.innerHTML = '';
+
+      if (!filtered.length) {
+        empty.classList.remove('hidden');
+        return;
+      }
+
+      empty.classList.add('hidden');
+
+      filtered.forEach(item => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${escapeHtml(item.bookingId || '-')}</td>
+          <td>${escapeHtml(item.fullName || '-')}</td>
+          <td>${escapeHtml(item.phone || '-')}</td>
+          <td>${escapeHtml(item.email || '-')}</td>
+          <td>${escapeHtml(item.city || '-')}</td>
+          <td>${escapeHtml(item.service || '-')}</td>
+          <td>${escapeHtml(formatValue(item.date))}</td>
+          <td>${escapeHtml(String(item.total || 0))} MAD</td>
+          <td><span class="status-badge">${escapeHtml(item.status || 'en attente')}</span></td>
+          <td>
+            <div class="actions">
+              <button class="btn btn-primary" onclick="openBookingDetails('${escapeJs(item.bookingId)}')">Voir</button>
+              <button class="btn btn-success" onclick="quickUpdateStatus('${escapeJs(item.bookingId)}', 'confirmé')">Confirmer</button>
+              <button class="btn btn-warning" onclick="quickUpdateStatus('${escapeJs(item.bookingId)}', 'terminé')">Terminer</button>
+              <button class="btn btn-danger" onclick="quickUpdateStatus('${escapeJs(item.bookingId)}', 'annulé')">Annuler</button>
+            </div>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function renderJoinUs() {
+      const tbody = document.getElementById('joinUsTableBody');
+      const empty = document.getElementById('joinUsEmpty');
+      tbody.innerHTML = '';
+
+      if (!state.joinUs.length) {
+        empty.classList.remove('hidden');
+        return;
+      }
+
+      empty.classList.add('hidden');
+
+      state.joinUs.forEach(item => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${escapeHtml(item.id || '-')}</td>
+          <td>${escapeHtml(item.firstName || '-')}</td>
+          <td>${escapeHtml(item.lastName || '-')}</td>
+          <td>${escapeHtml(item.phone || '-')}</td>
+          <td>${escapeHtml(item.email || '-')}</td>
+          <td>${escapeHtml(item.city || '-')}</td>
+          <td>${escapeHtml(item.educationLevel || '-')}</td>
+          <td>${escapeHtml(item.status || '-')}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function renderCaregivers() {
+      const tbody = document.getElementById('caregiversTableBody');
+      const empty = document.getElementById('caregiversEmpty');
+      tbody.innerHTML = '';
+
+      if (!state.caregivers.length) {
+        empty.classList.remove('hidden');
+        return;
+      }
+
+      empty.classList.add('hidden');
+
+      state.caregivers.forEach(item => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${escapeHtml(item.id || '-')}</td>
+          <td>${escapeHtml(item.fullName || '-')}</td>
+          <td>${escapeHtml(item.phone || '-')}</td>
+          <td>${escapeHtml(item.email || '-')}</td>
+          <td>${escapeHtml(item.city || '-')}</td>
+          <td>${escapeHtml(item.services || '-')}</td>
+          <td>${escapeHtml(item.availability || '-')}</td>
+          <td>${escapeHtml(item.notes || '-')}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function openBookingDetails(bookingId) {
+      const booking = state.bookings.find(item => String(item.bookingId) === String(bookingId));
+      if (!booking) return;
+
+      state.currentBooking = booking;
+
+      const details = [
+        ['Booking ID', booking.bookingId],
+        ['Created At', booking.createdAt],
+        ['Full Name', booking.fullName],
+        ['Phone', booking.phone],
+        ['Email', booking.email],
+        ['City', booking.city],
+        ['Service', booking.service],
+        ['Date', booking.date],
+        ['Time Slots', booking.timeSlots],
+        ['Caregiver', booking.caregiver],
+        ['Hours Count', booking.hoursCount],
+        ['Price Per Hour', booking.pricePerHour],
+        ['Travel Fee', booking.travelFee],
+        ['Night Fee', booking.nightFee],
+        ['Weekend Fee', booking.weekendFee],
+        ['Discount', booking.discount],
+        ['Total', booking.total + ' MAD'],
+        ['Payment Method', booking.paymentMethod],
+        ['Status', booking.status],
+        ['Notes', booking.notes]
+      ];
+
+      const grid = document.getElementById('bookingDetailGrid');
+      grid.innerHTML = details.map(([label, value]) => `
+        <div class="detail-item">
+          <strong>${escapeHtml(label)}</strong>
+          <div>${escapeHtml(formatValue(value))}</div>
+        </div>
+      `).join('');
+
+      document.getElementById('statusUpdateSelect').value = booking.status || 'en attente';
+      document.getElementById('detailsModalOverlay').classList.add('show');
+    }
+
+    function closeModal() {
+      document.getElementById('detailsModalOverlay').classList.remove('show');
+      state.currentBooking = null;
+    }
+
+    async function saveBookingStatus() {
+      if (!state.currentBooking) return;
+      const status = document.getElementById('statusUpdateSelect').value;
+      await updateBookingStatus(state.currentBooking.bookingId, status);
+    }
+
+    async function quickUpdateStatus(bookingId, status) {
+      await updateBookingStatus(bookingId, status);
+    }
+
+    async function updateBookingStatus(bookingId, status) {
+      try {
+        const res = await apiPost({
+          action: 'updateBookingStatus',
+          bookingId: bookingId,
+          status: status
+        });
+
+        if (!res.ok) {
+          alert(res.error || 'Failed to update status');
+          return;
+        }
+
+        await refreshAll();
+
+        if (state.currentBooking && String(state.currentBooking.bookingId) === String(bookingId)) {
+          closeModal();
+        }
+      } catch (error) {
+        console.error(error);
+        alert('Error while updating status');
+      }
+    }
+
+    function formatValue(value) {
+      if (value === null || value === undefined || value === '') return '-';
+      return String(value);
     }
 
     function escapeHtml(value) {
-      return String(value ?? '')
+      return String(value || '')
         .replace(/&/g, '&amp;')
         .replace(/</g, '&lt;')
         .replace(/>/g, '&gt;')
@@ -639,317 +867,11 @@
         .replace(/'/g, '&#39;');
     }
 
-    function statusBadge(status) {
-      const normalized = String(status || '').trim().toLowerCase();
-      const safe = normalized
-        .replace(/é/g, 'e')
-        .replace(/ /g, '-')
-        .replace(/[^a-z-]/g, '');
-      return `<span class="badge status-${safe}">${escapeHtml(status || '-')}</span>`;
+    function escapeJs(value) {
+      return String(value || '').replace(/'/g, "\\'");
     }
 
-    async function apiGet(action) {
-      const url = `${CONFIG.WEB_APP_URL}?action=${encodeURIComponent(action)}`;
-      const res = await fetch(url);
-      if (!res.ok) throw new Error('API GET failed');
-      return res.json();
-    }
-
-    async function apiPost(payload) {
-      const res = await fetch(CONFIG.WEB_APP_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
-      if (!res.ok) throw new Error('API POST failed');
-      return res.json();
-    }
-
-    function renderStats() {
-      const total = state.bookings.length;
-      const pending = state.bookings.filter(b => (b.status || '').toLowerCase() === 'en attente').length;
-      const confirmed = state.bookings.filter(b => (b.status || '').toLowerCase() === 'confirmé').length;
-      const done = state.bookings.filter(b => (b.status || '').toLowerCase() === 'terminé').length;
-      const cancelled = state.bookings.filter(b => (b.status || '').toLowerCase() === 'annulé').length;
-      const joinUsCount = state.joinUs.length;
-
-      const cards = [
-        ['Total Bookings', total],
-        ['En attente', pending],
-        ['Confirmé', confirmed],
-        ['Terminé', done],
-        ['Annulé', cancelled],
-        ['Join Us', joinUsCount]
-      ];
-
-      document.getElementById('statsCards').innerHTML = cards.map(([label, value]) => `
-        <div class="card stat">
-          <div class="label">${label}</div>
-          <div class="value">${value}</div>
-        </div>
-      `).join('');
-    }
-
-    function renderBookings() {
-      const q = document.getElementById('bookingSearch').value.trim().toLowerCase();
-      const statusFilter = document.getElementById('bookingStatusFilter').value.trim().toLowerCase();
-
-      let rows = state.bookings.filter(item => {
-        const searchable = [
-          item.bookingId, item.fullName, item.phone, item.email, item.city, item.service
-        ].join(' ').toLowerCase();
-
-        const matchesSearch = !q || searchable.includes(q);
-        const matchesStatus = !statusFilter || (item.status || '').toLowerCase() === statusFilter;
-        return matchesSearch && matchesStatus;
-      });
-
-      const tbody = document.getElementById('bookingsTableBody');
-      if (!rows.length) {
-        tbody.innerHTML = '<tr><td colspan="11" class="empty">No bookings found.</td></tr>';
-        return;
-      }
-
-      tbody.innerHTML = rows.map(item => `
-        <tr>
-          <td>${escapeHtml(item.bookingId || '-')}</td>
-          <td>${escapeHtml(item.fullName || '-')}</td>
-          <td>${escapeHtml(item.phone || '-')}</td>
-          <td>${escapeHtml(item.email || '-')}</td>
-          <td>${escapeHtml(item.city || '-')}</td>
-          <td>${escapeHtml(item.service || '-')}</td>
-          <td>${escapeHtml(item.date || '-')}</td>
-          <td>${escapeHtml(item.caregiver || '-')}</td>
-          <td>${escapeHtml(formatCurrency(item.total))}</td>
-          <td>${statusBadge(item.status)}</td>
-          <td>
-            <div class="actions-row">
-              <button class="btn secondary sm" onclick="openBookingDetails('${escapeHtml(item.bookingId)}')">Voir</button>
-              <button class="btn success sm" onclick="changeBookingStatus('${escapeHtml(item.bookingId)}', 'confirmé')">Confirmer</button>
-              <button class="btn warning sm" onclick="changeBookingStatus('${escapeHtml(item.bookingId)}', 'terminé')">Terminer</button>
-              <button class="btn danger sm" onclick="changeBookingStatus('${escapeHtml(item.bookingId)}', 'annulé')">Annuler</button>
-            </div>
-          </td>
-        </tr>
-      `).join('');
-    }
-
-    function renderJoinUs() {
-      const tbody = document.getElementById('joinUsTableBody');
-      if (!state.joinUs.length) {
-        tbody.innerHTML = '<tr><td colspan="8" class="empty">No join us records found.</td></tr>';
-        return;
-      }
-
-      tbody.innerHTML = state.joinUs.map(item => `
-        <tr>
-          <td>${escapeHtml(item.createdAt || '-')}</td>
-          <td>${escapeHtml(item.fullName || '-')}</td>
-          <td>${escapeHtml(item.phone || '-')}</td>
-          <td>${escapeHtml(item.email || '-')}</td>
-          <td>${escapeHtml(item.city || '-')}</td>
-          <td>${escapeHtml(item.educationLevel || '-')}</td>
-          <td>${item.cvUrl ? `<a href="${escapeHtml(item.cvUrl)}" target="_blank">Open CV</a>` : '-'}</td>
-          <td><button class="btn secondary sm" onclick="openJoinUsDetails(${item._rowNumber})">Voir</button></td>
-        </tr>
-      `).join('');
-    }
-
-    function renderCaregivers() {
-      const tbody = document.getElementById('caregiversTableBody');
-      if (!state.caregivers.length) {
-        tbody.innerHTML = '<tr><td colspan="6" class="empty">No caregivers found.</td></tr>';
-        return;
-      }
-
-      tbody.innerHTML = state.caregivers.map(item => `
-        <tr>
-          <td>${escapeHtml(item.fullName || '-')}</td>
-          <td>${escapeHtml(item.phone || '-')}</td>
-          <td>${escapeHtml(item.city || '-')}</td>
-          <td>${escapeHtml(item.services || '-')}</td>
-          <td>${escapeHtml(item.availability || '-')}</td>
-          <td>${escapeHtml(item.notes || '-')}</td>
-        </tr>
-      `).join('');
-    }
-
-    function detailBox(label, value) {
-      return `
-        <div class="detail-box">
-          <div class="k">${escapeHtml(label)}</div>
-          <div class="v">${label.toLowerCase() === 'status' ? statusBadge(value) : escapeHtml(value || '-')}</div>
-        </div>
-      `;
-    }
-
-    window.openBookingDetails = function(bookingId) {
-      const item = state.bookings.find(x => x.bookingId === bookingId);
-      if (!item) return;
-
-      modalTitle.textContent = `Booking ${item.bookingId || ''}`;
-      modalSubtitle.textContent = item.fullName || '';
-      modalBody.innerHTML = `
-        <div class="grid-details">
-          ${detailBox('Booking ID', item.bookingId)}
-          ${detailBox('Created At', item.createdAt)}
-          ${detailBox('Nom', item.fullName)}
-          ${detailBox('Téléphone', item.phone)}
-          ${detailBox('Email', item.email)}
-          ${detailBox('Ville', item.city)}
-          ${detailBox('Service', item.service)}
-          ${detailBox('Date', item.date)}
-          ${detailBox('Time Slots', item.timeSlots)}
-          ${detailBox('Caregiver', item.caregiver)}
-          ${detailBox('Hours Count', item.hoursCount)}
-          ${detailBox('Price Per Hour', item.pricePerHour)}
-          ${detailBox('Travel Fee', item.travelFee)}
-          ${detailBox('Night Fee', item.nightFee)}
-          ${detailBox('Weekend Fee', item.weekendFee)}
-          ${detailBox('Discount', item.discount)}
-          ${detailBox('Total', formatCurrency(item.total))}
-          ${detailBox('Payment Method', item.paymentMethod)}
-          ${detailBox('Status', item.status)}
-          ${detailBox('Notes', item.notes)}
-        </div>
-        <div style="margin-top:18px;display:flex;gap:10px;flex-wrap:wrap;">
-          <button class="btn success" onclick="changeBookingStatus('${escapeHtml(item.bookingId)}', 'confirmé')">Confirmer</button>
-          <button class="btn warning" onclick="changeBookingStatus('${escapeHtml(item.bookingId)}', 'terminé')">Terminer</button>
-          <button class="btn danger" onclick="changeBookingStatus('${escapeHtml(item.bookingId)}', 'annulé')">Annuler</button>
-        </div>
-      `;
-      detailsModal.classList.add('show');
-    }
-
-    window.openJoinUsDetails = function(rowNumber) {
-      const item = state.joinUs.find(x => x._rowNumber === rowNumber);
-      if (!item) return;
-
-      modalTitle.textContent = 'Join Us Details';
-      modalSubtitle.textContent = item.fullName || '';
-      modalBody.innerHTML = `
-        <div class="grid-details">
-          ${detailBox('Date', item.createdAt)}
-          ${detailBox('Nom', item.fullName)}
-          ${detailBox('Téléphone', item.phone)}
-          ${detailBox('Email', item.email)}
-          ${detailBox('Ville', item.city)}
-          ${detailBox('Adresse', item.address)}
-          ${detailBox('Date de naissance', item.birthDate)}
-          ${detailBox('Niveau d’étude', item.educationLevel)}
-          ${detailBox('Diplômes', item.diplomas)}
-          ${detailBox('Certificats', item.certificates)}
-          ${detailBox('Formations', item.formations)}
-          ${detailBox('CV URL', item.cvUrl)}
-          ${detailBox('Documents URL', item.documentsUrl)}
-        </div>
-      `;
-      detailsModal.classList.add('show');
-    }
-
-    window.changeBookingStatus = async function(bookingId, status) {
-      const confirmMsg = `Changer le statut de ${bookingId} vers ${status} ?`;
-      if (!confirm(confirmMsg)) return;
-
-      try {
-        const result = await apiPost({ action: 'updateBookingStatus', bookingId, status });
-        if (!result.ok) throw new Error(result.error || 'Update failed');
-        await loadBookings();
-        renderStats();
-        renderBookings();
-        detailsModal.classList.remove('show');
-        alert('Status updated successfully.');
-      } catch (err) {
-        alert('Error while updating status.');
-        console.error(err);
-      }
-    }
-
-    async function loadBookings() {
-      const result = await apiGet('getBookings');
-      state.bookings = result.bookings || [];
-    }
-
-    async function loadJoinUs() {
-      const result = await apiGet('getJoinUs');
-      state.joinUs = result.joinUs || [];
-    }
-
-    async function loadCaregivers() {
-      const result = await apiGet('getCaregivers');
-      state.caregivers = result.caregivers || [];
-    }
-
-    async function loadAll() {
-      try {
-        await Promise.all([loadBookings(), loadJoinUs(), loadCaregivers()]);
-        renderStats();
-        renderBookings();
-        renderJoinUs();
-        renderCaregivers();
-      } catch (err) {
-        console.error(err);
-        alert('API error. Paste your Web App URL and make sure the backend is deployed.');
-      }
-    }
-
-    function switchSection(id) {
-      document.querySelectorAll('.nav-btn').forEach(btn => {
-        btn.classList.toggle('active', btn.dataset.section === id);
-      });
-      document.querySelectorAll('.section').forEach(section => {
-        section.classList.toggle('active', section.id === id);
-      });
-    }
-
-    document.querySelectorAll('.nav-btn').forEach(btn => {
-      btn.addEventListener('click', () => switchSection(btn.dataset.section));
-    });
-
-    document.getElementById('bookingSearch').addEventListener('input', renderBookings);
-    document.getElementById('bookingStatusFilter').addEventListener('change', renderBookings);
-    document.getElementById('closeModalBtn').addEventListener('click', () => detailsModal.classList.remove('show'));
-    detailsModal.addEventListener('click', e => {
-      if (e.target === detailsModal) detailsModal.classList.remove('show');
-    });
-
-    document.getElementById('refreshDashboardBtn').addEventListener('click', loadAll);
-    document.getElementById('refreshBookingsBtn').addEventListener('click', loadBookings().then(() => { renderStats(); renderBookings(); }));
-    document.getElementById('refreshJoinUsBtn').addEventListener('click', loadJoinUs().then(() => { renderStats(); renderJoinUs(); }));
-    document.getElementById('refreshCaregiversBtn').addEventListener('click', loadCaregivers().then(renderCaregivers));
-
-    document.getElementById('logoutBtn').addEventListener('click', () => {
-      clearSession();
-      showLogin();
-    });
-
-    loginBtn.addEventListener('click', async () => {
-      hideLoginMessage();
-      const email = document.getElementById('adminEmail').value.trim();
-      const password = document.getElementById('adminPassword').value;
-
-      if (email !== CONFIG.ADMIN_EMAIL || password !== CONFIG.ADMIN_PASSWORD) {
-        showLoginMessage('Invalid email or password.');
-        return;
-      }
-
-      saveSession();
-      showApp();
-      await loadAll();
-    });
-
-    document.getElementById('adminPassword').addEventListener('keydown', e => {
-      if (e.key === 'Enter') loginBtn.click();
-    });
-
-    (async function init() {
-      if (isLoggedIn()) {
-        showApp();
-        await loadAll();
-      } else {
-        showLogin();
-      }
-    })();
+    checkSession();
   </script>
 </body>
 </html>
