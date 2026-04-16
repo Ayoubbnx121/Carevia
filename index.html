@@ -5382,5 +5382,506 @@ body.rtl .hero-cta-group{justify-content:flex-start;}
   setTimeout(()=>{ renderUrgentBookingOptions(); renderJoinUsOptions(); injectJoinUsButtons(); }, 30);
 })();
 </script>
+
+<!-- ===== CAREVIA AUTH + DASHBOARD SYSTEM ===== -->
+<style>
+/* ── Auth Modal ── */
+.cv-overlay{position:fixed;inset:0;background:var(--overlay-bg);z-index:9000;display:flex;align-items:center;justify-content:center;padding:1rem;}
+.cv-modal{background:var(--card-bg);border-radius:24px;padding:2rem;width:100%;max-width:420px;box-shadow:0 8px 40px var(--shadow-color);position:relative;animation:cvFadeIn .25s ease;}
+@keyframes cvFadeIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.cv-modal h2{font-size:1.4rem;font-weight:700;margin-bottom:1.4rem;color:var(--accent-dark);}
+.cv-modal .form-group{margin-bottom:1rem;}
+.cv-modal label{display:block;font-size:.85rem;font-weight:600;margin-bottom:.35rem;color:var(--text-color);}
+.cv-modal input{width:100%;padding:.7rem 1rem;border:1.5px solid var(--border-color);border-radius:12px;background:var(--input-bg);color:var(--text-color);font-size:.95rem;outline:none;transition:border .2s;}
+.cv-modal input:focus{border-color:var(--accent-dark);}
+.cv-modal .cv-btn-primary{width:100%;padding:.85rem;border:none;border-radius:14px;background:var(--accent-dark);color:#fff;font-size:1rem;font-weight:700;cursor:pointer;margin-top:.5rem;transition:opacity .2s;}
+.cv-modal .cv-btn-primary:hover{opacity:.88;}
+.cv-modal .cv-switch{text-align:center;margin-top:1rem;font-size:.88rem;color:var(--text-color);}
+.cv-modal .cv-switch span{color:var(--accent-dark);cursor:pointer;font-weight:600;}
+.cv-modal .cv-close{position:absolute;top:1rem;right:1rem;background:none;border:none;font-size:1.3rem;cursor:pointer;color:var(--text-color);line-height:1;}
+.cv-err{color:#d32f2f;font-size:.83rem;margin-top:.3rem;display:none;}
+.cv-err.show{display:block;}
+
+/* ── Navbar auth button ── */
+.cv-auth-btn{padding:.45rem 1.1rem;border:none;border-radius:20px;background:var(--accent-dark);color:#fff;font-size:.85rem;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:.4rem;transition:opacity .2s;}
+.cv-auth-btn:hover{opacity:.85;}
+.cv-user-chip{display:flex;align-items:center;gap:.5rem;font-size:.85rem;font-weight:600;color:var(--accent-dark);}
+.cv-user-chip .cv-logout{background:none;border:none;cursor:pointer;color:#888;font-size:.8rem;text-decoration:underline;padding:0;}
+
+/* ── Booking Mode Modal ── */
+.cv-mode-modal{max-width:460px;}
+.cv-mode-options{display:flex;flex-direction:column;gap:.8rem;margin-top:.5rem;}
+.cv-mode-card{border:2px solid var(--border-color);border-radius:16px;padding:1.1rem 1.3rem;cursor:pointer;transition:border .2s,background .2s;display:flex;align-items:center;gap:1rem;}
+.cv-mode-card:hover{border-color:var(--accent-dark);background:var(--accent-light);}
+.cv-mode-card .cv-mode-icon{font-size:1.8rem;flex-shrink:0;}
+.cv-mode-card h3{font-size:1rem;font-weight:700;margin:0 0 .2rem;color:var(--accent-dark);}
+.cv-mode-card p{font-size:.82rem;color:var(--text-color);margin:0;opacity:.75;}
+
+/* ── Dashboard View ── */
+#dashboardView .booking-card{max-width:800px;margin:0 auto;}
+.cv-dash-header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-bottom:2rem;}
+.cv-dash-header h2{font-size:1.4rem;font-weight:700;color:var(--accent-dark);}
+.cv-booking-list{display:flex;flex-direction:column;gap:1rem;}
+.cv-booking-item{border:1.5px solid var(--border-color);border-radius:16px;padding:1.1rem 1.3rem;display:grid;grid-template-columns:1fr auto;align-items:center;gap:.8rem;}
+.cv-booking-item .cv-bi-info h4{font-size:.95rem;font-weight:700;margin:0 0 .3rem;}
+.cv-booking-item .cv-bi-info p{font-size:.82rem;color:var(--text-color);opacity:.75;margin:0;}
+.cv-status-badge{padding:.3rem .75rem;border-radius:20px;font-size:.78rem;font-weight:700;white-space:nowrap;}
+.cv-status-pending{background:#fff3cd;color:#856404;}
+.cv-status-confirmed{background:#d1e7dd;color:#0f5132;}
+.cv-status-inprogress{background:#cfe2ff;color:#084298;}
+.cv-status-cancelled{background:#f8d7da;color:#842029;}
+.cv-empty-dash{text-align:center;padding:3rem 1rem;opacity:.55;}
+.cv-empty-dash i{font-size:3rem;margin-bottom:1rem;display:block;}
+
+body.rtl .cv-close{right:auto;left:1rem;}
+body.rtl .cv-booking-item{grid-template-columns:auto 1fr;}
+</style>
+
+<!-- Auth Modal -->
+<div class="cv-overlay" id="cvAuthOverlay" style="display:none;">
+  <div class="cv-modal" id="cvAuthModal">
+    <button class="cv-close" onclick="cvCloseAuth()">✕</button>
+    <!-- Login Form -->
+    <div id="cvLoginForm">
+      <h2 id="cvLoginTitle">تسجيل الدخول</h2>
+      <div class="form-group"><label id="cvLoginEmailLabel">البريد الإلكتروني</label><input type="email" id="cvLoginEmail" autocomplete="email"/></div>
+      <div class="form-group"><label id="cvLoginPassLabel">كلمة المرور</label><input type="password" id="cvLoginPass" autocomplete="current-password"/></div>
+      <div class="cv-err" id="cvLoginErr"></div>
+      <button class="cv-btn-primary" id="cvLoginBtn" onclick="cvDoLogin()">دخول</button>
+      <div class="cv-switch" id="cvToRegister">ما عندكش حساب؟ <span onclick="cvShowRegister()">أنشئ حساب</span></div>
+    </div>
+    <!-- Register Form -->
+    <div id="cvRegisterForm" style="display:none;">
+      <h2 id="cvRegTitle">إنشاء حساب</h2>
+      <div class="form-group"><label id="cvRegFnLabel">الاسم الأول</label><input type="text" id="cvRegFn" autocomplete="given-name"/></div>
+      <div class="form-group"><label id="cvRegLnLabel">النسب</label><input type="text" id="cvRegLn" autocomplete="family-name"/></div>
+      <div class="form-group"><label id="cvRegBdLabel">تاريخ الازدياد</label><input type="date" id="cvRegBd"/></div>
+      <div class="form-group"><label id="cvRegEmLabel">البريد الإلكتروني</label><input type="email" id="cvRegEm" autocomplete="email"/></div>
+      <div class="form-group"><label id="cvRegPwLabel">كلمة المرور</label><input type="password" id="cvRegPw" autocomplete="new-password"/></div>
+      <div class="form-group"><label id="cvRegPw2Label">تأكيد كلمة المرور</label><input type="password" id="cvRegPw2" autocomplete="new-password"/></div>
+      <div class="cv-err" id="cvRegErr"></div>
+      <button class="cv-btn-primary" id="cvRegBtn" onclick="cvDoRegister()">إنشاء الحساب</button>
+      <div class="cv-switch" id="cvToLogin">عندك حساب؟ <span onclick="cvShowLogin()">سجل الدخول</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- Booking Mode Modal -->
+<div class="cv-overlay" id="cvModeOverlay" style="display:none;">
+  <div class="cv-modal cv-mode-modal">
+    <button class="cv-close" onclick="cvCloseMode()">✕</button>
+    <h2 id="cvModeTitle">كيف تحب تحجز؟</h2>
+    <div class="cv-mode-options">
+      <div class="cv-mode-card" onclick="cvModeLogin()">
+        <span class="cv-mode-icon">👤</span>
+        <div><h3 id="cvModeLoginLabel">تسجيل الدخول</h3><p id="cvModeLoginDesc">لديك حساب — سجّل الدخول لتتبع طلباتك</p></div>
+      </div>
+      <div class="cv-mode-card" onclick="cvModeRegister()">
+        <span class="cv-mode-icon">✨</span>
+        <div><h3 id="cvModeRegLabel">إنشاء حساب</h3><p id="cvModeRegDesc">جديد؟ أنشئ حسابك في دقيقة واحدة</p></div>
+      </div>
+      <div class="cv-mode-card" onclick="cvModeGuest()">
+        <span class="cv-mode-icon">🚀</span>
+        <div><h3 id="cvModeGuestLabel">المتابعة بدون حساب</h3><p id="cvModeGuestDesc">احجز مباشرة دون تسجيل</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Dashboard View -->
+<div class="view" id="dashboardView">
+  <div class="navbar">
+    <a class="logo-link" onclick="navigateTo('homeView')">
+      <div class="logo">Care<span>Via</span></div>
+    </a>
+    <div style="display:flex;gap:1rem;align-items:center;flex-wrap:wrap;">
+      <div class="lang-selector">
+        <button class="lang-btn" data-lang="en">EN</button>
+        <button class="lang-btn" data-lang="ar">عربي</button>
+        <button class="lang-btn" data-lang="fr">FR</button>
+      </div>
+    </div>
+  </div>
+  <div class="back-link" onclick="navigateTo('homeView')"><i class="fas fa-arrow-left"></i> <span data-i18n="backHome">Back to Home</span></div>
+  <div class="booking-card" style="margin-top:2rem;">
+    <div class="cv-dash-header">
+      <div>
+        <h2 id="cvDashTitle">طلباتي</h2>
+        <p id="cvDashWelcome" style="font-size:.9rem;opacity:.7;margin:.3rem 0 0;"></p>
+      </div>
+      <button class="btn" onclick="navigateTo('homeView');" id="cvDashNewBtn" style="font-size:.88rem;padding:.55rem 1.2rem;">+ طلب جديد</button>
+    </div>
+    <div class="cv-booking-list" id="cvDashList"></div>
+  </div>
+</div>
+
+<script>
+(function(){
+/* ────────────────────────────────────
+   DATABASE (localStorage)
+   careviaUsers  → [{id, fn, ln, bd, email, pw, createdAt}]
+   careviaOrders → [{...booking, userId}]
+──────────────────────────────────── */
+const DB_USERS  = 'careviaUsers';
+const DB_ORDERS = 'careviaOrders';
+const DB_SESSION= 'careviaSession'; // current userId
+
+function dbGet(key){ try{ return JSON.parse(localStorage.getItem(key)||'[]'); }catch(e){return [];} }
+function dbSet(key,val){ try{ localStorage.setItem(key,JSON.stringify(val)); }catch(e){} }
+
+/* ── Session ── */
+function getSession(){ try{ return JSON.parse(localStorage.getItem(DB_SESSION)||'null'); }catch(e){return null;} }
+function setSession(user){ localStorage.setItem(DB_SESSION, JSON.stringify(user)); }
+function clearSession(){ localStorage.removeItem(DB_SESSION); }
+
+/* ── Translations for auth/dashboard ── */
+const AUTH_T = {
+  ar:{
+    loginTitle:'تسجيل الدخول', regTitle:'إنشاء حساب',
+    emailLabel:'البريد الإلكتروني', passLabel:'كلمة المرور',
+    fnLabel:'الاسم الأول', lnLabel:'النسب', bdLabel:'تاريخ الازدياد',
+    pw2Label:'تأكيد كلمة المرور', loginBtn:'دخول', regBtn:'إنشاء الحساب',
+    toReg:'ما عندكش حساب؟', toRegLink:'أنشئ حساب',
+    toLogin:'عندك حساب؟', toLoginLink:'سجل الدخول',
+    modeTitle:'كيف تحب تحجز؟',
+    modeLoginLabel:'تسجيل الدخول', modeLoginDesc:'لديك حساب — سجّل الدخول لتتبع طلباتك',
+    modeRegLabel:'إنشاء حساب', modeRegDesc:'جديد؟ أنشئ حسابك في دقيقة واحدة',
+    modeGuestLabel:'المتابعة بدون حساب', modeGuestDesc:'احجز مباشرة دون تسجيل',
+    authNavBtn:'دخول / حساب', logoutBtn:'خروج',
+    dashTitle:'طلباتي', dashNewBtn:'+ طلب جديد',
+    emptyDash:'ما عندكش طلبات بعد', statusPending:'في الانتظار',
+    statusConfirmed:'مؤكد', statusInprogress:'قيد التنفيذ', statusCancelled:'ملغى',
+    errEmail:'البريد الإلكتروني مش صحيح', errPass:'المرور قصير (6 حروف على الأقل)',
+    errPassMatch:'كلمتا المرور ما تتطابقاش', errExists:'هذا البريد مسجل بالفعل',
+    errNotFound:'البريد أو المرور خاطئ', errFill:'عبّي جميع الخانات',
+    welcomeMsg:'أهلاً بك,',
+  },
+  fr:{
+    loginTitle:'Connexion', regTitle:'Créer un compte',
+    emailLabel:'Email', passLabel:'Mot de passe',
+    fnLabel:'Prénom', lnLabel:'Nom', bdLabel:'Date de naissance',
+    pw2Label:'Confirmer le mot de passe', loginBtn:'Se connecter', regBtn:'Créer le compte',
+    toReg:'Pas de compte ?', toRegLink:'Créer un compte',
+    toLogin:'Vous avez un compte ?', toLoginLink:'Se connecter',
+    modeTitle:'Comment souhaitez-vous réserver ?',
+    modeLoginLabel:'Se connecter', modeLoginDesc:'Vous avez un compte — suivez vos demandes',
+    modeRegLabel:'Créer un compte', modeRegDesc:'Nouveau ? Créez votre compte en une minute',
+    modeGuestLabel:'Continuer sans compte', modeGuestDesc:'Réservez directement sans inscription',
+    authNavBtn:'Connexion / Compte', logoutBtn:'Déconnexion',
+    dashTitle:'Mes demandes', dashNewBtn:'+ Nouvelle demande',
+    emptyDash:'Aucune demande pour l\'instant', statusPending:'En attente',
+    statusConfirmed:'Confirmée', statusInprogress:'En cours', statusCancelled:'Annulée',
+    errEmail:'Email invalide', errPass:'Mot de passe trop court (6 caractères min)',
+    errPassMatch:'Les mots de passe ne correspondent pas', errExists:'Cet email est déjà utilisé',
+    errNotFound:'Email ou mot de passe incorrect', errFill:'Veuillez remplir tous les champs',
+    welcomeMsg:'Bienvenue,',
+  },
+  en:{
+    loginTitle:'Sign In', regTitle:'Create Account',
+    emailLabel:'Email', passLabel:'Password',
+    fnLabel:'First Name', lnLabel:'Last Name', bdLabel:'Date of Birth',
+    pw2Label:'Confirm Password', loginBtn:'Sign In', regBtn:'Create Account',
+    toReg:'No account?', toRegLink:'Create one',
+    toLogin:'Already have an account?', toLoginLink:'Sign In',
+    modeTitle:'How would you like to book?',
+    modeLoginLabel:'Sign In', modeLoginDesc:'Have an account — track your bookings',
+    modeRegLabel:'Create Account', modeRegDesc:'New? Set up your account in a minute',
+    modeGuestLabel:'Continue as Guest', modeGuestDesc:'Book directly without signing in',
+    authNavBtn:'Sign In / Account', logoutBtn:'Sign Out',
+    dashTitle:'My Bookings', dashNewBtn:'+ New Booking',
+    emptyDash:'No bookings yet', statusPending:'Pending',
+    statusConfirmed:'Confirmed', statusInprogress:'In Progress', statusCancelled:'Cancelled',
+    errEmail:'Invalid email address', errPass:'Password too short (min 6 characters)',
+    errPassMatch:'Passwords do not match', errExists:'This email is already registered',
+    errNotFound:'Incorrect email or password', errFill:'Please fill in all fields',
+    welcomeMsg:'Welcome,',
+  }
+};
+function at(key){ const lang = (typeof currentLang !== 'undefined') ? currentLang : 'ar'; return (AUTH_T[lang]||AUTH_T.en)[key]||key; }
+
+/* ── Helpers ── */
+function isValidEmailLocal(e){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e); }
+function hashPw(pw){ let h=0; for(let i=0;i<pw.length;i++){h=(h<<5)-h+pw.charCodeAt(i);h|=0;} return h.toString(36); }
+
+/* ── Render all auth text (called on lang change) ── */
+function renderAuthText(){
+  const setT=(id,key)=>{const el=document.getElementById(id); if(el) el.textContent=at(key);};
+  setT('cvLoginTitle','loginTitle'); setT('cvRegTitle','regTitle');
+  setT('cvLoginEmailLabel','emailLabel'); setT('cvLoginPassLabel','passLabel');
+  setT('cvLoginBtn','loginBtn'); setT('cvRegBtn','regBtn');
+  setT('cvRegFnLabel','fnLabel'); setT('cvRegLnLabel','lnLabel');
+  setT('cvRegBdLabel','bdLabel'); setT('cvRegEmLabel','emailLabel');
+  setT('cvRegPwLabel','passLabel'); setT('cvRegPw2Label','pw2Label');
+  setT('cvToRegister',    'toReg'); // partial text
+  setT('cvToLogin',       'toLogin');
+  setT('cvModeTitle','modeTitle');
+  setT('cvModeLoginLabel','modeLoginLabel'); setT('cvModeLoginDesc','modeLoginDesc');
+  setT('cvModeRegLabel','modeRegLabel'); setT('cvModeRegDesc','modeRegDesc');
+  setT('cvModeGuestLabel','modeGuestLabel'); setT('cvModeGuestDesc','modeGuestDesc');
+  // switch links
+  const toReg=document.getElementById('cvToRegister');
+  if(toReg) toReg.innerHTML=`${at('toReg')} <span onclick="cvShowRegister()">${at('toRegLink')}</span>`;
+  const toLogin=document.getElementById('cvToLogin');
+  if(toLogin) toLogin.innerHTML=`${at('toLogin')} <span onclick="cvShowLogin()">${at('toLoginLink')}</span>`;
+  // dashboard
+  setT('cvDashTitle','dashTitle'); setT('cvDashNewBtn','dashNewBtn');
+  updateNavbar();
+  renderDashboard();
+}
+
+/* ── Update Navbar Auth Buttons ── */
+function updateNavbar(){
+  document.querySelectorAll('.cv-nav-auth-wrap').forEach(wrap=>{
+    const session = getSession();
+    if(session){
+      wrap.innerHTML = `<div class="cv-user-chip">
+        <i class="fas fa-user-circle"></i>
+        <span>${session.fn}</span>
+        <button class="cv-logout" onclick="cvLogout()">${at('logoutBtn')}</button>
+        <button class="cv-auth-btn" onclick="cvOpenDashboard()" style="margin-left:.3rem;font-size:.78rem;padding:.35rem .8rem;">
+          <i class="fas fa-list"></i> ${at('dashTitle')}
+        </button>
+      </div>`;
+    } else {
+      wrap.innerHTML = `<button class="cv-auth-btn" onclick="cvShowMode()">
+        <i class="fas fa-user"></i> ${at('authNavBtn')}
+      </button>`;
+    }
+  });
+}
+
+/* ── Inject auth wrap into all navbars ── */
+function injectNavbarAuth(){
+  document.querySelectorAll('.navbar').forEach(nav=>{
+    if(nav.querySelector('.cv-nav-auth-wrap')) return; // already injected
+    const wrap = document.createElement('div');
+    wrap.className = 'cv-nav-auth-wrap';
+    // Insert before theme toggle or at end of second child
+    const themeWrap = nav.querySelector('.theme-toggle');
+    const langWrap  = nav.querySelector('.lang-selector');
+    const container = (themeWrap && themeWrap.parentElement) || (langWrap && langWrap.parentElement) || nav;
+    if(themeWrap) container.insertBefore(wrap, themeWrap);
+    else container.appendChild(wrap);
+  });
+  updateNavbar();
+}
+
+/* ── Open/Close Auth ── */
+window.cvOpenAuth = function(mode){
+  document.getElementById('cvAuthOverlay').style.display='flex';
+  mode==='register' ? cvShowRegister() : cvShowLogin();
+};
+window.cvCloseAuth = function(){
+  document.getElementById('cvAuthOverlay').style.display='none';
+};
+window.cvShowLogin = function(){
+  document.getElementById('cvLoginForm').style.display='';
+  document.getElementById('cvRegisterForm').style.display='none';
+  document.getElementById('cvLoginErr').className='cv-err';
+};
+window.cvShowRegister = function(){
+  document.getElementById('cvLoginForm').style.display='none';
+  document.getElementById('cvRegisterForm').style.display='';
+  document.getElementById('cvRegErr').className='cv-err';
+};
+
+/* ── Mode Modal ── */
+window.cvShowMode = function(){
+  document.getElementById('cvModeOverlay').style.display='flex';
+};
+window.cvCloseMode = function(){
+  document.getElementById('cvModeOverlay').style.display='none';
+};
+window.cvModeLogin = function(){
+  cvCloseMode(); cvOpenAuth('login');
+};
+window.cvModeRegister = function(){
+  cvCloseMode(); cvOpenAuth('register');
+};
+window.cvModeGuest = function(){
+  cvCloseMode();
+  // Proceed with booking directly
+  const origSSS = window.showServiceSelection;
+  if(origSSS) origSSS();
+};
+
+/* Override Book a Caregiver button to show mode modal if not logged in */
+const _origSSS = window.showServiceSelection;
+window.showServiceSelection = function(){
+  const session = getSession();
+  if(session){
+    if(_origSSS) _origSSS();
+  } else {
+    cvShowMode();
+    // Store that after login we want to go to booking
+    window._cvPendingBooking = true;
+  }
+};
+// Guest path from mode modal goes directly
+window.cvModeGuest = function(){
+  cvCloseMode();
+  window._cvPendingBooking = false;
+  if(_origSSS) _origSSS();
+};
+
+/* ── Register ── */
+window.cvDoRegister = function(){
+  const fn=document.getElementById('cvRegFn').value.trim();
+  const ln=document.getElementById('cvRegLn').value.trim();
+  const bd=document.getElementById('cvRegBd').value;
+  const em=document.getElementById('cvRegEm').value.trim().toLowerCase();
+  const pw=document.getElementById('cvRegPw').value;
+  const pw2=document.getElementById('cvRegPw2').value;
+  const errEl=document.getElementById('cvRegErr');
+  const showErr=(msg)=>{ errEl.textContent=msg; errEl.className='cv-err show'; };
+  errEl.className='cv-err';
+  if(!fn||!ln||!bd||!em||!pw||!pw2) return showErr(at('errFill'));
+  if(!isValidEmailLocal(em)) return showErr(at('errEmail'));
+  if(pw.length<6) return showErr(at('errPass'));
+  if(pw!==pw2) return showErr(at('errPassMatch'));
+  const users = dbGet(DB_USERS);
+  if(users.find(u=>u.email===em)) return showErr(at('errExists'));
+  const user = {id:'U'+Date.now(), fn, ln, bd, email:em, pw:hashPw(pw), createdAt:new Date().toISOString()};
+  users.push(user);
+  dbSet(DB_USERS,users);
+  setSession({id:user.id, fn:user.fn, ln:user.ln, email:user.email});
+  cvCloseAuth();
+  updateNavbar();
+  if(window._cvPendingBooking){ window._cvPendingBooking=false; if(_origSSS) _origSSS(); }
+};
+
+/* ── Login ── */
+window.cvDoLogin = function(){
+  const em=document.getElementById('cvLoginEmail').value.trim().toLowerCase();
+  const pw=document.getElementById('cvLoginPass').value;
+  const errEl=document.getElementById('cvLoginErr');
+  const showErr=(msg)=>{ errEl.textContent=msg; errEl.className='cv-err show'; };
+  errEl.className='cv-err';
+  if(!em||!pw) return showErr(at('errFill'));
+  const users = dbGet(DB_USERS);
+  const user = users.find(u=>u.email===em && u.pw===hashPw(pw));
+  if(!user) return showErr(at('errNotFound'));
+  setSession({id:user.id, fn:user.fn, ln:user.ln, email:user.email});
+  cvCloseAuth();
+  updateNavbar();
+  if(window._cvPendingBooking){ window._cvPendingBooking=false; if(_origSSS) _origSSS(); }
+};
+
+/* ── Logout ── */
+window.cvLogout = function(){
+  clearSession();
+  updateNavbar();
+};
+
+/* ── Open Dashboard ── */
+window.cvOpenDashboard = function(){
+  renderDashboard();
+  navigateTo('dashboardView');
+  requestAnimationFrame(()=>window.scrollTo({top:0,behavior:'auto'}));
+};
+
+/* ── Render Dashboard ── */
+function renderDashboard(){
+  const session = getSession();
+  const dashTitle = document.getElementById('cvDashTitle');
+  const dashWelcome = document.getElementById('cvDashWelcome');
+  const dashNewBtn = document.getElementById('cvDashNewBtn');
+  const dashList = document.getElementById('cvDashList');
+  if(!dashList) return;
+  if(dashTitle) dashTitle.textContent = at('dashTitle');
+  if(dashNewBtn) dashNewBtn.textContent = at('dashNewBtn');
+  if(!session){ dashList.innerHTML=`<div class="cv-empty-dash"><i class="fas fa-user-lock"></i><p>${at('errNotFound')}</p></div>`; return; }
+  if(dashWelcome) dashWelcome.textContent = `${at('welcomeMsg')} ${session.fn} ${session.ln}`;
+  const allOrders = dbGet(DB_ORDERS);
+  const myOrders = allOrders.filter(o=>o.userId===session.id).sort((a,b)=>new Date(b.createdAt)-new Date(a.createdAt));
+  if(!myOrders.length){
+    dashList.innerHTML=`<div class="cv-empty-dash"><i class="fas fa-calendar-plus"></i><p>${at('emptyDash')}</p></div>`;
+    return;
+  }
+  const statusMap={'pending':'statusPending','confirmed':'statusConfirmed','inprogress':'statusInprogress','cancelled':'statusCancelled'};
+  const statusClass={'pending':'cv-status-pending','confirmed':'cv-status-confirmed','inprogress':'cv-status-inprogress','cancelled':'cv-status-cancelled'};
+  dashList.innerHTML = myOrders.map(o=>{
+    const status = o.status||'pending';
+    const badgeTxt = at(statusMap[status]||'statusPending');
+    const badgeCls = statusClass[status]||'cv-status-pending';
+    const date = o.date ? o.date : (o.createdAt ? new Date(o.createdAt).toLocaleDateString() : '—');
+    const svc = o.service || o.serviceKey || '—';
+    const ref = o.bookingId||o.ref||'—';
+    return `<div class="cv-booking-item">
+      <div class="cv-bi-info">
+        <h4>${svc}</h4>
+        <p><i class="fas fa-calendar" style="margin-right:.3rem;"></i>${date} &nbsp;|&nbsp; <i class="fas fa-hashtag" style="margin-right:.2rem;"></i>${ref}</p>
+      </div>
+      <span class="cv-status-badge ${badgeCls}">${badgeTxt}</span>
+    </div>`;
+  }).join('');
+}
+
+/* ── Hook booking submissions to save to user account ── */
+function hookBookingSubmit(){
+  // Hook processPayment (standard booking)
+  const _origPP = window.processPayment;
+  if(_origPP){
+    window.processPayment = async function(){
+      const session = getSession();
+      // Call original — it internally posts and fills confirmation
+      const result = await _origPP.apply(this, arguments);
+      if(session){
+        // After successful booking, try to save order reference
+        try{
+          const orderId = document.getElementById('confirmationRef') ?
+            document.getElementById('confirmationRef').textContent : 'CV-'+Date.now();
+          const orders = dbGet(DB_ORDERS);
+          orders.push({
+            userId: session.id,
+            bookingId: orderId,
+            service: (typeof getServiceName === 'function' && typeof selectedService !== 'undefined') ? getServiceName(selectedService) : '—',
+            date: (typeof selectedDate !== 'undefined') ? selectedDate : '',
+            status: 'pending',
+            createdAt: new Date().toISOString()
+          });
+          dbSet(DB_ORDERS, orders);
+        }catch(e){}
+      }
+      return result;
+    };
+  }
+}
+
+/* ── Init ── */
+document.addEventListener('DOMContentLoaded', ()=>{
+  injectNavbarAuth();
+  renderAuthText();
+  hookBookingSubmit();
+  // Close overlay on background click
+  document.getElementById('cvAuthOverlay').addEventListener('click',function(e){
+    if(e.target===this) cvCloseAuth();
+  });
+  document.getElementById('cvModeOverlay').addEventListener('click',function(e){
+    if(e.target===this) cvCloseMode();
+  });
+  // Keyboard Enter support
+  ['cvLoginEmail','cvLoginPass'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el) el.addEventListener('keydown',e=>{ if(e.key==='Enter') cvDoLogin(); });
+  });
+  ['cvRegFn','cvRegLn','cvRegBd','cvRegEm','cvRegPw','cvRegPw2'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el) el.addEventListener('keydown',e=>{ if(e.key==='Enter') cvDoRegister(); });
+  });
+});
+
+/* ── Hook setLanguage to re-render auth text ── */
+if(typeof setLanguage === 'function'){
+  const _origSL = setLanguage;
+  setLanguage = function(lang){
+    _origSL(lang);
+    setTimeout(()=>{ injectNavbarAuth(); renderAuthText(); }, 10);
+  };
+  window.setLanguage = setLanguage;
+}
+
+})();
+</script>
 </body>
 </html>
