@@ -5833,6 +5833,25 @@ body.rtl .cv-user-chip{flex-direction:row-reverse;}
   </div>
 </div>
 
+<script src="https://www.gstatic.com/firebasejs/12.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/12.12.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/12.12.0/firebase-firestore-compat.js"></script>
+<script>
+window.CAREVIA_FIREBASE_CONFIG = {
+  apiKey: "AIzaSyC8DRWheqAJHavi88-zZWZFE8JVMwlFBU4",
+  authDomain: "carevia-75100.firebaseapp.com",
+  projectId: "carevia-75100",
+  storageBucket: "carevia-75100.firebasestorage.app",
+  messagingSenderId: "397863232227",
+  appId: "1:397863232227:web:3022097207a1d9d1621bd6",
+  measurementId: "G-92BXPXQZWX"
+};
+if (!firebase.apps.length) {
+  firebase.initializeApp(window.CAREVIA_FIREBASE_CONFIG);
+}
+window.cvFirebaseAuth = firebase.auth();
+window.cvFirebaseDb = firebase.firestore();
+</script>
 <script>
 (function(){
 /* ────────────────────────────────────
@@ -5840,7 +5859,6 @@ body.rtl .cv-user-chip{flex-direction:row-reverse;}
    careviaUsers  → [{id, fn, ln, bd, email, pw, createdAt}]
    careviaOrders → [{...booking, userId}]
 ──────────────────────────────────── */
-const DB_USERS  = 'careviaUsers';
 const DB_ORDERS = 'careviaOrders';
 const DB_SESSION= 'careviaSession'; // current userId
 
@@ -6048,8 +6066,8 @@ window.cvModeGuest = function(){
   if(_origSSS) _origSSS();
 };
 
-/* ── Register ── */
-window.cvDoRegister = function(){
+/* ── Register (Firebase Auth + Firestore) ── */
+window.cvDoRegister = async function(){
   const fn=document.getElementById('cvRegFn').value.trim();
   const ln=document.getElementById('cvRegLn').value.trim();
   const bd=document.getElementById('cvRegBd').value;
@@ -6063,39 +6081,96 @@ window.cvDoRegister = function(){
   if(!isValidEmailLocal(em)) return showErr(at('errEmail'));
   if(pw.length<6) return showErr(at('errPass'));
   if(pw!==pw2) return showErr(at('errPassMatch'));
-  const users = dbGet(DB_USERS);
-  if(users.find(u=>u.email===em)) return showErr(at('errExists'));
-  const user = {id:'U'+Date.now(), fn, ln, bd, email:em, pw:hashPw(pw), createdAt:new Date().toISOString()};
-  users.push(user);
-  dbSet(DB_USERS,users);
-  setSession({id:user.id, fn:user.fn, ln:user.ln, email:user.email});
-  cvCloseAuth();
-  updateNavbar();
-  if(window._cvPendingBooking){ window._cvPendingBooking=false; if(_origSSS) _origSSS(); }
+  try{
+    const cred = await window.cvFirebaseAuth.createUserWithEmailAndPassword(em, pw);
+    const user = cred.user;
+    await window.cvFirebaseDb.collection('users').doc(user.uid).set({
+      uid:user.uid,
+      fn,
+      ln,
+      bd,
+      email:em,
+      createdAt:new Date().toISOString()
+    });
+    setSession({id:user.uid, fn, ln, email:em});
+    cvCloseAuth();
+    updateNavbar();
+    if(window._cvPendingBooking){ window._cvPendingBooking=false; if(_origSSS) _origSSS(); }
+  }catch(error){
+    if(error && error.code==='auth/email-already-in-use') return showErr(at('errExists'));
+    if(error && error.code==='auth/invalid-email') return showErr(at('errEmail'));
+    if(error && error.code==='auth/weak-password') return showErr(at('errPass'));
+    console.error(error);
+    return showErr((error && error.message) || at('errNotFound'));
+  }
 };
 
-/* ── Login ── */
-window.cvDoLogin = function(){
+/* ── Login (Firebase Auth + Firestore) ── */
+window.cvDoLogin = async function(){
   const em=document.getElementById('cvLoginEmail').value.trim().toLowerCase();
   const pw=document.getElementById('cvLoginPass').value;
   const errEl=document.getElementById('cvLoginErr');
   const showErr=(msg)=>{ errEl.textContent=msg; errEl.className='cv-err show'; };
   errEl.className='cv-err';
   if(!em||!pw) return showErr(at('errFill'));
-  const users = dbGet(DB_USERS);
-  const user = users.find(u=>u.email===em && u.pw===hashPw(pw));
-  if(!user) return showErr(at('errNotFound'));
-  setSession({id:user.id, fn:user.fn, ln:user.ln, email:user.email});
-  cvCloseAuth();
-  updateNavbar();
-  if(window._cvPendingBooking){ window._cvPendingBooking=false; if(_origSSS) _origSSS(); }
+  try{
+    const cred = await window.cvFirebaseAuth.signInWithEmailAndPassword(em, pw);
+    const user = cred.user;
+    let session = {id:user.uid, fn:'', ln:'', email:user.email || em};
+    try{
+      const doc = await window.cvFirebaseDb.collection('users').doc(user.uid).get();
+      if(doc.exists){
+        const data = doc.data() || {};
+        session = {
+          id:user.uid,
+          fn:data.fn || data.firstName || '',
+          ln:data.ln || data.lastName || '',
+          email:data.email || user.email || em
+        };
+      }
+    }catch(e){ console.error(e); }
+    setSession(session);
+    cvCloseAuth();
+    updateNavbar();
+    if(window._cvPendingBooking){ window._cvPendingBooking=false; if(_origSSS) _origSSS(); }
+  }catch(error){
+    if(error && (error.code==='auth/user-not-found' || error.code==='auth/wrong-password' || error.code==='auth/invalid-credential' || error.code==='auth/invalid-login-credentials')) return showErr(at('errNotFound'));
+    console.error(error);
+    return showErr((error && error.message) || at('errNotFound'));
+  }
 };
 
 /* ── Logout ── */
-window.cvLogout = function(){
+window.cvLogout = async function(){
+  try{ await window.cvFirebaseAuth.signOut(); }catch(e){ console.error(e); }
   clearSession();
   updateNavbar();
 };
+
+window.cvFirebaseAuth.onAuthStateChanged(async function(user){
+  if(user){
+    try{
+      const snap = await window.cvFirebaseDb.collection('users').doc(user.uid).get();
+      if(snap.exists){
+        const data = snap.data() || {};
+        setSession({
+          id:user.uid,
+          fn:data.fn || data.firstName || '',
+          ln:data.ln || data.lastName || '',
+          email:data.email || user.email || ''
+        });
+      } else {
+        setSession({id:user.uid, fn:'', ln:'', email:user.email || ''});
+      }
+    }catch(e){
+      console.error(e);
+      setSession({id:user.uid, fn:'', ln:'', email:user.email || ''});
+    }
+  } else {
+    clearSession();
+  }
+  updateNavbar();
+});
 
 /* ── Open Dashboard ── */
 window.cvOpenDashboard = function(){
