@@ -5528,6 +5528,15 @@ body.rtl input[type="date"].cv-date{padding:.7rem 1rem;}
 }
 .cv-modal .cv-btn-primary:active{transform:translateY(0);}
 
+/* Slightly smaller login button for better proportion */
+#cvLoginBtn{
+  padding:.78rem 1rem;
+  font-size:.95rem;
+  border-radius:13px;
+  gap:.42rem;
+  min-height:46px;
+}
+
 /* ── Switch Link ── */
 .cv-modal .cv-switch{
   text-align:center;margin-top:1.1rem;
@@ -5567,120 +5576,573 @@ body.rtl input[type="date"].cv-date{padding:.7rem 1rem;}
 }
 .cv-err.show{display:block;animation:cvShake .35s ease;}
 
+.cv-inline-actions{
+  display:flex;
+  gap:.65rem;
+  align-items:center;
+  margin-top:.7rem;
+}
+.cv-inline-actions .cv-btn-secondary,
+.cv-btn-secondary{
+  flex:0 0 auto;
+  min-width:138px;
+  padding:.78rem 1rem;
+  border-radius:12px;
+  border:1.5px solid rgba(15,88,115,.16);
+  background:linear-gradient(180deg, rgba(255,255,255,.98), rgba(240,248,244,.98));
+  color:var(--accent-dark);
+  font-weight:800;
+  cursor:pointer;
+  transition:all .22s ease;
+}
+.cv-inline-actions .cv-btn-secondary:hover,
+.cv-btn-secondary:hover{
+  transform:translateY(-1px);
+  border-color:rgba(15,88,115,.28);
+  box-shadow:0 10px 24px -18px rgba(15,88,115,.45);
+}
+body.dark-mode .cv-inline-actions .cv-btn-secondary,
+body.dark-mode .cv-btn-secondary{
+  background:linear-gradient(180deg, rgba(15,34,48,.96), rgba(12,28,39,.96));
+  color:var(--text-color);
+  border-color:rgba(102,182,207,.18);
+}
+.cv-verify-status{
+  margin-top:.55rem;
+  font-size:.82rem;
+  padding:.58rem .75rem;
+  border-radius:10px;
+  display:none;
+}
+.cv-verify-status.show{display:block;}
+.cv-verify-status.info{background:rgba(15,88,115,.08);color:var(--accent-dark);}
+.cv-verify-status.success{background:rgba(118,184,79,.12);color:#2f6f1d;}
+.cv-verify-status.error{background:rgba(229,62,62,.08);color:#c53030;}
+.cv-verify-status i{margin-inline-end:.38rem;}
+@media (max-width:640px){
+  .cv-inline-actions{flex-direction:column;align-items:stretch;}
+  .cv-inline-actions .cv-btn-secondary{width:100%;min-width:0;}
+}
+
+
 /* ════════════════════════════════
-   NAVBAR AUTH BUTTON — REDESIGN
+   NAVBAR AUTH BUTTON — REFINED
 ════════════════════════════════ */
 .cv-auth-btn{
-  padding:.5rem 1.2rem;
+  position:relative;
+  padding:.6rem 1.35rem .6rem .9rem;
   border:2px solid transparent;
   border-radius:999px;
-  background:linear-gradient(var(--card-bg), var(--card-bg)) padding-box,
-             linear-gradient(135deg, var(--accent-dark), var(--accent-contrast)) border-box;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.96), rgba(255,255,255,.92)) padding-box,
+    linear-gradient(135deg, var(--accent-dark), var(--accent-contrast)) border-box;
   color:var(--accent-dark);
-  font-size:.84rem;font-weight:700;
+  font-size:.92rem;
+  font-weight:800;
   cursor:pointer;
-  display:flex;align-items:center;gap:.45rem;
-  transition:all .25s;
+  display:inline-flex;
+  align-items:center;
+  gap:.72rem;
+  transition:all .24s ease;
   white-space:nowrap;
-  box-shadow:0 4px 14px -6px rgba(15,88,115,.25);
+  box-shadow:0 14px 28px -18px rgba(15,88,115,.35);
+}
+body.dark-mode .cv-auth-btn{
+  background:
+    linear-gradient(180deg, rgba(15,34,48,.96), rgba(15,34,48,.92)) padding-box,
+    linear-gradient(135deg, var(--accent-dark), var(--accent-contrast)) border-box;
+  color:var(--text-color);
 }
 .cv-auth-btn:hover{
-  background:linear-gradient(135deg, var(--accent-dark), #0a8ab0) padding-box,
-             linear-gradient(135deg, var(--accent-dark), var(--accent-contrast)) border-box;
-  color:#fff;
-  box-shadow:0 8px 20px -6px rgba(15,88,115,.4);
-  transform:translateY(-1px);
+  transform:translateY(-2px);
+  box-shadow:0 18px 34px -18px rgba(15,88,115,.45);
 }
-.cv-auth-btn i{font-size:.82rem;}
+.cv-auth-btn .cv-auth-icon{
+  width:34px;
+  height:34px;
+  border-radius:50%;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(135deg, var(--accent-dark), var(--accent-contrast));
+  color:#fff;
+  box-shadow:0 10px 18px -12px rgba(15,88,115,.55);
+  flex-shrink:0;
+}
+.cv-auth-btn .cv-auth-icon i{font-size:.92rem;}
+.cv-auth-btn .cv-auth-label{line-height:1;}
+.cv-auth-btn:hover .cv-auth-icon{transform:scale(1.04);}
+
+/* Password visibility */
+.cv-input-wrap{position:relative;}
+.cv-password-toggle{
+  position:absolute;
+  right:.8rem;
+  top:50%;
+  transform:translateY(-50%);
+  width:34px;
+  height:34px;
+  border:none;
+  border-radius:50%;
+  background:transparent;
+  color:var(--accent-dark);
+  opacity:.62;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition:opacity .18s ease, background .18s ease, transform .18s ease;
+}
+.cv-password-toggle:hover{opacity:1;background:rgba(15,88,115,.08);}
+.cv-password-toggle:active{transform:translateY(-50%) scale(.96);}
+.cv-input-wrap.has-toggle input{padding-right:3rem;}
+body.rtl .cv-password-toggle{right:auto;left:.8rem;}
+body.rtl .cv-input-wrap.has-toggle input{padding-right:1rem;padding-left:3rem;}
 
 /* User Chip */
 .cv-user-chip{
-  display:flex;align-items:center;gap:.5rem;
-  background:var(--accent-light);
-  padding:.4rem .9rem .4rem .5rem;
+  display:flex;align-items:center;gap:.7rem;
+  background:
+    radial-gradient(circle at top left, rgba(118,184,79,.12), transparent 36%),
+    linear-gradient(180deg, rgba(255,255,255,.96), rgba(241,248,244,.98));
+  padding:.42rem .52rem .42rem .42rem;
   border-radius:999px;
-  border:1.5px solid var(--border-color);
+  border:1px solid rgba(15,88,115,.10);
+  box-shadow:0 16px 34px -24px rgba(15,88,115,.38);
+  backdrop-filter:blur(10px);
+}
+body.dark-mode .cv-user-chip{
+  background:
+    radial-gradient(circle at top left, rgba(143,203,93,.12), transparent 38%),
+    linear-gradient(180deg, rgba(16,38,51,.96), rgba(11,28,38,.98));
+  border-color:rgba(102,182,207,.18);
+}
+.cv-user-chip .cv-user-profile{
+  display:flex;align-items:center;gap:.62rem;
+  min-width:0;
+  padding:.18rem .32rem .18rem .18rem;
+  border-radius:999px;
 }
 .cv-user-chip .cv-user-avatar{
-  width:28px;height:28px;
+  position:relative;
+  width:38px;height:38px;
   border-radius:50%;
-  background:linear-gradient(135deg, var(--accent-dark), var(--accent-contrast));
+  background:linear-gradient(135deg, #3c8c67, #79be58);
   display:flex;align-items:center;justify-content:center;
-  color:#fff;font-size:.72rem;font-weight:800;
+  color:#fff;font-size:.9rem;font-weight:800;
+  letter-spacing:.02em;
+  flex-shrink:0;
+  box-shadow:0 12px 22px -14px rgba(77,156,113,.68);
+  border:2px solid rgba(255,255,255,.82);
+}
+.cv-user-chip .cv-user-avatar::after{
+  content:'';
+  position:absolute;
+  right:-1px;bottom:-1px;
+  width:10px;height:10px;border-radius:50%;
+  background:#79be58;
+  border:2px solid rgba(255,255,255,.94);
+  box-shadow:0 0 0 2px rgba(121,190,88,.18);
+}
+body.dark-mode .cv-user-chip .cv-user-avatar{border-color:rgba(255,255,255,.18);}
+body.dark-mode .cv-user-chip .cv-user-avatar::after{border-color:#102633;}
+.cv-user-chip .cv-user-meta{
+  display:flex;flex-direction:column;gap:.05rem;min-width:0;
+}
+.cv-user-chip .cv-user-label{
+  font-size:.64rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--accent-contrast);opacity:.95;line-height:1.1;
+}
+.cv-user-chip .cv-user-name{
+  font-size:.94rem;font-weight:800;color:var(--accent-dark);
+  max-width:122px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.15;
+}
+body.dark-mode .cv-user-chip .cv-user-name{color:var(--text-color);}
+.cv-user-chip .cv-logout{
+  width:34px;height:34px;border:none;cursor:pointer;
+  color:var(--text-color);opacity:.6;font-size:.9rem;
+  border-radius:50%;background:rgba(15,88,115,.04);
+  display:flex;align-items:center;justify-content:center;
+  transition:opacity .2s, background .2s, transform .2s, color .2s;
   flex-shrink:0;
 }
-.cv-user-chip .cv-user-name{font-size:.84rem;font-weight:700;color:var(--accent-dark);}
-.cv-user-chip .cv-logout{
-  background:none;border:none;cursor:pointer;
-  color:var(--text-color);opacity:.5;font-size:.78rem;
-  padding:0 0 0 .3rem;
-  transition:opacity .2s;
-}
-.cv-user-chip .cv-logout:hover{opacity:1;color:#e53e3e;}
+.cv-user-chip .cv-logout:hover{opacity:1;color:#e53e3e;background:rgba(229,62,62,.1);transform:translateY(-1px);}
 .cv-user-chip .cv-dash-link{
-  background:var(--accent-dark);border:none;
-  color:#fff;font-size:.75rem;font-weight:700;
-  padding:.25rem .65rem;border-radius:20px;
-  cursor:pointer;display:flex;align-items:center;gap:.3rem;
-  transition:opacity .2s;
+  background:linear-gradient(135deg, var(--accent-dark), #135f7c);
+  border:none;color:#fff;font-size:.88rem;font-weight:800;
+  padding:.56rem .95rem;border-radius:999px;
+  cursor:pointer;display:flex;align-items:center;gap:.45rem;
+  box-shadow:0 16px 28px -18px rgba(15,88,115,.62);
+  transition:transform .2s, opacity .2s, box-shadow .2s, filter .2s;
+  white-space:nowrap;
 }
-.cv-user-chip .cv-dash-link:hover{opacity:.85;}
+.cv-user-chip .cv-dash-link:hover{opacity:.98;transform:translateY(-1px);box-shadow:0 18px 30px -18px rgba(15,88,115,.7);filter:saturate(1.05);}
+.cv-user-chip .cv-dash-link i{font-size:.86rem;}
+@media (max-width:640px){
+  .cv-user-chip{gap:.45rem;padding:.38rem;}
+  .cv-user-chip .cv-user-name{max-width:82px;font-size:.88rem;}
+  .cv-user-chip .cv-user-label{display:none;}
+  .cv-user-chip .cv-dash-link span{display:none;}
+  .cv-user-chip .cv-dash-link{padding:.6rem .72rem;}
+}
 
 /* ════════════════════════════════
    BOOKING MODE MODAL — REDESIGN
 ════════════════════════════════ */
-.cv-mode-modal{max-width:440px;}
-.cv-mode-options{display:flex;flex-direction:column;gap:.75rem;margin-top:.5rem;}
+.cv-mode-modal{
+  max-width:500px;
+  border-radius:30px;
+  background:
+    radial-gradient(circle at top right, rgba(118,184,79,.10), transparent 34%),
+    radial-gradient(circle at bottom left, rgba(15,88,115,.10), transparent 32%),
+    linear-gradient(180deg, rgba(255,255,255,.98), rgba(248,252,250,.98));
+  border:1px solid rgba(15,88,115,.08);
+  box-shadow:0 36px 90px -28px rgba(7,22,32,.45), 0 14px 30px -24px rgba(15,88,115,.26);
+}
+body.dark-mode .cv-mode-modal{
+  background:
+    radial-gradient(circle at top right, rgba(118,184,79,.10), transparent 34%),
+    radial-gradient(circle at bottom left, rgba(102,182,207,.12), transparent 32%),
+    linear-gradient(180deg, rgba(15,34,48,.98), rgba(10,24,34,.98));
+  border-color:rgba(255,255,255,.06);
+}
+.cv-mode-top{
+  padding:1.35rem 1.45rem .5rem;
+  display:flex;
+  flex-direction:column;
+  gap:.55rem;
+}
+.cv-mode-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:.42rem;
+  width:max-content;
+  padding:.38rem .72rem;
+  border-radius:999px;
+  background:rgba(15,88,115,.08);
+  color:var(--accent-dark);
+  font-size:.76rem;
+  font-weight:800;
+  letter-spacing:.01em;
+}
+.cv-mode-heading{
+  padding:0 1.45rem;
+}
+.cv-mode-modal h2{
+  color:var(--text-color) !important;
+  margin:0 0 .32rem;
+  font-size:1.45rem;
+}
+.cv-mode-lead{
+  margin:0;
+  font-size:.92rem;
+  color:var(--text-color);
+  opacity:.72;
+  line-height:1.55;
+}
+.cv-mode-options{
+  display:flex;
+  flex-direction:column;
+  gap:.9rem;
+  padding:1rem 1.45rem 1.45rem;
+}
 .cv-mode-card{
-  border:2px solid var(--border-color);
-  border-radius:18px;
-  padding:1.1rem 1.3rem;
+  position:relative;
+  border:1.5px solid rgba(15,88,115,.10);
+  border-radius:22px;
+  padding:1rem 1rem 1rem 1.05rem;
   cursor:pointer;
-  transition:all .22s cubic-bezier(.34,1.56,.64,1);
-  display:flex;align-items:center;gap:1rem;
-  background:var(--bg-color);
+  transition:transform .22s ease, box-shadow .22s ease, border-color .22s ease, background .22s ease;
+  display:grid;
+  grid-template-columns:auto 1fr auto;
+  align-items:center;
+  gap:.95rem;
+  background:rgba(255,255,255,.88);
+  overflow:hidden;
+}
+body.dark-mode .cv-mode-card{
+  background:rgba(255,255,255,.03);
+  border-color:rgba(255,255,255,.08);
+}
+.cv-mode-card::before{
+  content:'';
+  position:absolute;
+  inset:0 auto 0 0;
+  width:4px;
+  background:linear-gradient(180deg, var(--accent-dark), var(--accent-contrast));
+  opacity:.9;
 }
 .cv-mode-card:hover{
-  border-color:var(--accent-dark);
-  background:var(--accent-light);
-  transform:translateY(-2px);
-  box-shadow:0 10px 24px -10px rgba(15,88,115,.2);
+  border-color:rgba(15,88,115,.28);
+  background:linear-gradient(180deg, rgba(255,255,255,.98), rgba(240,248,244,.96));
+  transform:translateY(-3px);
+  box-shadow:0 18px 32px -20px rgba(15,88,115,.35);
+}
+body.dark-mode .cv-mode-card:hover{
+  background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
 }
 .cv-mode-card .cv-mode-icon{
-  width:46px;height:46px;flex-shrink:0;
-  border-radius:14px;
-  background:linear-gradient(135deg, rgba(15,88,115,.12), rgba(118,184,79,.14));
+  width:54px;height:54px;flex-shrink:0;
+  border-radius:18px;
+  background:linear-gradient(135deg, rgba(15,88,115,.14), rgba(118,184,79,.18));
   display:flex;align-items:center;justify-content:center;
-  font-size:1.35rem;
+  font-size:1.45rem;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.55);
 }
-.cv-mode-card h3{font-size:.95rem;font-weight:800;margin:0 0 .18rem;color:var(--accent-dark);}
-.cv-mode-card p{font-size:.8rem;color:var(--text-color);margin:0;opacity:.68;}
+.cv-mode-card:nth-child(1) .cv-mode-icon{background:linear-gradient(135deg, rgba(96,85,190,.16), rgba(15,88,115,.14));}
+.cv-mode-card:nth-child(2) .cv-mode-icon{background:linear-gradient(135deg, rgba(255,177,66,.20), rgba(118,184,79,.16));}
+.cv-mode-card:nth-child(3) .cv-mode-icon{background:linear-gradient(135deg, rgba(90,186,255,.18), rgba(15,88,115,.12));}
+.cv-mode-copy{min-width:0;}
+.cv-mode-card h3{
+  font-size:1.03rem;
+  font-weight:800;
+  margin:0 0 .22rem;
+  color:var(--accent-dark);
+}
+.cv-mode-card p{
+  font-size:.84rem;
+  color:var(--text-color);
+  margin:0;
+  opacity:.72;
+  line-height:1.5;
+}
+.cv-mode-arrow{
+  width:36px;height:36px;
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(15,88,115,.08);
+  color:var(--accent-dark);
+  font-size:.9rem;
+  transition:transform .2s ease, background .2s ease;
+}
+.cv-mode-card:hover .cv-mode-arrow{
+  transform:translateX(3px);
+  background:rgba(15,88,115,.14);
+}
+body.rtl .cv-mode-card::before{
+  inset:0 0 0 auto;
+}
+body.rtl .cv-mode-card:hover .cv-mode-arrow{
+  transform:translateX(-3px);
+}
+@media (max-width:640px){
+  .cv-mode-modal{max-width:100%;border-radius:24px;}
+  .cv-mode-top{padding:1.15rem 1rem .4rem;}
+  .cv-mode-heading{padding:0 1rem;}
+  .cv-mode-options{padding:.9rem 1rem 1rem;}
+  .cv-mode-card{padding:.92rem;}
+  .cv-mode-card .cv-mode-icon{width:50px;height:50px;border-radius:16px;}
+}
 
 /* ════════════════════════════════
-   DASHBOARD VIEW
+   DASHBOARD VIEW — MODERN USER
 ════════════════════════════════ */
-#dashboardView .booking-card{max-width:800px;margin:0 auto;}
-.cv-dash-header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-bottom:2rem;}
-.cv-dash-header h2{font-size:1.4rem;font-weight:700;color:var(--accent-dark);}
-.cv-booking-list{display:flex;flex-direction:column;gap:1rem;}
-.cv-booking-item{
-  border:1.5px solid var(--border-color);
-  border-radius:18px;padding:1.1rem 1.3rem;
-  display:grid;grid-template-columns:1fr auto;align-items:center;gap:.8rem;
-  transition:box-shadow .2s, transform .2s;
-  background:var(--card-bg);
+#dashboardView .booking-card{
+  max-width:1100px;
+  margin:0 auto;
+  border-radius:30px;
+  padding:1.4rem;
+  background:linear-gradient(180deg, rgba(255,255,255,.96), rgba(255,255,255,.94));
+  box-shadow:0 28px 54px -28px var(--shadow-color);
 }
-.cv-booking-item:hover{transform:translateY(-2px);box-shadow:0 10px 24px -10px var(--shadow-color);}
-.cv-booking-item .cv-bi-info h4{font-size:.95rem;font-weight:700;margin:0 0 .3rem;}
-.cv-booking-item .cv-bi-info p{font-size:.82rem;color:var(--text-color);opacity:.75;margin:0;}
-.cv-status-badge{padding:.32rem .8rem;border-radius:20px;font-size:.76rem;font-weight:700;white-space:nowrap;}
-.cv-status-pending{background:#fff3cd;color:#856404;}
-.cv-status-confirmed{background:#d1e7dd;color:#0f5132;}
-.cv-status-inprogress{background:#cfe2ff;color:#084298;}
-.cv-status-cancelled{background:#f8d7da;color:#842029;}
-.cv-empty-dash{text-align:center;padding:3rem 1rem;opacity:.55;}
-.cv-empty-dash i{font-size:3rem;margin-bottom:1rem;display:block;}
-
+body.dark-mode #dashboardView .booking-card{
+  background:linear-gradient(180deg, rgba(15,34,48,.96), rgba(15,34,48,.94));
+}
+.cv-dash-shell{display:flex;flex-direction:column;gap:1.15rem;}
+.cv-dash-hero{
+  position:relative;
+  overflow:hidden;
+  border-radius:32px;
+  padding:1.7rem;
+  background:
+    radial-gradient(circle at top right, rgba(255,255,255,.22), transparent 34%),
+    linear-gradient(135deg, #0d4f68 0%, #11718d 52%, #76b84f 100%);
+  color:#fff;
+  display:grid;
+  grid-template-columns:1.3fr .9fr;
+  gap:1rem;
+  box-shadow:0 28px 50px -24px rgba(15,88,115,.42);
+}
+.cv-dash-hero::before,
+.cv-dash-hero::after{
+  content:'';
+  position:absolute;
+  border-radius:50%;
+  pointer-events:none;
+}
+.cv-dash-hero::before{
+  width:180px;height:180px;
+  left:-70px;top:-60px;
+  background:rgba(255,255,255,.07);
+}
+.cv-dash-hero::after{
+  width:240px;height:240px;
+  right:-55px;bottom:-80px;
+  background:rgba(255,255,255,.08);
+}
+.cv-dash-hero > *{position:relative;z-index:1;}
+.cv-dash-kicker{
+  display:inline-flex;align-items:center;gap:.45rem;
+  padding:.42rem .82rem;
+  border-radius:999px;
+  margin-bottom:.85rem;
+  background:rgba(255,255,255,.14);
+  border:1px solid rgba(255,255,255,.18);
+  font-size:.78rem;
+  font-weight:800;
+  letter-spacing:.02em;
+}
+.cv-dash-hero h2{margin:0 0 .4rem;font-size:1.82rem;font-weight:800;color:#fff;}
+.cv-dash-hero p{margin:0;color:rgba(255,255,255,.92);max-width:620px;line-height:1.6;}
+.cv-dash-hero-actions{display:flex;gap:.7rem;flex-wrap:wrap;margin-top:1.1rem;}
+.cv-dash-btn,.cv-dash-btn-secondary{
+  border:none;
+  border-radius:999px;
+  padding:.84rem 1.14rem;
+  font-weight:800;
+  cursor:pointer;
+  display:inline-flex;
+  align-items:center;
+  gap:.55rem;
+  transition:.22s ease;
+}
+.cv-dash-btn{background:#fff;color:#0f5873;box-shadow:0 14px 26px -16px rgba(0,0,0,.36);}
+.cv-dash-btn:hover,.cv-dash-btn-secondary:hover{transform:translateY(-2px);}
+.cv-dash-btn-secondary{background:rgba(255,255,255,.14);color:#fff;border:1px solid rgba(255,255,255,.2);}
+.cv-dash-profile-card{
+  background:rgba(255,255,255,.12);
+  border:1px solid rgba(255,255,255,.18);
+  border-radius:26px;
+  padding:1rem;
+  backdrop-filter:blur(10px);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.06);
+}
+.cv-dash-user-row{display:flex;align-items:center;gap:.85rem;margin-bottom:.9rem;}
+.cv-dash-avatar{
+  width:62px;height:62px;border-radius:18px;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:800;font-size:1.05rem;
+  background:linear-gradient(180deg, rgba(255,255,255,.22), rgba(255,255,255,.08));
+  border:1px solid rgba(255,255,255,.22);
+  box-shadow:0 12px 24px -18px rgba(0,0,0,.35);
+}
+.cv-dash-user-meta strong{display:block;font-size:1.05rem;}
+.cv-dash-user-meta span{font-size:.88rem;opacity:.92;}
+.cv-dash-badge{
+  display:inline-flex;align-items:center;gap:.38rem;
+  margin-top:.28rem;
+  padding:.28rem .56rem;
+  border-radius:999px;
+  background:rgba(255,255,255,.13);
+  border:1px solid rgba(255,255,255,.14);
+  font-size:.72rem;font-weight:800;
+}
+.cv-dash-mini{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.75rem;}
+.cv-mini-box{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.14);border-radius:18px;padding:.85rem;}
+.cv-mini-box small{display:block;opacity:.84;margin-bottom:.3rem;}
+.cv-mini-box strong{font-size:1.1rem;}
+.cv-dash-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1rem;}
+.cv-stat-card{
+  background:linear-gradient(180deg, rgba(255,255,255,.98), rgba(255,255,255,.92));
+  border:1px solid var(--border-color);
+  border-radius:24px;
+  padding:1rem;
+  box-shadow:0 18px 36px -26px var(--shadow-color);
+}
+body.dark-mode .cv-stat-card{
+  background:linear-gradient(180deg, rgba(15,34,48,.98), rgba(15,34,48,.92));
+}
+.cv-stat-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:.68rem;}
+.cv-stat-icon{
+  width:44px;height:44px;border-radius:15px;
+  display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(180deg, var(--accent-light), rgba(118,184,79,.12));color:var(--accent-dark);
+}
+.cv-stat-card small{display:block;opacity:.72;margin-bottom:.2rem;font-weight:700;}
+.cv-stat-card strong{font-size:1.42rem;color:var(--accent-dark);}
+.cv-dash-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:1rem;}
+.cv-dash-panel{
+  background:linear-gradient(180deg, rgba(255,255,255,.98), rgba(255,255,255,.94));
+  border:1px solid var(--border-color);
+  border-radius:26px;
+  padding:1.15rem;
+  box-shadow:0 20px 40px -28px var(--shadow-color);
+}
+body.dark-mode .cv-dash-panel{
+  background:linear-gradient(180deg, rgba(15,34,48,.98), rgba(15,34,48,.94));
+}
+.cv-dash-panel-head{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:1rem;}
+.cv-dash-panel-head h3{margin:0;color:var(--accent-dark);font-size:1.08rem;}
+.cv-dash-panel-head span{font-size:.85rem;opacity:.7;font-weight:700;}
+.cv-booking-list{display:flex;flex-direction:column;gap:.95rem;}
+.cv-booking-item{
+  position:relative;
+  border:1px solid var(--border-color);
+  border-radius:22px;
+  padding:1rem;
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:.8rem;
+  align-items:start;
+  background:linear-gradient(180deg, rgba(255,255,255,.88), rgba(255,255,255,.98));
+  transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+.cv-booking-item::before{
+  content:'';
+  position:absolute;
+  top:14px;bottom:14px;left:0;
+  width:4px;border-radius:0 999px 999px 0;
+  background:linear-gradient(180deg, #0f5873, #76b84f);
+}
+body.dark-mode .cv-booking-item{
+  background:linear-gradient(180deg, rgba(15,34,48,.9), rgba(15,34,48,.98));
+}
+.cv-booking-item:hover{transform:translateY(-3px);box-shadow:0 18px 30px -24px var(--shadow-color);border-color:rgba(118,184,79,.45);}
+.cv-booking-main h4{margin:0 0 .38rem;font-size:1rem;color:var(--accent-dark);}
+.cv-booking-meta{display:flex;flex-wrap:wrap;gap:.45rem;margin:.45rem 0 .26rem;}
+.cv-booking-pill{display:inline-flex;align-items:center;gap:.35rem;padding:.42rem .68rem;border-radius:999px;background:var(--accent-light);font-size:.78rem;font-weight:700;}
+.cv-booking-date{font-size:.82rem;opacity:.68;}
+.cv-booking-side{display:flex;flex-direction:column;align-items:flex-end;gap:.55rem;}
+.cv-status{padding:.42rem .72rem;border-radius:999px;font-size:.75rem;font-weight:800;border:1px solid transparent;}
+.cv-status-pending{background:rgba(237,137,54,.12);color:#c05621;border-color:rgba(237,137,54,.26);}
+.cv-status-confirmed{background:rgba(72,187,120,.12);color:#2f855a;border-color:rgba(72,187,120,.25);}
+.cv-status-inprogress{background:rgba(66,153,225,.12);color:#2b6cb0;border-color:rgba(66,153,225,.24);}
+.cv-status-cancelled{background:rgba(229,62,62,.12);color:#c53030;border-color:rgba(229,62,62,.24);}
+.cv-empty-dash{text-align:center;padding:2.2rem 1rem;border:1px dashed var(--border-color);border-radius:24px;background:linear-gradient(180deg, var(--accent-light), rgba(118,184,79,.08));opacity:1;}
+.cv-empty-dash i{font-size:2rem;color:var(--accent-dark);margin-bottom:.65rem;display:block;}
+.cv-profile-list{display:flex;flex-direction:column;gap:.75rem;}
+.cv-profile-row{display:flex;justify-content:space-between;gap:1rem;padding:.88rem .95rem;border-radius:18px;background:linear-gradient(180deg, var(--accent-light), rgba(118,184,79,.08));border:1px solid rgba(118,184,79,.1);}
+.cv-profile-row span{opacity:.72;font-weight:700;}
+.cv-profile-row strong{color:var(--accent-dark);text-align:end;}
+.cv-quick-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.75rem;margin-top:1rem;}
+.cv-quick-card{
+  border-radius:18px;
+  border:1px solid var(--border-color);
+  background:var(--card-bg);
+  padding:.9rem;
+  display:flex;align-items:flex-start;gap:.7rem;
+  box-shadow:0 12px 28px -24px var(--shadow-color);
+}
+.cv-quick-card i{
+  width:38px;height:38px;border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--accent-light);color:var(--accent-dark);flex-shrink:0;
+}
+.cv-quick-card strong{display:block;margin-bottom:.2rem;color:var(--accent-dark);font-size:.92rem;}
+.cv-quick-card span{display:block;font-size:.8rem;opacity:.72;line-height:1.45;}
+@media (max-width:980px){
+  .cv-dash-hero,.cv-dash-grid{grid-template-columns:1fr;}
+  .cv-dash-stats{grid-template-columns:repeat(2,minmax(0,1fr));}
+}
+@media (max-width:640px){
+  #dashboardView .booking-card{padding:1rem;border-radius:22px;}
+  .cv-dash-hero{padding:1.15rem;border-radius:24px;}
+  .cv-dash-stats,.cv-quick-actions{grid-template-columns:1fr;}
+  .cv-booking-item{grid-template-columns:1fr;padding-left:1.1rem;}
+  .cv-booking-side{align-items:flex-start;}
+  .cv-profile-row{flex-direction:column;gap:.3rem;}
+  .cv-profile-row strong{text-align:start;}
+}
 /* RTL */
 body.rtl .cv-close{right:auto;left:.9rem;}
 body.rtl .cv-booking-item{grid-template-columns:auto 1fr;}
@@ -5711,13 +6173,14 @@ body.rtl .cv-user-chip{flex-direction:row-reverse;}
         </div>
         <div class="form-group">
           <label id="cvLoginPassLabel"><i class="fas fa-lock"></i> كلمة المرور</label>
-          <div class="cv-input-wrap">
+          <div class="cv-input-wrap has-toggle">
             <i class="fas fa-lock cv-input-icon"></i>
             <input type="password" id="cvLoginPass" autocomplete="current-password" placeholder="••••••••"/>
+            <button type="button" class="cv-password-toggle" onclick="cvTogglePassword('cvLoginPass', this)"><i class="fas fa-eye"></i></button>
           </div>
         </div>
         <div class="cv-err" id="cvLoginErr"></div>
-        <button class="cv-btn-primary" id="cvLoginBtn" onclick="cvDoLogin()">
+        <button type="button" class="cv-btn-primary" id="cvLoginBtn" onclick="cvDoLogin()">
           <i class="fas fa-sign-in-alt"></i> دخول
         </button>
         <div class="cv-switch" id="cvToRegister">ما عندكش حساب؟ <span onclick="cvShowRegister()">أنشئ حساب</span></div>
@@ -5759,23 +6222,38 @@ body.rtl .cv-user-chip{flex-direction:row-reverse;}
             <i class="fas fa-envelope cv-input-icon"></i>
             <input type="email" id="cvRegEm" autocomplete="email" placeholder="example@email.com"/>
           </div>
+          <div class="cv-inline-actions">
+            <div class="cv-input-wrap" style="flex:1;">
+              <i class="fas fa-shield-alt cv-input-icon"></i>
+              <input type="text" id="cvRegEmailCode" inputmode="numeric" maxlength="6" placeholder="أدخل كود التحقق"/>
+            </div>
+            <button type="button" class="cv-btn-secondary" id="cvSendCodeBtn" onclick="cvSendEmailCode()">
+              <i class="fas fa-paper-plane"></i> إرسال الكود
+            </button>
+          </div>
+          <button type="button" class="cv-btn-secondary" id="cvVerifyCodeBtn" style="width:100%;margin-top:.65rem;" onclick="cvVerifyEmailCode()">
+            <i class="fas fa-badge-check"></i> تأكيد الكود
+          </button>
+          <div class="cv-verify-status" id="cvVerifyStatus"></div>
         </div>
         <div class="form-group">
           <label id="cvRegPwLabel"><i class="fas fa-lock"></i> كلمة المرور</label>
-          <div class="cv-input-wrap">
+          <div class="cv-input-wrap has-toggle">
             <i class="fas fa-lock cv-input-icon"></i>
             <input type="password" id="cvRegPw" autocomplete="new-password" placeholder="6 حروف على الأقل"/>
+            <button type="button" class="cv-password-toggle" onclick="cvTogglePassword('cvRegPw', this)"><i class="fas fa-eye"></i></button>
           </div>
         </div>
         <div class="form-group">
           <label id="cvRegPw2Label"><i class="fas fa-lock"></i> تأكيد كلمة المرور</label>
-          <div class="cv-input-wrap">
+          <div class="cv-input-wrap has-toggle">
             <i class="fas fa-shield-alt cv-input-icon"></i>
             <input type="password" id="cvRegPw2" autocomplete="new-password" placeholder="أعد كلمة المرور"/>
+            <button type="button" class="cv-password-toggle" onclick="cvTogglePassword('cvRegPw2', this)"><i class="fas fa-eye"></i></button>
           </div>
         </div>
         <div class="cv-err" id="cvRegErr"></div>
-        <button class="cv-btn-primary" id="cvRegBtn" onclick="cvDoRegister()">
+        <button type="button" class="cv-btn-primary" id="cvRegBtn" onclick="cvDoRegister()">
           <i class="fas fa-user-plus"></i> إنشاء الحساب
         </button>
         <div class="cv-switch" id="cvToLogin">عندك حساب؟ <span onclick="cvShowLogin()">سجل الدخول</span></div>
@@ -5788,19 +6266,28 @@ body.rtl .cv-user-chip{flex-direction:row-reverse;}
 <div class="cv-overlay" id="cvModeOverlay" style="display:none;">
   <div class="cv-modal cv-mode-modal">
     <button class="cv-close" onclick="cvCloseMode()">✕</button>
-    <h2 id="cvModeTitle">كيف تحب تحجز؟</h2>
+    <div class="cv-mode-top">
+      <span class="cv-mode-badge"><i class="fas fa-shield-heart"></i> CareVia</span>
+    </div>
+    <div class="cv-mode-heading">
+      <h2 id="cvModeTitle">كيف تحب تحجز؟</h2>
+      <p class="cv-mode-lead" id="cvModeLead">اختر الطريقة التي تناسبك للمتابعة، ويمكنك دائماً إكمال الحجز بسرعة وبوضوح.</p>
+    </div>
     <div class="cv-mode-options">
       <div class="cv-mode-card" onclick="cvModeLogin()">
         <span class="cv-mode-icon">👤</span>
-        <div><h3 id="cvModeLoginLabel">تسجيل الدخول</h3><p id="cvModeLoginDesc">لديك حساب — سجّل الدخول لتتبع طلباتك</p></div>
+        <div class="cv-mode-copy"><h3 id="cvModeLoginLabel">تسجيل الدخول</h3><p id="cvModeLoginDesc">لديك حساب — سجّل الدخول لتتبع طلباتك</p></div>
+        <span class="cv-mode-arrow"><i class="fas fa-arrow-right"></i></span>
       </div>
       <div class="cv-mode-card" onclick="cvModeRegister()">
         <span class="cv-mode-icon">✨</span>
-        <div><h3 id="cvModeRegLabel">إنشاء حساب</h3><p id="cvModeRegDesc">جديد؟ أنشئ حسابك في دقيقة واحدة</p></div>
+        <div class="cv-mode-copy"><h3 id="cvModeRegLabel">إنشاء حساب</h3><p id="cvModeRegDesc">جديد؟ أنشئ حسابك في دقيقة واحدة</p></div>
+        <span class="cv-mode-arrow"><i class="fas fa-arrow-right"></i></span>
       </div>
       <div class="cv-mode-card" onclick="cvModeGuest()">
         <span class="cv-mode-icon">🚀</span>
-        <div><h3 id="cvModeGuestLabel">المتابعة بدون حساب</h3><p id="cvModeGuestDesc">احجز مباشرة دون تسجيل</p></div>
+        <div class="cv-mode-copy"><h3 id="cvModeGuestLabel">المتابعة بدون حساب</h3><p id="cvModeGuestDesc">احجز مباشرة دون تسجيل</p></div>
+        <span class="cv-mode-arrow"><i class="fas fa-arrow-right"></i></span>
       </div>
     </div>
   </div>
@@ -5822,19 +6309,20 @@ body.rtl .cv-user-chip{flex-direction:row-reverse;}
   </div>
   <div class="back-link" onclick="navigateTo('homeView')"><i class="fas fa-arrow-left"></i> <span data-i18n="backHome">Back to Home</span></div>
   <div class="booking-card" style="margin-top:2rem;">
-    <div class="cv-dash-header">
+    <div class="cv-dash-header" style="display:none;">
       <div>
         <h2 id="cvDashTitle">طلباتي</h2>
         <p id="cvDashWelcome" style="font-size:.9rem;opacity:.7;margin:.3rem 0 0;"></p>
       </div>
       <button class="btn" onclick="navigateTo('homeView');" id="cvDashNewBtn" style="font-size:.88rem;padding:.55rem 1.2rem;">+ طلب جديد</button>
     </div>
-    <div class="cv-booking-list" id="cvDashList"></div>
+    <div id="cvDashList"></div>
   </div>
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/12.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/12.12.0/firebase-auth-compat.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script src="https://www.gstatic.com/firebasejs/12.12.0/firebase-firestore-compat.js"></script>
 <script>
 window.CAREVIA_FIREBASE_CONFIG = {
@@ -5877,9 +6365,15 @@ const AUTH_T = {
     emailLabel:'البريد الإلكتروني', passLabel:'كلمة المرور',
     fnLabel:'الاسم الأول', lnLabel:'النسب', bdLabel:'تاريخ الازدياد',
     pw2Label:'تأكيد كلمة المرور', loginBtn:'دخول', regBtn:'إنشاء الحساب',
+    emailCodeLabel:'كود التحقق', sendCodeBtn:'إرسال الكود', verifyCodeBtn:'تأكيد الكود',
+    verifyPending:'دخل بريدك الإلكتروني ثم صيفط الكود', verifyCodePlaceholder:'أدخل كود التحقق',
+    verifySent:'تصيفط الكود للإيميل. شوف البريد ديالك.', verifySuccess:'تم التحقق من البريد الإلكتروني بنجاح',
+    verifyExpired:'انتهت صلاحية الكود. صيفط كود جديد.', verifyInvalid:'الكود غير صحيح',
+    errVerifyEmail:'خاصك تأكد الإيميل بالكود قبل إنشاء الحساب',
     toReg:'ما عندكش حساب؟', toRegLink:'أنشئ حساب',
     toLogin:'عندك حساب؟', toLoginLink:'سجل الدخول',
     modeTitle:'كيف تحب تحجز؟',
+    modeLead:'اختر الطريقة التي تناسبك للمتابعة، ويمكنك دائماً إكمال الحجز بسرعة وبوضوح.',
     modeLoginLabel:'تسجيل الدخول', modeLoginDesc:'لديك حساب — سجّل الدخول لتتبع طلباتك',
     modeRegLabel:'إنشاء حساب', modeRegDesc:'جديد؟ أنشئ حسابك في دقيقة واحدة',
     modeGuestLabel:'المتابعة بدون حساب', modeGuestDesc:'احجز مباشرة دون تسجيل',
@@ -5891,15 +6385,43 @@ const AUTH_T = {
     errPassMatch:'كلمتا المرور ما تتطابقاش', errExists:'هذا البريد مسجل بالفعل',
     errNotFound:'البريد أو المرور خاطئ', errFill:'عبّي جميع الخانات',
     welcomeMsg:'أهلاً بك,',
+    dashKicker:'مساحة الحساب المميزة',
+    dashLead:'هنا يمكنك تتبع طلباتك، ومراجعة مواعيدك، وإدارة حسابك بسهولة.',
+    dashViewActivity:'عرض النشاط',
+    verifiedAccount:'حساب موثّق',
+    totalRequestsLabel:'إجمالي الطلبات',
+    latestUpdateLabel:'آخر تحديث',
+    myRequestsLabel:'طلباتي',
+    itemsCountLabel:'طلب',
+    profileSummaryLabel:'ملخص الحساب',
+    userAccountLabel:'حساب المستخدم',
+    firstNameLabel:'الاسم الشخصي',
+    lastNameLabel:'الاسم العائلي',
+    accountStatusLabel:'حالة الحساب',
+    activeStatusLabel:'نشط',
+    updatesLabel:'التحديثات',
+    updatesDesc:'تتبّع آخر حالة لطلباتك في مكان واحد.',
+    secureAccountLabel:'حساب آمن',
+    secureAccountDesc:'يبقى سجل طلباتك مرتبطاً بحسابك المسجل.',
+    fastContactLabel:'تواصل سريع',
+    fastContactDesc:'ابقَ جاهزاً للمتابعة السريعة عند مراجعة طلبك.',
+    easyRebookingLabel:'إعادة حجز سهلة',
+    easyRebookingDesc:'ارجع في أي وقت وابدأ طلب رعاية جديداً بسرعة أكبر.',
   },
   fr:{
     loginTitle:'Connexion', regTitle:'Créer un compte',
     emailLabel:'Email', passLabel:'Mot de passe',
     fnLabel:'Prénom', lnLabel:'Nom', bdLabel:'Date de naissance',
     pw2Label:'Confirmer le mot de passe', loginBtn:'Se connecter', regBtn:'Créer le compte',
+    emailCodeLabel:'Code de vérification', sendCodeBtn:'Envoyer le code', verifyCodeBtn:'Vérifier le code',
+    verifyPending:'Entrez votre email puis envoyez le code', verifyCodePlaceholder:'Entrez le code de vérification',
+    verifySent:'Le code a été envoyé par email.', verifySuccess:'Email vérifié avec succès',
+    verifyExpired:'Le code a expiré. Renvoyez-en un nouveau.', verifyInvalid:'Code invalide',
+    errVerifyEmail:'Vous devez vérifier votre email avec le code avant de créer le compte',
     toReg:'Pas de compte ?', toRegLink:'Créer un compte',
     toLogin:'Vous avez un compte ?', toLoginLink:'Se connecter',
     modeTitle:'Comment souhaitez-vous réserver ?',
+    modeLead:'Choisissez la façon qui vous convient pour continuer, avec une expérience simple et claire.',
     modeLoginLabel:'Se connecter', modeLoginDesc:'Vous avez un compte — suivez vos demandes',
     modeRegLabel:'Créer un compte', modeRegDesc:'Nouveau ? Créez votre compte en une minute',
     modeGuestLabel:'Continuer sans compte', modeGuestDesc:'Réservez directement sans inscription',
@@ -5911,15 +6433,43 @@ const AUTH_T = {
     errPassMatch:'Les mots de passe ne correspondent pas', errExists:'Cet email est déjà utilisé',
     errNotFound:'Email ou mot de passe incorrect', errFill:'Veuillez remplir tous les champs',
     welcomeMsg:'Bienvenue,',
+    dashKicker:'Espace compte premium',
+    dashLead:'Ici, vous pouvez suivre vos demandes, consulter vos rendez-vous et gérer votre compte facilement.',
+    dashViewActivity:'Voir l’activité',
+    verifiedAccount:'Compte vérifié',
+    totalRequestsLabel:'Total des demandes',
+    latestUpdateLabel:'Dernière mise à jour',
+    myRequestsLabel:'Mes demandes',
+    itemsCountLabel:'élément(s)',
+    profileSummaryLabel:'Résumé du profil',
+    userAccountLabel:'Compte utilisateur',
+    firstNameLabel:'Prénom',
+    lastNameLabel:'Nom',
+    accountStatusLabel:'Statut du compte',
+    activeStatusLabel:'Actif',
+    updatesLabel:'Mises à jour',
+    updatesDesc:'Suivez le dernier statut de vos demandes au même endroit.',
+    secureAccountLabel:'Compte sécurisé',
+    secureAccountDesc:'Votre historique de réservation reste lié à votre compte connecté.',
+    fastContactLabel:'Contact rapide',
+    fastContactDesc:'Restez prêt pour un suivi rapide lorsque votre demande est examinée.',
+    easyRebookingLabel:'Nouvelle réservation facile',
+    easyRebookingDesc:'Revenez à tout moment et lancez plus vite une nouvelle demande de service.',
   },
   en:{
     loginTitle:'Sign In', regTitle:'Create Account',
     emailLabel:'Email', passLabel:'Password',
     fnLabel:'First Name', lnLabel:'Last Name', bdLabel:'Date of Birth',
     pw2Label:'Confirm Password', loginBtn:'Sign In', regBtn:'Create Account',
+    emailCodeLabel:'Verification Code', sendCodeBtn:'Send Code', verifyCodeBtn:'Verify Code',
+    verifyPending:'Enter your email then send the code', verifyCodePlaceholder:'Enter verification code',
+    verifySent:'The verification code was sent to your email.', verifySuccess:'Email verified successfully',
+    verifyExpired:'The code expired. Send a new one.', verifyInvalid:'Invalid code',
+    errVerifyEmail:'You must verify your email with the code before creating the account',
     toReg:'No account?', toRegLink:'Create one',
     toLogin:'Already have an account?', toLoginLink:'Sign In',
     modeTitle:'How would you like to book?',
+    modeLead:'Choose the option that suits you best and continue with a simple, clear booking flow.',
     modeLoginLabel:'Sign In', modeLoginDesc:'Have an account — track your bookings',
     modeRegLabel:'Create Account', modeRegDesc:'New? Set up your account in a minute',
     modeGuestLabel:'Continue as Guest', modeGuestDesc:'Book directly without signing in',
@@ -5931,6 +6481,28 @@ const AUTH_T = {
     errPassMatch:'Passwords do not match', errExists:'This email is already registered',
     errNotFound:'Incorrect email or password', errFill:'Please fill in all fields',
     welcomeMsg:'Welcome,',
+    dashKicker:'Premium account space',
+    dashLead:'Here you can track your requests, review your appointments, and manage your account easily.',
+    dashViewActivity:'View activity',
+    verifiedAccount:'Verified account',
+    totalRequestsLabel:'Total requests',
+    latestUpdateLabel:'Latest update',
+    myRequestsLabel:'My requests',
+    itemsCountLabel:'item(s)',
+    profileSummaryLabel:'Profile summary',
+    userAccountLabel:'User account',
+    firstNameLabel:'First name',
+    lastNameLabel:'Last name',
+    accountStatusLabel:'Account status',
+    activeStatusLabel:'Active',
+    updatesLabel:'Updates',
+    updatesDesc:'Track the latest status of your requests in one place.',
+    secureAccountLabel:'Secure account',
+    secureAccountDesc:'Your booking history stays linked to your signed-in account.',
+    fastContactLabel:'Fast contact',
+    fastContactDesc:'Stay ready for quick follow-up when your request is reviewed.',
+    easyRebookingLabel:'Easy rebooking',
+    easyRebookingDesc:'Come back anytime and start a new care request faster.',
   }
 };
 function at(key){ const lang = (typeof currentLang !== 'undefined') ? currentLang : 'ar'; return (AUTH_T[lang]||AUTH_T.en)[key]||key; }
@@ -5938,6 +6510,89 @@ function at(key){ const lang = (typeof currentLang !== 'undefined') ? currentLan
 /* ── Helpers ── */
 function isValidEmailLocal(e){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e); }
 function hashPw(pw){ let h=0; for(let i=0;i<pw.length;i++){h=(h<<5)-h+pw.charCodeAt(i);h|=0;} return h.toString(36); }
+
+
+const CV_EMAIL_CODE_EXPIRY_MS = 10 * 60 * 1000;
+window._cvEmailVerification = {email:'', code:'', sentAt:0, expiresAt:0, verified:false};
+window.CV_EMAILJS_CONFIG = window.CV_EMAILJS_CONFIG || {
+  publicKey:'HjLGrrx1T_SGtczbT',
+  serviceId:'service_avdmeq8',
+  templateId:'template_j272ymv'
+};
+(function initEmailJsSafe(){
+  try{
+    if(window.emailjs && window.CV_EMAILJS_CONFIG.publicKey){
+      window.emailjs.init({ publicKey: window.CV_EMAILJS_CONFIG.publicKey });
+    }
+  }catch(err){ console.warn('EmailJS init skipped:', err); }
+})();
+function cvSetVerifyStatus(type, msg){
+  const el=document.getElementById('cvVerifyStatus');
+  if(!el) return;
+  if(!msg){ el.className='cv-verify-status'; el.textContent=''; return; }
+  const icons={info:'fa-circle-info',success:'fa-circle-check',error:'fa-circle-exclamation'};
+  el.className=`cv-verify-status show ${type||'info'}`;
+  el.innerHTML=`<i class="fas ${icons[type]||icons.info}"></i> ${msg}`;
+}
+function cvResetEmailVerification(opts={}){
+  const keepStatus = !!opts.keepStatus;
+  window._cvEmailVerification = {email:'', code:'', sentAt:0, expiresAt:0, verified:false};
+  const codeInput=document.getElementById('cvRegEmailCode');
+  if(codeInput) codeInput.value='';
+  if(!keepStatus) cvSetVerifyStatus('info', at('verifyPending'));
+}
+window.cvSendEmailCode = async function(){
+  const em=(document.getElementById('cvRegEm')?.value || '').trim().toLowerCase();
+  if(!em) return cvSetVerifyStatus('error', at('errFill'));
+  if(!isValidEmailLocal(em)) return cvSetVerifyStatus('error', at('errEmail'));
+  const code = String(Math.floor(100000 + Math.random() * 900000));
+  window._cvEmailVerification = {
+    email:em,
+    code,
+    sentAt:Date.now(),
+    expiresAt:Date.now()+CV_EMAIL_CODE_EXPIRY_MS,
+    verified:false
+  };
+  const cfg = window.CV_EMAILJS_CONFIG || {};
+  if(window.emailjs && cfg.publicKey && cfg.serviceId && cfg.templateId){
+    try{
+      await window.emailjs.send(cfg.serviceId, cfg.templateId, {
+        email: em,
+        to_email: em,
+        passcode: code,
+        verification_code: code,
+        code: code,
+        app_name: 'CareVia'
+      }, { publicKey: cfg.publicKey });
+      cvSetVerifyStatus('info', at('verifySent'));
+    }catch(err){
+      console.error(err);
+      cvSetVerifyStatus('error', 'Email service error. Check EmailJS settings.');
+    }
+  }else{
+    console.warn('EmailJS not configured. Verification code:', code);
+    cvSetVerifyStatus('info', at('verifySent') + ' (EmailJS setup required)');
+  }
+};
+window.cvVerifyEmailCode = function(){
+  const em=(document.getElementById('cvRegEm')?.value || '').trim().toLowerCase();
+  const code=(document.getElementById('cvRegEmailCode')?.value || '').trim();
+  const v=window._cvEmailVerification || {};
+  if(!em || !code) return cvSetVerifyStatus('error', at('errFill'));
+  if(v.email!==em) return cvSetVerifyStatus('error', at('verifyInvalid'));
+  if(Date.now()>v.expiresAt) return cvSetVerifyStatus('error', at('verifyExpired'));
+  if(code!==v.code) return cvSetVerifyStatus('error', at('verifyInvalid'));
+  v.verified=true;
+  window._cvEmailVerification=v;
+  cvSetVerifyStatus('success', at('verifySuccess'));
+};
+document.addEventListener('input', function(e){
+  if(e.target && e.target.id==='cvRegEm'){
+    const v=window._cvEmailVerification || {};
+    const current=(e.target.value || '').trim().toLowerCase();
+    if(v.email && current!==v.email){ cvResetEmailVerification(); }
+  }
+});
 
 /* ── Render all auth text (called on lang change) ── */
 function renderAuthText(){
@@ -5948,9 +6603,16 @@ function renderAuthText(){
   setT('cvRegFnLabel','fnLabel'); setT('cvRegLnLabel','lnLabel');
   setT('cvRegBdLabel','bdLabel'); setT('cvRegEmLabel','emailLabel');
   setT('cvRegPwLabel','passLabel'); setT('cvRegPw2Label','pw2Label');
+  const codeInput=document.getElementById('cvRegEmailCode');
+  if(codeInput) codeInput.placeholder=at('verifyCodePlaceholder');
+  const sendCodeBtn=document.getElementById('cvSendCodeBtn');
+  if(sendCodeBtn) sendCodeBtn.innerHTML=`<i class="fas fa-paper-plane"></i> ${at('sendCodeBtn')}`;
+  const verifyCodeBtn=document.getElementById('cvVerifyCodeBtn');
+  if(verifyCodeBtn) verifyCodeBtn.innerHTML=`<i class="fas fa-badge-check"></i> ${at('verifyCodeBtn')}`;
   setT('cvToRegister',    'toReg'); // partial text
   setT('cvToLogin',       'toLogin');
   setT('cvModeTitle','modeTitle');
+  setT('cvModeLead','modeLead');
   setT('cvModeLoginLabel','modeLoginLabel'); setT('cvModeLoginDesc','modeLoginDesc');
   setT('cvModeRegLabel','modeRegLabel'); setT('cvModeRegDesc','modeRegDesc');
   setT('cvModeGuestLabel','modeGuestLabel'); setT('cvModeGuestDesc','modeGuestDesc');
@@ -5964,6 +6626,9 @@ function renderAuthText(){
   if(loginBtn) loginBtn.innerHTML=`<i class="fas fa-sign-in-alt"></i> ${at('loginBtn')}`;
   const regBtn=document.getElementById('cvRegBtn');
   if(regBtn) regBtn.innerHTML=`<i class="fas fa-user-plus"></i> ${at('regBtn')}`;
+  if(!window._cvEmailVerification || !window._cvEmailVerification.verified){
+    cvSetVerifyStatus('info', at('verifyPending'));
+  }
   // dashboard
   setT('cvDashTitle','dashTitle'); setT('cvDashNewBtn','dashNewBtn');
   updateNavbar();
@@ -5975,18 +6640,27 @@ function updateNavbar(){
   document.querySelectorAll('.cv-nav-auth-wrap').forEach(wrap=>{
     const session = getSession();
     if(session){
-      const initials = ((session.fn||'')[0]||'') + ((session.ln||'')[0]||'');
+      const firstInitial = ((session.fn||'')[0]||'');
+      const lastInitial = ((session.ln||'')[0]||'');
+      const initials = (firstInitial + lastInitial).toUpperCase() || 'U';
+      const displayName = [session.fn, session.ln].filter(Boolean).join(' ') || (session.email ? session.email.split('@')[0] : 'User');
       wrap.innerHTML = `<div class="cv-user-chip">
-        <div class="cv-user-avatar">${initials.toUpperCase()}</div>
-        <span class="cv-user-name">${session.fn}</span>
+        <div class="cv-user-profile">
+          <div class="cv-user-avatar">${initials}</div>
+          <div class="cv-user-meta">
+            <span class="cv-user-label">Account</span>
+            <span class="cv-user-name">${displayName}</span>
+          </div>
+        </div>
         <button class="cv-dash-link" onclick="cvOpenDashboard()">
-          <i class="fas fa-list-alt"></i> ${at('dashTitle')}
+          <i class="fas fa-list-alt"></i><span>${at('dashTitle')}</span>
         </button>
         <button class="cv-logout" onclick="cvLogout()" title="${at('logoutBtn')}"><i class="fas fa-sign-out-alt"></i></button>
       </div>`;
     } else {
       wrap.innerHTML = `<button class="cv-auth-btn" onclick="cvShowMode()">
-        <i class="fas fa-user-circle"></i> ${at('authNavBtn')}
+        <span class="cv-auth-icon"><i class="fas fa-user"></i></span>
+        <span class="cv-auth-label">${at('authNavBtn')}</span>
       </button>`;
     }
   });
@@ -6025,6 +6699,17 @@ window.cvShowRegister = function(){
   document.getElementById('cvLoginForm').style.display='none';
   document.getElementById('cvRegisterForm').style.display='';
   document.getElementById('cvRegErr').className='cv-err';
+  cvSetVerifyStatus('info', at('verifyPending'));
+};
+window.cvTogglePassword = function(inputId, btn){
+  const input = document.getElementById(inputId);
+  if(!input || !btn) return;
+  const icon = btn.querySelector('i');
+  const isHidden = input.type === 'password';
+  input.type = isHidden ? 'text' : 'password';
+  if(icon){
+    icon.className = isHidden ? 'fas fa-eye-slash' : 'fas fa-eye';
+  }
 };
 
 /* ── Mode Modal ── */
@@ -6081,9 +6766,12 @@ window.cvDoRegister = async function(){
   if(!isValidEmailLocal(em)) return showErr(at('errEmail'));
   if(pw.length<6) return showErr(at('errPass'));
   if(pw!==pw2) return showErr(at('errPassMatch'));
+  const verification = window._cvEmailVerification || {};
+  if(!(verification.verified && verification.email===em && Date.now() <= verification.expiresAt)) return showErr(at('errVerifyEmail'));
   try{
     const cred = await window.cvFirebaseAuth.createUserWithEmailAndPassword(em, pw);
     const user = cred.user;
+    try{ await user.sendEmailVerification(); }catch(mailErr){ console.warn('Email verification link could not be sent from Firebase:', mailErr); }
     await window.cvFirebaseDb.collection('users').doc(user.uid).set({
       uid:user.uid,
       fn,
@@ -6093,8 +6781,10 @@ window.cvDoRegister = async function(){
       createdAt:new Date().toISOString()
     });
     setSession({id:user.uid, fn, ln, email:em});
+    cvResetEmailVerification({keepStatus:true});
     cvCloseAuth();
     updateNavbar();
+    cvOpenDashboard();
     if(window._cvPendingBooking){ window._cvPendingBooking=false; if(_origSSS) _origSSS(); }
   }catch(error){
     if(error && error.code==='auth/email-already-in-use') return showErr(at('errExists'));
@@ -6132,6 +6822,7 @@ window.cvDoLogin = async function(){
     setSession(session);
     cvCloseAuth();
     updateNavbar();
+    cvOpenDashboard();
     if(window._cvPendingBooking){ window._cvPendingBooking=false; if(_origSSS) _origSSS(); }
   }catch(error){
     if(error && (error.code==='auth/user-not-found' || error.code==='auth/wrong-password' || error.code==='auth/invalid-credential' || error.code==='auth/invalid-login-credentials')) return showErr(at('errNotFound'));
@@ -6186,34 +6877,219 @@ function renderDashboard(){
   const dashWelcome = document.getElementById('cvDashWelcome');
   const dashNewBtn = document.getElementById('cvDashNewBtn');
   const dashList = document.getElementById('cvDashList');
+
   if(!dashList) return;
+
   if(dashTitle) dashTitle.textContent = at('dashTitle');
-  if(dashNewBtn) dashNewBtn.textContent = at('dashNewBtn');
-  if(!session){ dashList.innerHTML=`<div class="cv-empty-dash"><i class="fas fa-user-lock"></i><p>${at('errNotFound')}</p></div>`; return; }
-  if(dashWelcome) dashWelcome.textContent = `${at('welcomeMsg')} ${session.fn} ${session.ln}`;
-  const allOrders = dbGet(DB_ORDERS);
-  const myOrders = allOrders.filter(o=>o.userId===session.id).sort((a,b)=>new Date(b.createdAt)-new Date(a.createdAt));
-  if(!myOrders.length){
-    dashList.innerHTML=`<div class="cv-empty-dash"><i class="fas fa-calendar-plus"></i><p>${at('emptyDash')}</p></div>`;
+  if(dashNewBtn) dashNewBtn.innerHTML = `<i class="fas fa-plus-circle"></i> ${at('dashNewBtn')}`;
+
+  if(!session){
+    dashList.innerHTML = `
+      <div class="cv-empty-dash">
+        <i class="fas fa-user-lock"></i>
+        <p>${at('errNotFound')}</p>
+      </div>
+    `;
     return;
   }
-  const statusMap={'pending':'statusPending','confirmed':'statusConfirmed','inprogress':'statusInprogress','cancelled':'statusCancelled'};
-  const statusClass={'pending':'cv-status-pending','confirmed':'cv-status-confirmed','inprogress':'cv-status-inprogress','cancelled':'cv-status-cancelled'};
-  dashList.innerHTML = myOrders.map(o=>{
-    const status = o.status||'pending';
-    const badgeTxt = at(statusMap[status]||'statusPending');
-    const badgeCls = statusClass[status]||'cv-status-pending';
-    const date = o.date ? o.date : (o.createdAt ? new Date(o.createdAt).toLocaleDateString() : '—');
-    const svc = o.service || o.serviceKey || '—';
-    const ref = o.bookingId||o.ref||'—';
-    return `<div class="cv-booking-item">
-      <div class="cv-bi-info">
-        <h4>${svc}</h4>
-        <p><i class="fas fa-calendar" style="margin-right:.3rem;"></i>${date} &nbsp;|&nbsp; <i class="fas fa-hashtag" style="margin-right:.2rem;"></i>${ref}</p>
+
+  const sessionUserId = session.uid || session.id || session.userId || session.email;
+  if(dashWelcome) dashWelcome.textContent = `${at('welcomeMsg')} ${session.fn || ''} ${session.ln || ''}`.trim();
+
+  const allOrders = dbGet(DB_ORDERS);
+  const myOrders = allOrders
+    .filter(o => (o.userId || o.uid || o.email) === sessionUserId)
+    .sort((a,b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
+
+  const statusMap = {
+    pending:'statusPending',
+    confirmed:'statusConfirmed',
+    inprogress:'statusInprogress',
+    cancelled:'statusCancelled'
+  };
+
+  const initials = `${(session.fn||'')[0]||''}${(session.ln||'')[0]||''}`.toUpperCase() || 'CU';
+  const pendingCount = myOrders.filter(o => o.status === 'pending').length;
+  const confirmedCount = myOrders.filter(o => o.status === 'confirmed').length;
+  const inProgressCount = myOrders.filter(o => o.status === 'inprogress').length;
+  const latestOrder = myOrders[0];
+
+  const formatType = (o) => o.service || o.type || o.serviceKey || 'Care service';
+  const formatDate = (d) => {
+    if(!d) return '—';
+    const dt = new Date(d);
+    if(isNaN(dt)) return d;
+    return dt.toLocaleDateString(document.documentElement.lang === 'ar' ? 'ar-MA' : 'en-US', {
+      year:'numeric', month:'short', day:'numeric'
+    });
+  };
+
+  const bookingHtml = myOrders.length ? myOrders.map(o => `
+    <div class="cv-booking-item">
+      <div class="cv-booking-main">
+        <h4>${formatType(o)}</h4>
+        <div class="cv-booking-meta">
+          ${o.date ? `<span class="cv-booking-pill"><i class="fas fa-calendar-alt"></i> ${o.date}</span>` : ''}
+          ${o.time ? `<span class="cv-booking-pill"><i class="fas fa-clock"></i> ${o.time}</span>` : ''}
+          ${o.location ? `<span class="cv-booking-pill"><i class="fas fa-location-dot"></i> ${o.location}</span>` : ''}
+          ${o.bookingId ? `<span class="cv-booking-pill"><i class="fas fa-hashtag"></i> ${o.bookingId}</span>` : ''}
+        </div>
+        <div class="cv-booking-date">Created: ${formatDate(o.createdAt)}</div>
       </div>
-      <span class="cv-status-badge ${badgeCls}">${badgeTxt}</span>
-    </div>`;
-  }).join('');
+      <div class="cv-booking-side">
+        <span class="cv-status cv-status-${o.status || 'pending'}">${at(statusMap[o.status] || 'statusPending')}</span>
+      </div>
+    </div>
+  `).join('') : `
+    <div class="cv-empty-dash">
+      <i class="fas fa-calendar-plus"></i>
+      <p>${at('emptyDash')}</p>
+    </div>
+  `;
+
+  dashList.innerHTML = `
+    <div class="cv-dash-shell">
+      <div class="cv-dash-hero">
+        <div>
+          <div class="cv-dash-kicker"><i class="fas fa-sparkles"></i> ${at('dashKicker')}</div>
+          <h2>${at('dashTitle')}</h2>
+          <p>${at('welcomeMsg')} ${session.fn || ''} ${session.ln || ''}. ${at('dashLead')}</p>
+          <div class="cv-dash-hero-actions">
+            <button class="cv-dash-btn" onclick="navigateTo('homeView')">
+              <i class="fas fa-plus"></i> ${at('dashNewBtn')}
+            </button>
+            <button class="cv-dash-btn-secondary" onclick="document.querySelector('.cv-dash-grid')?.scrollIntoView({behavior:'smooth', block:'start'})">
+              <i class="fas fa-list-check"></i> ${at('dashViewActivity')}
+            </button>
+          </div>
+        </div>
+
+        <div class="cv-dash-hero-side">
+          <div class="cv-dash-profile-card">
+            <div class="cv-dash-user-row">
+              <div class="cv-dash-avatar">${initials}</div>
+              <div class="cv-dash-user-meta">
+                <strong>${session.fn || ''} ${session.ln || ''}</strong>
+                <span>${session.email || '—'}</span>
+                <div class="cv-dash-badge"><i class="fas fa-badge-check"></i> ${at('verifiedAccount')}</div>
+              </div>
+            </div>
+            <div class="cv-dash-mini">
+              <div class="cv-mini-box">
+                <small>${at('totalRequestsLabel')}</small>
+                <strong>${myOrders.length}</strong>
+              </div>
+              <div class="cv-mini-box">
+                <small>${at('latestUpdateLabel')}</small>
+                <strong>${latestOrder ? formatDate(latestOrder.createdAt) : '—'}</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cv-dash-stats">
+        <div class="cv-stat-card">
+          <div class="cv-stat-top">
+            <small>${at('totalRequestsLabel')}</small>
+            <div class="cv-stat-icon"><i class="fas fa-file-medical"></i></div>
+          </div>
+          <strong>${myOrders.length}</strong>
+        </div>
+
+        <div class="cv-stat-card">
+          <div class="cv-stat-top">
+            <small>${at('statusPending')}</small>
+            <div class="cv-stat-icon"><i class="fas fa-hourglass-half"></i></div>
+          </div>
+          <strong>${pendingCount}</strong>
+        </div>
+
+        <div class="cv-stat-card">
+          <div class="cv-stat-top">
+            <small>${at('statusConfirmed')}</small>
+            <div class="cv-stat-icon"><i class="fas fa-circle-check"></i></div>
+          </div>
+          <strong>${confirmedCount}</strong>
+        </div>
+
+        <div class="cv-stat-card">
+          <div class="cv-stat-top">
+            <small>${at('statusInprogress')}</small>
+            <div class="cv-stat-icon"><i class="fas fa-truck-medical"></i></div>
+          </div>
+          <strong>${inProgressCount}</strong>
+        </div>
+      </div>
+
+      <div class="cv-dash-grid">
+        <div class="cv-dash-panel">
+          <div class="cv-dash-panel-head">
+            <h3><i class="fas fa-list-ul"></i> ${at('myRequestsLabel')}</h3>
+            <span>${myOrders.length} ${at('itemsCountLabel')}</span>
+          </div>
+          <div class="cv-booking-list">${bookingHtml}</div>
+        </div>
+
+        <div class="cv-dash-panel">
+          <div class="cv-dash-panel-head">
+            <h3><i class="fas fa-id-card"></i> ${at('profileSummaryLabel')}</h3>
+            <span>${at('userAccountLabel')}</span>
+          </div>
+
+          <div class="cv-profile-list">
+            <div class="cv-profile-row">
+              <span>${at('firstNameLabel')}</span>
+              <strong>${session.fn || '—'}</strong>
+            </div>
+            <div class="cv-profile-row">
+              <span>${at('lastNameLabel')}</span>
+              <strong>${session.ln || '—'}</strong>
+            </div>
+            <div class="cv-profile-row">
+              <span>Email</span>
+              <strong>${session.email || '—'}</strong>
+            </div>
+            <div class="cv-profile-row">
+              <span>${at('accountStatusLabel')}</span>
+              <strong>${at('activeStatusLabel')}</strong>
+            </div>
+          </div>
+
+          <div class="cv-quick-actions">
+            <div class="cv-quick-card">
+              <i class="fas fa-bell"></i>
+              <div>
+                <strong>${at('updatesLabel')}</strong>
+                <span>${at('updatesDesc')}</span>
+              </div>
+            </div>
+            <div class="cv-quick-card">
+              <i class="fas fa-shield-heart"></i>
+              <div>
+                <strong>${at('secureAccountLabel')}</strong>
+                <span>${at('secureAccountDesc')}</span>
+              </div>
+            </div>
+            <div class="cv-quick-card">
+              <i class="fas fa-phone-volume"></i>
+              <div>
+                <strong>${at('fastContactLabel')}</strong>
+                <span>${at('fastContactDesc')}</span>
+              </div>
+            </div>
+            <div class="cv-quick-card">
+              <i class="fas fa-house-medical"></i>
+              <div>
+                <strong>${at('easyRebookingLabel')}</strong>
+                <span>${at('easyRebookingDesc')}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
 }
 
 /* ── Hook booking submissions to save to user account ── */
@@ -6232,7 +7108,7 @@ function hookBookingSubmit(){
             document.getElementById('confirmationRef').textContent : 'CV-'+Date.now();
           const orders = dbGet(DB_ORDERS);
           orders.push({
-            userId: session.id,
+            userId: session.uid || session.id || session.userId || session.email,
             bookingId: orderId,
             service: (typeof getServiceName === 'function' && typeof selectedService !== 'undefined') ? getServiceName(selectedService) : '—',
             date: (typeof selectedDate !== 'undefined') ? selectedDate : '',
