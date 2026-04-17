@@ -5385,47 +5385,295 @@ body.rtl .hero-cta-group{justify-content:flex-start;}
 
 <!-- ===== CAREVIA AUTH + DASHBOARD SYSTEM ===== -->
 <style>
-/* ── Auth Modal ── */
-.cv-overlay{position:fixed;inset:0;background:var(--overlay-bg);z-index:9000;display:flex;align-items:center;justify-content:center;padding:1rem;}
-.cv-modal{background:var(--card-bg);border-radius:24px;padding:2rem;width:100%;max-width:420px;box-shadow:0 8px 40px var(--shadow-color);position:relative;animation:cvFadeIn .25s ease;}
-@keyframes cvFadeIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-.cv-modal h2{font-size:1.4rem;font-weight:700;margin-bottom:1.4rem;color:var(--accent-dark);}
-.cv-modal .form-group{margin-bottom:1rem;}
-.cv-modal label{display:block;font-size:.85rem;font-weight:600;margin-bottom:.35rem;color:var(--text-color);}
-.cv-modal input{width:100%;padding:.7rem 1rem;border:1.5px solid var(--border-color);border-radius:12px;background:var(--input-bg);color:var(--text-color);font-size:.95rem;outline:none;transition:border .2s;}
-.cv-modal input:focus{border-color:var(--accent-dark);}
-.cv-modal .cv-btn-primary{width:100%;padding:.85rem;border:none;border-radius:14px;background:var(--accent-dark);color:#fff;font-size:1rem;font-weight:700;cursor:pointer;margin-top:.5rem;transition:opacity .2s;}
-.cv-modal .cv-btn-primary:hover{opacity:.88;}
-.cv-modal .cv-switch{text-align:center;margin-top:1rem;font-size:.88rem;color:var(--text-color);}
-.cv-modal .cv-switch span{color:var(--accent-dark);cursor:pointer;font-weight:600;}
-.cv-modal .cv-close{position:absolute;top:1rem;right:1rem;background:none;border:none;font-size:1.3rem;cursor:pointer;color:var(--text-color);line-height:1;}
-.cv-err{color:#d32f2f;font-size:.83rem;margin-top:.3rem;display:none;}
-.cv-err.show{display:block;}
+/* ══════════════════════════════════════════
+   CAREVIA AUTH — REDESIGN v2
+══════════════════════════════════════════ */
+@keyframes cvFadeIn{from{opacity:0;transform:translateY(20px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes cvSlideUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes cvShake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
 
-/* ── Navbar auth button ── */
-.cv-auth-btn{padding:.45rem 1.1rem;border:none;border-radius:20px;background:var(--accent-dark);color:#fff;font-size:.85rem;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:.4rem;transition:opacity .2s;}
-.cv-auth-btn:hover{opacity:.85;}
-.cv-user-chip{display:flex;align-items:center;gap:.5rem;font-size:.85rem;font-weight:600;color:var(--accent-dark);}
-.cv-user-chip .cv-logout{background:none;border:none;cursor:pointer;color:#888;font-size:.8rem;text-decoration:underline;padding:0;}
+/* ── Overlay ── */
+.cv-overlay{
+  position:fixed;inset:0;
+  background:rgba(7,22,32,0.55);
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  z-index:9000;display:flex;align-items:center;justify-content:center;padding:1rem;
+}
 
-/* ── Booking Mode Modal ── */
-.cv-mode-modal{max-width:460px;}
-.cv-mode-options{display:flex;flex-direction:column;gap:.8rem;margin-top:.5rem;}
-.cv-mode-card{border:2px solid var(--border-color);border-radius:16px;padding:1.1rem 1.3rem;cursor:pointer;transition:border .2s,background .2s;display:flex;align-items:center;gap:1rem;}
-.cv-mode-card:hover{border-color:var(--accent-dark);background:var(--accent-light);}
-.cv-mode-card .cv-mode-icon{font-size:1.8rem;flex-shrink:0;}
-.cv-mode-card h3{font-size:1rem;font-weight:700;margin:0 0 .2rem;color:var(--accent-dark);}
-.cv-mode-card p{font-size:.82rem;color:var(--text-color);margin:0;opacity:.75;}
+/* ── Modal Card ── */
+.cv-modal{
+  background:var(--card-bg);
+  border-radius:28px;
+  padding:0;
+  width:100%;max-width:420px;
+  box-shadow:0 32px 80px -16px rgba(7,22,32,0.35), 0 0 0 1px rgba(255,255,255,0.08);
+  position:relative;
+  animation:cvFadeIn .32s cubic-bezier(.34,1.38,.64,1);
+  overflow:hidden;
+}
 
-/* ── Dashboard View ── */
+/* ── Modal Header Band ── */
+.cv-modal-header{
+  background:linear-gradient(135deg, var(--accent-dark) 0%, #0a7a9e 100%);
+  padding:1.6rem 2rem 1.4rem;
+  position:relative;
+  overflow:hidden;
+}
+.cv-modal-header::before{
+  content:'';
+  position:absolute;top:-40px;right:-40px;
+  width:130px;height:130px;
+  border-radius:50%;
+  background:rgba(255,255,255,0.07);
+  pointer-events:none;
+}
+.cv-modal-header::after{
+  content:'';
+  position:absolute;bottom:-30px;left:-20px;
+  width:90px;height:90px;
+  border-radius:50%;
+  background:rgba(118,184,79,0.18);
+  pointer-events:none;
+}
+.cv-modal-header-icon{
+  width:44px;height:44px;
+  border-radius:14px;
+  background:rgba(255,255,255,0.15);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.15rem;color:#fff;
+  margin-bottom:.75rem;
+  backdrop-filter:blur(4px);
+}
+.cv-modal h2{
+  font-size:1.35rem;font-weight:800;
+  color:#fff !important;
+  margin:0;line-height:1.2;
+  position:relative;z-index:1;
+}
+.cv-modal-subtitle{
+  font-size:.82rem;color:rgba(255,255,255,0.72);
+  margin:.3rem 0 0;position:relative;z-index:1;
+}
+
+/* ── Modal Body ── */
+.cv-modal-body{padding:1.6rem 2rem 2rem;}
+
+/* ── Form Groups ── */
+.cv-modal .form-group{margin-bottom:1.1rem;animation:cvSlideUp .25s ease both;}
+.cv-modal .form-group:nth-child(1){animation-delay:.05s}
+.cv-modal .form-group:nth-child(2){animation-delay:.1s}
+.cv-modal .form-group:nth-child(3){animation-delay:.15s}
+.cv-modal .form-group:nth-child(4){animation-delay:.2s}
+.cv-modal .form-group:nth-child(5){animation-delay:.25s}
+.cv-modal .form-group:nth-child(6){animation-delay:.3s}
+
+.cv-modal label{
+  display:flex;align-items:center;gap:.4rem;
+  font-size:.78rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;
+  margin-bottom:.45rem;color:var(--text-color);opacity:.65;
+}
+.cv-modal label i{font-size:.75rem;opacity:.8;}
+
+.cv-input-wrap{position:relative;}
+.cv-modal input{
+  width:100%;
+  padding:.75rem 1rem .75rem 2.6rem;
+  border:2px solid var(--border-color);
+  border-radius:14px;
+  background:var(--input-bg);
+  color:var(--text-color);
+  font-size:.95rem;
+  outline:none;
+  transition:border-color .2s, box-shadow .2s, transform .15s;
+  font-family:inherit;
+}
+.cv-modal input:focus{
+  border-color:var(--accent-dark);
+  box-shadow:0 0 0 4px rgba(15,88,115,.12);
+  transform:translateY(-1px);
+}
+.cv-modal input::placeholder{opacity:.38;font-size:.88rem;}
+.cv-input-icon{
+  position:absolute;left:.9rem;top:50%;transform:translateY(-50%);
+  color:var(--accent-dark);opacity:.55;font-size:.85rem;
+  pointer-events:none;
+}
+body.rtl .cv-modal input{padding:.75rem 2.6rem .75rem 1rem;}
+body.rtl .cv-input-icon{left:auto;right:.9rem;}
+
+/* Date input special */
+input[type="date"].cv-date{padding:.7rem 1rem;}
+body.rtl input[type="date"].cv-date{padding:.7rem 1rem;}
+
+/* ── Primary Button ── */
+.cv-modal .cv-btn-primary{
+  width:100%;
+  padding:.9rem 1rem;
+  border:none;
+  border-radius:14px;
+  background:linear-gradient(135deg, var(--accent-dark) 0%, #0a8ab0 100%);
+  color:#fff;
+  font-size:1rem;font-weight:800;letter-spacing:.01em;
+  cursor:pointer;
+  margin-top:.4rem;
+  transition:all .25s;
+  display:flex;align-items:center;justify-content:center;gap:.5rem;
+  box-shadow:0 8px 20px -8px rgba(15,88,115,.55);
+}
+.cv-modal .cv-btn-primary:hover{
+  background:linear-gradient(135deg,#0a8ab0 0%, var(--accent-contrast) 100%);
+  box-shadow:0 12px 28px -8px rgba(15,88,115,.5);
+  transform:translateY(-2px);
+}
+.cv-modal .cv-btn-primary:active{transform:translateY(0);}
+
+/* ── Switch Link ── */
+.cv-modal .cv-switch{
+  text-align:center;margin-top:1.1rem;
+  font-size:.86rem;color:var(--text-color);opacity:.7;
+}
+.cv-modal .cv-switch span{
+  color:var(--accent-dark);cursor:pointer;font-weight:700;
+  text-decoration:underline;text-underline-offset:3px;
+  transition:opacity .15s;
+}
+.cv-modal .cv-switch span:hover{opacity:.7;}
+
+/* ── Close Button ── */
+.cv-modal .cv-close{
+  position:absolute;top:.9rem;right:.9rem;
+  width:32px;height:32px;
+  background:rgba(255,255,255,0.18);
+  border:none;border-radius:50%;
+  font-size:.95rem;
+  cursor:pointer;
+  color:#fff;
+  display:flex;align-items:center;justify-content:center;
+  line-height:1;
+  transition:background .2s, transform .2s;
+  z-index:10;
+}
+.cv-modal .cv-close:hover{background:rgba(255,255,255,0.3);transform:scale(1.1);}
+
+/* ── Error Message ── */
+.cv-err{
+  color:#e53e3e;font-size:.82rem;margin-top:.4rem;
+  display:none;
+  padding:.5rem .75rem;
+  background:rgba(229,62,62,.08);
+  border-radius:8px;
+  border-left:3px solid #e53e3e;
+}
+.cv-err.show{display:block;animation:cvShake .35s ease;}
+
+/* ════════════════════════════════
+   NAVBAR AUTH BUTTON — REDESIGN
+════════════════════════════════ */
+.cv-auth-btn{
+  padding:.5rem 1.2rem;
+  border:2px solid transparent;
+  border-radius:999px;
+  background:linear-gradient(var(--card-bg), var(--card-bg)) padding-box,
+             linear-gradient(135deg, var(--accent-dark), var(--accent-contrast)) border-box;
+  color:var(--accent-dark);
+  font-size:.84rem;font-weight:700;
+  cursor:pointer;
+  display:flex;align-items:center;gap:.45rem;
+  transition:all .25s;
+  white-space:nowrap;
+  box-shadow:0 4px 14px -6px rgba(15,88,115,.25);
+}
+.cv-auth-btn:hover{
+  background:linear-gradient(135deg, var(--accent-dark), #0a8ab0) padding-box,
+             linear-gradient(135deg, var(--accent-dark), var(--accent-contrast)) border-box;
+  color:#fff;
+  box-shadow:0 8px 20px -6px rgba(15,88,115,.4);
+  transform:translateY(-1px);
+}
+.cv-auth-btn i{font-size:.82rem;}
+
+/* User Chip */
+.cv-user-chip{
+  display:flex;align-items:center;gap:.5rem;
+  background:var(--accent-light);
+  padding:.4rem .9rem .4rem .5rem;
+  border-radius:999px;
+  border:1.5px solid var(--border-color);
+}
+.cv-user-chip .cv-user-avatar{
+  width:28px;height:28px;
+  border-radius:50%;
+  background:linear-gradient(135deg, var(--accent-dark), var(--accent-contrast));
+  display:flex;align-items:center;justify-content:center;
+  color:#fff;font-size:.72rem;font-weight:800;
+  flex-shrink:0;
+}
+.cv-user-chip .cv-user-name{font-size:.84rem;font-weight:700;color:var(--accent-dark);}
+.cv-user-chip .cv-logout{
+  background:none;border:none;cursor:pointer;
+  color:var(--text-color);opacity:.5;font-size:.78rem;
+  padding:0 0 0 .3rem;
+  transition:opacity .2s;
+}
+.cv-user-chip .cv-logout:hover{opacity:1;color:#e53e3e;}
+.cv-user-chip .cv-dash-link{
+  background:var(--accent-dark);border:none;
+  color:#fff;font-size:.75rem;font-weight:700;
+  padding:.25rem .65rem;border-radius:20px;
+  cursor:pointer;display:flex;align-items:center;gap:.3rem;
+  transition:opacity .2s;
+}
+.cv-user-chip .cv-dash-link:hover{opacity:.85;}
+
+/* ════════════════════════════════
+   BOOKING MODE MODAL — REDESIGN
+════════════════════════════════ */
+.cv-mode-modal{max-width:440px;}
+.cv-mode-options{display:flex;flex-direction:column;gap:.75rem;margin-top:.5rem;}
+.cv-mode-card{
+  border:2px solid var(--border-color);
+  border-radius:18px;
+  padding:1.1rem 1.3rem;
+  cursor:pointer;
+  transition:all .22s cubic-bezier(.34,1.56,.64,1);
+  display:flex;align-items:center;gap:1rem;
+  background:var(--bg-color);
+}
+.cv-mode-card:hover{
+  border-color:var(--accent-dark);
+  background:var(--accent-light);
+  transform:translateY(-2px);
+  box-shadow:0 10px 24px -10px rgba(15,88,115,.2);
+}
+.cv-mode-card .cv-mode-icon{
+  width:46px;height:46px;flex-shrink:0;
+  border-radius:14px;
+  background:linear-gradient(135deg, rgba(15,88,115,.12), rgba(118,184,79,.14));
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.35rem;
+}
+.cv-mode-card h3{font-size:.95rem;font-weight:800;margin:0 0 .18rem;color:var(--accent-dark);}
+.cv-mode-card p{font-size:.8rem;color:var(--text-color);margin:0;opacity:.68;}
+
+/* ════════════════════════════════
+   DASHBOARD VIEW
+════════════════════════════════ */
 #dashboardView .booking-card{max-width:800px;margin:0 auto;}
 .cv-dash-header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-bottom:2rem;}
 .cv-dash-header h2{font-size:1.4rem;font-weight:700;color:var(--accent-dark);}
 .cv-booking-list{display:flex;flex-direction:column;gap:1rem;}
-.cv-booking-item{border:1.5px solid var(--border-color);border-radius:16px;padding:1.1rem 1.3rem;display:grid;grid-template-columns:1fr auto;align-items:center;gap:.8rem;}
+.cv-booking-item{
+  border:1.5px solid var(--border-color);
+  border-radius:18px;padding:1.1rem 1.3rem;
+  display:grid;grid-template-columns:1fr auto;align-items:center;gap:.8rem;
+  transition:box-shadow .2s, transform .2s;
+  background:var(--card-bg);
+}
+.cv-booking-item:hover{transform:translateY(-2px);box-shadow:0 10px 24px -10px var(--shadow-color);}
 .cv-booking-item .cv-bi-info h4{font-size:.95rem;font-weight:700;margin:0 0 .3rem;}
 .cv-booking-item .cv-bi-info p{font-size:.82rem;color:var(--text-color);opacity:.75;margin:0;}
-.cv-status-badge{padding:.3rem .75rem;border-radius:20px;font-size:.78rem;font-weight:700;white-space:nowrap;}
+.cv-status-badge{padding:.32rem .8rem;border-radius:20px;font-size:.76rem;font-weight:700;white-space:nowrap;}
 .cv-status-pending{background:#fff3cd;color:#856404;}
 .cv-status-confirmed{background:#d1e7dd;color:#0f5132;}
 .cv-status-inprogress{background:#cfe2ff;color:#084298;}
@@ -5433,35 +5681,105 @@ body.rtl .hero-cta-group{justify-content:flex-start;}
 .cv-empty-dash{text-align:center;padding:3rem 1rem;opacity:.55;}
 .cv-empty-dash i{font-size:3rem;margin-bottom:1rem;display:block;}
 
-body.rtl .cv-close{right:auto;left:1rem;}
+/* RTL */
+body.rtl .cv-close{right:auto;left:.9rem;}
 body.rtl .cv-booking-item{grid-template-columns:auto 1fr;}
+body.rtl .cv-err{border-left:none;border-right:3px solid #e53e3e;}
+body.rtl .cv-input-icon{left:auto;right:.9rem;}
+body.rtl .cv-modal input{padding:.75rem 2.6rem .75rem 1rem;}
+body.rtl .cv-user-chip{flex-direction:row-reverse;}
 </style>
 
 <!-- Auth Modal -->
 <div class="cv-overlay" id="cvAuthOverlay" style="display:none;">
   <div class="cv-modal" id="cvAuthModal">
-    <button class="cv-close" onclick="cvCloseAuth()">✕</button>
     <!-- Login Form -->
     <div id="cvLoginForm">
-      <h2 id="cvLoginTitle">تسجيل الدخول</h2>
-      <div class="form-group"><label id="cvLoginEmailLabel">البريد الإلكتروني</label><input type="email" id="cvLoginEmail" autocomplete="email"/></div>
-      <div class="form-group"><label id="cvLoginPassLabel">كلمة المرور</label><input type="password" id="cvLoginPass" autocomplete="current-password"/></div>
-      <div class="cv-err" id="cvLoginErr"></div>
-      <button class="cv-btn-primary" id="cvLoginBtn" onclick="cvDoLogin()">دخول</button>
-      <div class="cv-switch" id="cvToRegister">ما عندكش حساب؟ <span onclick="cvShowRegister()">أنشئ حساب</span></div>
+      <div class="cv-modal-header">
+        <button class="cv-close" onclick="cvCloseAuth()">✕</button>
+        <div class="cv-modal-header-icon"><i class="fas fa-user-circle"></i></div>
+        <h2 id="cvLoginTitle">تسجيل الدخول</h2>
+        <p class="cv-modal-subtitle">أهلاً بعودتك إلى CareVia</p>
+      </div>
+      <div class="cv-modal-body">
+        <div class="form-group">
+          <label id="cvLoginEmailLabel"><i class="fas fa-envelope"></i> البريد الإلكتروني</label>
+          <div class="cv-input-wrap">
+            <i class="fas fa-envelope cv-input-icon"></i>
+            <input type="email" id="cvLoginEmail" autocomplete="email" placeholder="example@email.com"/>
+          </div>
+        </div>
+        <div class="form-group">
+          <label id="cvLoginPassLabel"><i class="fas fa-lock"></i> كلمة المرور</label>
+          <div class="cv-input-wrap">
+            <i class="fas fa-lock cv-input-icon"></i>
+            <input type="password" id="cvLoginPass" autocomplete="current-password" placeholder="••••••••"/>
+          </div>
+        </div>
+        <div class="cv-err" id="cvLoginErr"></div>
+        <button class="cv-btn-primary" id="cvLoginBtn" onclick="cvDoLogin()">
+          <i class="fas fa-sign-in-alt"></i> دخول
+        </button>
+        <div class="cv-switch" id="cvToRegister">ما عندكش حساب؟ <span onclick="cvShowRegister()">أنشئ حساب</span></div>
+      </div>
     </div>
     <!-- Register Form -->
     <div id="cvRegisterForm" style="display:none;">
-      <h2 id="cvRegTitle">إنشاء حساب</h2>
-      <div class="form-group"><label id="cvRegFnLabel">الاسم الأول</label><input type="text" id="cvRegFn" autocomplete="given-name"/></div>
-      <div class="form-group"><label id="cvRegLnLabel">النسب</label><input type="text" id="cvRegLn" autocomplete="family-name"/></div>
-      <div class="form-group"><label id="cvRegBdLabel">تاريخ الازدياد</label><input type="date" id="cvRegBd"/></div>
-      <div class="form-group"><label id="cvRegEmLabel">البريد الإلكتروني</label><input type="email" id="cvRegEm" autocomplete="email"/></div>
-      <div class="form-group"><label id="cvRegPwLabel">كلمة المرور</label><input type="password" id="cvRegPw" autocomplete="new-password"/></div>
-      <div class="form-group"><label id="cvRegPw2Label">تأكيد كلمة المرور</label><input type="password" id="cvRegPw2" autocomplete="new-password"/></div>
-      <div class="cv-err" id="cvRegErr"></div>
-      <button class="cv-btn-primary" id="cvRegBtn" onclick="cvDoRegister()">إنشاء الحساب</button>
-      <div class="cv-switch" id="cvToLogin">عندك حساب؟ <span onclick="cvShowLogin()">سجل الدخول</span></div>
+      <div class="cv-modal-header">
+        <button class="cv-close" onclick="cvCloseAuth()">✕</button>
+        <div class="cv-modal-header-icon"><i class="fas fa-user-plus"></i></div>
+        <h2 id="cvRegTitle">إنشاء حساب</h2>
+        <p class="cv-modal-subtitle">انضم إلى عائلة CareVia</p>
+      </div>
+      <div class="cv-modal-body">
+        <div class="form-group">
+          <label id="cvRegFnLabel"><i class="fas fa-user"></i> الاسم الأول</label>
+          <div class="cv-input-wrap">
+            <i class="fas fa-user cv-input-icon"></i>
+            <input type="text" id="cvRegFn" autocomplete="given-name" placeholder="الاسم الأول"/>
+          </div>
+        </div>
+        <div class="form-group">
+          <label id="cvRegLnLabel"><i class="fas fa-user"></i> النسب</label>
+          <div class="cv-input-wrap">
+            <i class="fas fa-user cv-input-icon"></i>
+            <input type="text" id="cvRegLn" autocomplete="family-name" placeholder="النسب"/>
+          </div>
+        </div>
+        <div class="form-group">
+          <label id="cvRegBdLabel"><i class="fas fa-calendar"></i> تاريخ الازدياد</label>
+          <div class="cv-input-wrap">
+            <i class="fas fa-calendar cv-input-icon"></i>
+            <input type="date" id="cvRegBd" class="cv-date"/>
+          </div>
+        </div>
+        <div class="form-group">
+          <label id="cvRegEmLabel"><i class="fas fa-envelope"></i> البريد الإلكتروني</label>
+          <div class="cv-input-wrap">
+            <i class="fas fa-envelope cv-input-icon"></i>
+            <input type="email" id="cvRegEm" autocomplete="email" placeholder="example@email.com"/>
+          </div>
+        </div>
+        <div class="form-group">
+          <label id="cvRegPwLabel"><i class="fas fa-lock"></i> كلمة المرور</label>
+          <div class="cv-input-wrap">
+            <i class="fas fa-lock cv-input-icon"></i>
+            <input type="password" id="cvRegPw" autocomplete="new-password" placeholder="6 حروف على الأقل"/>
+          </div>
+        </div>
+        <div class="form-group">
+          <label id="cvRegPw2Label"><i class="fas fa-lock"></i> تأكيد كلمة المرور</label>
+          <div class="cv-input-wrap">
+            <i class="fas fa-shield-alt cv-input-icon"></i>
+            <input type="password" id="cvRegPw2" autocomplete="new-password" placeholder="أعد كلمة المرور"/>
+          </div>
+        </div>
+        <div class="cv-err" id="cvRegErr"></div>
+        <button class="cv-btn-primary" id="cvRegBtn" onclick="cvDoRegister()">
+          <i class="fas fa-user-plus"></i> إنشاء الحساب
+        </button>
+        <div class="cv-switch" id="cvToLogin">عندك حساب؟ <span onclick="cvShowLogin()">سجل الدخول</span></div>
+      </div>
     </div>
   </div>
 </div>
@@ -5623,6 +5941,11 @@ function renderAuthText(){
   if(toReg) toReg.innerHTML=`${at('toReg')} <span onclick="cvShowRegister()">${at('toRegLink')}</span>`;
   const toLogin=document.getElementById('cvToLogin');
   if(toLogin) toLogin.innerHTML=`${at('toLogin')} <span onclick="cvShowLogin()">${at('toLoginLink')}</span>`;
+  // buttons with icons
+  const loginBtn=document.getElementById('cvLoginBtn');
+  if(loginBtn) loginBtn.innerHTML=`<i class="fas fa-sign-in-alt"></i> ${at('loginBtn')}`;
+  const regBtn=document.getElementById('cvRegBtn');
+  if(regBtn) regBtn.innerHTML=`<i class="fas fa-user-plus"></i> ${at('regBtn')}`;
   // dashboard
   setT('cvDashTitle','dashTitle'); setT('cvDashNewBtn','dashNewBtn');
   updateNavbar();
@@ -5634,17 +5957,18 @@ function updateNavbar(){
   document.querySelectorAll('.cv-nav-auth-wrap').forEach(wrap=>{
     const session = getSession();
     if(session){
+      const initials = ((session.fn||'')[0]||'') + ((session.ln||'')[0]||'');
       wrap.innerHTML = `<div class="cv-user-chip">
-        <i class="fas fa-user-circle"></i>
-        <span>${session.fn}</span>
-        <button class="cv-logout" onclick="cvLogout()">${at('logoutBtn')}</button>
-        <button class="cv-auth-btn" onclick="cvOpenDashboard()" style="margin-left:.3rem;font-size:.78rem;padding:.35rem .8rem;">
-          <i class="fas fa-list"></i> ${at('dashTitle')}
+        <div class="cv-user-avatar">${initials.toUpperCase()}</div>
+        <span class="cv-user-name">${session.fn}</span>
+        <button class="cv-dash-link" onclick="cvOpenDashboard()">
+          <i class="fas fa-list-alt"></i> ${at('dashTitle')}
         </button>
+        <button class="cv-logout" onclick="cvLogout()" title="${at('logoutBtn')}"><i class="fas fa-sign-out-alt"></i></button>
       </div>`;
     } else {
       wrap.innerHTML = `<button class="cv-auth-btn" onclick="cvShowMode()">
-        <i class="fas fa-user"></i> ${at('authNavBtn')}
+        <i class="fas fa-user-circle"></i> ${at('authNavBtn')}
       </button>`;
     }
   });
