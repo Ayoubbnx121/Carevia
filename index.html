@@ -1586,7 +1586,180 @@
             justify-content: flex-start;
         }
 
-    </style>
+    
+.cv-resend-row{display:flex;align-items:center;justify-content:space-between;gap:.8rem;margin-top:.65rem;flex-wrap:wrap;}
+.cv-resend-hint{font-size:.83rem;opacity:.72;}
+.cv-text-btn{border:none;background:transparent;color:var(--accent-dark);font-weight:700;cursor:pointer;padding:0;}
+.cv-text-btn[disabled]{opacity:.45;cursor:not-allowed;}
+.cv-toast-wrap{position:fixed;top:18px;right:18px;z-index:99999;display:flex;flex-direction:column;gap:10px;max-width:360px;}
+.cv-toast{background:var(--card-bg);border:1px solid var(--border-color);box-shadow:0 16px 34px -20px var(--shadow-color);border-radius:18px;padding:14px 16px;display:flex;gap:12px;align-items:flex-start;animation:fadeInUp .28s ease;}
+.cv-toast i{font-size:1.05rem;margin-top:2px;color:var(--accent-dark);}
+.cv-toast strong{display:block;margin-bottom:2px;}
+.cv-forgot-link{margin-top:.85rem;text-align:center;font-size:.92rem;}
+.cv-forgot-link span{color:var(--accent-dark);font-weight:700;cursor:pointer;}
+.cv-modal-small{max-width:520px;}
+.cv-badge-row{display:flex;flex-wrap:wrap;gap:.55rem;margin-top:.85rem;}
+.cv-pill-badge{display:inline-flex;align-items:center;gap:.45rem;padding:.48rem .8rem;border-radius:999px;background:rgba(118,184,79,.11);border:1px solid rgba(118,184,79,.18);font-size:.84rem;font-weight:700;color:var(--accent-dark);}
+.cv-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:.95rem;}
+.cv-form-grid .form-group.full{grid-column:1/-1;}
+.cv-inline-note{font-size:.82rem;opacity:.72;margin-top:.38rem;padding-inline:.15rem;}
+.cv-profile-editor{
+  margin-top:1rem;
+  border:1px solid rgba(15,88,115,.08);
+  border-radius:24px;
+  background:linear-gradient(180deg, rgba(247,251,249,.96), rgba(255,255,255,.98));
+  padding:1rem;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.8);
+}
+body.dark-mode .cv-profile-editor{
+  background:linear-gradient(180deg, rgba(12,28,39,.96), rgba(15,34,48,.98));
+  border-color:rgba(102,182,207,.12);
+}
+.cv-editor-top{
+  display:grid;
+  grid-template-columns:auto 1fr;
+  gap:1rem;
+  align-items:center;
+  padding-bottom:.95rem;
+  margin-bottom:1rem;
+  border-bottom:1px solid rgba(15,88,115,.08);
+}
+.cv-editor-avatar{
+  width:74px;height:74px;border-radius:22px;overflow:hidden;
+  background:linear-gradient(180deg, var(--accent-light), rgba(118,184,79,.14));
+  border:1px solid rgba(118,184,79,.18);
+  box-shadow:0 14px 30px -20px var(--shadow-color);
+  display:grid;place-items:center;
+}
+.cv-editor-avatar img{width:100%;height:100%;object-fit:cover;}
+.cv-editor-avatar span{
+  font-size:1.2rem;font-weight:800;color:var(--accent-dark);
+}
+.cv-editor-copy strong{display:block;font-size:1.04rem;color:var(--accent-dark);margin-bottom:.22rem;}
+.cv-editor-copy p{margin:0;font-size:.9rem;opacity:.76;line-height:1.5;}
+.cv-editor-badges{display:flex;flex-wrap:wrap;gap:.55rem;margin-top:.7rem;}
+.cv-field-card{
+  border:1px solid rgba(15,88,115,.08);
+  border-radius:18px;
+  background:var(--card-bg);
+  padding:.82rem .9rem;
+  box-shadow:0 10px 24px -22px var(--shadow-color);
+}
+.cv-field-card label{
+  display:block;
+  font-size:.8rem;
+  font-weight:800;
+  color:var(--accent-dark);
+  margin-bottom:.5rem;
+}
+.cv-field-card input{
+  width:100%;
+  border:none;
+  outline:none;
+  background:transparent;
+  color:var(--text-color);
+  font-size:1rem;
+  font-weight:600;
+  padding:0;
+}
+.cv-field-card input::placeholder{color:#90a4ae;font-weight:500;}
+.cv-field-card.full{grid-column:1/-1;}
+.cv-field-card.full input{min-height:22px;}
+.cv-panel-actions{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:.85rem;
+  flex-wrap:unset;
+  margin-top:1rem;
+}
+.cv-panel-actions .cv-btn-primary,
+.cv-panel-actions .cv-btn-secondary{
+  width:100%;
+  justify-content:center;
+  min-height:52px;
+  border-radius:16px;
+}
+.cv-reset-card{
+  margin-top:1rem;
+  border:1px dashed rgba(15,88,115,.14);
+  background:linear-gradient(180deg, rgba(15,88,115,.04), rgba(118,184,79,.05));
+  border-radius:20px;
+  padding:.95rem 1rem;
+}
+.cv-reset-card strong{
+  display:block;
+  color:var(--accent-dark);
+  margin-bottom:.28rem;
+}
+.cv-reset-card p{
+  margin:0;
+  font-size:.88rem;
+  opacity:.76;
+  line-height:1.55;
+}
+.cv-notification-list{display:flex;flex-direction:column;gap:.75rem;}
+.cv-notification-item{display:flex;gap:.8rem;padding:.9rem;border:1px solid var(--border-color);border-radius:18px;background:linear-gradient(180deg, rgba(255,255,255,.75), rgba(118,184,79,.05));}
+.cv-notification-item i{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:var(--accent-light);color:var(--accent-dark);flex-shrink:0;}
+.cv-notification-item strong{display:block;color:var(--accent-dark);margin-bottom:.2rem;}
+.cv-notification-item small{display:block;opacity:.72;margin-top:.25rem;}
+.cv-profile-avatar-preview{width:58px;height:58px;border-radius:18px;background:var(--accent-light);display:grid;place-items:center;overflow:hidden;border:1px solid var(--border-color);}
+.cv-profile-avatar-preview img{width:100%;height:100%;object-fit:cover;}
+.cv-whatsapp-btn{display:inline-flex;align-items:center;gap:.55rem;background:#25D366;color:#fff!important;border:none;border-radius:999px;padding:.78rem 1rem;font-weight:700;box-shadow:0 14px 28px -18px rgba(37,211,102,.7);cursor:pointer;text-decoration:none;}
+.cv-panel-actions{display:flex;gap:.75rem;flex-wrap:wrap;margin-top:1rem;}
+@media (max-width: 760px){.cv-form-grid{grid-template-columns:1fr;}.cv-toast-wrap{left:12px;right:12px;max-width:none;}.cv-resend-row{align-items:flex-start;}.cv-panel-actions{grid-template-columns:1fr;}.cv-editor-top{grid-template-columns:1fr;justify-items:start;}}
+
+
+
+/* --- custom reset password page + profile polish --- */
+.cv-reset-shell{position:fixed;inset:0;z-index:100000;display:none;align-items:center;justify-content:center;padding:24px;background:rgba(7,24,32,.62);backdrop-filter:blur(6px);}
+.cv-reset-card-page{width:min(100%, 980px);background:linear-gradient(180deg, rgba(255,255,255,.98), rgba(247,251,249,.98));border:1px solid rgba(15,88,115,.10);border-radius:34px;box-shadow:0 30px 70px -28px rgba(6,28,39,.34);overflow:hidden;display:grid;grid-template-columns:1.04fr .96fr;}
+.cv-reset-side{padding:42px 36px;background:linear-gradient(145deg, #0f5873, #1b7f93 55%, #76b84f);color:#fff;position:relative;overflow:hidden;}
+.cv-reset-side::before,.cv-reset-side::after{content:'';position:absolute;border-radius:50%;background:rgba(255,255,255,.08);}
+.cv-reset-side::before{width:260px;height:260px;top:-110px;right:-70px;}
+.cv-reset-side::after{width:180px;height:180px;left:-60px;bottom:-70px;}
+.cv-reset-badge{display:inline-flex;align-items:center;gap:.55rem;padding:.52rem .92rem;border-radius:999px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.18);font-weight:700;font-size:.87rem;backdrop-filter:blur(6px);}
+.cv-reset-side h2{margin:1.4rem 0 .85rem;font-size:2rem;line-height:1.15;color:#fff;}
+.cv-reset-side p{margin:0;color:rgba(255,255,255,.92);line-height:1.8;font-size:1rem;max-width:42ch;}
+.cv-reset-points{display:grid;gap:.78rem;margin-top:1.6rem;}
+.cv-reset-point{display:flex;gap:.75rem;align-items:flex-start;padding:.82rem .9rem;border-radius:18px;background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.12);}
+.cv-reset-point i{margin-top:.16rem;}
+.cv-reset-main{padding:34px 34px 30px;}
+.cv-reset-head{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:1.15rem;}
+.cv-reset-head h3{margin:0;font-size:1.45rem;color:var(--accent-dark);}
+.cv-reset-state{display:inline-flex;align-items:center;gap:.45rem;padding:.5rem .82rem;border-radius:999px;background:rgba(118,184,79,.12);color:var(--accent-dark);font-weight:800;font-size:.84rem;border:1px solid rgba(118,184,79,.18);}
+.cv-reset-form{display:grid;gap:1rem;}
+.cv-reset-note{font-size:.9rem;line-height:1.7;color:#627987;margin:0;}
+.cv-reset-status{display:none;padding:.95rem 1rem;border-radius:16px;font-weight:700;font-size:.93rem;line-height:1.6;border:1px solid transparent;}
+.cv-reset-status.show{display:block;}
+.cv-reset-status.info{background:rgba(15,88,115,.08);border-color:rgba(15,88,115,.12);color:var(--accent-dark);}
+.cv-reset-status.error{background:rgba(220,76,76,.10);border-color:rgba(220,76,76,.18);color:#bb2d3b;}
+.cv-reset-status.success{background:rgba(118,184,79,.12);border-color:rgba(118,184,79,.22);color:#2d6a34;}
+.cv-reset-actions{display:flex;gap:.85rem;flex-wrap:wrap;margin-top:.15rem;}
+.cv-reset-actions .cv-btn-primary,.cv-reset-actions .cv-btn-secondary{min-height:54px;justify-content:center;padding-inline:1.15rem;}
+.cv-reset-mini{margin-top:.35rem;padding:.95rem 1rem;border-radius:18px;background:linear-gradient(180deg, rgba(15,88,115,.04), rgba(118,184,79,.06));border:1px dashed rgba(15,88,115,.14);}
+.cv-reset-mini strong{display:block;color:var(--accent-dark);margin-bottom:.3rem;}
+.cv-reset-mini p{margin:0;font-size:.9rem;line-height:1.65;color:#627987;}
+body.dark-mode .cv-reset-card-page{background:linear-gradient(180deg, rgba(12,28,39,.98), rgba(15,34,48,.98));border-color:rgba(102,182,207,.12);}
+body.dark-mode .cv-reset-main{color:var(--text-color);}
+body.dark-mode .cv-reset-note,body.dark-mode .cv-reset-mini p{color:#c4d8e1;}
+body.dark-mode .cv-reset-state{background:rgba(118,184,79,.16);}
+.cv-profile-editor{padding:1.2rem!important;border-radius:28px!important;box-shadow:0 20px 46px -32px rgba(6,28,39,.18), inset 0 1px 0 rgba(255,255,255,.8)!important;}
+.cv-editor-top{padding:1rem!important;border:1px solid rgba(15,88,115,.08);border-radius:24px;background:linear-gradient(135deg, rgba(15,88,115,.04), rgba(118,184,79,.06));}
+.cv-editor-avatar{width:84px!important;height:84px!important;border-radius:26px!important;}
+.cv-editor-copy strong{font-size:1.15rem!important;}
+.cv-form-grid{gap:1rem!important;}
+.cv-field-card{padding:1rem!important;border-radius:22px!important;background:linear-gradient(180deg, rgba(255,255,255,.95), rgba(247,251,249,.96))!important;border:1px solid rgba(15,88,115,.09)!important;}
+body.dark-mode .cv-field-card{background:linear-gradient(180deg, rgba(10,27,38,.96), rgba(13,33,46,.98))!important;border-color:rgba(102,182,207,.14)!important;}
+.cv-field-card input{border:1px solid rgba(15,88,115,.10)!important;background:rgba(255,255,255,.92)!important;border-radius:16px!important;padding:.95rem 1rem!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.7);font-size:.98rem!important;}
+body.dark-mode .cv-field-card input{background:rgba(8,19,27,.78)!important;border-color:rgba(102,182,207,.16)!important;}
+.cv-inline-note{font-size:.8rem!important;margin-top:.55rem!important;}
+.cv-reset-card{border-style:solid!important;border-radius:22px!important;padding:1rem 1.05rem!important;}
+.cv-panel-actions{display:grid!important;grid-template-columns:1fr 1fr;gap:.9rem!important;}
+.cv-panel-actions .cv-btn-primary,.cv-panel-actions .cv-btn-secondary,.cv-panel-actions .cv-whatsapp-btn{min-height:54px;justify-content:center;}
+@media (max-width: 860px){.cv-reset-card-page{grid-template-columns:1fr;}.cv-reset-side,.cv-reset-main{padding:26px 22px;}}
+@media (max-width: 760px){.cv-panel-actions{grid-template-columns:1fr!important;}.cv-reset-shell{padding:12px;}.cv-reset-card-page{border-radius:24px;}}
+
+</style>
 <style id="hero-fix-v5">
 .hero {
     background: linear-gradient(135deg, #f4fafc 0%, #ffffff 100%) !important;
@@ -5502,6 +5675,99 @@ body.rtl .hero-cta-group{justify-content:flex-start;}
 body.rtl .cv-modal input{padding:.75rem 2.6rem .75rem 1rem;}
 body.rtl .cv-input-icon{left:auto;right:.9rem;}
 
+/* ══════════════════════════════════
+   REGISTER FORM — MULTI-STEP DESIGN
+══════════════════════════════════ */
+.cv-reg-header { padding-bottom: 0; }
+.cv-reg-header-top {
+  display: flex; align-items: center; gap: .85rem;
+  margin-bottom: 1.2rem; position: relative; z-index: 1;
+}
+.cv-reg-icon-large {
+  width: 52px !important; height: 52px !important;
+  border-radius: 18px !important; font-size: 1.3rem !important;
+  flex-shrink: 0; background: rgba(255,255,255,0.18) !important;
+  backdrop-filter: blur(6px);
+}
+.cv-reg-steps {
+  display: flex; align-items: center; justify-content: center;
+  gap: 0; padding: 1rem 1.6rem 1.25rem;
+  background: rgba(255,255,255,0.07);
+  border-top: 1px solid rgba(255,255,255,0.12);
+  margin: 0 -2rem;
+}
+.cv-reg-step {
+  display: flex; flex-direction: column; align-items: center;
+  gap: .35rem; flex: 0 0 auto; transition: opacity .3s; opacity: .45;
+}
+.cv-reg-step.active { opacity: 1; }
+.cv-reg-step.done { opacity: .75; }
+.cv-step-circle {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: rgba(255,255,255,0.14);
+  border: 2px solid rgba(255,255,255,0.22);
+  display: flex; align-items: center; justify-content: center;
+  font-size: .82rem; color: rgba(255,255,255,0.7);
+  transition: all .3s ease;
+}
+.cv-reg-step.active .cv-step-circle {
+  background: rgba(255,255,255,0.9); border-color: #fff;
+  color: var(--accent-dark); box-shadow: 0 4px 14px rgba(0,0,0,0.2);
+}
+.cv-reg-step.done .cv-step-circle {
+  background: rgba(118,184,79,0.4); border-color: rgba(118,184,79,0.7); color: #fff;
+}
+.cv-reg-step.done .cv-step-circle i { display: none; }
+.cv-reg-step.done .cv-step-circle::before {
+  content: '\f00c'; font-family: 'Font Awesome 6 Free';
+  font-weight: 900; font-size: .78rem;
+}
+.cv-reg-step span { font-size: .7rem; font-weight: 700; color: rgba(255,255,255,0.7); white-space: nowrap; }
+.cv-reg-step.active span { color: #fff; }
+.cv-reg-step-line {
+  flex: 1; height: 2px; background: rgba(255,255,255,0.18);
+  margin: 0 .4rem; margin-bottom: 1.2rem;
+  border-radius: 2px; min-width: 28px; transition: background .3s;
+}
+.cv-reg-step-line.done { background: rgba(118,184,79,0.5); }
+.cv-reg-body { padding-top: 1.4rem; }
+.cv-reg-panel-hint {
+  display: flex; align-items: center; gap: .5rem;
+  font-size: .82rem; color: var(--accent-dark);
+  background: linear-gradient(135deg, rgba(15,88,115,0.07), rgba(118,184,79,0.08));
+  border: 1px solid rgba(15,88,115,0.1);
+  border-radius: 12px; padding: .65rem .9rem;
+  margin-bottom: 1.1rem; font-weight: 600;
+}
+.cv-reg-panel-hint i { opacity: .8; }
+.cv-reg-two-col { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; }
+@media (max-width: 480px) { .cv-reg-two-col { grid-template-columns: 1fr; } }
+.cv-reg-panel { animation: cvSlideUp .28s ease both; }
+.cv-reg-next-btn {
+  width: 100%; margin-top: .7rem;
+  display: flex; align-items: center; justify-content: center;
+  gap: .55rem;
+}
+.cv-reg-back-btn {
+  width: 100%; margin-top: .65rem; padding: .62rem;
+  background: none; border: 1.5px solid var(--border-color);
+  border-radius: 12px; color: var(--text-color);
+  font-size: .86rem; font-weight: 700; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  gap: .45rem; opacity: .65; transition: opacity .2s, border-color .2s;
+}
+.cv-reg-back-btn:hover { opacity: 1; border-color: var(--accent-dark); color: var(--accent-dark); }
+.cv-code-box {
+  background: linear-gradient(135deg, rgba(15,88,115,0.05), rgba(118,184,79,0.06));
+  border: 1.5px dashed rgba(15,88,115,0.2);
+  border-radius: 16px; padding: 1rem;
+  animation: cvSlideUp .25s ease both;
+}
+.cv-pw-strength { display: flex; align-items: center; gap: .7rem; margin: .4rem 0 .1rem; }
+.cv-pw-bar { flex: 1; height: 5px; background: var(--border-color); border-radius: 99px; overflow: hidden; }
+.cv-pw-fill { height: 100%; border-radius: 99px; width: 0%; transition: width .35s ease, background .35s ease; }
+.cv-pw-label { font-size: .74rem; font-weight: 700; min-width: 52px; text-align: end; }
+
 /* Date input special */
 input[type="date"].cv-date{padding:.7rem 1rem;}
 body.rtl input[type="date"].cv-date{padding:.7rem 1rem;}
@@ -6183,84 +6449,225 @@ body.rtl .cv-user-chip{flex-direction:row-reverse;}
         <button type="button" class="cv-btn-primary" id="cvLoginBtn" onclick="cvDoLogin()">
           <i class="fas fa-sign-in-alt"></i> دخول
         </button>
+        <div class="cv-forgot-link"><span onclick="cvOpenForgot()" id="cvForgotLink">نسيت كلمة المرور؟</span></div>
         <div class="cv-switch" id="cvToRegister">ما عندكش حساب؟ <span onclick="cvShowRegister()">أنشئ حساب</span></div>
       </div>
     </div>
-    <!-- Register Form -->
+    <!-- Register Form — Multi-Step Design -->
     <div id="cvRegisterForm" style="display:none;">
-      <div class="cv-modal-header">
+      <div class="cv-modal-header cv-reg-header">
         <button class="cv-close" onclick="cvCloseAuth()">✕</button>
-        <div class="cv-modal-header-icon"><i class="fas fa-user-plus"></i></div>
-        <h2 id="cvRegTitle">إنشاء حساب</h2>
-        <p class="cv-modal-subtitle">انضم إلى عائلة CareVia</p>
+        <div class="cv-reg-header-top">
+          <div class="cv-modal-header-icon cv-reg-icon-large"><i class="fas fa-user-plus"></i></div>
+          <div>
+            <h2 id="cvRegTitle" style="text-align:start;">إنشاء حساب</h2>
+            <p class="cv-modal-subtitle" id="cvRegSubtitle" style="text-align:start;">انضم إلى عائلة CareVia</p>
+          </div>
+        </div>
+        <!-- Step Progress Bar -->
+        <div class="cv-reg-steps">
+          <div class="cv-reg-step active" id="cvRegStep1Ind">
+            <div class="cv-step-circle"><i class="fas fa-user"></i></div>
+            <span id="cvRegStep1Label">معلوماتك</span>
+          </div>
+          <div class="cv-reg-step-line"></div>
+          <div class="cv-reg-step" id="cvRegStep2Ind">
+            <div class="cv-step-circle"><i class="fas fa-envelope"></i></div>
+            <span id="cvRegStep2Label">التحقق</span>
+          </div>
+          <div class="cv-reg-step-line"></div>
+          <div class="cv-reg-step" id="cvRegStep3Ind">
+            <div class="cv-step-circle"><i class="fas fa-lock"></i></div>
+            <span id="cvRegStep3Label">كلمة المرور</span>
+          </div>
+        </div>
       </div>
-      <div class="cv-modal-body">
-        <div class="form-group">
-          <label id="cvRegFnLabel"><i class="fas fa-user"></i> الاسم الأول</label>
-          <div class="cv-input-wrap">
-            <i class="fas fa-user cv-input-icon"></i>
-            <input type="text" id="cvRegFn" autocomplete="given-name" placeholder="الاسم الأول"/>
-          </div>
-        </div>
-        <div class="form-group">
-          <label id="cvRegLnLabel"><i class="fas fa-user"></i> النسب</label>
-          <div class="cv-input-wrap">
-            <i class="fas fa-user cv-input-icon"></i>
-            <input type="text" id="cvRegLn" autocomplete="family-name" placeholder="النسب"/>
-          </div>
-        </div>
-        <div class="form-group">
-          <label id="cvRegBdLabel"><i class="fas fa-calendar"></i> تاريخ الازدياد</label>
-          <div class="cv-input-wrap">
-            <i class="fas fa-calendar cv-input-icon"></i>
-            <input type="date" id="cvRegBd" class="cv-date"/>
-          </div>
-        </div>
-        <div class="form-group">
-          <label id="cvRegEmLabel"><i class="fas fa-envelope"></i> البريد الإلكتروني</label>
-          <div class="cv-input-wrap">
-            <i class="fas fa-envelope cv-input-icon"></i>
-            <input type="email" id="cvRegEm" autocomplete="email" placeholder="example@email.com"/>
-          </div>
-          <div class="cv-inline-actions">
-            <div class="cv-input-wrap" style="flex:1;">
-              <i class="fas fa-shield-alt cv-input-icon"></i>
-              <input type="text" id="cvRegEmailCode" inputmode="numeric" maxlength="6" placeholder="أدخل كود التحقق"/>
+      <div class="cv-modal-body cv-reg-body">
+
+        <!-- Step 1: Personal Info -->
+        <div class="cv-reg-panel" id="cvRegPanel1">
+          <p class="cv-reg-panel-hint" id="cvRegStep1Hint"><i class="fas fa-circle-info"></i> أدخل معلوماتك الشخصية للبدء</p>
+          <div class="cv-reg-two-col">
+            <div class="form-group">
+              <label id="cvRegFnLabel"><i class="fas fa-user"></i> الاسم الأول</label>
+              <div class="cv-input-wrap">
+                <i class="fas fa-user cv-input-icon"></i>
+                <input type="text" id="cvRegFn" autocomplete="given-name" placeholder=""/>
+              </div>
             </div>
-            <button type="button" class="cv-btn-secondary" id="cvSendCodeBtn" onclick="cvSendEmailCode()">
-              <i class="fas fa-paper-plane"></i> إرسال الكود
+            <div class="form-group">
+              <label id="cvRegLnLabel"><i class="fas fa-user"></i> النسب</label>
+              <div class="cv-input-wrap">
+                <i class="fas fa-id-card cv-input-icon"></i>
+                <input type="text" id="cvRegLn" autocomplete="family-name" placeholder=""/>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label id="cvRegBdLabel"><i class="fas fa-calendar"></i> تاريخ الازدياد</label>
+            <div class="cv-input-wrap">
+              <i class="fas fa-calendar-days cv-input-icon"></i>
+              <input type="date" id="cvRegBd" class="cv-date"/>
+            </div>
+          </div>
+          <button type="button" class="cv-btn-primary cv-reg-next-btn" id="cvRegNextBtn" onclick="cvRegGoStep2()">
+            <span>التالي</span> <i class="fas fa-arrow-left"></i>
+          </button>
+        </div>
+
+        <!-- Step 2: Email Verification -->
+        <div class="cv-reg-panel" id="cvRegPanel2" style="display:none;">
+          <p class="cv-reg-panel-hint" id="cvRegStep2Hint"><i class="fas fa-shield-halved"></i> سنرسل كود تحقق إلى بريدك</p>
+          <div class="form-group">
+            <label id="cvRegEmLabel"><i class="fas fa-envelope"></i> البريد الإلكتروني</label>
+            <div class="cv-input-wrap">
+              <i class="fas fa-envelope cv-input-icon"></i>
+              <input type="email" id="cvRegEm" autocomplete="email" placeholder="example@email.com"/>
+            </div>
+          </div>
+          <button type="button" class="cv-btn-secondary" id="cvSendCodeBtn" onclick="cvSendEmailCode()" style="width:100%;margin-bottom:.8rem;">
+            <i class="fas fa-paper-plane"></i> إرسال كود التحقق
+          </button>
+          <div class="cv-code-box" id="cvCodeBox" style="display:none;">
+            <div class="form-group" style="margin-bottom:.5rem;">
+              <label><i class="fas fa-shield-alt"></i> كود التحقق</label>
+              <div class="cv-input-wrap">
+                <i class="fas fa-shield-alt cv-input-icon"></i>
+                <input type="text" id="cvRegEmailCode" inputmode="numeric" maxlength="6" placeholder="أدخل الكود المكوّن من 6 أرقام"/>
+              </div>
+            </div>
+            <div class="cv-resend-row"><button type="button" class="cv-text-btn" id="cvResendCodeBtn" onclick="cvSendEmailCode()" disabled>إعادة إرسال الكود</button><span class="cv-resend-hint" id="cvResendHint"></span></div>
+            <button type="button" class="cv-btn-primary" id="cvVerifyCodeBtn" onclick="cvVerifyEmailCode()" style="margin-top:.6rem;">
+              <i class="fas fa-circle-check"></i> تأكيد الكود والمتابعة
             </button>
           </div>
-          <button type="button" class="cv-btn-secondary" id="cvVerifyCodeBtn" style="width:100%;margin-top:.65rem;" onclick="cvVerifyEmailCode()">
-            <i class="fas fa-badge-check"></i> تأكيد الكود
-          </button>
           <div class="cv-verify-status" id="cvVerifyStatus"></div>
+          <button type="button" class="cv-reg-back-btn" onclick="cvRegGoStep1()"><i class="fas fa-arrow-right"></i> رجوع</button>
         </div>
-        <div class="form-group">
-          <label id="cvRegPwLabel"><i class="fas fa-lock"></i> كلمة المرور</label>
-          <div class="cv-input-wrap has-toggle">
-            <i class="fas fa-lock cv-input-icon"></i>
-            <input type="password" id="cvRegPw" autocomplete="new-password" placeholder="6 حروف على الأقل"/>
-            <button type="button" class="cv-password-toggle" onclick="cvTogglePassword('cvRegPw', this)"><i class="fas fa-eye"></i></button>
+
+        <!-- Step 3: Password -->
+        <div class="cv-reg-panel" id="cvRegPanel3" style="display:none;">
+          <p class="cv-reg-panel-hint" id="cvRegStep3Hint"><i class="fas fa-lock"></i> اختر كلمة مرور قوية لحماية حسابك</p>
+          <div class="form-group">
+            <label id="cvRegPwLabel"><i class="fas fa-lock"></i> كلمة المرور</label>
+            <div class="cv-input-wrap has-toggle">
+              <i class="fas fa-lock cv-input-icon"></i>
+              <input type="password" id="cvRegPw" autocomplete="new-password" placeholder="6 حروف على الأقل"/>
+              <button type="button" class="cv-password-toggle" onclick="cvTogglePassword('cvRegPw', this)"><i class="fas fa-eye"></i></button>
+            </div>
           </div>
-        </div>
-        <div class="form-group">
-          <label id="cvRegPw2Label"><i class="fas fa-lock"></i> تأكيد كلمة المرور</label>
-          <div class="cv-input-wrap has-toggle">
-            <i class="fas fa-shield-alt cv-input-icon"></i>
-            <input type="password" id="cvRegPw2" autocomplete="new-password" placeholder="أعد كلمة المرور"/>
-            <button type="button" class="cv-password-toggle" onclick="cvTogglePassword('cvRegPw2', this)"><i class="fas fa-eye"></i></button>
+          <!-- Password strength meter -->
+          <div class="cv-pw-strength" id="cvPwStrength" style="display:none;">
+            <div class="cv-pw-bar"><div class="cv-pw-fill" id="cvPwFill"></div></div>
+            <span class="cv-pw-label" id="cvPwLabel"></span>
           </div>
+          <div class="form-group" style="margin-top:.9rem;">
+            <label id="cvRegPw2Label"><i class="fas fa-shield-check"></i> تأكيد كلمة المرور</label>
+            <div class="cv-input-wrap has-toggle">
+              <i class="fas fa-shield-halved cv-input-icon"></i>
+              <input type="password" id="cvRegPw2" autocomplete="new-password" placeholder="أعد كلمة المرور"/>
+              <button type="button" class="cv-password-toggle" onclick="cvTogglePassword('cvRegPw2', this)"><i class="fas fa-eye"></i></button>
+            </div>
+          </div>
+          <div class="cv-err" id="cvRegErr"></div>
+          <button type="button" class="cv-btn-primary" id="cvRegBtn" onclick="cvDoRegister()" style="margin-top:.9rem;">
+            <i class="fas fa-user-plus"></i> إنشاء الحساب
+          </button>
+          <button type="button" class="cv-reg-back-btn" onclick="cvRegGoStep2()"><i class="fas fa-arrow-right"></i> رجوع</button>
         </div>
-        <div class="cv-err" id="cvRegErr"></div>
-        <button type="button" class="cv-btn-primary" id="cvRegBtn" onclick="cvDoRegister()">
-          <i class="fas fa-user-plus"></i> إنشاء الحساب
-        </button>
+
         <div class="cv-switch" id="cvToLogin">عندك حساب؟ <span onclick="cvShowLogin()">سجل الدخول</span></div>
       </div>
     </div>
   </div>
 </div>
+
+<div class="cv-overlay" id="cvForgotOverlay" style="display:none;">
+  <div class="cv-modal cv-modal-small">
+    <div class="cv-modal-header">
+      <button class="cv-close" onclick="cvCloseForgot()">✕</button>
+      <div class="cv-modal-header-icon"><i class="fas fa-key"></i></div>
+      <h2 id="cvForgotTitle">نسيت كلمة المرور</h2>
+      <p class="cv-modal-subtitle" id="cvForgotLead">أدخل بريدك الإلكتروني وسنرسل لك كود التحقق ثم رابطاً آمناً لتغيير كلمة المرور.</p>
+    </div>
+    <div class="cv-modal-body">
+      <div class="form-group">
+        <label id="cvForgotEmailLabel"><i class="fas fa-envelope"></i> البريد الإلكتروني</label>
+        <div class="cv-input-wrap">
+          <i class="fas fa-envelope cv-input-icon"></i>
+          <input type="email" id="cvForgotEmail" autocomplete="email" placeholder="example@email.com"/>
+        </div>
+      </div>
+      <div class="cv-inline-actions">
+        <div class="cv-input-wrap" style="flex:1;">
+          <i class="fas fa-shield-alt cv-input-icon"></i>
+          <input type="text" id="cvForgotCode" inputmode="numeric" maxlength="6" placeholder="أدخل كود التحقق"/>
+        </div>
+        <button type="button" class="cv-btn-secondary" id="cvForgotSendBtn" onclick="cvSendForgotCode()"><i class="fas fa-paper-plane"></i> إرسال الكود</button>
+      </div>
+      <div class="cv-resend-row">
+        <button type="button" class="cv-text-btn" id="cvForgotResendBtn" onclick="cvSendForgotCode()" disabled>إعادة إرسال الكود</button>
+        <span class="cv-resend-hint" id="cvForgotHint"></span>
+      </div>
+      <div class="cv-verify-status" id="cvForgotStatus"></div>
+      <div class="cv-panel-actions">
+        <button type="button" class="cv-btn-primary" id="cvForgotResetBtn" onclick="cvVerifyForgotCodeAndSendReset()"><i class="fas fa-unlock-keyhole"></i> إرسال رابط تغيير كلمة المرور</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="cv-reset-shell" id="cvResetShell" style="display:none;">
+  <div class="cv-reset-card-page">
+    <div class="cv-reset-side">
+      <span class="cv-reset-badge"><i class="fas fa-shield-heart"></i> CareVia Security</span>
+      <h2 id="cvResetHeroTitle">Reset your password safely</h2>
+      <p id="cvResetHeroLead">Use this secure page to choose a new password for your account and continue with a smoother CareVia experience.</p>
+      <div class="cv-reset-points">
+        <div class="cv-reset-point"><i class="fas fa-envelope-open-text"></i><div><strong id="cvResetPoint1Title">Verified reset link</strong><div id="cvResetPoint1Text">We first check that your email action link is valid.</div></div></div>
+        <div class="cv-reset-point"><i class="fas fa-lock"></i><div><strong id="cvResetPoint2Title">Strong new password</strong><div id="cvResetPoint2Text">Choose a password with at least 6 characters.</div></div></div>
+        <div class="cv-reset-point"><i class="fas fa-circle-check"></i><div><strong id="cvResetPoint3Title">Back to login</strong><div id="cvResetPoint3Text">After saving, you can return and sign in immediately.</div></div></div>
+      </div>
+    </div>
+    <div class="cv-reset-main">
+      <div class="cv-reset-head">
+        <h3 id="cvResetTitle">Create a new password</h3>
+        <span class="cv-reset-state" id="cvResetState"><i class="fas fa-key"></i> Secure reset</span>
+      </div>
+      <p class="cv-reset-note" id="cvResetLead">Enter your new password below. We will validate the reset code before saving your change.</p>
+      <div class="cv-reset-status" id="cvResetStatus"></div>
+      <div class="cv-reset-form">
+        <div class="form-group">
+          <label id="cvResetPwLabel"><i class="fas fa-lock"></i> New password</label>
+          <div class="cv-input-wrap has-toggle">
+            <i class="fas fa-lock cv-input-icon"></i>
+            <input type="password" id="cvResetPw" autocomplete="new-password" placeholder="Minimum 6 characters"/>
+            <button type="button" class="cv-password-toggle" onclick="cvTogglePassword('cvResetPw', this)"><i class="fas fa-eye"></i></button>
+          </div>
+        </div>
+        <div class="form-group">
+          <label id="cvResetPw2Label"><i class="fas fa-lock"></i> Confirm password</label>
+          <div class="cv-input-wrap has-toggle">
+            <i class="fas fa-shield-alt cv-input-icon"></i>
+            <input type="password" id="cvResetPw2" autocomplete="new-password" placeholder="Repeat your password"/>
+            <button type="button" class="cv-password-toggle" onclick="cvTogglePassword('cvResetPw2', this)"><i class="fas fa-eye"></i></button>
+          </div>
+        </div>
+        <div class="cv-reset-mini">
+          <strong id="cvResetMiniTitle">Need to request a new link?</strong>
+          <p id="cvResetMiniText">If this link has expired, go back to the sign-in window and choose “Forgot password” to receive a fresh reset email.</p>
+        </div>
+        <div class="cv-reset-actions">
+          <button type="button" class="cv-btn-primary" id="cvResetSubmitBtn" onclick="cvCompleteCustomPasswordReset()"><i class="fas fa-floppy-disk"></i> Save new password</button>
+          <button type="button" class="cv-btn-secondary" id="cvResetBackBtn" onclick="cvCloseCustomReset()"><i class="fas fa-arrow-left"></i> Back to CareVia</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="cv-toast-wrap" id="cvToastWrap"></div>
 
 <!-- Booking Mode Modal -->
 <div class="cv-overlay" id="cvModeOverlay" style="display:none;">
@@ -6407,6 +6814,20 @@ const AUTH_T = {
     fastContactDesc:'ابقَ جاهزاً للمتابعة السريعة عند مراجعة طلبك.',
     easyRebookingLabel:'إعادة حجز سهلة',
     easyRebookingDesc:'ارجع في أي وقت وابدأ طلب رعاية جديداً بسرعة أكبر.',
+    resendCodeBtn:'إعادة إرسال الكود', resendIn:'يمكنك إعادة الإرسال بعد', attemptsLeft:'المحاولات المتبقية', temporarilyLocked:'تم توقيف التحقق مؤقتاً. حاول لاحقاً.',
+    forgotTitle:'نسيت كلمة المرور', forgotLead:'أدخل بريدك الإلكتروني وسنرسل لك كود التحقق ثم رابطاً آمناً لتغيير كلمة المرور.', forgotLink:'نسيت كلمة المرور؟', forgotSendBtn:'إرسال الكود', forgotResetBtn:'إرسال رابط تغيير كلمة المرور', forgotCodeSent:'إذا كان هذا البريد مرتبطاً بحساب، فقد أرسلنا إليه كود الاسترجاع.', forgotCodeVerified:'تم التحقق من الكود. إذا كان هذا البريد مرتبطاً بحساب، فقد أرسلنا رابطاً آمناً لتغيير كلمة المرور.', forgotNoUser:'إذا كان هذا البريد مرتبطاً بحساب، فستتوصل برسالة الاسترجاع.', forgotInvalid:'كود الاسترجاع غير صحيح.',
+    profileEditTitle:'تعديل الملف الشخصي', profileSaveBtn:'حفظ التعديلات', phoneLabel:'الهاتف', cityLabel:'المدينة', photoLabel:'رابط الصورة', verifiedEmailLabel:'البريد موثّق', accountActiveLabel:'الحساب نشط', notificationsLabel:'الإشعارات', whatsappLabel:'واتساب مباشر', changePasswordLabel:'تغيير كلمة المرور', sendResetLinkLabel:'إرسال رابط تغيير كلمة المرور', saveSuccess:'تم حفظ التعديلات بنجاح',
+    notifCreated:'تم إنشاء الطلب', notifAccepted:'تم قبول الطلب', notifConfirmed:'تم تأكيد الموعد',
+    regSubtitle:'انضم إلى عائلة CareVia',
+    regStep1Label:'معلوماتك', regStep2Label:'التحقق', regStep3Label:'كلمة المرور',
+    regStep1Hint:'أدخل معلوماتك الشخصية للبدء',
+    regStep2Hint:'سنرسل كود تحقق إلى بريدك',
+    regStep3Hint:'اختر كلمة مرور قوية لحماية حسابك',
+    regNextBtn:'التالي', regBackBtn:'رجوع',
+    fnPlaceholder:'محمد', lnPlaceholder:'بن علي',
+    sendCodeFull:'إرسال كود التحقق', verifyCodeFull:'تأكيد الكود والمتابعة',
+    verifyCodeEnter:'أدخل الكود المكوّن من 6 أرقام',
+    pwWeak:'ضعيفة', pwFair:'مقبولة', pwMedium:'متوسطة', pwGood:'جيدة', pwStrong:'قوية'
   },
   fr:{
     loginTitle:'Connexion', regTitle:'Créer un compte',
@@ -6455,6 +6876,20 @@ const AUTH_T = {
     fastContactDesc:'Restez prêt pour un suivi rapide lorsque votre demande est examinée.',
     easyRebookingLabel:'Nouvelle réservation facile',
     easyRebookingDesc:'Revenez à tout moment et lancez plus vite une nouvelle demande de service.',
+    resendCodeBtn:'Renvoyer le code', resendIn:'Nouveau renvoi dans', attemptsLeft:'Tentatives restantes', temporarilyLocked:'Vérification temporairement bloquée. Réessayez plus tard.',
+    forgotTitle:'Mot de passe oublié', forgotLead:'Entrez votre email. Nous vous enverrons un code puis un lien sécurisé pour changer le mot de passe.', forgotLink:'Mot de passe oublié ?', forgotSendBtn:'Envoyer le code', forgotResetBtn:'Envoyer le lien de changement', forgotCodeSent:'Si cet email est lié à un compte, le code de récupération a été envoyé.', forgotCodeVerified:'Code vérifié. Si cet email est lié à un compte, un lien sécurisé de réinitialisation a été envoyé.', forgotNoUser:'Si cet email est lié à un compte, vous recevrez le message de récupération.', forgotInvalid:'Code de récupération invalide.',
+    profileEditTitle:'Modifier le profil', profileSaveBtn:'Enregistrer', phoneLabel:'Téléphone', cityLabel:'Ville', photoLabel:'Lien de la photo', verifiedEmailLabel:'Email vérifié', accountActiveLabel:'Compte actif', notificationsLabel:'Notifications', whatsappLabel:'WhatsApp direct', changePasswordLabel:'Changer le mot de passe', sendResetLinkLabel:'Envoyer le lien de changement', saveSuccess:'Modifications enregistrées',
+    notifCreated:'Demande créée', notifAccepted:'Demande acceptée', notifConfirmed:'Rendez-vous confirmé',
+    regSubtitle:'Rejoignez la famille CareVia',
+    regStep1Label:'Vos infos', regStep2Label:'Vérification', regStep3Label:'Mot de passe',
+    regStep1Hint:'Entrez vos informations personnelles pour commencer',
+    regStep2Hint:'Nous enverrons un code de vérification à votre email',
+    regStep3Hint:'Choisissez un mot de passe fort pour protéger votre compte',
+    regNextBtn:'Suivant', regBackBtn:'Retour',
+    fnPlaceholder:'Prénom', lnPlaceholder:'Nom de famille',
+    sendCodeFull:'Envoyer le code de vérification', verifyCodeFull:'Vérifier le code et continuer',
+    verifyCodeEnter:'Entrez le code à 6 chiffres',
+    pwWeak:'Faible', pwFair:'Passable', pwMedium:'Moyen', pwGood:'Bon', pwStrong:'Fort'
   },
   en:{
     loginTitle:'Sign In', regTitle:'Create Account',
@@ -6503,6 +6938,20 @@ const AUTH_T = {
     fastContactDesc:'Stay ready for quick follow-up when your request is reviewed.',
     easyRebookingLabel:'Easy rebooking',
     easyRebookingDesc:'Come back anytime and start a new care request faster.',
+    resendCodeBtn:'Resend code', resendIn:'Resend available in', attemptsLeft:'Attempts left', temporarilyLocked:'Verification is temporarily locked. Please try again later.',
+    forgotTitle:'Forgot password', forgotLead:'Use the secure recovery flow to reset your password in a few steps.', forgotLink:'Forgot password?', forgotSendBtn:'Send code', forgotResetBtn:'Send password reset link', forgotCodeSent:'If this email is linked to an account, a recovery code has been sent.', forgotCodeVerified:'Code verified. If this email is linked to an account, we sent a secure password reset link.', forgotNoUser:'If this email is linked to an account, you will receive the recovery message.', forgotInvalid:'Invalid recovery code.',
+    profileEditTitle:'Edit profile', profileSaveBtn:'Save changes', phoneLabel:'Phone', cityLabel:'City', photoLabel:'Photo URL', verifiedEmailLabel:'Email verified', accountActiveLabel:'Account active', notificationsLabel:'Notifications', whatsappLabel:'Direct WhatsApp', changePasswordLabel:'Change password', sendResetLinkLabel:'Send password reset link', saveSuccess:'Changes saved successfully',
+    notifCreated:'Request created', notifAccepted:'Request accepted', notifConfirmed:'Appointment confirmed',
+    regSubtitle:'Join the CareVia family',
+    regStep1Label:'Your info', regStep2Label:'Verification', regStep3Label:'Password',
+    regStep1Hint:'Enter your personal information to get started',
+    regStep2Hint:'We will send a verification code to your email',
+    regStep3Hint:'Choose a strong password to protect your account',
+    regNextBtn:'Next', regBackBtn:'Back',
+    fnPlaceholder:'First name', lnPlaceholder:'Last name',
+    sendCodeFull:'Send verification code', verifyCodeFull:'Verify code & continue',
+    verifyCodeEnter:'Enter the 6-digit code',
+    pwWeak:'Weak', pwFair:'Fair', pwMedium:'Medium', pwGood:'Good', pwStrong:'Strong'
   }
 };
 function at(key){ const lang = (typeof currentLang !== 'undefined') ? currentLang : 'ar'; return (AUTH_T[lang]||AUTH_T.en)[key]||key; }
@@ -6513,7 +6962,11 @@ function hashPw(pw){ let h=0; for(let i=0;i<pw.length;i++){h=(h<<5)-h+pw.charCod
 
 
 const CV_EMAIL_CODE_EXPIRY_MS = 10 * 60 * 1000;
-window._cvEmailVerification = {email:'', code:'', sentAt:0, expiresAt:0, verified:false};
+const CV_EMAIL_RESEND_MS = 60 * 1000;
+const CV_EMAIL_MAX_ATTEMPTS = 5;
+const CV_EMAIL_LOCK_MS = 15 * 60 * 1000;
+window._cvEmailVerification = {email:'', code:'', sentAt:0, expiresAt:0, verified:false, attempts:CV_EMAIL_MAX_ATTEMPTS, lockUntil:0, resendAt:0};
+window._cvForgotVerification = {email:'', code:'', sentAt:0, expiresAt:0, attempts:CV_EMAIL_MAX_ATTEMPTS, lockUntil:0, resendAt:0};
 window.CV_EMAILJS_CONFIG = window.CV_EMAILJS_CONFIG || {
   publicKey:'HjLGrrx1T_SGtczbT',
   serviceId:'service_avdmeq8',
@@ -6526,71 +6979,168 @@ window.CV_EMAILJS_CONFIG = window.CV_EMAILJS_CONFIG || {
     }
   }catch(err){ console.warn('EmailJS init skipped:', err); }
 })();
-function cvSetVerifyStatus(type, msg){
-  const el=document.getElementById('cvVerifyStatus');
+function cvShowToast(title, msg, icon='fa-circle-check'){
+  const wrap=document.getElementById('cvToastWrap');
+  if(!wrap) return;
+  const el=document.createElement('div');
+  el.className='cv-toast';
+  el.innerHTML=`<i class="fas ${icon}"></i><div><strong>${title}</strong><div>${msg}</div></div>`;
+  wrap.appendChild(el);
+  setTimeout(()=>{ el.style.opacity='0'; el.style.transform='translateY(-6px)'; setTimeout(()=>el.remove(),260); }, 3600);
+}
+function cvSetVerifyStatus(type, msg, targetId='cvVerifyStatus'){
+  const el=document.getElementById(targetId);
   if(!el) return;
   if(!msg){ el.className='cv-verify-status'; el.textContent=''; return; }
   const icons={info:'fa-circle-info',success:'fa-circle-check',error:'fa-circle-exclamation'};
   el.className=`cv-verify-status show ${type||'info'}`;
   el.innerHTML=`<i class="fas ${icons[type]||icons.info}"></i> ${msg}`;
 }
+function cvBaseVerificationState(){ return {email:'', code:'', sentAt:0, expiresAt:0, verified:false, attempts:CV_EMAIL_MAX_ATTEMPTS, lockUntil:0, resendAt:0}; }
 function cvResetEmailVerification(opts={}){
   const keepStatus = !!opts.keepStatus;
-  window._cvEmailVerification = {email:'', code:'', sentAt:0, expiresAt:0, verified:false};
+  window._cvEmailVerification = cvBaseVerificationState();
   const codeInput=document.getElementById('cvRegEmailCode');
   if(codeInput) codeInput.value='';
   if(!keepStatus) cvSetVerifyStatus('info', at('verifyPending'));
+  cvUpdateVerificationUi('register');
+}
+function cvResetForgotVerification(opts={}){
+  window._cvForgotVerification = cvBaseVerificationState();
+  const codeInput=document.getElementById('cvForgotCode');
+  if(codeInput) codeInput.value='';
+  if(!opts.keepStatus) cvSetVerifyStatus('info', '', 'cvForgotStatus');
+  cvUpdateVerificationUi('forgot');
+}
+function cvCountdownText(ms){ return `${at('resendIn')} ${Math.max(1, Math.ceil(ms/1000))}s`; }
+function cvUpdateVerificationUi(mode='register'){
+  const isForgot = mode==='forgot';
+  const state = isForgot ? (window._cvForgotVerification||cvBaseVerificationState()) : (window._cvEmailVerification||cvBaseVerificationState());
+  const sendBtn = document.getElementById(isForgot ? 'cvForgotSendBtn' : 'cvSendCodeBtn');
+  const resendBtn = document.getElementById(isForgot ? 'cvForgotResendBtn' : 'cvResendCodeBtn');
+  const hintEl = document.getElementById(isForgot ? 'cvForgotHint' : 'cvResendHint');
+  const now = Date.now();
+  const locked = state.lockUntil && state.lockUntil > now;
+  const resendBlocked = state.resendAt && state.resendAt > now;
+  if(sendBtn) sendBtn.disabled = locked || resendBlocked;
+  if(resendBtn) resendBtn.disabled = locked || resendBlocked || !state.sentAt;
+  if(hintEl){
+    if(locked) hintEl.textContent = `${at('temporarilyLocked')} (${Math.ceil((state.lockUntil-now)/60000)}m)`;
+    else if(resendBlocked) hintEl.textContent = cvCountdownText(state.resendAt-now);
+    else hintEl.textContent = state.sentAt ? `${at('attemptsLeft')}: ${state.attempts}` : '';
+  }
+}
+setInterval(()=>{ cvUpdateVerificationUi('register'); cvUpdateVerificationUi('forgot'); }, 1000);
+async function cvSendCodeByEmail(em, code){
+  const cfg = window.CV_EMAILJS_CONFIG || {};
+  if(window.emailjs && cfg.publicKey && cfg.serviceId && cfg.templateId){
+    await window.emailjs.send(cfg.serviceId, cfg.templateId, {
+      email: em,
+      to_email: em,
+      passcode: code,
+      verification_code: code,
+      code: code,
+      app_name: 'CareVia'
+    }, { publicKey: cfg.publicKey });
+  } else {
+    throw new Error('EmailJS not configured');
+  }
 }
 window.cvSendEmailCode = async function(){
   const em=(document.getElementById('cvRegEm')?.value || '').trim().toLowerCase();
   if(!em) return cvSetVerifyStatus('error', at('errFill'));
   if(!isValidEmailLocal(em)) return cvSetVerifyStatus('error', at('errEmail'));
+  const state = window._cvEmailVerification || cvBaseVerificationState();
+  const now = Date.now();
+  if(state.lockUntil && state.lockUntil > now) return cvSetVerifyStatus('error', at('temporarilyLocked'));
+  if(state.resendAt && state.resendAt > now) return cvSetVerifyStatus('error', cvCountdownText(state.resendAt-now));
   const code = String(Math.floor(100000 + Math.random() * 900000));
-  window._cvEmailVerification = {
-    email:em,
-    code,
-    sentAt:Date.now(),
-    expiresAt:Date.now()+CV_EMAIL_CODE_EXPIRY_MS,
-    verified:false
-  };
-  const cfg = window.CV_EMAILJS_CONFIG || {};
-  if(window.emailjs && cfg.publicKey && cfg.serviceId && cfg.templateId){
-    try{
-      await window.emailjs.send(cfg.serviceId, cfg.templateId, {
-        email: em,
-        to_email: em,
-        passcode: code,
-        verification_code: code,
-        code: code,
-        app_name: 'CareVia'
-      }, { publicKey: cfg.publicKey });
-      cvSetVerifyStatus('info', at('verifySent'));
-    }catch(err){
-      console.error(err);
-      cvSetVerifyStatus('error', 'Email service error. Check EmailJS settings.');
-    }
-  }else{
-    console.warn('EmailJS not configured. Verification code:', code);
-    cvSetVerifyStatus('info', at('verifySent') + ' (EmailJS setup required)');
+  window._cvEmailVerification = { ...state, email:em, code, sentAt:now, expiresAt:now+CV_EMAIL_CODE_EXPIRY_MS, verified:false, resendAt: now + CV_EMAIL_RESEND_MS };
+  try{
+    await cvSendCodeByEmail(em, code);
+    cvSetVerifyStatus('info', at('verifySent'));
+  }catch(err){
+    console.error(err);
+    cvSetVerifyStatus('error', 'Email service error. Check EmailJS settings.');
   }
+  cvUpdateVerificationUi('register');
 };
 window.cvVerifyEmailCode = function(){
   const em=(document.getElementById('cvRegEm')?.value || '').trim().toLowerCase();
   const code=(document.getElementById('cvRegEmailCode')?.value || '').trim();
-  const v=window._cvEmailVerification || {};
+  const v=window._cvEmailVerification || cvBaseVerificationState();
+  const now=Date.now();
   if(!em || !code) return cvSetVerifyStatus('error', at('errFill'));
+  if(v.lockUntil && v.lockUntil > now) return cvSetVerifyStatus('error', at('temporarilyLocked'));
   if(v.email!==em) return cvSetVerifyStatus('error', at('verifyInvalid'));
-  if(Date.now()>v.expiresAt) return cvSetVerifyStatus('error', at('verifyExpired'));
-  if(code!==v.code) return cvSetVerifyStatus('error', at('verifyInvalid'));
-  v.verified=true;
+  if(now>v.expiresAt) return cvSetVerifyStatus('error', at('verifyExpired'));
+  if(code!==v.code){
+    v.attempts = Math.max(0, (v.attempts || CV_EMAIL_MAX_ATTEMPTS) - 1);
+    if(v.attempts <= 0){ v.lockUntil = now + CV_EMAIL_LOCK_MS; cvSetVerifyStatus('error', at('temporarilyLocked')); }
+    else cvSetVerifyStatus('error', `${at('verifyInvalid')} — ${at('attemptsLeft')}: ${v.attempts}`);
+    window._cvEmailVerification=v; cvUpdateVerificationUi('register'); return;
+  }
+  v.verified=true; v.attempts=CV_EMAIL_MAX_ATTEMPTS;
   window._cvEmailVerification=v;
   cvSetVerifyStatus('success', at('verifySuccess'));
+  cvShowToast('CareVia', at('verifySuccess'));
+  cvUpdateVerificationUi('register');
+};
+window.cvOpenForgot = function(){ document.getElementById('cvForgotOverlay').style.display='flex'; cvResetForgotVerification(); };
+window.cvCloseForgot = function(){ document.getElementById('cvForgotOverlay').style.display='none'; };
+window.cvSendForgotCode = async function(){
+  const em=(document.getElementById('cvForgotEmail')?.value || '').trim().toLowerCase();
+  if(!em) return cvSetVerifyStatus('error', at('errFill'), 'cvForgotStatus');
+  if(!isValidEmailLocal(em)) return cvSetVerifyStatus('error', at('errEmail'), 'cvForgotStatus');
+  const now=Date.now();
+  const state = window._cvForgotVerification || cvBaseVerificationState();
+  if(state.lockUntil && state.lockUntil > now) return cvSetVerifyStatus('error', at('temporarilyLocked'), 'cvForgotStatus');
+  if(state.resendAt && state.resendAt > now) return cvSetVerifyStatus('error', cvCountdownText(state.resendAt-now), 'cvForgotStatus');
+  try{
+    if(window.cvFirebaseAuth && typeof window.cvFirebaseAuth.fetchSignInMethodsForEmail==='function'){
+      await window.cvFirebaseAuth.fetchSignInMethodsForEmail(em);
+    }
+  }catch(err){
+    console.warn('Forgot password pre-check skipped:', err);
+  }
+  const code = String(Math.floor(100000 + Math.random() * 900000));
+  window._cvForgotVerification = { ...state, email:em, code, sentAt:now, expiresAt:now+CV_EMAIL_CODE_EXPIRY_MS, resendAt:now+CV_EMAIL_RESEND_MS, attempts:CV_EMAIL_MAX_ATTEMPTS };
+  try{ await cvSendCodeByEmail(em, code); cvSetVerifyStatus('info', at('forgotCodeSent'), 'cvForgotStatus'); }
+  catch(err){ console.error(err); cvSetVerifyStatus('error', 'Email service error. Check EmailJS settings.', 'cvForgotStatus'); }
+  cvUpdateVerificationUi('forgot');
+};
+window.cvVerifyForgotCodeAndSendReset = async function(){
+  const em=(document.getElementById('cvForgotEmail')?.value || '').trim().toLowerCase();
+  const code=(document.getElementById('cvForgotCode')?.value || '').trim();
+  const v=window._cvForgotVerification || cvBaseVerificationState();
+  const now=Date.now();
+  if(!em || !code) return cvSetVerifyStatus('error', at('errFill'), 'cvForgotStatus');
+  if(v.lockUntil && v.lockUntil > now) return cvSetVerifyStatus('error', at('temporarilyLocked'), 'cvForgotStatus');
+  if(v.email!==em || now>v.expiresAt) return cvSetVerifyStatus('error', at('verifyExpired'), 'cvForgotStatus');
+  if(code!==v.code){
+    v.attempts = Math.max(0, (v.attempts || CV_EMAIL_MAX_ATTEMPTS) - 1);
+    if(v.attempts <= 0){ v.lockUntil = now + CV_EMAIL_LOCK_MS; cvSetVerifyStatus('error', at('temporarilyLocked'), 'cvForgotStatus'); }
+    else cvSetVerifyStatus('error', `${at('forgotInvalid')} — ${at('attemptsLeft')}: ${v.attempts}`, 'cvForgotStatus');
+    window._cvForgotVerification=v; cvUpdateVerificationUi('forgot'); return;
+  }
+  try{
+    await cvSendCustomPasswordResetEmail(em);
+  }catch(err){
+    console.warn('Password reset email fallback:', err);
+  }
+  cvSetVerifyStatus('success', at('forgotCodeVerified'), 'cvForgotStatus');
+  cvShowToast('CareVia', at('forgotCodeVerified'), 'fa-key');
 };
 document.addEventListener('input', function(e){
   if(e.target && e.target.id==='cvRegEm'){
     const v=window._cvEmailVerification || {};
     const current=(e.target.value || '').trim().toLowerCase();
     if(v.email && current!==v.email){ cvResetEmailVerification(); }
+  }
+  if(e.target && e.target.id==='cvForgotEmail'){
+    const v=window._cvForgotVerification || {};
+    const current=(e.target.value || '').trim().toLowerCase();
+    if(v.email && current!==v.email){ cvResetForgotVerification(); }
   }
 });
 
@@ -6603,12 +7153,51 @@ function renderAuthText(){
   setT('cvRegFnLabel','fnLabel'); setT('cvRegLnLabel','lnLabel');
   setT('cvRegBdLabel','bdLabel'); setT('cvRegEmLabel','emailLabel');
   setT('cvRegPwLabel','passLabel'); setT('cvRegPw2Label','pw2Label');
-  const codeInput=document.getElementById('cvRegEmailCode');
-  if(codeInput) codeInput.placeholder=at('verifyCodePlaceholder');
-  const sendCodeBtn=document.getElementById('cvSendCodeBtn');
-  if(sendCodeBtn) sendCodeBtn.innerHTML=`<i class="fas fa-paper-plane"></i> ${at('sendCodeBtn')}`;
-  const verifyCodeBtn=document.getElementById('cvVerifyCodeBtn');
-  if(verifyCodeBtn) verifyCodeBtn.innerHTML=`<i class="fas fa-badge-check"></i> ${at('verifyCodeBtn')}`;
+  // Multi-step register form
+  const regSubtitle=document.getElementById('cvRegSubtitle');
+  if(regSubtitle) regSubtitle.textContent=at('regSubtitle');
+  setT('cvRegStep1Label','regStep1Label');
+  setT('cvRegStep2Label','regStep2Label');
+  setT('cvRegStep3Label','regStep3Label');
+  const h1=document.getElementById('cvRegStep1Hint');
+  if(h1) h1.lastChild.textContent=' '+at('regStep1Hint');
+  const h2=document.getElementById('cvRegStep2Hint');
+  if(h2) h2.lastChild.textContent=' '+at('regStep2Hint');
+  const h3=document.getElementById('cvRegStep3Hint');
+  if(h3) h3.lastChild.textContent=' '+at('regStep3Hint');
+  const nextBtn=document.getElementById('cvRegNextBtn');
+  const isRtl = document.body.classList.contains('rtl');
+  const nextArrow = isRtl ? 'fa-arrow-left' : 'fa-arrow-right';
+  const backArrow = isRtl ? 'fa-arrow-right' : 'fa-arrow-left';
+  if(nextBtn) nextBtn.innerHTML=`<span>${at('regNextBtn')}</span> <i class="fas ${nextArrow}"></i>`;
+  document.querySelectorAll('.cv-reg-back-btn').forEach(btn=>{
+    btn.innerHTML=`<i class="fas ${backArrow}"></i> ${at('regBackBtn')}`;
+  });
+  // Placeholders for register inputs
+  const fnInput=document.getElementById('cvRegFn');
+  if(fnInput) fnInput.placeholder=at('fnPlaceholder');
+  const lnInput=document.getElementById('cvRegLn');
+  if(lnInput) lnInput.placeholder=at('lnPlaceholder');
+  const sendCodeFullBtn=document.getElementById('cvSendCodeBtn');
+  if(sendCodeFullBtn) sendCodeFullBtn.innerHTML=`<i class="fas fa-paper-plane"></i> ${at('sendCodeFull')}`;
+  const verifyCodeFullBtn=document.getElementById('cvVerifyCodeBtn');
+  if(verifyCodeFullBtn) verifyCodeFullBtn.innerHTML=`<i class="fas fa-circle-check"></i> ${at('verifyCodeFull')}`;
+  const codeInput2=document.getElementById('cvRegEmailCode');
+  if(codeInput2) codeInput2.placeholder=at('verifyCodeEnter');
+  const resendBtn=document.getElementById('cvResendCodeBtn');
+  if(resendBtn) resendBtn.textContent=at('resendCodeBtn');
+  const forgotLink=document.getElementById('cvForgotLink');
+  if(forgotLink) forgotLink.textContent=at('forgotLink');
+  const forgotTitle=document.getElementById('cvForgotTitle');
+  if(forgotTitle) forgotTitle.textContent=at('forgotTitle');
+  const forgotLead=document.getElementById('cvForgotLead');
+  if(forgotLead) forgotLead.textContent=at('forgotLead');
+  const forgotSendBtn=document.getElementById('cvForgotSendBtn');
+  if(forgotSendBtn) forgotSendBtn.innerHTML=`<i class="fas fa-paper-plane"></i> ${at('forgotSendBtn')}`;
+  const forgotResetBtn=document.getElementById('cvForgotResetBtn');
+  if(forgotResetBtn) forgotResetBtn.innerHTML=`<i class="fas fa-unlock-keyhole"></i> ${at('forgotResetBtn')}`;
+  const forgotResendBtn=document.getElementById('cvForgotResendBtn');
+  if(forgotResendBtn) forgotResendBtn.textContent=at('resendCodeBtn');
   setT('cvToRegister',    'toReg'); // partial text
   setT('cvToLogin',       'toLogin');
   setT('cvModeTitle','modeTitle');
@@ -6700,6 +7289,7 @@ window.cvShowRegister = function(){
   document.getElementById('cvRegisterForm').style.display='';
   document.getElementById('cvRegErr').className='cv-err';
   cvSetVerifyStatus('info', at('verifyPending'));
+  cvUpdateVerificationUi('register');
 };
 window.cvTogglePassword = function(inputId, btn){
   const input = document.getElementById(inputId);
@@ -6778,9 +7368,15 @@ window.cvDoRegister = async function(){
       ln,
       bd,
       email:em,
+      phone:'',
+      city:'',
+      photo:'',
+      emailVerified:true,
+      accountActive:true,
       createdAt:new Date().toISOString()
     });
-    setSession({id:user.uid, fn, ln, email:em});
+    setSession({id:user.uid, uid:user.uid, fn, ln, email:em, phone:'', city:'', photo:'', emailVerified:true, accountActive:true});
+    cvShowToast('CareVia', at('verifySuccess'));
     cvResetEmailVerification({keepStatus:true});
     cvCloseAuth();
     updateNavbar();
@@ -6812,10 +7408,12 @@ window.cvDoLogin = async function(){
       if(doc.exists){
         const data = doc.data() || {};
         session = {
-          id:user.uid,
+          id:user.uid, uid:user.uid,
           fn:data.fn || data.firstName || '',
           ln:data.ln || data.lastName || '',
-          email:data.email || user.email || em
+          email:data.email || user.email || em,
+          phone:data.phone || '', city:data.city || '', photo:data.photo || '',
+          emailVerified:data.emailVerified !== false, accountActive:data.accountActive !== false
         };
       }
     }catch(e){ console.error(e); }
@@ -6833,9 +7431,28 @@ window.cvDoLogin = async function(){
 
 /* ── Logout ── */
 window.cvLogout = async function(){
-  try{ await window.cvFirebaseAuth.signOut(); }catch(e){ console.error(e); }
+  try{
+    if(window.cvFirebaseAuth && typeof window.cvFirebaseAuth.signOut === 'function'){
+      await window.cvFirebaseAuth.signOut();
+    }
+  }catch(e){
+    console.error(e);
+  }
   clearSession();
+  try{
+    if(window._cvEmailVerification){
+      window._cvEmailVerification = null;
+    }
+    if(window._cvResetFlow){
+      window._cvResetFlow = null;
+    }
+  }catch(_e){}
   updateNavbar();
+  renderDashboard();
+  try{ navigateTo('homeView'); }catch(_e){}
+  try{ closeAuthModal && closeAuthModal(); }catch(_e){}
+  try{ window.scrollTo({top:0,behavior:'auto'}); }catch(_e){}
+  try{ cvShowToast('CareVia', 'Signed out successfully', 'fa-right-from-bracket'); }catch(_e){}
 };
 
 window.cvFirebaseAuth.onAuthStateChanged(async function(user){
@@ -6845,23 +7462,76 @@ window.cvFirebaseAuth.onAuthStateChanged(async function(user){
       if(snap.exists){
         const data = snap.data() || {};
         setSession({
-          id:user.uid,
+          id:user.uid, uid:user.uid,
           fn:data.fn || data.firstName || '',
           ln:data.ln || data.lastName || '',
-          email:data.email || user.email || ''
+          email:data.email || user.email || '',
+          phone:data.phone || '', city:data.city || '', photo:data.photo || '',
+          emailVerified:data.emailVerified !== false, accountActive:data.accountActive !== false
         });
       } else {
-        setSession({id:user.uid, fn:'', ln:'', email:user.email || ''});
+        setSession({id:user.uid, uid:user.uid, fn:'', ln:'', email:user.email || '', emailVerified:user.emailVerified, accountActive:true});
       }
     }catch(e){
       console.error(e);
-      setSession({id:user.uid, fn:'', ln:'', email:user.email || ''});
+      setSession({id:user.uid, uid:user.uid, fn:'', ln:'', email:user.email || '', emailVerified:user.emailVerified, accountActive:true});
     }
   } else {
     clearSession();
   }
   updateNavbar();
 });
+
+function cvPushNotification(userId, title, body, icon='fa-bell'){
+  if(!userId) return;
+  const key = `careviaNotifications_${userId}`;
+  const items = dbGet(key);
+  items.unshift({id:`n_${Date.now()}`, title, body, icon, createdAt:new Date().toISOString()});
+  dbSet(key, items.slice(0, 20));
+}
+function cvGetNotifications(userId){ return userId ? dbGet(`careviaNotifications_${userId}`) : []; }
+function cvSyncProfileAvatarPreview(){
+  const input = document.getElementById('cvProfilePhoto');
+  const holder = document.getElementById('cvEditorAvatar');
+  const session = getSession() || {};
+  if(!holder) return;
+  const initials = `${(document.getElementById('cvProfileFn')?.value || session.fn || '')[0] || ''}${(document.getElementById('cvProfileLn')?.value || session.ln || '')[0] || ''}`.toUpperCase() || 'CU';
+  const photo = (input?.value || '').trim();
+  if(photo){
+    holder.innerHTML = `<img src="${photo}" alt="avatar" onerror="this.parentNode.innerHTML='<span>${initials}</span>'">`;
+  }else{
+    holder.innerHTML = `<span>${initials}</span>`;
+  }
+}
+window.cvSaveProfile = async function(){
+  const session=getSession(); if(!session) return;
+  const fn=(document.getElementById('cvProfileFn')?.value||'').trim();
+  const ln=(document.getElementById('cvProfileLn')?.value||'').trim();
+  const phone=(document.getElementById('cvProfilePhone')?.value||'').trim();
+  const city=(document.getElementById('cvProfileCity')?.value||'').trim();
+  const photo=(document.getElementById('cvProfilePhoto')?.value||'').trim();
+  try{
+    await window.cvFirebaseDb.collection('users').doc(session.uid || session.id).set({
+      fn, ln, phone, city, photo,
+      email: session.email || '',
+      emailVerified: session.emailVerified !== false,
+      accountActive: session.accountActive !== false,
+      updatedAt: new Date().toISOString()
+    }, {merge:true});
+    const updated={...session, fn, ln, phone, city, photo};
+    setSession(updated); updateNavbar(); renderDashboard();
+    cvShowToast('CareVia', at('saveSuccess'));
+  }catch(err){ console.error(err); cvShowToast('CareVia', (err&&err.message)||'Save failed', 'fa-circle-exclamation'); }
+};
+window.cvSendResetLinkLogged = async function(){
+  const session=getSession(); if(!session || !session.email) return;
+  try{ await cvSendCustomPasswordResetEmail(session.email); cvShowToast('CareVia', at('forgotCodeVerified'), 'fa-key'); }
+  catch(err){ console.error(err); cvShowToast('CareVia', (err&&err.message)||'Reset failed', 'fa-circle-exclamation'); }
+};
+function cvAvatarMarkup(session, initials){
+  if(session && session.photo){ return `<img src="${session.photo}" alt="avatar" onerror="this.closest('.cv-dash-avatar').innerHTML='${initials}'">`; }
+  return initials;
+}
 
 /* ── Open Dashboard ── */
 window.cvOpenDashboard = function(){
@@ -6877,53 +7547,26 @@ function renderDashboard(){
   const dashWelcome = document.getElementById('cvDashWelcome');
   const dashNewBtn = document.getElementById('cvDashNewBtn');
   const dashList = document.getElementById('cvDashList');
-
   if(!dashList) return;
-
   if(dashTitle) dashTitle.textContent = at('dashTitle');
   if(dashNewBtn) dashNewBtn.innerHTML = `<i class="fas fa-plus-circle"></i> ${at('dashNewBtn')}`;
-
   if(!session){
-    dashList.innerHTML = `
-      <div class="cv-empty-dash">
-        <i class="fas fa-user-lock"></i>
-        <p>${at('errNotFound')}</p>
-      </div>
-    `;
+    dashList.innerHTML = `<div class="cv-empty-dash"><i class="fas fa-user-lock"></i><p>${at('errNotFound')}</p></div>`;
     return;
   }
-
-  const sessionUserId = session.uid || session.id || session.userId || session.email;
+  const userId = session.uid || session.id || session.userId || session.email;
   if(dashWelcome) dashWelcome.textContent = `${at('welcomeMsg')} ${session.fn || ''} ${session.ln || ''}`.trim();
-
   const allOrders = dbGet(DB_ORDERS);
-  const myOrders = allOrders
-    .filter(o => (o.userId || o.uid || o.email) === sessionUserId)
-    .sort((a,b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
-
-  const statusMap = {
-    pending:'statusPending',
-    confirmed:'statusConfirmed',
-    inprogress:'statusInprogress',
-    cancelled:'statusCancelled'
-  };
-
+  const myOrders = allOrders.filter(o => (o.userId || o.uid || o.email) === userId).sort((a,b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
+  const notifications = cvGetNotifications(userId);
+  const statusMap = { pending:'statusPending', confirmed:'statusConfirmed', inprogress:'statusInprogress', cancelled:'statusCancelled' };
   const initials = `${(session.fn||'')[0]||''}${(session.ln||'')[0]||''}`.toUpperCase() || 'CU';
   const pendingCount = myOrders.filter(o => o.status === 'pending').length;
   const confirmedCount = myOrders.filter(o => o.status === 'confirmed').length;
   const inProgressCount = myOrders.filter(o => o.status === 'inprogress').length;
   const latestOrder = myOrders[0];
-
   const formatType = (o) => o.service || o.type || o.serviceKey || 'Care service';
-  const formatDate = (d) => {
-    if(!d) return '—';
-    const dt = new Date(d);
-    if(isNaN(dt)) return d;
-    return dt.toLocaleDateString(document.documentElement.lang === 'ar' ? 'ar-MA' : 'en-US', {
-      year:'numeric', month:'short', day:'numeric'
-    });
-  };
-
+  const formatDate = (d) => { if(!d) return '—'; const dt = new Date(d); if(isNaN(dt)) return d; return dt.toLocaleDateString(document.documentElement.lang === 'ar' ? 'ar-MA' : 'en-US', {year:'numeric', month:'short', day:'numeric'}); };
   const bookingHtml = myOrders.length ? myOrders.map(o => `
     <div class="cv-booking-item">
       <div class="cv-booking-main">
@@ -6939,14 +7582,10 @@ function renderDashboard(){
       <div class="cv-booking-side">
         <span class="cv-status cv-status-${o.status || 'pending'}">${at(statusMap[o.status] || 'statusPending')}</span>
       </div>
-    </div>
-  `).join('') : `
-    <div class="cv-empty-dash">
-      <i class="fas fa-calendar-plus"></i>
-      <p>${at('emptyDash')}</p>
-    </div>
-  `;
-
+    </div>`).join('') : `<div class="cv-empty-dash"><i class="fas fa-calendar-plus"></i><p>${at('emptyDash')}</p></div>`;
+  const notifHtml = notifications.length ? notifications.map(n => `
+    <div class="cv-notification-item"><i class="fas ${n.icon || 'fa-bell'}"></i><div><strong>${n.title}</strong><div>${n.body}</div><small>${formatDate(n.createdAt)}</small></div></div>`).join('') : `<div class="cv-empty-dash"><i class="fas fa-bell-slash"></i><p>${at('emptyDash')}</p></div>`;
+  const waNumber = '212600000000';
   dashList.innerHTML = `
     <div class="cv-dash-shell">
       <div class="cv-dash-hero">
@@ -6955,141 +7594,105 @@ function renderDashboard(){
           <h2>${at('dashTitle')}</h2>
           <p>${at('welcomeMsg')} ${session.fn || ''} ${session.ln || ''}. ${at('dashLead')}</p>
           <div class="cv-dash-hero-actions">
-            <button class="cv-dash-btn" onclick="navigateTo('homeView')">
-              <i class="fas fa-plus"></i> ${at('dashNewBtn')}
-            </button>
-            <button class="cv-dash-btn-secondary" onclick="document.querySelector('.cv-dash-grid')?.scrollIntoView({behavior:'smooth', block:'start'})">
-              <i class="fas fa-list-check"></i> ${at('dashViewActivity')}
-            </button>
+            <button class="cv-dash-btn" onclick="navigateTo('homeView')"><i class="fas fa-plus"></i> ${at('dashNewBtn')}</button>
+            <button class="cv-dash-btn-secondary" onclick="document.querySelector('.cv-dash-grid')?.scrollIntoView({behavior:'smooth', block:'start'})"><i class="fas fa-list-check"></i> ${at('dashViewActivity')}</button>
+            <a class="cv-whatsapp-btn" href="https://wa.me/${waNumber}?text=${encodeURIComponent('Hello CareVia')}" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> ${at('whatsappLabel')}</a>
           </div>
         </div>
-
         <div class="cv-dash-hero-side">
           <div class="cv-dash-profile-card">
             <div class="cv-dash-user-row">
-              <div class="cv-dash-avatar">${initials}</div>
+              <div class="cv-dash-avatar">${cvAvatarMarkup(session, initials)}</div>
               <div class="cv-dash-user-meta">
                 <strong>${session.fn || ''} ${session.ln || ''}</strong>
                 <span>${session.email || '—'}</span>
-                <div class="cv-dash-badge"><i class="fas fa-badge-check"></i> ${at('verifiedAccount')}</div>
+                <div class="cv-badge-row">
+                  <div class="cv-pill-badge"><i class="fas fa-badge-check"></i> ${at('verifiedEmailLabel')}</div>
+                  <div class="cv-pill-badge"><i class="fas fa-circle-check"></i> ${at('accountActiveLabel')}</div>
+                </div>
               </div>
             </div>
             <div class="cv-dash-mini">
-              <div class="cv-mini-box">
-                <small>${at('totalRequestsLabel')}</small>
-                <strong>${myOrders.length}</strong>
-              </div>
-              <div class="cv-mini-box">
-                <small>${at('latestUpdateLabel')}</small>
-                <strong>${latestOrder ? formatDate(latestOrder.createdAt) : '—'}</strong>
-              </div>
+              <div class="cv-mini-box"><small>${at('totalRequestsLabel')}</small><strong>${myOrders.length}</strong></div>
+              <div class="cv-mini-box"><small>${at('latestUpdateLabel')}</small><strong>${latestOrder ? formatDate(latestOrder.createdAt) : '—'}</strong></div>
             </div>
           </div>
         </div>
       </div>
-
       <div class="cv-dash-stats">
-        <div class="cv-stat-card">
-          <div class="cv-stat-top">
-            <small>${at('totalRequestsLabel')}</small>
-            <div class="cv-stat-icon"><i class="fas fa-file-medical"></i></div>
-          </div>
-          <strong>${myOrders.length}</strong>
-        </div>
-
-        <div class="cv-stat-card">
-          <div class="cv-stat-top">
-            <small>${at('statusPending')}</small>
-            <div class="cv-stat-icon"><i class="fas fa-hourglass-half"></i></div>
-          </div>
-          <strong>${pendingCount}</strong>
-        </div>
-
-        <div class="cv-stat-card">
-          <div class="cv-stat-top">
-            <small>${at('statusConfirmed')}</small>
-            <div class="cv-stat-icon"><i class="fas fa-circle-check"></i></div>
-          </div>
-          <strong>${confirmedCount}</strong>
-        </div>
-
-        <div class="cv-stat-card">
-          <div class="cv-stat-top">
-            <small>${at('statusInprogress')}</small>
-            <div class="cv-stat-icon"><i class="fas fa-truck-medical"></i></div>
-          </div>
-          <strong>${inProgressCount}</strong>
-        </div>
+        <div class="cv-stat-card"><div class="cv-stat-top"><small>${at('totalRequestsLabel')}</small><div class="cv-stat-icon"><i class="fas fa-file-medical"></i></div></div><strong>${myOrders.length}</strong></div>
+        <div class="cv-stat-card"><div class="cv-stat-top"><small>${at('statusPending')}</small><div class="cv-stat-icon"><i class="fas fa-hourglass-half"></i></div></div><strong>${pendingCount}</strong></div>
+        <div class="cv-stat-card"><div class="cv-stat-top"><small>${at('statusConfirmed')}</small><div class="cv-stat-icon"><i class="fas fa-circle-check"></i></div></div><strong>${confirmedCount}</strong></div>
+        <div class="cv-stat-card"><div class="cv-stat-top"><small>${at('statusInprogress')}</small><div class="cv-stat-icon"><i class="fas fa-truck-medical"></i></div></div><strong>${inProgressCount}</strong></div>
       </div>
-
       <div class="cv-dash-grid">
         <div class="cv-dash-panel">
-          <div class="cv-dash-panel-head">
-            <h3><i class="fas fa-list-ul"></i> ${at('myRequestsLabel')}</h3>
-            <span>${myOrders.length} ${at('itemsCountLabel')}</span>
-          </div>
+          <div class="cv-dash-panel-head"><h3><i class="fas fa-list-ul"></i> ${at('myRequestsLabel')}</h3><span>${myOrders.length} ${at('itemsCountLabel')}</span></div>
           <div class="cv-booking-list">${bookingHtml}</div>
         </div>
-
         <div class="cv-dash-panel">
-          <div class="cv-dash-panel-head">
-            <h3><i class="fas fa-id-card"></i> ${at('profileSummaryLabel')}</h3>
-            <span>${at('userAccountLabel')}</span>
-          </div>
-
+          <div class="cv-dash-panel-head"><h3><i class="fas fa-id-card"></i> ${at('profileSummaryLabel')}</h3><span>${at('userAccountLabel')}</span></div>
           <div class="cv-profile-list">
-            <div class="cv-profile-row">
-              <span>${at('firstNameLabel')}</span>
-              <strong>${session.fn || '—'}</strong>
-            </div>
-            <div class="cv-profile-row">
-              <span>${at('lastNameLabel')}</span>
-              <strong>${session.ln || '—'}</strong>
-            </div>
-            <div class="cv-profile-row">
-              <span>Email</span>
-              <strong>${session.email || '—'}</strong>
-            </div>
-            <div class="cv-profile-row">
-              <span>${at('accountStatusLabel')}</span>
-              <strong>${at('activeStatusLabel')}</strong>
-            </div>
+            <div class="cv-profile-row"><span>${at('firstNameLabel')}</span><strong>${session.fn || '—'}</strong></div>
+            <div class="cv-profile-row"><span>${at('lastNameLabel')}</span><strong>${session.ln || '—'}</strong></div>
+            <div class="cv-profile-row"><span>Email</span><strong>${session.email || '—'}</strong></div>
+            <div class="cv-profile-row"><span>${at('phoneLabel')}</span><strong>${session.phone || '—'}</strong></div>
+            <div class="cv-profile-row"><span>${at('cityLabel')}</span><strong>${session.city || '—'}</strong></div>
+            <div class="cv-profile-row"><span>${at('accountStatusLabel')}</span><strong>${at('activeStatusLabel')}</strong></div>
           </div>
-
-          <div class="cv-quick-actions">
-            <div class="cv-quick-card">
-              <i class="fas fa-bell"></i>
-              <div>
-                <strong>${at('updatesLabel')}</strong>
-                <span>${at('updatesDesc')}</span>
+          <div class="cv-dash-panel-head" style="margin-top:1rem;"><h3><i class="fas fa-pen-to-square"></i> ${at('profileEditTitle')}</h3><span>${at('profileSaveBtn')}</span></div>
+          <div class="cv-profile-editor">
+            <div class="cv-editor-top">
+              <div class="cv-editor-avatar" id="cvEditorAvatar">${session.photo ? `<img src="${session.photo}" alt="avatar" onerror="this.parentNode.innerHTML='<span>${initials}</span>'">` : `<span>${initials}</span>`}</div>
+              <div class="cv-editor-copy">
+                <strong>${session.fn || ''} ${session.ln || ''}</strong>
+                <p>${session.email || '—'}</p>
+                <div class="cv-editor-badges">
+                  <div class="cv-pill-badge"><i class="fas fa-envelope-circle-check"></i> ${at('verifiedEmailLabel')}</div>
+                  <div class="cv-pill-badge"><i class="fas fa-shield-heart"></i> ${at('accountActiveLabel')}</div>
+                </div>
               </div>
             </div>
-            <div class="cv-quick-card">
-              <i class="fas fa-shield-heart"></i>
-              <div>
-                <strong>${at('secureAccountLabel')}</strong>
-                <span>${at('secureAccountDesc')}</span>
-              </div>
+            <div class="cv-form-grid">
+              <div class="cv-field-card"><label>${at('firstNameLabel')}</label><input id="cvProfileFn" type="text" value="${(session.fn||'').replace(/"/g,'&quot;')}" placeholder="${at('firstNameLabel')}"></div>
+              <div class="cv-field-card"><label>${at('lastNameLabel')}</label><input id="cvProfileLn" type="text" value="${(session.ln||'').replace(/"/g,'&quot;')}" placeholder="${at('lastNameLabel')}"></div>
+              <div class="cv-field-card"><label>${at('phoneLabel')}</label><input id="cvProfilePhone" type="text" value="${(session.phone||'').replace(/"/g,'&quot;')}" placeholder="+212 ..."></div>
+              <div class="cv-field-card"><label>${at('cityLabel')}</label><input id="cvProfileCity" type="text" value="${(session.city||'').replace(/"/g,'&quot;')}" placeholder="${at('cityLabel')}"></div>
+              <div class="cv-field-card full"><label>${at('photoLabel')}</label><input id="cvProfilePhoto" type="url" value="${(session.photo||'').replace(/"/g,'&quot;')}" placeholder="https://..."><div class="cv-inline-note">${at('photoLabel')}</div></div>
             </div>
-            <div class="cv-quick-card">
-              <i class="fas fa-phone-volume"></i>
-              <div>
-                <strong>${at('fastContactLabel')}</strong>
-                <span>${at('fastContactDesc')}</span>
-              </div>
+            <div class="cv-reset-card">
+              <strong>${at('changePasswordLabel')}</strong>
+              <p>${at('forgotLead')}</p>
             </div>
-            <div class="cv-quick-card">
-              <i class="fas fa-house-medical"></i>
-              <div>
-                <strong>${at('easyRebookingLabel')}</strong>
-                <span>${at('easyRebookingDesc')}</span>
-              </div>
+            <div class="cv-panel-actions">
+              <button class="cv-btn-primary" type="button" onclick="cvSaveProfile()"><i class="fas fa-floppy-disk"></i> ${at('profileSaveBtn')}</button>
+              <button class="cv-btn-secondary" type="button" onclick="cvSendResetLinkLogged()"><i class="fas fa-key"></i> ${at('sendResetLinkLabel')}</button>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  `;
+      <div class="cv-dash-grid" style="margin-top:1rem;">
+        <div class="cv-dash-panel">
+          <div class="cv-dash-panel-head"><h3><i class="fas fa-bell"></i> ${at('notificationsLabel')}</h3><span>${notifications.length}</span></div>
+          <div class="cv-notification-list">${notifHtml}</div>
+        </div>
+        <div class="cv-dash-panel">
+          <div class="cv-dash-panel-head"><h3><i class="fab fa-whatsapp"></i> ${at('whatsappLabel')}</h3><span>CareVia</span></div>
+          <div class="cv-quick-actions">
+            <div class="cv-quick-card"><i class="fas fa-bell"></i><div><strong>${at('updatesLabel')}</strong><span>${at('updatesDesc')}</span></div></div>
+            <div class="cv-quick-card"><i class="fas fa-shield-heart"></i><div><strong>${at('secureAccountLabel')}</strong><span>${at('secureAccountDesc')}</span></div></div>
+            <div class="cv-quick-card"><i class="fas fa-phone-volume"></i><div><strong>${at('fastContactLabel')}</strong><span>${at('fastContactDesc')}</span></div></div>
+            <div class="cv-quick-card"><i class="fas fa-house-medical"></i><div><strong>${at('easyRebookingLabel')}</strong><span>${at('easyRebookingDesc')}</span></div></div>
+          </div>
+          <div class="cv-panel-actions"><a class="cv-whatsapp-btn" href="https://wa.me/${waNumber}?text=${encodeURIComponent('Hello CareVia, I need help with my account')}" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> ${at('whatsappLabel')}</a></div>
+        </div>
+      </div>
+    </div>`;
+  const bindIds = ['cvProfilePhoto','cvProfileFn','cvProfileLn'];
+  bindIds.forEach(id => {
+    const el = document.getElementById(id);
+    if(el){ el.addEventListener('input', cvSyncProfileAvatarPreview); }
+  });
 }
 
 /* ── Hook booking submissions to save to user account ── */
@@ -7107,20 +7710,108 @@ function hookBookingSubmit(){
           const orderId = document.getElementById('confirmationRef') ?
             document.getElementById('confirmationRef').textContent : 'CV-'+Date.now();
           const orders = dbGet(DB_ORDERS);
+          const userId = session.uid || session.id || session.userId || session.email;
           orders.push({
-            userId: session.uid || session.id || session.userId || session.email,
+            userId,
             bookingId: orderId,
             service: (typeof getServiceName === 'function' && typeof selectedService !== 'undefined') ? getServiceName(selectedService) : '—',
             date: (typeof selectedDate !== 'undefined') ? selectedDate : '',
+            time: (typeof selectedTime !== 'undefined') ? selectedTime : '',
+            location: (typeof selectedCity !== 'undefined' && typeof cityLabel === 'function') ? cityLabel(selectedCity) : '',
             status: 'pending',
             createdAt: new Date().toISOString()
           });
           dbSet(DB_ORDERS, orders);
+          cvPushNotification(userId, at('notifCreated'), `${orderId} • ${at('statusPending')}`, 'fa-file-circle-plus');
+          cvShowToast('CareVia', at('notifCreated'));
         }catch(e){}
       }
       return result;
     };
   }
+}
+
+
+
+/* ── Custom password reset handler page ── */
+const CV_RESET_TEXT = {
+  ar:{heroTitle:'غيّر كلمة المرور بأمان',heroLead:'استعمل هاد الصفحة الآمنة باش تختار كلمة مرور جديدة وترجع مباشرة لحسابك داخل CareVia.',point1Title:'رابط موثوق',point1Text:'كنتحقق أولاً من صحة رابط الاسترجاع قبل تغيير كلمة المرور.',point2Title:'كلمة مرور قوية',point2Text:'اختار كلمة مرور جديدة فيها 6 حروف على الأقل.',point3Title:'الرجوع بسرعة',point3Text:'من بعد الحفظ تقدر ترجع مباشرة لتسجيل الدخول.',title:'إنشاء كلمة مرور جديدة',lead:'دخل كلمة المرور الجديدة. غادي نتحقق من رابط الاسترجاع ثم نحفظ التغيير.',state:'استرجاع آمن',pw:'كلمة المرور الجديدة',pw2:'تأكيد كلمة المرور',miniTitle:'بغيتي رابط جديد؟',miniText:'إلا انتهت صلاحية هاد الرابط، رجع لنافذة تسجيل الدخول واختر “نسيت كلمة المرور” باش يوصلك رابط جديد.',submit:'حفظ كلمة المرور الجديدة',back:'الرجوع إلى CareVia',invalid:'رابط تغيير كلمة المرور غير صالح أو منتهي الصلاحية.',saved:'تم تغيير كلمة المرور بنجاح. يمكنك الآن تسجيل الدخول.',saving:'جاري التحقق من الرابط...',mismatch:'كلمتا المرور غير متطابقتين.',short:'كلمة المرور خاصها تكون 6 حروف على الأقل.'},
+  fr:{heroTitle:'Réinitialisez votre mot de passe en toute sécurité',heroLead:'Utilisez cette page sécurisée pour choisir un nouveau mot de passe et revenir rapidement à votre compte CareVia.',point1Title:'Lien vérifié',point1Text:'Nous vérifions d’abord que votre lien de récupération est valide.',point2Title:'Nouveau mot de passe',point2Text:'Choisissez un mot de passe d’au moins 6 caractères.',point3Title:'Retour rapide',point3Text:'Après l’enregistrement, vous pouvez revenir vous connecter immédiatement.',title:'Créer un nouveau mot de passe',lead:'Entrez votre nouveau mot de passe. Nous validerons d’abord le lien de récupération.',state:'Réinitialisation sécurisée',pw:'Nouveau mot de passe',pw2:'Confirmer le mot de passe',miniTitle:'Besoin d’un nouveau lien ?',miniText:'Si ce lien a expiré, revenez à la fenêtre de connexion et choisissez “Mot de passe oublié ?”.',submit:'Enregistrer le nouveau mot de passe',back:'Retour à CareVia',invalid:'Le lien de réinitialisation est invalide ou expiré.',saved:'Mot de passe changé avec succès. Vous pouvez maintenant vous connecter.',saving:'Vérification du lien en cours...',mismatch:'Les mots de passe ne correspondent pas.',short:'Le mot de passe doit contenir au moins 6 caractères.'},
+  en:{heroTitle:'Reset your password safely',heroLead:'Use this secure page to choose a new password for your account and continue with a smoother CareVia experience.',point1Title:'Verified reset link',point1Text:'We first check that your email action link is valid.',point2Title:'Strong new password',point2Text:'Choose a password with at least 6 characters.',point3Title:'Back to login',point3Text:'After saving, you can return and sign in immediately.',title:'Create a new password',lead:'Enter your new password below. We will validate the reset code before saving your change.',state:'Secure reset',pw:'New password',pw2:'Confirm password',miniTitle:'Need to request a new link?',miniText:'If this link has expired, go back to the sign-in window and choose “Forgot password” to receive a fresh reset email.',submit:'Save new password',back:'Back to CareVia',invalid:'The password reset link is invalid or has expired.',saved:'Password changed successfully. You can sign in now.',saving:'Checking your reset link...',mismatch:'Passwords do not match.',short:'Password must be at least 6 characters.'}
+};
+function cvRt(k){ const lang=(window.currentLang||'en'); return (CV_RESET_TEXT[lang]&&CV_RESET_TEXT[lang][k]) || CV_RESET_TEXT.en[k] || k; }
+function cvSetResetStatus(type,msg){ const el=document.getElementById('cvResetStatus'); if(!el) return; el.className=`cv-reset-status show ${type||'info'}`; el.textContent=msg||''; }
+function cvGetActionHandlerUrl(){
+  try{
+    if(window.location.protocol==='http:' || window.location.protocol==='https:') return window.location.origin + window.location.pathname;
+  }catch(e){}
+  return null;
+}
+async function cvSendCustomPasswordResetEmail(email){
+  if(!window.cvFirebaseAuth) throw new Error('Auth unavailable');
+  const url = cvGetActionHandlerUrl();
+  if(url){
+    return window.cvFirebaseAuth.sendPasswordResetEmail(email, { url, handleCodeInApp:false });
+  }
+  return window.cvFirebaseAuth.sendPasswordResetEmail(email);
+}
+window._cvResetFlow = { ready:false, code:'', email:'', mode:'' };
+function cvRenderResetText(){
+  const map={cvResetHeroTitle:'heroTitle',cvResetHeroLead:'heroLead',cvResetPoint1Title:'point1Title',cvResetPoint1Text:'point1Text',cvResetPoint2Title:'point2Title',cvResetPoint2Text:'point2Text',cvResetPoint3Title:'point3Title',cvResetPoint3Text:'point3Text',cvResetTitle:'title',cvResetLead:'lead',cvResetMiniTitle:'miniTitle',cvResetMiniText:'miniText',cvResetPwLabel:'pw',cvResetPw2Label:'pw2'};
+  Object.entries(map).forEach(([id,key])=>{ const el=document.getElementById(id); if(el) el.textContent=cvRt(key); });
+  const state=document.getElementById('cvResetState'); if(state) state.innerHTML=`<i class="fas fa-key"></i> ${cvRt('state')}`;
+  const submit=document.getElementById('cvResetSubmitBtn'); if(submit) submit.innerHTML=`<i class="fas fa-floppy-disk"></i> ${cvRt('submit')}`;
+  const back=document.getElementById('cvResetBackBtn'); if(back) back.innerHTML=`<i class="fas fa-arrow-left"></i> ${cvRt('back')}`;
+}
+window.cvCloseCustomReset = function(){
+  const shell=document.getElementById('cvResetShell');
+  if(shell) shell.style.display='none';
+  try{ history.replaceState({}, '', window.location.pathname); }catch(e){}
+  navigateTo('homeView');
+  cvOpenAuth('login');
+};
+window.cvCompleteCustomPasswordReset = async function(){
+  const st=window._cvResetFlow||{};
+  const p1=(document.getElementById('cvResetPw')?.value||'').trim();
+  const p2=(document.getElementById('cvResetPw2')?.value||'').trim();
+  if(!st.ready || !st.code) return cvSetResetStatus('error', cvRt('invalid'));
+  if(p1.length < 6) return cvSetResetStatus('error', cvRt('short'));
+  if(p1 !== p2) return cvSetResetStatus('error', cvRt('mismatch'));
+  try{
+    cvSetResetStatus('info', cvRt('saving'));
+    await window.cvFirebaseAuth.confirmPasswordReset(st.code, p1);
+    cvSetResetStatus('success', cvRt('saved'));
+    cvShowToast('CareVia', cvRt('saved'), 'fa-circle-check');
+    setTimeout(()=>{ cvCloseCustomReset(); }, 1200);
+  }catch(err){
+    console.error(err);
+    cvSetResetStatus('error', cvRt('invalid'));
+  }
+};
+async function cvHandleCustomResetPage(){
+  try{
+    const params=new URLSearchParams(window.location.search);
+    const mode=params.get('mode');
+    const code=params.get('oobCode');
+    if(mode!=='resetPassword' || !code) return;
+    const shell=document.getElementById('cvResetShell');
+    if(!shell || !window.cvFirebaseAuth) return;
+    cvRenderResetText();
+    shell.style.display='flex';
+    cvSetResetStatus('info', cvRt('saving'));
+    try{
+      const email = await window.cvFirebaseAuth.verifyPasswordResetCode(code);
+      window._cvResetFlow = { ready:true, code, email, mode };
+      cvSetResetStatus('success', `${email} • ${cvRt('state')}`);
+      const lead=document.getElementById('cvResetLead');
+      if(lead) lead.textContent = `${cvRt('lead')} (${email})`;
+      const pw=document.getElementById('cvResetPw'); if(pw) pw.focus();
+    }catch(err){
+      console.error(err);
+      window._cvResetFlow = { ready:false, code:'', email:'', mode };
+      cvSetResetStatus('error', cvRt('invalid'));
+    }
+  }catch(err){ console.error(err); }
 }
 
 /* ── Init ── */
@@ -7132,9 +7823,10 @@ document.addEventListener('DOMContentLoaded', ()=>{
   document.getElementById('cvAuthOverlay').addEventListener('click',function(e){
     if(e.target===this) cvCloseAuth();
   });
-  document.getElementById('cvModeOverlay').addEventListener('click',function(e){
-    if(e.target===this) cvCloseMode();
-  });
+  document.getElementById('cvModeOverlay').addEventListener('click',function(e){ if(e.target===this) cvCloseMode(); });
+  document.getElementById('cvForgotOverlay').addEventListener('click',function(e){ if(e.target===this) cvCloseForgot(); });
+  cvUpdateVerificationUi('register'); cvUpdateVerificationUi('forgot');
+  cvHandleCustomResetPage();
   // Keyboard Enter support
   ['cvLoginEmail','cvLoginPass'].forEach(id=>{
     const el=document.getElementById(id);
@@ -7146,12 +7838,119 @@ document.addEventListener('DOMContentLoaded', ()=>{
   });
 });
 
+/* ── Multi-Step Register Navigation ── */
+window.cvRegGoStep1 = function(reset){
+  const p1=document.getElementById('cvRegPanel1');
+  const p2=document.getElementById('cvRegPanel2');
+  const p3=document.getElementById('cvRegPanel3');
+  if(p1) p1.style.display='';
+  if(p2) p2.style.display='none';
+  if(p3) p3.style.display='none';
+  const s1=document.getElementById('cvRegStep1Ind');
+  const s2=document.getElementById('cvRegStep2Ind');
+  const s3=document.getElementById('cvRegStep3Ind');
+  const lines=document.querySelectorAll('.cv-reg-step-line');
+  if(s1){ s1.className='cv-reg-step active'; }
+  if(s2){ s2.className='cv-reg-step'; }
+  if(s3){ s3.className='cv-reg-step'; }
+  lines.forEach(l=>l.classList.remove('done'));
+};
+window.cvRegGoStep2 = function(){
+  const fn=(document.getElementById('cvRegFn')?.value||'').trim();
+  const ln=(document.getElementById('cvRegLn')?.value||'').trim();
+  if(!fn||!ln){ return; }
+  const p1=document.getElementById('cvRegPanel1');
+  const p2=document.getElementById('cvRegPanel2');
+  const p3=document.getElementById('cvRegPanel3');
+  if(p1) p1.style.display='none';
+  if(p2) p2.style.display='';
+  if(p3) p3.style.display='none';
+  const s1=document.getElementById('cvRegStep1Ind');
+  const s2=document.getElementById('cvRegStep2Ind');
+  const s3=document.getElementById('cvRegStep3Ind');
+  const lines=document.querySelectorAll('.cv-reg-step-line');
+  if(s1){ s1.className='cv-reg-step done'; }
+  if(s2){ s2.className='cv-reg-step active'; }
+  if(s3){ s3.className='cv-reg-step'; }
+  if(lines[0]) lines[0].classList.add('done');
+  if(lines[1]) lines[1].classList.remove('done');
+};
+window.cvRegGoStep3 = function(){
+  const p1=document.getElementById('cvRegPanel1');
+  const p2=document.getElementById('cvRegPanel2');
+  const p3=document.getElementById('cvRegPanel3');
+  if(p1) p1.style.display='none';
+  if(p2) p2.style.display='none';
+  if(p3) p3.style.display='';
+  const s1=document.getElementById('cvRegStep1Ind');
+  const s2=document.getElementById('cvRegStep2Ind');
+  const s3=document.getElementById('cvRegStep3Ind');
+  const lines=document.querySelectorAll('.cv-reg-step-line');
+  if(s1){ s1.className='cv-reg-step done'; }
+  if(s2){ s2.className='cv-reg-step done'; }
+  if(s3){ s3.className='cv-reg-step active'; }
+  lines.forEach(l=>l.classList.add('done'));
+  document.getElementById('cvRegPw')?.focus();
+};
+
+/* Intercept cvVerifyEmailCode to auto-advance to step 3 */
+const _origVerify = window.cvVerifyEmailCode;
+if(_origVerify){
+  window.cvVerifyEmailCode = function(){
+    const result = _origVerify.apply(this, arguments);
+    setTimeout(()=>{
+      const st = document.getElementById('cvVerifyStatus');
+      if(st && st.classList.contains('success')){
+        cvRegGoStep3();
+      }
+    }, 600);
+    return result;
+  };
+}
+/* Auto-show code box after send */
+const _origSC2 = window.cvSendEmailCode;
+if(_origSC2){
+  window.cvSendEmailCode = function(){
+    const result = _origSC2.apply(this, arguments);
+    const box = document.getElementById('cvCodeBox');
+    if(box) setTimeout(()=>{ box.style.display='block'; }, 350);
+    return result;
+  };
+}
+/* Password strength on register step 3 */
+document.addEventListener('input', function(e){
+  if(!e.target || e.target.id !== 'cvRegPw') return;
+  const val = e.target.value;
+  const meter = document.getElementById('cvPwStrength');
+  const fill = document.getElementById('cvPwFill');
+  const label = document.getElementById('cvPwLabel');
+  if(!meter||!fill||!label) return;
+  if(!val){ meter.style.display='none'; return; }
+  meter.style.display='flex';
+  let score = 0;
+  if(val.length>=6) score++;
+  if(val.length>=10) score++;
+  if(/[A-Z]/.test(val)) score++;
+  if(/[0-9]/.test(val)) score++;
+  if(/[^a-zA-Z0-9]/.test(val)) score++;
+  const levels=[
+    {w:'20%',bg:'#e53e3e',key:'pwWeak'},
+    {w:'40%',bg:'#ed8936',key:'pwFair'},
+    {w:'60%',bg:'#ecc94b',key:'pwMedium'},
+    {w:'80%',bg:'#48bb78',key:'pwGood'},
+    {w:'100%',bg:'#38a169',key:'pwStrong'},
+  ];
+  const lv=levels[Math.min(score,4)];
+  fill.style.width=lv.w; fill.style.background=lv.bg;
+  label.style.color=lv.bg; label.textContent=at(lv.key);
+});
+
 /* ── Hook setLanguage to re-render auth text ── */
 if(typeof setLanguage === 'function'){
   const _origSL = setLanguage;
   setLanguage = function(lang){
     _origSL(lang);
-    setTimeout(()=>{ injectNavbarAuth(); renderAuthText(); }, 10);
+    setTimeout(()=>{ injectNavbarAuth(); renderAuthText(); cvRenderResetText(); }, 10);
   };
   window.setLanguage = setLanguage;
 }
