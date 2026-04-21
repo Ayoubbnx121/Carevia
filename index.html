@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes" name="viewport"/>
-<title>CareVia | elderly care with heart</title>
+<title>CareVia | First In Morocco</title>
 <link rel="icon" type="image/png" href="favicon.png"/>
 <!-- Font Awesome 6 (free) -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet"/>
@@ -429,6 +429,175 @@
             gap: 0.5rem;
             align-items: center;
         }
+        /* ══════════════════════════════
+           LANGUAGE SWITCHER — DROPDOWN
+        ══════════════════════════════ */
+        .cv-lang-switcher {
+            position: relative;
+        }
+        .cv-lang-trigger {
+            display: flex;
+            align-items: center;
+            gap: 0.45rem;
+            padding: 0.38rem 0.85rem 0.38rem 0.65rem;
+            border: 1.5px solid var(--border-color);
+            border-radius: 999px;
+            background: var(--card-bg);
+            color: var(--text-color);
+            font-size: 0.88rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.22s ease;
+            white-space: nowrap;
+            box-shadow: 0 2px 10px -4px var(--shadow-color);
+            user-select: none;
+        }
+        .cv-lang-trigger:hover {
+            border-color: var(--accent-dark);
+            box-shadow: 0 6px 18px -8px var(--shadow-color);
+            transform: translateY(-1px);
+        }
+        .cv-lang-trigger .cv-lang-flag {
+            font-size: 1.2rem;
+            line-height: 1;
+        }
+        .cv-flag-img {
+            width: 22px;
+            height: 16px;
+            object-fit: cover;
+            border-radius: 3px;
+            display: block;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+        .cv-opt-flag .cv-flag-img {
+            width: 26px;
+            height: 18px;
+        }
+        .cv-lang-trigger .cv-lang-code {
+            font-size: 0.8rem;
+            letter-spacing: 0.04em;
+        }
+        .cv-lang-trigger .cv-lang-chevron {
+            font-size: 0.65rem;
+            opacity: 0.55;
+            transition: transform 0.22s ease;
+            margin-inline-start: 0.1rem;
+        }
+        .cv-lang-switcher.open .cv-lang-chevron {
+            transform: rotate(180deg);
+        }
+        /* Dropdown panel */
+        .cv-lang-dropdown {
+            position: absolute;
+            top: calc(100% + 8px);
+            left: 50%;
+            transform: translateX(-50%) scaleY(0.92) translateY(-6px);
+            transform-origin: top center;
+            min-width: 180px;
+            background: var(--card-bg);
+            border: 1.5px solid var(--border-color);
+            border-radius: 18px;
+            box-shadow: 0 18px 40px -12px var(--shadow-color);
+            padding: 0.45rem;
+            z-index: 9999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+        .cv-lang-switcher.open .cv-lang-dropdown {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateX(-50%) scaleY(1) translateY(0);
+        }
+        /* Each language option */
+        .cv-lang-option {
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            padding: 0.6rem 0.85rem;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: background 0.15s ease, transform 0.15s ease;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: start;
+            color: var(--text-color);
+            font-size: 0.88rem;
+            font-weight: 600;
+        }
+        .cv-lang-option:hover {
+            background: var(--accent-light);
+            transform: translateX(2px);
+        }
+        body.rtl .cv-lang-option:hover {
+            transform: translateX(-2px);
+        }
+        .cv-lang-option.active {
+            background: linear-gradient(135deg, rgba(15,88,115,0.1), rgba(118,184,79,0.1));
+            color: var(--accent-dark);
+        }
+        .cv-lang-option .cv-opt-flag {
+            font-size: 1.35rem;
+            line-height: 1;
+            flex-shrink: 0;
+        }
+        .cv-lang-option .cv-opt-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.05rem;
+        }
+        .cv-lang-option .cv-opt-name {
+            font-size: 0.86rem;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+        .cv-lang-option .cv-opt-native {
+            font-size: 0.74rem;
+            opacity: 0.6;
+            line-height: 1.2;
+        }
+        .cv-lang-option .cv-opt-check {
+            margin-inline-start: auto;
+            color: var(--accent-dark);
+            font-size: 0.75rem;
+            opacity: 0;
+        }
+        .cv-lang-option.active .cv-opt-check {
+            opacity: 1;
+        }
+        /* Divider between lang groups */
+        .cv-lang-divider {
+            height: 1px;
+            background: var(--border-color);
+            margin: 0.35rem 0.5rem;
+            opacity: 0.6;
+        }
+        /* Dark mode */
+        body.dark-mode .cv-lang-trigger {
+            background: rgba(16,38,51,0.85);
+            border-color: rgba(102,182,207,0.2);
+            color: #dceef2;
+        }
+        body.dark-mode .cv-lang-trigger:hover {
+            border-color: var(--accent-dark);
+        }
+        body.dark-mode .cv-lang-dropdown {
+            background: #0f2230;
+            border-color: rgba(102,182,207,0.18);
+            box-shadow: 0 20px 48px -12px rgba(0,0,0,0.5);
+        }
+        body.dark-mode .cv-lang-option {
+            color: #dceef2;
+        }
+        body.dark-mode .cv-lang-option:hover {
+            background: rgba(102,182,207,0.1);
+        }
+        body.dark-mode .cv-lang-option.active {
+            background: rgba(102,182,207,0.12);
+            color: var(--accent-dark);
+        }
+        /* Hide old lang-btn */
         .lang-btn, .theme-btn {
             background: transparent;
             border: 1px solid var(--border-color);
@@ -2046,10 +2215,40 @@ body:not(.home-view-active) .home-only-global{display:none !important}
 <div class="logo">Care<span>Via</span></div>
 </a>
 <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
-<div class="lang-selector">
-<button class="lang-btn active" data-lang="en">EN</button>
-<button class="lang-btn" data-lang="ar">عربي</button>
-<button class="lang-btn" data-lang="fr">FR</button>
+<div class="cv-lang-switcher" id="cvLangSwitcher">
+<button class="cv-lang-trigger" id="cvLangTrigger" onclick="cvToggleLangDropdown(event)" aria-haspopup="true" aria-expanded="false">
+<span class="cv-lang-flag" id="cvLangFlag"><img class="cv-flag-img" src="https://flagcdn.com/w40/us.png" alt="English"></span>
+<span class="cv-lang-code" id="cvLangCode">EN</span>
+<i class="fas fa-chevron-down cv-lang-chevron"></i>
+</button>
+<div class="cv-lang-dropdown" id="cvLangDropdown" role="menu">
+<button class="cv-lang-option" data-lang="ar" onclick="cvSelectLang('ar',this)">
+<span class="cv-opt-flag"><img class="cv-flag-img" src="https://flagcdn.com/w40/ma.png" alt="المغرب"></span>
+<span class="cv-opt-info"><span class="cv-opt-name">العربية</span><span class="cv-opt-native">Arabic</span></span>
+<i class="fas fa-check cv-opt-check"></i>
+</button>
+<button class="cv-lang-option" data-lang="fr" onclick="cvSelectLang('fr',this)">
+<span class="cv-opt-flag"><img class="cv-flag-img" src="https://flagcdn.com/w40/fr.png" alt="France"></span>
+<span class="cv-opt-info"><span class="cv-opt-name">Français</span><span class="cv-opt-native">French</span></span>
+<i class="fas fa-check cv-opt-check"></i>
+</button>
+<button class="cv-lang-option active" data-lang="en" onclick="cvSelectLang('en',this)">
+<span class="cv-opt-flag"><img class="cv-flag-img" src="https://flagcdn.com/w40/us.png" alt="USA"></span>
+<span class="cv-opt-info"><span class="cv-opt-name">English</span><span class="cv-opt-native">English</span></span>
+<i class="fas fa-check cv-opt-check"></i>
+</button>
+<div class="cv-lang-divider"></div>
+<button class="cv-lang-option" data-lang="es" onclick="cvSelectLang('es',this)">
+<span class="cv-opt-flag"><img class="cv-flag-img" src="https://flagcdn.com/w40/es.png" alt="España"></span>
+<span class="cv-opt-info"><span class="cv-opt-name">Español</span><span class="cv-opt-native">Spanish</span></span>
+<i class="fas fa-check cv-opt-check"></i>
+</button>
+<button class="cv-lang-option" data-lang="de" onclick="cvSelectLang('de',this)">
+<span class="cv-opt-flag"><img class="cv-flag-img" src="https://flagcdn.com/w40/de.png" alt="Deutschland"></span>
+<span class="cv-opt-info"><span class="cv-opt-name">Deutsch</span><span class="cv-opt-native">German</span></span>
+<i class="fas fa-check cv-opt-check"></i>
+</button>
+</div>
 </div>
 <div class="theme-toggle">
 <button class="theme-btn" id="themeToggle" title="Toggle light/dark mode">
@@ -2368,10 +2567,40 @@ body:not(.home-view-active) .home-only-global{display:none !important}
 <div class="logo">Care<span>Via</span></div>
 </a>
 <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
-<div class="lang-selector">
-<button class="lang-btn active" data-lang="en">EN</button>
-<button class="lang-btn" data-lang="ar">عربي</button>
-<button class="lang-btn" data-lang="fr">FR</button>
+<div class="cv-lang-switcher" id="cvLangSwitcher">
+<button class="cv-lang-trigger" id="cvLangTrigger" onclick="cvToggleLangDropdown(event)" aria-haspopup="true" aria-expanded="false">
+<span class="cv-lang-flag" id="cvLangFlag"><img class="cv-flag-img" src="https://flagcdn.com/w40/us.png" alt="English"></span>
+<span class="cv-lang-code" id="cvLangCode">EN</span>
+<i class="fas fa-chevron-down cv-lang-chevron"></i>
+</button>
+<div class="cv-lang-dropdown" id="cvLangDropdown" role="menu">
+<button class="cv-lang-option" data-lang="ar" onclick="cvSelectLang('ar',this)">
+<span class="cv-opt-flag"><img class="cv-flag-img" src="https://flagcdn.com/w40/ma.png" alt="المغرب"></span>
+<span class="cv-opt-info"><span class="cv-opt-name">العربية</span><span class="cv-opt-native">Arabic</span></span>
+<i class="fas fa-check cv-opt-check"></i>
+</button>
+<button class="cv-lang-option" data-lang="fr" onclick="cvSelectLang('fr',this)">
+<span class="cv-opt-flag"><img class="cv-flag-img" src="https://flagcdn.com/w40/fr.png" alt="France"></span>
+<span class="cv-opt-info"><span class="cv-opt-name">Français</span><span class="cv-opt-native">French</span></span>
+<i class="fas fa-check cv-opt-check"></i>
+</button>
+<button class="cv-lang-option active" data-lang="en" onclick="cvSelectLang('en',this)">
+<span class="cv-opt-flag"><img class="cv-flag-img" src="https://flagcdn.com/w40/us.png" alt="USA"></span>
+<span class="cv-opt-info"><span class="cv-opt-name">English</span><span class="cv-opt-native">English</span></span>
+<i class="fas fa-check cv-opt-check"></i>
+</button>
+<div class="cv-lang-divider"></div>
+<button class="cv-lang-option" data-lang="es" onclick="cvSelectLang('es',this)">
+<span class="cv-opt-flag"><img class="cv-flag-img" src="https://flagcdn.com/w40/es.png" alt="España"></span>
+<span class="cv-opt-info"><span class="cv-opt-name">Español</span><span class="cv-opt-native">Spanish</span></span>
+<i class="fas fa-check cv-opt-check"></i>
+</button>
+<button class="cv-lang-option" data-lang="de" onclick="cvSelectLang('de',this)">
+<span class="cv-opt-flag"><img class="cv-flag-img" src="https://flagcdn.com/w40/de.png" alt="Deutschland"></span>
+<span class="cv-opt-info"><span class="cv-opt-name">Deutsch</span><span class="cv-opt-native">German</span></span>
+<i class="fas fa-check cv-opt-check"></i>
+</button>
+</div>
 </div>
 <div class="theme-toggle">
 <button class="theme-btn" id="themeToggle2" title="Toggle light/dark mode">
@@ -2411,10 +2640,40 @@ body:not(.home-view-active) .home-only-global{display:none !important}
 <div class="logo">Care<span>Via</span></div>
 </a>
 <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
-<div class="lang-selector">
-<button class="lang-btn active" data-lang="en">EN</button>
-<button class="lang-btn" data-lang="ar">عربي</button>
-<button class="lang-btn" data-lang="fr">FR</button>
+<div class="cv-lang-switcher" id="cvLangSwitcher">
+<button class="cv-lang-trigger" id="cvLangTrigger" onclick="cvToggleLangDropdown(event)" aria-haspopup="true" aria-expanded="false">
+<span class="cv-lang-flag" id="cvLangFlag"><img class="cv-flag-img" src="https://flagcdn.com/w40/us.png" alt="English"></span>
+<span class="cv-lang-code" id="cvLangCode">EN</span>
+<i class="fas fa-chevron-down cv-lang-chevron"></i>
+</button>
+<div class="cv-lang-dropdown" id="cvLangDropdown" role="menu">
+<button class="cv-lang-option" data-lang="ar" onclick="cvSelectLang('ar',this)">
+<span class="cv-opt-flag"><img class="cv-flag-img" src="https://flagcdn.com/w40/ma.png" alt="المغرب"></span>
+<span class="cv-opt-info"><span class="cv-opt-name">العربية</span><span class="cv-opt-native">Arabic</span></span>
+<i class="fas fa-check cv-opt-check"></i>
+</button>
+<button class="cv-lang-option" data-lang="fr" onclick="cvSelectLang('fr',this)">
+<span class="cv-opt-flag"><img class="cv-flag-img" src="https://flagcdn.com/w40/fr.png" alt="France"></span>
+<span class="cv-opt-info"><span class="cv-opt-name">Français</span><span class="cv-opt-native">French</span></span>
+<i class="fas fa-check cv-opt-check"></i>
+</button>
+<button class="cv-lang-option active" data-lang="en" onclick="cvSelectLang('en',this)">
+<span class="cv-opt-flag"><img class="cv-flag-img" src="https://flagcdn.com/w40/us.png" alt="USA"></span>
+<span class="cv-opt-info"><span class="cv-opt-name">English</span><span class="cv-opt-native">English</span></span>
+<i class="fas fa-check cv-opt-check"></i>
+</button>
+<div class="cv-lang-divider"></div>
+<button class="cv-lang-option" data-lang="es" onclick="cvSelectLang('es',this)">
+<span class="cv-opt-flag"><img class="cv-flag-img" src="https://flagcdn.com/w40/es.png" alt="España"></span>
+<span class="cv-opt-info"><span class="cv-opt-name">Español</span><span class="cv-opt-native">Spanish</span></span>
+<i class="fas fa-check cv-opt-check"></i>
+</button>
+<button class="cv-lang-option" data-lang="de" onclick="cvSelectLang('de',this)">
+<span class="cv-opt-flag"><img class="cv-flag-img" src="https://flagcdn.com/w40/de.png" alt="Deutschland"></span>
+<span class="cv-opt-info"><span class="cv-opt-name">Deutsch</span><span class="cv-opt-native">German</span></span>
+<i class="fas fa-check cv-opt-check"></i>
+</button>
+</div>
 </div>
 <div class="theme-toggle">
 <button class="theme-btn" id="themeToggle3" title="Toggle light/dark mode">
@@ -2497,10 +2756,40 @@ body:not(.home-view-active) .home-only-global{display:none !important}
 <div class="logo">Care<span>Via</span></div>
 </a>
 <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
-<div class="lang-selector">
-<button class="lang-btn active" data-lang="en">EN</button>
-<button class="lang-btn" data-lang="ar">عربي</button>
-<button class="lang-btn" data-lang="fr">FR</button>
+<div class="cv-lang-switcher" id="cvLangSwitcher">
+<button class="cv-lang-trigger" id="cvLangTrigger" onclick="cvToggleLangDropdown(event)" aria-haspopup="true" aria-expanded="false">
+<span class="cv-lang-flag" id="cvLangFlag"><img class="cv-flag-img" src="https://flagcdn.com/w40/us.png" alt="English"></span>
+<span class="cv-lang-code" id="cvLangCode">EN</span>
+<i class="fas fa-chevron-down cv-lang-chevron"></i>
+</button>
+<div class="cv-lang-dropdown" id="cvLangDropdown" role="menu">
+<button class="cv-lang-option" data-lang="ar" onclick="cvSelectLang('ar',this)">
+<span class="cv-opt-flag"><img class="cv-flag-img" src="https://flagcdn.com/w40/ma.png" alt="المغرب"></span>
+<span class="cv-opt-info"><span class="cv-opt-name">العربية</span><span class="cv-opt-native">Arabic</span></span>
+<i class="fas fa-check cv-opt-check"></i>
+</button>
+<button class="cv-lang-option" data-lang="fr" onclick="cvSelectLang('fr',this)">
+<span class="cv-opt-flag"><img class="cv-flag-img" src="https://flagcdn.com/w40/fr.png" alt="France"></span>
+<span class="cv-opt-info"><span class="cv-opt-name">Français</span><span class="cv-opt-native">French</span></span>
+<i class="fas fa-check cv-opt-check"></i>
+</button>
+<button class="cv-lang-option active" data-lang="en" onclick="cvSelectLang('en',this)">
+<span class="cv-opt-flag"><img class="cv-flag-img" src="https://flagcdn.com/w40/us.png" alt="USA"></span>
+<span class="cv-opt-info"><span class="cv-opt-name">English</span><span class="cv-opt-native">English</span></span>
+<i class="fas fa-check cv-opt-check"></i>
+</button>
+<div class="cv-lang-divider"></div>
+<button class="cv-lang-option" data-lang="es" onclick="cvSelectLang('es',this)">
+<span class="cv-opt-flag"><img class="cv-flag-img" src="https://flagcdn.com/w40/es.png" alt="España"></span>
+<span class="cv-opt-info"><span class="cv-opt-name">Español</span><span class="cv-opt-native">Spanish</span></span>
+<i class="fas fa-check cv-opt-check"></i>
+</button>
+<button class="cv-lang-option" data-lang="de" onclick="cvSelectLang('de',this)">
+<span class="cv-opt-flag"><img class="cv-flag-img" src="https://flagcdn.com/w40/de.png" alt="Deutschland"></span>
+<span class="cv-opt-info"><span class="cv-opt-name">Deutsch</span><span class="cv-opt-native">German</span></span>
+<i class="fas fa-check cv-opt-check"></i>
+</button>
+</div>
 </div>
 <div class="theme-toggle">
 <button class="theme-btn" id="themeToggle4" title="Toggle light/dark mode">
@@ -2559,10 +2848,40 @@ body:not(.home-view-active) .home-only-global{display:none !important}
 <div class="logo">Care<span>Via</span></div>
 </a>
 <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
-<div class="lang-selector">
-<button class="lang-btn active" data-lang="en">EN</button>
-<button class="lang-btn" data-lang="ar">عربي</button>
-<button class="lang-btn" data-lang="fr">FR</button>
+<div class="cv-lang-switcher" id="cvLangSwitcher">
+<button class="cv-lang-trigger" id="cvLangTrigger" onclick="cvToggleLangDropdown(event)" aria-haspopup="true" aria-expanded="false">
+<span class="cv-lang-flag" id="cvLangFlag"><img class="cv-flag-img" src="https://flagcdn.com/w40/us.png" alt="English"></span>
+<span class="cv-lang-code" id="cvLangCode">EN</span>
+<i class="fas fa-chevron-down cv-lang-chevron"></i>
+</button>
+<div class="cv-lang-dropdown" id="cvLangDropdown" role="menu">
+<button class="cv-lang-option" data-lang="ar" onclick="cvSelectLang('ar',this)">
+<span class="cv-opt-flag"><img class="cv-flag-img" src="https://flagcdn.com/w40/ma.png" alt="المغرب"></span>
+<span class="cv-opt-info"><span class="cv-opt-name">العربية</span><span class="cv-opt-native">Arabic</span></span>
+<i class="fas fa-check cv-opt-check"></i>
+</button>
+<button class="cv-lang-option" data-lang="fr" onclick="cvSelectLang('fr',this)">
+<span class="cv-opt-flag"><img class="cv-flag-img" src="https://flagcdn.com/w40/fr.png" alt="France"></span>
+<span class="cv-opt-info"><span class="cv-opt-name">Français</span><span class="cv-opt-native">French</span></span>
+<i class="fas fa-check cv-opt-check"></i>
+</button>
+<button class="cv-lang-option active" data-lang="en" onclick="cvSelectLang('en',this)">
+<span class="cv-opt-flag"><img class="cv-flag-img" src="https://flagcdn.com/w40/us.png" alt="USA"></span>
+<span class="cv-opt-info"><span class="cv-opt-name">English</span><span class="cv-opt-native">English</span></span>
+<i class="fas fa-check cv-opt-check"></i>
+</button>
+<div class="cv-lang-divider"></div>
+<button class="cv-lang-option" data-lang="es" onclick="cvSelectLang('es',this)">
+<span class="cv-opt-flag"><img class="cv-flag-img" src="https://flagcdn.com/w40/es.png" alt="España"></span>
+<span class="cv-opt-info"><span class="cv-opt-name">Español</span><span class="cv-opt-native">Spanish</span></span>
+<i class="fas fa-check cv-opt-check"></i>
+</button>
+<button class="cv-lang-option" data-lang="de" onclick="cvSelectLang('de',this)">
+<span class="cv-opt-flag"><img class="cv-flag-img" src="https://flagcdn.com/w40/de.png" alt="Deutschland"></span>
+<span class="cv-opt-info"><span class="cv-opt-name">Deutsch</span><span class="cv-opt-native">German</span></span>
+<i class="fas fa-check cv-opt-check"></i>
+</button>
+</div>
 </div>
 <div class="theme-toggle">
 <button class="theme-btn" id="themeToggle5" title="Toggle light/dark mode">
@@ -2622,10 +2941,40 @@ body:not(.home-view-active) .home-only-global{display:none !important}
 <div class="logo">Care<span>Via</span></div>
 </a>
 <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
-<div class="lang-selector">
-<button class="lang-btn active" data-lang="en">EN</button>
-<button class="lang-btn" data-lang="ar">عربي</button>
-<button class="lang-btn" data-lang="fr">FR</button>
+<div class="cv-lang-switcher" id="cvLangSwitcher">
+<button class="cv-lang-trigger" id="cvLangTrigger" onclick="cvToggleLangDropdown(event)" aria-haspopup="true" aria-expanded="false">
+<span class="cv-lang-flag" id="cvLangFlag"><img class="cv-flag-img" src="https://flagcdn.com/w40/us.png" alt="English"></span>
+<span class="cv-lang-code" id="cvLangCode">EN</span>
+<i class="fas fa-chevron-down cv-lang-chevron"></i>
+</button>
+<div class="cv-lang-dropdown" id="cvLangDropdown" role="menu">
+<button class="cv-lang-option" data-lang="ar" onclick="cvSelectLang('ar',this)">
+<span class="cv-opt-flag"><img class="cv-flag-img" src="https://flagcdn.com/w40/ma.png" alt="المغرب"></span>
+<span class="cv-opt-info"><span class="cv-opt-name">العربية</span><span class="cv-opt-native">Arabic</span></span>
+<i class="fas fa-check cv-opt-check"></i>
+</button>
+<button class="cv-lang-option" data-lang="fr" onclick="cvSelectLang('fr',this)">
+<span class="cv-opt-flag"><img class="cv-flag-img" src="https://flagcdn.com/w40/fr.png" alt="France"></span>
+<span class="cv-opt-info"><span class="cv-opt-name">Français</span><span class="cv-opt-native">French</span></span>
+<i class="fas fa-check cv-opt-check"></i>
+</button>
+<button class="cv-lang-option active" data-lang="en" onclick="cvSelectLang('en',this)">
+<span class="cv-opt-flag"><img class="cv-flag-img" src="https://flagcdn.com/w40/us.png" alt="USA"></span>
+<span class="cv-opt-info"><span class="cv-opt-name">English</span><span class="cv-opt-native">English</span></span>
+<i class="fas fa-check cv-opt-check"></i>
+</button>
+<div class="cv-lang-divider"></div>
+<button class="cv-lang-option" data-lang="es" onclick="cvSelectLang('es',this)">
+<span class="cv-opt-flag"><img class="cv-flag-img" src="https://flagcdn.com/w40/es.png" alt="España"></span>
+<span class="cv-opt-info"><span class="cv-opt-name">Español</span><span class="cv-opt-native">Spanish</span></span>
+<i class="fas fa-check cv-opt-check"></i>
+</button>
+<button class="cv-lang-option" data-lang="de" onclick="cvSelectLang('de',this)">
+<span class="cv-opt-flag"><img class="cv-flag-img" src="https://flagcdn.com/w40/de.png" alt="Deutschland"></span>
+<span class="cv-opt-info"><span class="cv-opt-name">Deutsch</span><span class="cv-opt-native">German</span></span>
+<i class="fas fa-check cv-opt-check"></i>
+</button>
+</div>
 </div>
 <div class="theme-toggle">
 <button class="theme-btn" id="themeToggle6" title="Toggle light/dark mode">
@@ -2684,10 +3033,40 @@ body:not(.home-view-active) .home-only-global{display:none !important}
 <div class="logo">Care<span>Via</span></div>
 </a>
 <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
-<div class="lang-selector">
-<button class="lang-btn active" data-lang="en">EN</button>
-<button class="lang-btn" data-lang="ar">عربي</button>
-<button class="lang-btn" data-lang="fr">FR</button>
+<div class="cv-lang-switcher" id="cvLangSwitcher">
+<button class="cv-lang-trigger" id="cvLangTrigger" onclick="cvToggleLangDropdown(event)" aria-haspopup="true" aria-expanded="false">
+<span class="cv-lang-flag" id="cvLangFlag"><img class="cv-flag-img" src="https://flagcdn.com/w40/us.png" alt="English"></span>
+<span class="cv-lang-code" id="cvLangCode">EN</span>
+<i class="fas fa-chevron-down cv-lang-chevron"></i>
+</button>
+<div class="cv-lang-dropdown" id="cvLangDropdown" role="menu">
+<button class="cv-lang-option" data-lang="ar" onclick="cvSelectLang('ar',this)">
+<span class="cv-opt-flag"><img class="cv-flag-img" src="https://flagcdn.com/w40/ma.png" alt="المغرب"></span>
+<span class="cv-opt-info"><span class="cv-opt-name">العربية</span><span class="cv-opt-native">Arabic</span></span>
+<i class="fas fa-check cv-opt-check"></i>
+</button>
+<button class="cv-lang-option" data-lang="fr" onclick="cvSelectLang('fr',this)">
+<span class="cv-opt-flag"><img class="cv-flag-img" src="https://flagcdn.com/w40/fr.png" alt="France"></span>
+<span class="cv-opt-info"><span class="cv-opt-name">Français</span><span class="cv-opt-native">French</span></span>
+<i class="fas fa-check cv-opt-check"></i>
+</button>
+<button class="cv-lang-option active" data-lang="en" onclick="cvSelectLang('en',this)">
+<span class="cv-opt-flag"><img class="cv-flag-img" src="https://flagcdn.com/w40/us.png" alt="USA"></span>
+<span class="cv-opt-info"><span class="cv-opt-name">English</span><span class="cv-opt-native">English</span></span>
+<i class="fas fa-check cv-opt-check"></i>
+</button>
+<div class="cv-lang-divider"></div>
+<button class="cv-lang-option" data-lang="es" onclick="cvSelectLang('es',this)">
+<span class="cv-opt-flag"><img class="cv-flag-img" src="https://flagcdn.com/w40/es.png" alt="España"></span>
+<span class="cv-opt-info"><span class="cv-opt-name">Español</span><span class="cv-opt-native">Spanish</span></span>
+<i class="fas fa-check cv-opt-check"></i>
+</button>
+<button class="cv-lang-option" data-lang="de" onclick="cvSelectLang('de',this)">
+<span class="cv-opt-flag"><img class="cv-flag-img" src="https://flagcdn.com/w40/de.png" alt="Deutschland"></span>
+<span class="cv-opt-info"><span class="cv-opt-name">Deutsch</span><span class="cv-opt-native">German</span></span>
+<i class="fas fa-check cv-opt-check"></i>
+</button>
+</div>
 </div>
 <div class="theme-toggle">
 <button class="theme-btn" id="themeToggle7" title="Toggle light/dark mode">
@@ -2766,10 +3145,40 @@ body:not(.home-view-active) .home-only-global{display:none !important}
 <div class="logo">Care<span>Via</span></div>
 </a>
 <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
-<div class="lang-selector">
-<button class="lang-btn active" data-lang="en">EN</button>
-<button class="lang-btn" data-lang="ar">عربي</button>
-<button class="lang-btn" data-lang="fr">FR</button>
+<div class="cv-lang-switcher" id="cvLangSwitcher">
+<button class="cv-lang-trigger" id="cvLangTrigger" onclick="cvToggleLangDropdown(event)" aria-haspopup="true" aria-expanded="false">
+<span class="cv-lang-flag" id="cvLangFlag"><img class="cv-flag-img" src="https://flagcdn.com/w40/us.png" alt="English"></span>
+<span class="cv-lang-code" id="cvLangCode">EN</span>
+<i class="fas fa-chevron-down cv-lang-chevron"></i>
+</button>
+<div class="cv-lang-dropdown" id="cvLangDropdown" role="menu">
+<button class="cv-lang-option" data-lang="ar" onclick="cvSelectLang('ar',this)">
+<span class="cv-opt-flag"><img class="cv-flag-img" src="https://flagcdn.com/w40/ma.png" alt="المغرب"></span>
+<span class="cv-opt-info"><span class="cv-opt-name">العربية</span><span class="cv-opt-native">Arabic</span></span>
+<i class="fas fa-check cv-opt-check"></i>
+</button>
+<button class="cv-lang-option" data-lang="fr" onclick="cvSelectLang('fr',this)">
+<span class="cv-opt-flag"><img class="cv-flag-img" src="https://flagcdn.com/w40/fr.png" alt="France"></span>
+<span class="cv-opt-info"><span class="cv-opt-name">Français</span><span class="cv-opt-native">French</span></span>
+<i class="fas fa-check cv-opt-check"></i>
+</button>
+<button class="cv-lang-option active" data-lang="en" onclick="cvSelectLang('en',this)">
+<span class="cv-opt-flag"><img class="cv-flag-img" src="https://flagcdn.com/w40/us.png" alt="USA"></span>
+<span class="cv-opt-info"><span class="cv-opt-name">English</span><span class="cv-opt-native">English</span></span>
+<i class="fas fa-check cv-opt-check"></i>
+</button>
+<div class="cv-lang-divider"></div>
+<button class="cv-lang-option" data-lang="es" onclick="cvSelectLang('es',this)">
+<span class="cv-opt-flag"><img class="cv-flag-img" src="https://flagcdn.com/w40/es.png" alt="España"></span>
+<span class="cv-opt-info"><span class="cv-opt-name">Español</span><span class="cv-opt-native">Spanish</span></span>
+<i class="fas fa-check cv-opt-check"></i>
+</button>
+<button class="cv-lang-option" data-lang="de" onclick="cvSelectLang('de',this)">
+<span class="cv-opt-flag"><img class="cv-flag-img" src="https://flagcdn.com/w40/de.png" alt="Deutschland"></span>
+<span class="cv-opt-info"><span class="cv-opt-name">Deutsch</span><span class="cv-opt-native">German</span></span>
+<i class="fas fa-check cv-opt-check"></i>
+</button>
+</div>
 </div>
 <div class="theme-toggle">
 <button class="theme-btn" id="themeToggle8" title="Toggle light/dark mode">
@@ -2831,10 +3240,40 @@ body:not(.home-view-active) .home-only-global{display:none !important}
 <div class="logo">Care<span>Via</span></div>
 </a>
 <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
-<div class="lang-selector">
-<button class="lang-btn active" data-lang="en">EN</button>
-<button class="lang-btn" data-lang="ar">عربي</button>
-<button class="lang-btn" data-lang="fr">FR</button>
+<div class="cv-lang-switcher" id="cvLangSwitcher">
+<button class="cv-lang-trigger" id="cvLangTrigger" onclick="cvToggleLangDropdown(event)" aria-haspopup="true" aria-expanded="false">
+<span class="cv-lang-flag" id="cvLangFlag"><img class="cv-flag-img" src="https://flagcdn.com/w40/us.png" alt="English"></span>
+<span class="cv-lang-code" id="cvLangCode">EN</span>
+<i class="fas fa-chevron-down cv-lang-chevron"></i>
+</button>
+<div class="cv-lang-dropdown" id="cvLangDropdown" role="menu">
+<button class="cv-lang-option" data-lang="ar" onclick="cvSelectLang('ar',this)">
+<span class="cv-opt-flag"><img class="cv-flag-img" src="https://flagcdn.com/w40/ma.png" alt="المغرب"></span>
+<span class="cv-opt-info"><span class="cv-opt-name">العربية</span><span class="cv-opt-native">Arabic</span></span>
+<i class="fas fa-check cv-opt-check"></i>
+</button>
+<button class="cv-lang-option" data-lang="fr" onclick="cvSelectLang('fr',this)">
+<span class="cv-opt-flag"><img class="cv-flag-img" src="https://flagcdn.com/w40/fr.png" alt="France"></span>
+<span class="cv-opt-info"><span class="cv-opt-name">Français</span><span class="cv-opt-native">French</span></span>
+<i class="fas fa-check cv-opt-check"></i>
+</button>
+<button class="cv-lang-option active" data-lang="en" onclick="cvSelectLang('en',this)">
+<span class="cv-opt-flag"><img class="cv-flag-img" src="https://flagcdn.com/w40/us.png" alt="USA"></span>
+<span class="cv-opt-info"><span class="cv-opt-name">English</span><span class="cv-opt-native">English</span></span>
+<i class="fas fa-check cv-opt-check"></i>
+</button>
+<div class="cv-lang-divider"></div>
+<button class="cv-lang-option" data-lang="es" onclick="cvSelectLang('es',this)">
+<span class="cv-opt-flag"><img class="cv-flag-img" src="https://flagcdn.com/w40/es.png" alt="España"></span>
+<span class="cv-opt-info"><span class="cv-opt-name">Español</span><span class="cv-opt-native">Spanish</span></span>
+<i class="fas fa-check cv-opt-check"></i>
+</button>
+<button class="cv-lang-option" data-lang="de" onclick="cvSelectLang('de',this)">
+<span class="cv-opt-flag"><img class="cv-flag-img" src="https://flagcdn.com/w40/de.png" alt="Deutschland"></span>
+<span class="cv-opt-info"><span class="cv-opt-name">Deutsch</span><span class="cv-opt-native">German</span></span>
+<i class="fas fa-check cv-opt-check"></i>
+</button>
+</div>
 </div>
 <div class="theme-toggle">
 <button class="theme-btn" id="themeToggle9" title="Toggle light/dark mode">
@@ -2888,10 +3327,40 @@ body:not(.home-view-active) .home-only-global{display:none !important}
 <div class="logo">Care<span>Via</span></div>
 </a>
 <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
-<div class="lang-selector">
-<button class="lang-btn active" data-lang="en">EN</button>
-<button class="lang-btn" data-lang="ar">عربي</button>
-<button class="lang-btn" data-lang="fr">FR</button>
+<div class="cv-lang-switcher" id="cvLangSwitcher">
+<button class="cv-lang-trigger" id="cvLangTrigger" onclick="cvToggleLangDropdown(event)" aria-haspopup="true" aria-expanded="false">
+<span class="cv-lang-flag" id="cvLangFlag"><img class="cv-flag-img" src="https://flagcdn.com/w40/us.png" alt="English"></span>
+<span class="cv-lang-code" id="cvLangCode">EN</span>
+<i class="fas fa-chevron-down cv-lang-chevron"></i>
+</button>
+<div class="cv-lang-dropdown" id="cvLangDropdown" role="menu">
+<button class="cv-lang-option" data-lang="ar" onclick="cvSelectLang('ar',this)">
+<span class="cv-opt-flag"><img class="cv-flag-img" src="https://flagcdn.com/w40/ma.png" alt="المغرب"></span>
+<span class="cv-opt-info"><span class="cv-opt-name">العربية</span><span class="cv-opt-native">Arabic</span></span>
+<i class="fas fa-check cv-opt-check"></i>
+</button>
+<button class="cv-lang-option" data-lang="fr" onclick="cvSelectLang('fr',this)">
+<span class="cv-opt-flag"><img class="cv-flag-img" src="https://flagcdn.com/w40/fr.png" alt="France"></span>
+<span class="cv-opt-info"><span class="cv-opt-name">Français</span><span class="cv-opt-native">French</span></span>
+<i class="fas fa-check cv-opt-check"></i>
+</button>
+<button class="cv-lang-option active" data-lang="en" onclick="cvSelectLang('en',this)">
+<span class="cv-opt-flag"><img class="cv-flag-img" src="https://flagcdn.com/w40/us.png" alt="USA"></span>
+<span class="cv-opt-info"><span class="cv-opt-name">English</span><span class="cv-opt-native">English</span></span>
+<i class="fas fa-check cv-opt-check"></i>
+</button>
+<div class="cv-lang-divider"></div>
+<button class="cv-lang-option" data-lang="es" onclick="cvSelectLang('es',this)">
+<span class="cv-opt-flag"><img class="cv-flag-img" src="https://flagcdn.com/w40/es.png" alt="España"></span>
+<span class="cv-opt-info"><span class="cv-opt-name">Español</span><span class="cv-opt-native">Spanish</span></span>
+<i class="fas fa-check cv-opt-check"></i>
+</button>
+<button class="cv-lang-option" data-lang="de" onclick="cvSelectLang('de',this)">
+<span class="cv-opt-flag"><img class="cv-flag-img" src="https://flagcdn.com/w40/de.png" alt="Deutschland"></span>
+<span class="cv-opt-info"><span class="cv-opt-name">Deutsch</span><span class="cv-opt-native">German</span></span>
+<i class="fas fa-check cv-opt-check"></i>
+</button>
+</div>
 </div>
 <div class="theme-toggle">
 <button class="theme-btn" id="themeToggle10" title="Toggle light/dark mode">
@@ -3162,10 +3631,40 @@ body:not(.home-view-active) .home-only-global{display:none !important}
 <div class="logo">Care<span>Via</span></div>
 </a>
 <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
-<div class="lang-selector">
-<button class="lang-btn active" data-lang="en">EN</button>
-<button class="lang-btn" data-lang="ar">عربي</button>
-<button class="lang-btn" data-lang="fr">FR</button>
+<div class="cv-lang-switcher" id="cvLangSwitcher">
+<button class="cv-lang-trigger" id="cvLangTrigger" onclick="cvToggleLangDropdown(event)" aria-haspopup="true" aria-expanded="false">
+<span class="cv-lang-flag" id="cvLangFlag"><img class="cv-flag-img" src="https://flagcdn.com/w40/us.png" alt="English"></span>
+<span class="cv-lang-code" id="cvLangCode">EN</span>
+<i class="fas fa-chevron-down cv-lang-chevron"></i>
+</button>
+<div class="cv-lang-dropdown" id="cvLangDropdown" role="menu">
+<button class="cv-lang-option" data-lang="ar" onclick="cvSelectLang('ar',this)">
+<span class="cv-opt-flag"><img class="cv-flag-img" src="https://flagcdn.com/w40/ma.png" alt="المغرب"></span>
+<span class="cv-opt-info"><span class="cv-opt-name">العربية</span><span class="cv-opt-native">Arabic</span></span>
+<i class="fas fa-check cv-opt-check"></i>
+</button>
+<button class="cv-lang-option" data-lang="fr" onclick="cvSelectLang('fr',this)">
+<span class="cv-opt-flag"><img class="cv-flag-img" src="https://flagcdn.com/w40/fr.png" alt="France"></span>
+<span class="cv-opt-info"><span class="cv-opt-name">Français</span><span class="cv-opt-native">French</span></span>
+<i class="fas fa-check cv-opt-check"></i>
+</button>
+<button class="cv-lang-option active" data-lang="en" onclick="cvSelectLang('en',this)">
+<span class="cv-opt-flag"><img class="cv-flag-img" src="https://flagcdn.com/w40/us.png" alt="USA"></span>
+<span class="cv-opt-info"><span class="cv-opt-name">English</span><span class="cv-opt-native">English</span></span>
+<i class="fas fa-check cv-opt-check"></i>
+</button>
+<div class="cv-lang-divider"></div>
+<button class="cv-lang-option" data-lang="es" onclick="cvSelectLang('es',this)">
+<span class="cv-opt-flag"><img class="cv-flag-img" src="https://flagcdn.com/w40/es.png" alt="España"></span>
+<span class="cv-opt-info"><span class="cv-opt-name">Español</span><span class="cv-opt-native">Spanish</span></span>
+<i class="fas fa-check cv-opt-check"></i>
+</button>
+<button class="cv-lang-option" data-lang="de" onclick="cvSelectLang('de',this)">
+<span class="cv-opt-flag"><img class="cv-flag-img" src="https://flagcdn.com/w40/de.png" alt="Deutschland"></span>
+<span class="cv-opt-info"><span class="cv-opt-name">Deutsch</span><span class="cv-opt-native">German</span></span>
+<i class="fas fa-check cv-opt-check"></i>
+</button>
+</div>
 </div>
 <div class="theme-toggle">
 <button class="theme-btn" id="themeToggle11" title="Toggle light/dark mode">
@@ -3657,6 +4156,274 @@ body:not(.home-view-active) .home-only-global{display:none !important}
                 faq3a: "Oui. La mise en page garde la même dynamique tout en restant plus simple à lire et à utiliser sur petit écran.",
                 faq4q: "Puis-je remplacer plus tard les coordonnées provisoires ?",
                 faq4a: "Oui. Le téléphone, WhatsApp, l'e-mail et les liens sociaux peuvent être modifiés rapidement depuis un seul bloc de configuration dans le script."
+            },
+            es: {
+                navHome: "Inicio",
+                navServices: "Servicios",
+                navCaregivers: "Cuidadores",
+                heroTitle: "Atención compasiva para sus mayores queridos",
+                heroSub: "Cuidadores profesionales y de confianza en todo Marruecos.",
+                bookBtn: "Reservar un cuidador",
+                urgentBookBtn: "Reserva urgente",
+                heroStat1Title: "Cuidadores seleccionados",
+                heroStat1Desc: "Perfiles presentados de forma más clara y tranquilizadora para las familias.",
+                heroStat2Title: "Reserva flexible",
+                heroStat2Desc: "Elige el servicio, el horario y el cuidador sin cambiar tu flujo actual.",
+                heroStat3Title: "Contacto más rápido",
+                heroStat3Desc: "Un camino más fluido hacia WhatsApp, teléfono y seguimiento familiar.",
+                servicesTitle: "Nuestros servicios",
+                servicesIntro: "Opciones claras para la atención diaria, visitas médicas, asistencia personal y compañía.",
+                consultTitle: "¿Necesitas ayuda para elegir el servicio correcto?",
+                consultText: "Comienza el proceso de reserva ahora y finaliza los detalles por WhatsApp o teléfono una vez añadida tu información de contacto.",
+                consultBtn: "Iniciar reserva",
+                serviceHome: "Atención en el hogar",
+                serviceHomeDesc: "Asistencia diaria, higiene, comidas y confort",
+                serviceMedical: "Acompañamiento médico",
+                serviceMedicalDesc: "Visitas a clínicas, recordatorios de medicación",
+                servicePersonal: "Cuidado personal",
+                servicePersonalDesc: "Baño, aseo, apoyo para vestirse",
+                serviceCompanion: "Compañía",
+                serviceCompanionDesc: "Conversación, paseos, apoyo emocional",
+                meetCaregiversTitle: "Conoce a algunos cuidadores",
+                ageStudent: "21 años • Estudiante • Marruecos",
+                ageNurse: "35 años • Enfermera • Marruecos",
+                ageAssistant: "28 años • Asistente • Marruecos",
+                servicesDetailTitle: "Nuestros servicios en detalle",
+                whyChooseUs: "¿Por qué elegirnos?",
+                homeWhy1: "Planes de atención personalizados",
+                homeWhy2: "Cuidadores amables y experimentados",
+                homeWhy3: "Disponibilidad 24/7",
+                serviceHomeDetail: "Nuestro servicio de atención en el hogar ofrece asistencia con actividades diarias como baño, vestido, preparación de comidas y tareas domésticas ligeras. Garantizamos que su ser querido se sienta seguro y cómodo en su propio hogar.",
+                medicalDetail: "Acompañamos a los mayores a citas médicas, gestionamos la recogida de medicamentos en farmacia y nos aseguramos de que se sigan los horarios de medicación. Nuestro personal está formado para comunicarse con profesionales de la salud.",
+                medicalWhy1: "Organización de transporte seguro",
+                medicalWhy2: "Recordatorios de medicación",
+                medicalWhy3: "Informes a la familia",
+                personalDetail: "Asistencia con higiene, aseo y movilidad. Nuestros cuidadores están formados para ofrecer un apoyo respetuoso y digno en las tareas personales diarias.",
+                personalWhy1: "Enfoque respetuoso y amable",
+                personalWhy2: "Técnicas de prevención de caídas",
+                personalWhy3: "Supervisión continua si es necesario",
+                companionDetail: "Interacción social, conversación, paseos y apoyo emocional. Combatimos la soledad y mantenemos a los mayores activos y felices.",
+                companionWhy1: "Compañeros amigables y verificados",
+                companionWhy2: "Actividades adaptadas a los intereses",
+                companionWhy3: "Actualizaciones regulares a la familia",
+                caregiversListTitle: "Nuestros cuidadores dedicados",
+                backToCaregivers: "Volver a los cuidadores",
+                backHome: "Volver al inicio",
+                backToServices: "Volver a los servicios",
+                backToService: "Volver al servicio",
+                clientInfoTitle: "Cuéntenos sobre usted",
+                firstName: "Nombre *",
+                lastName: "Apellido *",
+                city: "Ciudad",
+                phone: "Número de teléfono * (formato marroquí)",
+                email: "Correo electrónico *",
+                continueBtn: "Continuar →",
+                selectDateTime: "Elige fecha y hora (24h)",
+                dateLabel: "Fecha (desde hoy)",
+                selectHours: "Selecciona las horas (clic múltiple)",
+                noHours: "No se ha seleccionado ninguna hora",
+                confirmChooseCaregiver: "Confirmar y elegir cuidador",
+                editInfo: "Editar tu información",
+                selectCaregiverTitle: "Elige un cuidador",
+                backToTimeSlot: "Volver a la franja horaria",
+                paymentMethodTitle: "Método de pago",
+                cashOption: "Efectivo (pago a la llegada)",
+                cardOption: "Tarjeta de crédito",
+                cardNumberPlaceholder: "Número de tarjeta",
+                expiryPlaceholder: "MM/AA",
+                cvvPlaceholder: "CVV",
+                confirmBookingBtn: "Confirmar reserva",
+                chooseDifferent: "Elegir otro cuidador",
+                confirmationTitle: "¡Cita programada con éxito!",
+                confirmationText: "Nos pondremos en contacto contigo lo antes posible para confirmar los detalles.",
+                returnHome: "Volver al inicio",
+                footerTagline: "Atención compasiva para sus mayores queridos.",
+                quickLinks: "Enlaces rápidos",
+                contactUs: "Contáctanos",
+                followUs: "Síguenos",
+                validationRequired: "Este campo es obligatorio.",
+                validationCardNumber: "El número de tarjeta debe tener exactamente 16 dígitos.",
+                validationExpiry: "La fecha de caducidad debe estar en formato MM/AA (ej: 04/26) y ser futura.",
+                validationCvv: "El CVV debe tener exactamente 3 dígitos.",
+                validationDate: "Por favor selecciona una fecha.",
+                validationHours: "Por favor selecciona al menos una hora.",
+                validationPhone: "Por favor introduce un número de teléfono marroquí válido (ej: +2126XXXXXXXX o 06XXXXXXXX).",
+                validationEmail: "Por favor introduce un correo electrónico válido con '@'.",
+                validationName: "Por favor introduce tu nombre y apellido.",
+                bookThisService: "Reservar este servicio",
+                selectServiceTitle: "Elige un servicio",
+                heroNote: "Una experiencia de reserva más fluida y tranquilizadora para las familias.",
+                trustChip1: "Perfiles de cuidadores seleccionados cuidadosamente",
+                trustChip2: "Programación flexible por horas",
+                trustChip3: "Interfaz multilingüe para familias",
+                trustChip4: "Disponible en todo Marruecos",
+                howItWorksTitle: "Cómo funciona",
+                howItWorksSub: "Un proceso simple que ayuda a las familias a reservar el apoyo adecuado sin confusión.",
+                step1Title: "Elige el servicio adecuado",
+                step1Desc: "Comienza con atención en el hogar, acompañamiento médico, cuidado personal o compañía.",
+                step2Title: "Añade tus datos y el horario",
+                step2Desc: "Elige la fecha, selecciona las horas e introduce la información necesaria para el seguimiento.",
+                step3Title: "Revisa y confirma",
+                step3Desc: "Elige un cuidador, revisa el resumen y confirma la solicitud en un último paso tranquilizador.",
+                whyFamiliesTitle: "Por qué las familias eligen CareVia",
+                whyFamiliesSub: "El objetivo no es solo tener un sitio bonito, sino hacer que el servicio sea claro, humano y tranquilizador.",
+                benefit1Title: "Presentación cálida y humana",
+                benefit1Desc: "Las familias entienden el servicio rápidamente y sienten que la plataforma responde a necesidades reales de atención.",
+                benefit2Title: "Pasos de reserva claros",
+                benefit2Desc: "Cada paso está bien diferenciado, lo que reduce la duda y facilita la reserva.",
+                benefit3Title: "Perfiles más tranquilizadores",
+                benefit3Desc: "Las fichas de servicios y los perfiles de cuidadores refuerzan la claridad antes de la confirmación.",
+                benefit4Title: "Cómodo también en móvil",
+                benefit4Desc: "La interfaz mantiene la misma dinámica y es más fácil de usar en pantallas pequeñas.",
+                softBadge1: "Más confianza",
+                softBadge2: "Decisiones más claras",
+                softBadge3: "Experiencia más suave",
+                ctaBandTitle: "¿Listo para solicitar atención con confianza?",
+                ctaBandText: "Puedes mantener la misma lógica de reserva mientras haces la experiencia más premium, tranquilizadora y orientada a la conversión.",
+                ctaBandBtn: "Iniciar reserva",
+                faqTitle: "Preguntas frecuentes",
+                faq1q: "¿Cómo funciona la reserva?",
+                faq1a: "Eliges un servicio, añades la información del cliente, seleccionas el horario, eliges un cuidador y luego confirmas la solicitud.",
+                faq2q: "¿Puedo elegir el cuidador yo mismo?",
+                faq2a: "Sí. El proceso actual ya permite a las familias consultar a los cuidadores disponibles antes del paso final de pago y confirmación.",
+                faq3q: "¿Es el proceso adecuado para familias que usan el teléfono?",
+                faq3a: "Sí. El diseño mantiene la misma dinámica y sigue siendo más fácil de leer y usar en pantallas pequeñas.",
+                faq4q: "¿Puedo reemplazar más tarde los datos de contacto provisionales?",
+                faq4a: "Sí. El teléfono, WhatsApp, el correo y los enlaces sociales pueden cambiarse rápidamente desde un único bloque de configuración en el script."
+            },
+            de: {
+                navHome: "Startseite",
+                navServices: "Dienstleistungen",
+                navCaregivers: "Pflegepersonen",
+                heroTitle: "Einfühlsame Pflege für Ihre geliebten Senioren",
+                heroSub: "Professionelle und vertrauenswürdige Pflegepersonen in ganz Marokko.",
+                bookBtn: "Pflegeperson buchen",
+                urgentBookBtn: "Dringliche Buchung",
+                heroStat1Title: "Ausgewählte Pflegepersonen",
+                heroStat1Desc: "Profile, die klarer und beruhigender für Familien präsentiert werden.",
+                heroStat2Title: "Flexible Buchung",
+                heroStat2Desc: "Wähle den Dienst, den Zeitplan und die Pflegeperson ohne Änderung deines Ablaufs.",
+                heroStat3Title: "Schnellerer Kontakt",
+                heroStat3Desc: "Ein flüssigerer Weg zu WhatsApp, Telefon und Familien-Follow-up.",
+                servicesTitle: "Unsere Dienstleistungen",
+                servicesIntro: "Klare Unterstützungsoptionen für tägliche Pflege, Arztbesuche, persönliche Hilfe und Gesellschaft.",
+                consultTitle: "Brauchen Sie Hilfe bei der Wahl des richtigen Dienstes?",
+                consultText: "Starten Sie jetzt den Buchungsprozess und finalisieren Sie die Details per WhatsApp oder Telefon, sobald Ihre Kontaktdaten hinzugefügt wurden.",
+                consultBtn: "Buchung starten",
+                serviceHome: "Häusliche Pflege",
+                serviceHomeDesc: "Tägliche Hilfe, Hygiene, Mahlzeiten und Wohlbefinden",
+                serviceMedical: "Medizinische Begleitung",
+                serviceMedicalDesc: "Arztbesuche, Medikamentenerinnerungen",
+                servicePersonal: "Persönliche Pflege",
+                servicePersonalDesc: "Baden, Körperpflege, Anziehunterstützung",
+                serviceCompanion: "Gesellschaft",
+                serviceCompanionDesc: "Gespräch, Spaziergänge, emotionale Unterstützung",
+                meetCaregiversTitle: "Einige Pflegepersonen kennenlernen",
+                ageStudent: "21 Jahre • Student • Marokko",
+                ageNurse: "35 Jahre • Krankenschwester • Marokko",
+                ageAssistant: "28 Jahre • Assistent • Marokko",
+                servicesDetailTitle: "Unsere Dienstleistungen im Detail",
+                whyChooseUs: "Warum uns wählen?",
+                homeWhy1: "Individuelle Pflegepläne",
+                homeWhy2: "Freundliche und erfahrene Pflegepersonen",
+                homeWhy3: "Verfügbarkeit 24/7",
+                serviceHomeDetail: "Unser häuslicher Pflegedienst bietet Unterstützung bei täglichen Aktivitäten wie Baden, Anziehen, Mahlzeitenzubereitung und leichten Hausarbeiten. Wir sorgen dafür, dass sich Ihr Angehöriger in seinem eigenen Zuhause sicher und wohl fühlt.",
+                medicalDetail: "Wir begleiten Senioren zu Arztterminen, kümmern uns um Apothekenbesorgungen und stellen sicher, dass Medikamentenpläne eingehalten werden. Unser Personal ist darin geschult, mit Gesundheitsfachkräften zu kommunizieren.",
+                medicalWhy1: "Organisation sicherer Transporte",
+                medicalWhy2: "Medikamentenerinnerungen",
+                medicalWhy3: "Rückmeldung an die Familie",
+                personalDetail: "Unterstützung bei Hygiene, Körperpflege und Mobilität. Unsere Pflegepersonen sind darauf geschult, respektvolle und würdevolle Hilfe bei täglichen persönlichen Aufgaben zu leisten.",
+                personalWhy1: "Respektvoller und sanfter Ansatz",
+                personalWhy2: "Sturzpräventionsmaßnahmen",
+                personalWhy3: "Kontinuierliche Betreuung bei Bedarf",
+                companionDetail: "Soziale Interaktion, Gespräch, Spaziergänge und emotionale Unterstützung. Wir bekämpfen Einsamkeit und halten Senioren aktiv und glücklich.",
+                companionWhy1: "Freundliche, geprüfte Begleiter",
+                companionWhy2: "Auf Interessen zugeschnittene Aktivitäten",
+                companionWhy3: "Regelmäßige Familien-Updates",
+                caregiversListTitle: "Unsere engagierten Pflegepersonen",
+                backToCaregivers: "Zurück zu den Pflegepersonen",
+                backHome: "Zurück zur Startseite",
+                backToServices: "Zurück zu den Dienstleistungen",
+                backToService: "Zurück zum Dienst",
+                clientInfoTitle: "Erzählen Sie uns von sich",
+                firstName: "Vorname *",
+                lastName: "Nachname *",
+                city: "Stadt",
+                phone: "Telefonnummer * (marokkanisches Format)",
+                email: "E-Mail-Adresse *",
+                continueBtn: "Weiter →",
+                selectDateTime: "Datum und Uhrzeit wählen (24h)",
+                dateLabel: "Datum (ab heute)",
+                selectHours: "Stunden auswählen (Mehrfachklick)",
+                noHours: "Keine Stunde ausgewählt",
+                confirmChooseCaregiver: "Bestätigen und Pflegeperson wählen",
+                editInfo: "Informationen bearbeiten",
+                selectCaregiverTitle: "Pflegeperson auswählen",
+                backToTimeSlot: "Zurück zur Zeitauswahl",
+                paymentMethodTitle: "Zahlungsmethode",
+                cashOption: "Bargeld (Zahlung bei Ankunft)",
+                cardOption: "Kreditkarte",
+                cardNumberPlaceholder: "Kartennummer",
+                expiryPlaceholder: "MM/JJ",
+                cvvPlaceholder: "CVV",
+                confirmBookingBtn: "Buchung bestätigen",
+                chooseDifferent: "Andere Pflegeperson wählen",
+                confirmationTitle: "Termin erfolgreich geplant!",
+                confirmationText: "Wir werden Sie so bald wie möglich kontaktieren, um die Details zu bestätigen.",
+                returnHome: "Zurück zur Startseite",
+                footerTagline: "Einfühlsame Pflege für Ihre geliebten Senioren.",
+                quickLinks: "Schnelllinks",
+                contactUs: "Kontakt",
+                followUs: "Folgen Sie uns",
+                validationRequired: "Dieses Feld ist erforderlich.",
+                validationCardNumber: "Die Kartennummer muss genau 16 Ziffern haben.",
+                validationExpiry: "Das Ablaufdatum muss im Format MM/JJ vorliegen (z.B. 04/26) und in der Zukunft liegen.",
+                validationCvv: "Der CVV muss genau 3 Ziffern haben.",
+                validationDate: "Bitte wählen Sie ein Datum.",
+                validationHours: "Bitte wählen Sie mindestens eine Stunde.",
+                validationPhone: "Bitte geben Sie eine gültige marokkanische Telefonnummer ein (z.B. +2126XXXXXXXX oder 06XXXXXXXX).",
+                validationEmail: "Bitte geben Sie eine gültige E-Mail-Adresse mit '@' ein.",
+                validationName: "Bitte geben Sie Vor- und Nachname ein.",
+                bookThisService: "Diesen Dienst buchen",
+                selectServiceTitle: "Dienst auswählen",
+                heroNote: "Ein reibungsloseres und beruhigenderes Buchungserlebnis für Familien.",
+                trustChip1: "Sorgfältig ausgewählte Pflegepersonen-Profile",
+                trustChip2: "Flexible stundenweise Planung",
+                trustChip3: "Mehrsprachige Benutzeroberfläche für Familien",
+                trustChip4: "Landesweit in Marokko verfügbar",
+                howItWorksTitle: "Wie es funktioniert",
+                howItWorksSub: "Ein einfacher Prozess, der Familien hilft, die richtige Unterstützung ohne Verwirrung zu buchen.",
+                step1Title: "Den richtigen Dienst wählen",
+                step1Desc: "Beginnen Sie mit häuslicher Pflege, medizinischer Begleitung, persönlicher Pflege oder Gesellschaft.",
+                step2Title: "Daten und Zeitplan eingeben",
+                step2Desc: "Datum wählen, Stunden auswählen und notwendige Informationen für die Nachverfolgung eingeben.",
+                step3Title: "Überprüfen und bestätigen",
+                step3Desc: "Pflegeperson wählen, Zusammenfassung überprüfen und dann die Anfrage in einem letzten beruhigenden Schritt bestätigen.",
+                whyFamiliesTitle: "Warum Familien CareVia wählen",
+                whyFamiliesSub: "Das Ziel ist nicht nur eine schöne Website, sondern einen klaren, menschlichen und vertrauensvollen Dienst zu bieten.",
+                benefit1Title: "Warme und menschliche Präsentation",
+                benefit1Desc: "Familien verstehen den Dienst schnell und fühlen, dass die Plattform auf echte Pflegebedürfnisse zugeschnitten ist.",
+                benefit2Title: "Klare Buchungsschritte",
+                benefit2Desc: "Jeder Schritt ist klar abgegrenzt, was Zögern reduziert und die Buchung erleichtert.",
+                benefit3Title: "Beruhigendere Profile",
+                benefit3Desc: "Servicekarten und Pflegepersonen-Profile schaffen mehr Klarheit vor der Bestätigung.",
+                benefit4Title: "Auch auf Mobilgeräten komfortabel",
+                benefit4Desc: "Die Benutzeroberfläche behält die gleiche Dynamik und ist auf kleinen Bildschirmen einfacher zu bedienen.",
+                softBadge1: "Mehr Vertrauen",
+                softBadge2: "Klarere Entscheidungen",
+                softBadge3: "Sanfteres Erlebnis",
+                ctaBandTitle: "Bereit, Pflege mit Vertrauen anzufordern?",
+                ctaBandText: "Sie können die gleiche Buchungslogik beibehalten und gleichzeitig das Erlebnis hochwertiger, beruhigender und konversionsorientierter gestalten.",
+                ctaBandBtn: "Buchung starten",
+                faqTitle: "Häufig gestellte Fragen",
+                faq1q: "Wie funktioniert die Buchung?",
+                faq1a: "Sie wählen einen Dienst, fügen Kundeninformationen hinzu, wählen den Zeitplan, wählen eine Pflegeperson und bestätigen dann die Anfrage.",
+                faq2q: "Kann ich die Pflegeperson selbst wählen?",
+                faq2a: "Ja. Der aktuelle Prozess ermöglicht es Familien bereits, verfügbare Pflegepersonen vor dem letzten Zahlungs- und Bestätigungsschritt zu prüfen.",
+                faq3q: "Ist der Prozess für Familien geeignet, die das Telefon nutzen?",
+                faq3a: "Ja. Das Layout behält die gleiche Dynamik und ist auf kleinen Bildschirmen einfacher zu lesen und zu bedienen.",
+                faq4q: "Kann ich die vorläufigen Kontaktdaten später ersetzen?",
+                faq4a: "Ja. Telefon, WhatsApp, E-Mail und Social-Links können schnell über einen einzigen Konfigurationsblock im Skript geändert werden."
             }
         };
 
@@ -3664,16 +4431,16 @@ body:not(.home-view-active) .home-only-global{display:none !important}
         let currentLang = 'en';
 
         const CONTACT_CONFIG = {
-            phoneDisplay: '+212 600 000 000',
-            phoneRaw: '+212600000000',
-            email: 'contact@carevia.ma',
+            phoneDisplay: '+212 679 631 557',
+            phoneRaw: '+212679631557',
+            email: 'carevia.maroc@gmail.com',
             city: 'Across Morocco',
-            whatsappRaw: '212600000000',
+            whatsappRaw: '212679631557',
             whatsappMessage: 'Hello CareVia, I would like more information about your services.',
             facebook: '#',
             instagram: '#',
             google: '#',
-            whatsappDirect: '#'
+            whatsappDirect: 'https://wa.me/212679631557'
         };
 
         function hydrateContactInfo() {
@@ -4005,6 +4772,184 @@ body:not(.home-view-active) .home-only-global{display:none !important}
                 "liveEstimateTravel": "رسوم التنقل",
                 "liveEstimateStartingFrom": "ابتداءً من",
                 "liveEstimateMinHours": "الحد الأدنى"
+        },
+        "es": {
+                "aboutTitle": "¿Quién es CareVia?",
+                "aboutSub": "Una presentación más clara del proyecto, la misión y cómo funciona la selección de cuidadores.",
+                "aboutCard1Title": "¿Qué es CareVia?",
+                "aboutCard1Desc": "CareVia es un concepto local de reserva de atención a mayores diseñado para ayudar a las familias a encontrar apoyo en el hogar de manera más sencilla.",
+                "aboutCard2Title": "Por qué lo creamos",
+                "aboutCard2Desc": "El objetivo es hacer que la atención a personas mayores sea más humana, organizada y fácil de entender desde la primera visita.",
+                "aboutCard3Title": "Nuestro valor",
+                "aboutCard3Desc": "Nos centramos en la claridad, la presentación respetuosa y un proceso de reserva más tranquilo para las familias.",
+                "aboutCard4Title": "Cómo se presentan los cuidadores",
+                "aboutCard4Desc": "Los perfiles muestran detalles prácticos, adecuación al servicio, valoraciones y una comparación más sencilla.",
+                "pricingTitle": "Precios más claros",
+                "pricingSub": "Las familias pueden entender los precios iniciales y las reglas de tarificación antes de continuar con la reserva.",
+                "priceStartingFrom": "Desde",
+                "pricingMinHours": "Reserva mínima",
+                "pricingHourly": "Tarifa por hora",
+                "pricingTravel": "Gasto de desplazamiento",
+                "pricingTravelIncluded": "Calculado por ciudad",
+                "pricingNightWeekend": "Noche / fin de semana",
+                "pricingNote": "La estimación en vivo se actualiza durante la reserva. La confirmación final puede variar según la ciudad elegida, las horas tardías, el fin de semana o el acompañamiento entre ciudades.",
+                "testimonialsTitle": "Lo que dicen las familias",
+                "testimonialsSub": "Testimonios breves que hacen que el servicio parezca más real, local y fiable.",
+                "testimonial1": "Los pasos de reserva eran simples y el perfil del cuidador fue lo suficientemente claro para que nuestra familia decida rápidamente.",
+                "testimonial2": "Me gustó ver las horas y el total estimado antes de finalizar la solicitud. Hizo que el servicio se sintiera más transparente.",
+                "testimonial3": "La interfaz es tranquila y fácil de usar en el teléfono, lo que importa mucho al reservar para un padre o abuelo.",
+                "legalTitle": "Páginas legales y políticas",
+                "legalSub": "Páginas esenciales que hacen que el proyecto se sienta más serio y de confianza.",
+                "privacyTitle": "Política de privacidad",
+                "privacyCardDesc": "Cómo se gestionan los datos de contacto e información de reserva.",
+                "termsTitle": "Términos de servicio",
+                "termsCardDesc": "Las condiciones básicas del servicio, la lógica de reserva y las responsabilidades de la familia.",
+                "cancellationTitle": "Política de cancelación",
+                "cancellationCardDesc": "Reglas simples de cancelación y reprogramación que las familias pueden entender rápidamente.",
+                "faqTitle": "Preguntas frecuentes",
+                "faq1q": "¿Está el servicio disponible en todo Marruecos?",
+                "faq1a": "Sí. CareVia acepta solicitudes en todo Marruecos, dependiendo de la cobertura de la ciudad, el horario y la disponibilidad del cuidador.",
+                "faq2q": "¿Cómo se confirma la reserva?",
+                "faq2a": "Tras enviar la solicitud, la familia recibe un resumen de confirmación y es contactada para validar los detalles y el siguiente paso.",
+                "faq3q": "¿Puedo cambiar la fecha o la hora después?",
+                "faq3a": "Sí, se pueden solicitar cambios antes de que se finalice la visita, dependiendo de la disponibilidad del cuidador.",
+                "faq4q": "¿Puedo solicitar el mismo cuidador de nuevo?",
+                "faq4a": "Sí, se pueden revisar solicitudes repetidas para el mismo cuidador cuando el horario lo permita.",
+                "faq5q": "¿Con cuánta antelación debo reservar?",
+                "faq5a": "Para la mejor disponibilidad, lo ideal es reservar con antelación, especialmente para tardes, fines de semana y solicitudes de acompañamiento.",
+                "faq6q": "¿Hay gestión de cancelaciones o reembolsos?",
+                "faq6a": "Sí. La página de cancelación explica cómo puede funcionar la reprogramación, el momento de cancelación y la revisión del reembolso.",
+                "benefit1Title": "Cuidadores seleccionados con cuidado",
+                "benefit1Desc": "Los perfiles se presentan de forma más tranquilizadora para ayudar a las familias a comparar y elegir mejor.",
+                "benefit2Title": "Perfiles claros",
+                "benefit2Desc": "Los detalles importantes son más fáciles de entender antes del paso de confirmación final.",
+                "benefit3Title": "Proceso de reserva fácil",
+                "benefit3Desc": "El proceso sigue siendo simple desde la elección del servicio hasta la confirmación y el seguimiento.",
+                "benefit4Title": "Camino de soporte rápido",
+                "benefit4Desc": "El flujo de reserva está diseñado para hacer que el seguimiento familiar y el próximo contacto sean más rápidos.",
+                "softBadge1": "Seleccionados cuidadosamente",
+                "softBadge2": "Perfiles claros",
+                "softBadge3": "Respeto a la privacidad",
+                "orderNumberLabel": "Número de pedido",
+                "nextStepTitle": "¿Qué pasa después?",
+                "nextStepText": "Tu solicitud será revisada y nos pondremos en contacto contigo para confirmar el cuidador, el horario y los detalles de seguimiento.",
+                "backHome": "Volver al inicio",
+                "privacyIntro": "Solo recopilamos los datos de reserva necesarios para revisar la solicitud, contactar a la familia y organizar el servicio.",
+                "policyCollectedTitle": "Qué puede recogerse",
+                "policyCollectedText": "Nombre del cliente, datos de contacto, ciudad, servicio seleccionado, fecha, horas y preferencia de cuidador.",
+                "policyUseTitle": "Cómo se utiliza",
+                "policyUseText": "Para confirmar la solicitud, preparar el seguimiento e informar a la familia sobre la reserva.",
+                "policyShareTitle": "Compartición",
+                "policyShareText": "La información solo debe compartirse cuando sea necesario para la coordinación del servicio y no para marketing no relacionado.",
+                "termsIntro": "Estos términos explican el flujo básico de reserva, la responsabilidad de la familia de proporcionar información correcta y la naturaleza de revisión de cada solicitud.",
+                "termsBookingTitle": "Flujo de reserva",
+                "termsBookingText": "Una solicitud de reserva se envía primero, luego se revisa y confirma con la familia.",
+                "termsAccuracyTitle": "Exactitud de la información",
+                "termsAccuracyText": "Las familias deben proporcionar datos precisos del cliente, número de teléfono, ciudad y preferencia de horario.",
+                "termsAvailabilityTitle": "Disponibilidad",
+                "termsAvailabilityText": "La elección del cuidador y el horario dependen de la disponibilidad y la coordinación final.",
+                "cancellationIntro": "Esta página explica cómo pueden funcionar la cancelación, la reprogramación y la revisión del reembolso.",
+                "cancelEarlyTitle": "Cancelación anticipada",
+                "cancelEarlyText": "Las solicitudes canceladas con anticipación pueden revisarse para una reprogramación más sencilla.",
+                "cancelLateTitle": "Cambios tardíos",
+                "cancelLateText": "Los cambios tardíos pueden depender de la disponibilidad del cuidador y del tiempo ya reservado.",
+                "cancelRefundTitle": "Revisión de reembolso",
+                "cancelRefundText": "Cualquier gestión de reembolso debe revisarse según el momento y el estado del servicio.",
+                "liveEstimateFees": "Tarifas adicionales",
+                "liveEstimateNight": "Tarifa nocturna",
+                "liveEstimateWeekend": "Tarifa fin de semana",
+                "liveEstimateTravel": "Tarifa de desplazamiento",
+                "liveEstimateStartingFrom": "Desde",
+                "liveEstimateMinHours": "Reserva mínima"
+        },
+        "de": {
+                "aboutTitle": "Wer ist CareVia?",
+                "aboutSub": "Eine klarere Präsentation des Projekts, der Mission und wie die Pflegepersonen-Auswahl funktioniert.",
+                "aboutCard1Title": "Was ist CareVia?",
+                "aboutCard1Desc": "CareVia ist ein lokales Buchungskonzept für Altenpflege zu Hause, das Familien dabei hilft, zuverlässige Unterstützung einfacher zu finden.",
+                "aboutCard2Title": "Warum wir es gebaut haben",
+                "aboutCard2Desc": "Das Ziel ist, die Altenpflege menschlicher, organisierter und vom ersten Besuch an leichter verständlich zu machen.",
+                "aboutCard3Title": "Unser Wert",
+                "aboutCard3Desc": "Wir setzen auf Klarheit, respektvolle Präsentation und einen ruhigeren Buchungsprozess für Familien.",
+                "aboutCard4Title": "Wie Pflegepersonen präsentiert werden",
+                "aboutCard4Desc": "Profile zeigen praktische Details, Serviceeignung, Bewertungen und einen einfacheren Vergleich.",
+                "pricingTitle": "Klarere Preise",
+                "pricingSub": "Familien können die Ausgangspreise und Preisregeln verstehen, bevor sie die Buchung fortsetzen.",
+                "priceStartingFrom": "Ab",
+                "pricingMinHours": "Mindestbuchung",
+                "pricingHourly": "Stundensatz",
+                "pricingTravel": "Fahrtkosten",
+                "pricingTravelIncluded": "Nach Stadt berechnet",
+                "pricingNightWeekend": "Nacht / Wochenende",
+                "pricingNote": "Die Live-Schätzung wird während der Buchung aktualisiert. Die endgültige Bestätigung kann je nach gewählter Stadt, späten Stunden, Wochenende oder städteübergreifender Begleitung variieren.",
+                "testimonialsTitle": "Was Familien sagen",
+                "testimonialsSub": "Kurze Erfahrungsberichte, die den Dienst echter, lokaler und vertrauenswürdiger erscheinen lassen.",
+                "testimonial1": "Die Buchungsschritte fühlten sich einfach an, und das Pflegepersonen-Profil war klar genug für unsere Familie, um schnell zu entscheiden.",
+                "testimonial2": "Ich mochte es, die Stunden und die geschätzte Gesamtsumme zu sehen, bevor ich die Anfrage abgeschlossen habe. Es ließ den Dienst transparenter wirken.",
+                "testimonial3": "Die Benutzeroberfläche ist ruhig und auf dem Telefon einfach zu bedienen, was beim Buchen für einen Elternteil oder Großelternteil sehr wichtig ist.",
+                "legalTitle": "Rechtliche Seiten und Richtlinien",
+                "legalSub": "Wesentliche Seiten, die das Projekt seriöser und vertrauenswürdiger erscheinen lassen.",
+                "privacyTitle": "Datenschutzrichtlinie",
+                "privacyCardDesc": "Wie Kontaktdaten und Buchungsinformationen verwaltet werden.",
+                "termsTitle": "Nutzungsbedingungen",
+                "termsCardDesc": "Die grundlegenden Servicebedingungen, die Buchungslogik und die Verantwortlichkeiten der Familie.",
+                "cancellationTitle": "Stornierungsrichtlinie",
+                "cancellationCardDesc": "Einfache Stornierungsregeln und Umplanungsregeln, die Familien schnell verstehen können.",
+                "faqTitle": "Häufig gestellte Fragen",
+                "faq1q": "Ist der Dienst in ganz Marokko verfügbar?",
+                "faq1a": "Ja. CareVia nimmt Anfragen in ganz Marokko entgegen, abhängig von der Stadtabdeckung, dem Zeitplan und der Verfügbarkeit der Pflegepersonen.",
+                "faq2q": "Wie läuft die Buchungsbestätigung ab?",
+                "faq2a": "Nach Einreichung der Anfrage erhält die Familie eine Bestätigungszusammenfassung und wird kontaktiert, um die Details und den nächsten Schritt zu bestätigen.",
+                "faq3q": "Kann ich Datum oder Uhrzeit später ändern?",
+                "faq3a": "Ja, Änderungen können vor der endgültigen Terminbestätigung beantragt werden, abhängig von der Verfügbarkeit der Pflegeperson.",
+                "faq4q": "Kann ich dieselbe Pflegeperson erneut anfragen?",
+                "faq4a": "Ja, wiederholte Anfragen für dieselbe Pflegeperson können geprüft werden, wenn der Zeitplan es erlaubt.",
+                "faq5q": "Wie früh sollte ich buchen?",
+                "faq5a": "Für beste Verfügbarkeit sollten Familien idealerweise im Voraus buchen, besonders für Abende, Wochenenden und Begleitanfragen.",
+                "faq6q": "Gibt es eine Stornierung oder Rückerstattungsregelung?",
+                "faq6a": "Ja. Die Stornierungsseite erklärt, wie Umplanung, Stornierungszeitraum und Rückerstattungsprüfung funktionieren können.",
+                "benefit1Title": "Sorgfältig ausgewählte Pflegepersonen",
+                "benefit1Desc": "Profile werden beruhigender präsentiert, damit Familien besser vergleichen und wählen können.",
+                "benefit2Title": "Klare Profile",
+                "benefit2Desc": "Wichtige Details sind vor dem finalen Bestätigungsschritt leichter zu verstehen.",
+                "benefit3Title": "Einfacher Buchungsablauf",
+                "benefit3Desc": "Der Prozess bleibt von der Diensteauswahl bis zur Bestätigung und Nachverfolgung einfach.",
+                "benefit4Title": "Schneller Supportweg",
+                "benefit4Desc": "Der Buchungsablauf ist so gestaltet, dass die Familien-Nachverfolgung und der nächste Kontakt schneller wirken.",
+                "softBadge1": "Sorgfältig ausgewählt",
+                "softBadge2": "Klare Profile",
+                "softBadge3": "Respekt für Privatsphäre",
+                "orderNumberLabel": "Bestellnummer",
+                "nextStepTitle": "Was passiert als nächstes?",
+                "nextStepText": "Ihre Anfrage wird geprüft und Sie werden kontaktiert, um die Pflegeperson, den Zeitplan und die Nachverfolgungsdetails zu bestätigen.",
+                "backHome": "Zurück zur Startseite",
+                "privacyIntro": "Wir erheben nur die Buchungsdaten, die zur Prüfung der Anfrage, zur Kontaktaufnahme mit der Familie und zur Organisation des Dienstes erforderlich sind.",
+                "policyCollectedTitle": "Was erhoben werden kann",
+                "policyCollectedText": "Kundenname, Kontaktdaten, Stadt, gewählter Dienst, Datum, Stunden und Pflegepersonenpräferenz.",
+                "policyUseTitle": "Wie es verwendet wird",
+                "policyUseText": "Um die Anfrage zu bestätigen, die Nachverfolgung vorzubereiten und die Familie über die Buchung informiert zu halten.",
+                "policyShareTitle": "Weitergabe",
+                "policyShareText": "Informationen sollten nur geteilt werden, wenn es für die Dienstleistungskoordination notwendig ist, und nicht für nicht verbundenes Marketing.",
+                "termsIntro": "Diese Bedingungen erklären den grundlegenden Buchungsablauf, die Verantwortung der Familie, korrekte Informationen bereitzustellen, und die Prüfungsnatur jeder Anfrage.",
+                "termsBookingTitle": "Buchungsablauf",
+                "termsBookingText": "Eine Buchungsanfrage wird zuerst eingereicht, dann mit der Familie geprüft und bestätigt.",
+                "termsAccuracyTitle": "Informationsgenauigkeit",
+                "termsAccuracyText": "Familien sollten genaue Kundendaten, Telefonnummer, Stadt und Zeitplanpräferenz angeben.",
+                "termsAvailabilityTitle": "Verfügbarkeit",
+                "termsAvailabilityText": "Pflegepersonenwahl und Zeitplan hängen von der Verfügbarkeit und der endgültigen Koordination ab.",
+                "cancellationIntro": "Diese Seite erklärt, wie Stornierung, Umplanung und Rückerstattungsprüfung funktionieren können.",
+                "cancelEarlyTitle": "Frühzeitige Stornierung",
+                "cancelEarlyText": "Frühzeitig stornierte Anfragen können für eine einfachere Umplanung geprüft werden.",
+                "cancelLateTitle": "Späte Änderungen",
+                "cancelLateText": "Späte Änderungen können von der Verfügbarkeit der Pflegeperson und der bereits reservierten Zeit abhängen.",
+                "cancelRefundTitle": "Rückerstattungsprüfung",
+                "cancelRefundText": "Jede Rückerstattungsregelung sollte nach dem Zeitpunkt und dem Servicestatus geprüft werden.",
+                "liveEstimateFees": "Zusätzliche Gebühren",
+                "liveEstimateNight": "Nachtgebühr",
+                "liveEstimateWeekend": "Wochenendgebühr",
+                "liveEstimateTravel": "Fahrtkosten",
+                "liveEstimateStartingFrom": "Ab",
+                "liveEstimateMinHours": "Mindestbuchung"
         }
 };
         Object.keys(extraTranslations).forEach(lang => Object.assign(translations[lang], extraTranslations[lang]));
@@ -4495,6 +5440,27 @@ body:not(.home-view-active) .home-only-global{display:none !important}
             if (p4) p4.placeholder = dt('placeholderEmail');
         }
 
+        function applyI18nToAll() {
+            if (!currentLang) return;
+            document.body.classList.toggle('rtl', currentLang === 'ar');
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                const value = getI18nValue(currentLang, key);
+                if (value) {
+                    if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+                        el.placeholder = value;
+                    } else {
+                        el.textContent = value;
+                    }
+                }
+            });
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-i18n-placeholder');
+                const value = getI18nValue(currentLang, key);
+                if (value) el.placeholder = value;
+            });
+        }
+
         function rerenderDynamicContent() {
             applyFormPlaceholders();
             loadCaregiversList();
@@ -4509,6 +5475,8 @@ body:not(.home-view-active) .home-only-global{display:none !important}
             }
             updatePaymentSummary();
             updateLivePriceEstimate();
+            // Apply translations LAST so they override any dynamic content rendering
+            applyI18nToAll();
         }
 
 
@@ -4633,6 +5601,8 @@ body:not(.home-view-active) .home-only-global{display:none !important}
                 window.scrollTo({ top: 0, behavior: 'auto' });
                 document.documentElement.scrollTop = 0;
                 document.body.scrollTop = 0;
+                // Re-apply i18n AFTER scroll/render to ensure new page content is translated
+                setTimeout(() => { if (typeof applyI18nToAll === 'function') applyI18nToAll(); }, 0);
             });
         }
 
@@ -5537,8 +6507,8 @@ body.rtl .hero-cta-group{justify-content:flex-start;}
   }
   function updateJoinUsConditionalFields(){ const value=(document.getElementById('joinCurrentStatus')||{}).value||''; const studentWrap=document.getElementById('joinStudentFieldWrap'); const workerWrap=document.getElementById('joinWorkerFieldWrap'); const studentInput=document.getElementById('joinStudentStudy'); const workerInput=document.getElementById('joinWorkerJob'); if(studentWrap) studentWrap.style.display = value==='student' ? 'block' : 'none'; if(workerWrap) workerWrap.style.display = value==='working' ? 'block' : 'none'; if(value!=='student' && studentInput) studentInput.value=''; if(value!=='working' && workerInput) workerInput.value=''; }
   function resetJoinUsForm(){ ['joinFirstName','joinLastName','joinBirthDate','joinResidence','joinAddress','joinPhone','joinEmail','joinEducationLevel','joinDiplomas','joinCertificates','joinFormations','joinStudentStudy','joinWorkerJob'].forEach(id=>{const el=document.getElementById(id); if(el) el.value='';}); ['joinCity','joinCurrentStatus','joinJobType'].forEach(id=>{const el=document.getElementById(id); if(el) el.value='';}); ['joinCv','joinSelfie'].forEach(id=>{ const el=document.getElementById(id); if(el) el.value=''; }); const formWrap=document.getElementById('joinUsFormWrap'); const success=document.getElementById('joinUsSuccess'); if(formWrap) formWrap.style.display='block'; if(success) success.style.display='none'; renderJoinUsOptions(); }
-  function injectJoinUsButtons(){ document.querySelectorAll('.footer-col').forEach(col=>{ const heading=col.querySelector('h4[data-i18n="contactUs"]'); if(!heading) return; const existing=col.querySelector('.join-us-btn'); if(existing){ const span=existing.querySelector('span'); if(span) span.textContent = dt('joinUsButton'); return; } const btn=document.createElement('button'); btn.className='btn join-us-btn'; btn.type='button'; btn.innerHTML=`<i class="fas fa-user-plus"></i><span>${dt('joinUsButton')}</span>`; btn.onclick=()=>{ resetJoinUsForm(); navigateTo('joinUsView'); requestAnimationFrame(()=>window.scrollTo({top:0,behavior:'auto'})); }; col.appendChild(btn); }); }
-  window.showUrgentBooking=function(){ resetUrgentBooking(); navigateTo('urgentBookingView'); requestAnimationFrame(()=>window.scrollTo({top:0,behavior:'auto'})); };
+  function injectJoinUsButtons(){ document.querySelectorAll('.footer-col').forEach(col=>{ const heading=col.querySelector('h4[data-i18n="contactUs"]'); if(!heading) return; const existing=col.querySelector('.join-us-btn'); if(existing){ const span=existing.querySelector('span'); if(span) span.textContent = dt('joinUsButton'); return; } const btn=document.createElement('button'); btn.className='btn join-us-btn'; btn.type='button'; btn.innerHTML=`<i class="fas fa-user-plus"></i><span>${dt('joinUsButton')}</span>`; btn.onclick=()=>{ resetJoinUsForm(); navigateTo('joinUsView'); requestAnimationFrame(()=>{ window.scrollTo({top:0,behavior:'auto'}); setTimeout(()=>{ if(typeof applyI18nToAll==='function') applyI18nToAll(); },0); }); }; col.appendChild(btn); }); }
+  window.showUrgentBooking=function(){ resetUrgentBooking(); navigateTo('urgentBookingView'); requestAnimationFrame(()=>{ window.scrollTo({top:0,behavior:'auto'}); setTimeout(()=>{ if(typeof applyI18nToAll==='function') applyI18nToAll(); },0); }); };
   window.submitUrgentBooking=async function(){ const firstName=(document.getElementById('urgentFirstName')||{}).value?.trim()||''; const lastName=(document.getElementById('urgentLastName')||{}).value?.trim()||''; const phoneRaw=(document.getElementById('urgentPhone')||{}).value?.trim()||''; const phone=normalizeMoroccanPhone(phoneRaw); const email=(document.getElementById('urgentEmail')||{}).value?.trim()||''; const city=(document.getElementById('urgentCity')||{}).value||''; const service=(document.getElementById('urgentService')||{}).value||''; const timing=(document.getElementById('urgentTiming')||{}).value||''; const notes=(document.getElementById('urgentNotes')||{}).value?.trim()||''; const submitBtn=document.querySelector('[onclick="submitUrgentBooking()"]'); if(!firstName||!lastName||!phone||!city||!service||!timing||!notes){ showPopup(dt('urgentMissingFields')); return; } if(!isValidMoroccanPhone(phone)){ showPopup(dt('urgentPhoneInvalid')); return; } const ref='URG-'+String(Date.now()).slice(-6); if(submitBtn){ submitBtn.textContent = dt('submitting'); submitBtn.disabled = true; } const fullName=`${firstName} ${lastName}`.trim(); const timingLabel = dt('urgentTiming'+(timing==='now'?'Now':timing==='2hours'?'2Hours':timing==='today'?'Today':'Tonight')); const payload = { type:'urgent', bookingId: ref, fullName, firstName, lastName, email, phone, city, service: getServiceName(service), serviceKey: service, date:'', timeSlots: [], caregiver:'', caregiverKey:'', hoursCount: 0, pricePerHour: 0, travelFee: 0, nightFee: 0, weekendFee: 0, discount: 0, total: 0, paymentMethod: 'urgent-request', notes: `${dt('urgentTimingLabel')}: ${timingLabel} | ${notes}`.trim(), urgency: timing, createdAt: new Date().toISOString() };
     try { const result = await postJsonToAppsScript(payload); if(result && result.ok === false){ throw new Error(result.error || result.message || 'Request failed'); } const refEl=document.getElementById('urgentRequestReference'); if(refEl) refEl.textContent=ref; const serviceEl=document.getElementById('urgentSuccessService'); if(serviceEl) serviceEl.textContent=getServiceName(service); const timingEl=document.getElementById('urgentSuccessTiming'); if(timingEl) timingEl.textContent=timingLabel; const cityEl=document.getElementById('urgentSuccessCity'); if(cityEl) cityEl.textContent=cityLabel(city); try{ localStorage.setItem('careviaUrgentBooking', JSON.stringify({firstName,lastName,phone,email,city,service,timing,notes,ref,at:new Date().toISOString()})); }catch(e){} const formWrap=document.getElementById('urgentBookingFormWrap'); const success=document.getElementById('urgentBookingSuccess'); if(formWrap) formWrap.style.display='none'; if(success) success.style.display='block'; if (typeof setLanguage === 'function') setTimeout(()=>setLanguage(currentLang),0); }
     catch(error){ console.error(error); showPopup(currentLang==='ar' ? 'وقع مشكل فإرسال الطلب المستعجل.' : (currentLang==='fr' ? 'Un problème est survenu lors de l’envoi de la demande urgente.' : 'There was a problem sending the urgent request.')); }
@@ -6707,11 +7677,21 @@ body.rtl .cv-user-chip{flex-direction:row-reverse;}
       <div class="logo">Care<span>Via</span></div>
     </a>
     <div style="display:flex;gap:1rem;align-items:center;flex-wrap:wrap;">
-      <div class="lang-selector">
-        <button class="lang-btn" data-lang="en">EN</button>
-        <button class="lang-btn" data-lang="ar">عربي</button>
-        <button class="lang-btn" data-lang="fr">FR</button>
-      </div>
+      <div class="cv-lang-switcher" id="cvLangSwitcherDash">
+<button class="cv-lang-trigger" onclick="cvToggleLangDropdown(event)" aria-haspopup="true" aria-expanded="false">
+<span class="cv-lang-flag" id="cvLangFlagDash">🇺🇸</span>
+<span class="cv-lang-code" id="cvLangCodeDash">EN</span>
+<i class="fas fa-chevron-down cv-lang-chevron"></i>
+</button>
+<div class="cv-lang-dropdown" role="menu">
+<button class="cv-lang-option" data-lang="ar" onclick="cvSelectLang('ar',this)"><span class="cv-opt-flag"><img class="cv-flag-img" src="https://flagcdn.com/w40/ma.png" alt="المغرب"></span><span class="cv-opt-info"><span class="cv-opt-name">العربية</span><span class="cv-opt-native">Arabic</span></span><i class="fas fa-check cv-opt-check"></i></button>
+<button class="cv-lang-option" data-lang="fr" onclick="cvSelectLang('fr',this)"><span class="cv-opt-flag"><img class="cv-flag-img" src="https://flagcdn.com/w40/fr.png" alt="France"></span><span class="cv-opt-info"><span class="cv-opt-name">Français</span><span class="cv-opt-native">French</span></span><i class="fas fa-check cv-opt-check"></i></button>
+<button class="cv-lang-option active" data-lang="en" onclick="cvSelectLang('en',this)"><span class="cv-opt-flag"><img class="cv-flag-img" src="https://flagcdn.com/w40/us.png" alt="USA"></span><span class="cv-opt-info"><span class="cv-opt-name">English</span><span class="cv-opt-native">English</span></span><i class="fas fa-check cv-opt-check"></i></button>
+<div class="cv-lang-divider"></div>
+<button class="cv-lang-option" data-lang="es" onclick="cvSelectLang('es',this)"><span class="cv-opt-flag"><img class="cv-flag-img" src="https://flagcdn.com/w40/es.png" alt="España"></span><span class="cv-opt-info"><span class="cv-opt-name">Español</span><span class="cv-opt-native">Spanish</span></span><i class="fas fa-check cv-opt-check"></i></button>
+<button class="cv-lang-option" data-lang="de" onclick="cvSelectLang('de',this)"><span class="cv-opt-flag"><img class="cv-flag-img" src="https://flagcdn.com/w40/de.png" alt="Deutschland"></span><span class="cv-opt-info"><span class="cv-opt-name">Deutsch</span><span class="cv-opt-native">German</span></span><i class="fas fa-check cv-opt-check"></i></button>
+</div>
+</div>
     </div>
   </div>
   <div class="back-link" onclick="navigateTo('homeView')"><i class="fas fa-arrow-left"></i> <span data-i18n="backHome">Back to Home</span></div>
@@ -6952,6 +7932,112 @@ const AUTH_T = {
     sendCodeFull:'Send verification code', verifyCodeFull:'Verify code & continue',
     verifyCodeEnter:'Enter the 6-digit code',
     pwWeak:'Weak', pwFair:'Fair', pwMedium:'Medium', pwGood:'Good', pwStrong:'Strong'
+  },
+  es:{
+    loginTitle:'Iniciar sesión', regTitle:'Crear cuenta',
+    emailLabel:'Correo electrónico', passLabel:'Contraseña',
+    fnLabel:'Nombre', lnLabel:'Apellido', bdLabel:'Fecha de nacimiento',
+    pw2Label:'Confirmar contraseña', loginBtn:'Entrar', regBtn:'Crear cuenta',
+    emailCodeLabel:'Código de verificación', sendCodeBtn:'Enviar código', verifyCodeBtn:'Verificar código',
+    verifyPending:'Ingresa tu correo y envía el código', verifyCodePlaceholder:'Ingresa el código de verificación',
+    verifySent:'Se envió el código a tu correo.', verifySuccess:'Correo verificado con éxito',
+    verifyExpired:'El código expiró. Envía uno nuevo.', verifyInvalid:'Código inválido',
+    errVerifyEmail:'Debes verificar tu correo con el código antes de crear la cuenta',
+    toReg:'¿No tienes cuenta?', toRegLink:'Crear una',
+    toLogin:'¿Ya tienes cuenta?', toLoginLink:'Inicia sesión',
+    modeTitle:'¿Cómo deseas reservar?',
+    modeLead:'Elige la opción que más te convenga para continuar.',
+    modeLoginLabel:'Iniciar sesión', modeLoginDesc:'Tienes cuenta — rastrea tus reservas',
+    modeRegLabel:'Crear cuenta', modeRegDesc:'¿Nuevo? Crea tu cuenta en un minuto',
+    modeGuestLabel:'Continuar como invitado', modeGuestDesc:'Reserva directamente sin registrarte',
+    authNavBtn:'Entrar / Cuenta', logoutBtn:'Cerrar sesión',
+    dashTitle:'Mis reservas', dashNewBtn:'+ Nueva reserva',
+    emptyDash:'Aún no hay reservas', statusPending:'Pendiente',
+    statusConfirmed:'Confirmado', statusInprogress:'En progreso', statusCancelled:'Cancelado',
+    errEmail:'Correo inválido', errPass:'Contraseña muy corta (mín. 6 caracteres)',
+    errPassMatch:'Las contraseñas no coinciden', errExists:'Este correo ya está registrado',
+    errNotFound:'Correo o contraseña incorrectos', errFill:'Por favor rellena todos los campos',
+    welcomeMsg:'Bienvenido,',
+    dashKicker:'Espacio de cuenta premium',
+    dashLead:'Aquí puedes rastrear tus solicitudes y gestionar tu cuenta fácilmente.',
+    dashViewActivity:'Ver actividad',
+    verifiedAccount:'Cuenta verificada',
+    totalRequestsLabel:'Total de solicitudes', latestUpdateLabel:'Última actualización',
+    myRequestsLabel:'Mis solicitudes', itemsCountLabel:'elemento(s)',
+    profileSummaryLabel:'Resumen del perfil', userAccountLabel:'Cuenta de usuario',
+    firstNameLabel:'Nombre', lastNameLabel:'Apellido',
+    accountStatusLabel:'Estado de la cuenta', activeStatusLabel:'Activo',
+    updatesLabel:'Actualizaciones', updatesDesc:'Rastrea el último estado de tus solicitudes.',
+    secureAccountLabel:'Cuenta segura', secureAccountDesc:'Tu historial queda vinculado a tu cuenta.',
+    fastContactLabel:'Contacto rápido', fastContactDesc:'Mantente listo para seguimiento rápido.',
+    easyRebookingLabel:'Nueva reserva fácil', easyRebookingDesc:'Vuelve cuando quieras y empieza más rápido.',
+    resendCodeBtn:'Reenviar código', resendIn:'Reenvío disponible en', attemptsLeft:'Intentos restantes', temporarilyLocked:'Verificación bloqueada temporalmente. Inténtalo más tarde.',
+    forgotTitle:'Olvidé mi contraseña', forgotLead:'Ingresa tu correo. Te enviaremos un código y un enlace seguro para cambiar la contraseña.', forgotLink:'¿Olvidaste tu contraseña?', forgotSendBtn:'Enviar código', forgotResetBtn:'Enviar enlace de cambio', forgotCodeSent:'Si este correo está vinculado a una cuenta, se envió el código.', forgotCodeVerified:'Código verificado. Si el correo está vinculado, enviamos un enlace seguro.', forgotNoUser:'Si el correo está vinculado, recibirás el mensaje de recuperación.', forgotInvalid:'Código de recuperación inválido.',
+    profileEditTitle:'Editar perfil', profileSaveBtn:'Guardar cambios', phoneLabel:'Teléfono', cityLabel:'Ciudad', photoLabel:'URL de foto', verifiedEmailLabel:'Correo verificado', accountActiveLabel:'Cuenta activa', notificationsLabel:'Notificaciones', whatsappLabel:'WhatsApp directo', changePasswordLabel:'Cambiar contraseña', sendResetLinkLabel:'Enviar enlace de cambio', saveSuccess:'Cambios guardados correctamente',
+    notifCreated:'Solicitud creada', notifAccepted:'Solicitud aceptada', notifConfirmed:'Cita confirmada',
+    regSubtitle:'Únete a la familia CareVia',
+    regStep1Label:'Tu info', regStep2Label:'Verificación', regStep3Label:'Contraseña',
+    regStep1Hint:'Ingresa tu información personal para comenzar',
+    regStep2Hint:'Enviaremos un código de verificación a tu correo',
+    regStep3Hint:'Elige una contraseña segura para proteger tu cuenta',
+    regNextBtn:'Siguiente', regBackBtn:'Atrás',
+    fnPlaceholder:'Nombre', lnPlaceholder:'Apellido',
+    sendCodeFull:'Enviar código de verificación', verifyCodeFull:'Verificar código y continuar',
+    verifyCodeEnter:'Ingresa el código de 6 dígitos',
+    pwWeak:'Débil', pwFair:'Aceptable', pwMedium:'Media', pwGood:'Buena', pwStrong:'Fuerte'
+  },
+  de:{
+    loginTitle:'Anmelden', regTitle:'Konto erstellen',
+    emailLabel:'E-Mail', passLabel:'Passwort',
+    fnLabel:'Vorname', lnLabel:'Nachname', bdLabel:'Geburtsdatum',
+    pw2Label:'Passwort bestätigen', loginBtn:'Anmelden', regBtn:'Konto erstellen',
+    emailCodeLabel:'Bestätigungscode', sendCodeBtn:'Code senden', verifyCodeBtn:'Code bestätigen',
+    verifyPending:'Gib deine E-Mail ein und sende den Code', verifyCodePlaceholder:'Bestätigungscode eingeben',
+    verifySent:'Der Code wurde an deine E-Mail gesendet.', verifySuccess:'E-Mail erfolgreich verifiziert',
+    verifyExpired:'Der Code ist abgelaufen. Sende einen neuen.', verifyInvalid:'Ungültiger Code',
+    errVerifyEmail:'Du musst deine E-Mail mit dem Code bestätigen, bevor du ein Konto erstellst',
+    toReg:'Kein Konto?', toRegLink:'Erstelle eines',
+    toLogin:'Hast du schon ein Konto?', toLoginLink:'Anmelden',
+    modeTitle:'Wie möchten Sie buchen?',
+    modeLead:'Wähle die Option, die am besten zu dir passt, um fortzufahren.',
+    modeLoginLabel:'Anmelden', modeLoginDesc:'Du hast ein Konto — verfolge deine Buchungen',
+    modeRegLabel:'Konto erstellen', modeRegDesc:'Neu? Erstelle dein Konto in einer Minute',
+    modeGuestLabel:'Als Gast fortfahren', modeGuestDesc:'Direkt buchen ohne Registrierung',
+    authNavBtn:'Anmelden / Konto', logoutBtn:'Abmelden',
+    dashTitle:'Meine Buchungen', dashNewBtn:'+ Neue Buchung',
+    emptyDash:'Noch keine Buchungen', statusPending:'Ausstehend',
+    statusConfirmed:'Bestätigt', statusInprogress:'In Bearbeitung', statusCancelled:'Storniert',
+    errEmail:'Ungültige E-Mail-Adresse', errPass:'Passwort zu kurz (mind. 6 Zeichen)',
+    errPassMatch:'Passwörter stimmen nicht überein', errExists:'Diese E-Mail ist bereits registriert',
+    errNotFound:'Falsche E-Mail oder Passwort', errFill:'Bitte alle Felder ausfüllen',
+    welcomeMsg:'Willkommen,',
+    dashKicker:'Premium-Kontobereich',
+    dashLead:'Hier kannst du deine Anfragen verfolgen und dein Konto verwalten.',
+    dashViewActivity:'Aktivität ansehen',
+    verifiedAccount:'Verifiziertes Konto',
+    totalRequestsLabel:'Gesamtanfragen', latestUpdateLabel:'Letztes Update',
+    myRequestsLabel:'Meine Anfragen', itemsCountLabel:'Element(e)',
+    profileSummaryLabel:'Profilübersicht', userAccountLabel:'Benutzerkonto',
+    firstNameLabel:'Vorname', lastNameLabel:'Nachname',
+    accountStatusLabel:'Kontostatus', activeStatusLabel:'Aktiv',
+    updatesLabel:'Updates', updatesDesc:'Verfolge den letzten Status deiner Anfragen.',
+    secureAccountLabel:'Sicheres Konto', secureAccountDesc:'Dein Buchungsverlauf bleibt mit deinem Konto verknüpft.',
+    fastContactLabel:'Schneller Kontakt', fastContactDesc:'Bleibe bereit für schnelle Nachverfolgung.',
+    easyRebookingLabel:'Einfache Neubuchung', easyRebookingDesc:'Komm jederzeit zurück und starte schneller.',
+    resendCodeBtn:'Code erneut senden', resendIn:'Erneutes Senden in', attemptsLeft:'Verbleibende Versuche', temporarilyLocked:'Verifizierung vorübergehend gesperrt. Versuche es später.',
+    forgotTitle:'Passwort vergessen', forgotLead:'Gib deine E-Mail ein. Wir senden dir einen Code und einen sicheren Link zum Ändern des Passworts.', forgotLink:'Passwort vergessen?', forgotSendBtn:'Code senden', forgotResetBtn:'Rücksetz-Link senden', forgotCodeSent:'Wenn diese E-Mail mit einem Konto verknüpft ist, wurde der Code gesendet.', forgotCodeVerified:'Code bestätigt. Wenn die E-Mail verknüpft ist, haben wir einen sicheren Link gesendet.', forgotNoUser:'Wenn diese E-Mail verknüpft ist, erhältst du die Wiederherstellungsnachricht.', forgotInvalid:'Ungültiger Wiederherstellungscode.',
+    profileEditTitle:'Profil bearbeiten', profileSaveBtn:'Änderungen speichern', phoneLabel:'Telefon', cityLabel:'Stadt', photoLabel:'Foto-URL', verifiedEmailLabel:'E-Mail verifiziert', accountActiveLabel:'Konto aktiv', notificationsLabel:'Benachrichtigungen', whatsappLabel:'WhatsApp direkt', changePasswordLabel:'Passwort ändern', sendResetLinkLabel:'Rücksetz-Link senden', saveSuccess:'Änderungen erfolgreich gespeichert',
+    notifCreated:'Anfrage erstellt', notifAccepted:'Anfrage angenommen', notifConfirmed:'Termin bestätigt',
+    regSubtitle:'Tritt der CareVia-Familie bei',
+    regStep1Label:'Deine Info', regStep2Label:'Verifizierung', regStep3Label:'Passwort',
+    regStep1Hint:'Gib deine persönlichen Daten ein, um zu beginnen',
+    regStep2Hint:'Wir senden einen Bestätigungscode an deine E-Mail',
+    regStep3Hint:'Wähle ein sicheres Passwort zum Schutz deines Kontos',
+    regNextBtn:'Weiter', regBackBtn:'Zurück',
+    fnPlaceholder:'Vorname', lnPlaceholder:'Nachname',
+    sendCodeFull:'Bestätigungscode senden', verifyCodeFull:'Code bestätigen & weiter',
+    verifyCodeEnter:'Gib den 6-stelligen Code ein',
+    pwWeak:'Schwach', pwFair:'Akzeptabel', pwMedium:'Mittel', pwGood:'Gut', pwStrong:'Stark'
   }
 };
 function at(key){ const lang = (typeof currentLang !== 'undefined') ? currentLang : 'ar'; return (AUTH_T[lang]||AUTH_T.en)[key]||key; }
@@ -7585,7 +8671,7 @@ function renderDashboard(){
     </div>`).join('') : `<div class="cv-empty-dash"><i class="fas fa-calendar-plus"></i><p>${at('emptyDash')}</p></div>`;
   const notifHtml = notifications.length ? notifications.map(n => `
     <div class="cv-notification-item"><i class="fas ${n.icon || 'fa-bell'}"></i><div><strong>${n.title}</strong><div>${n.body}</div><small>${formatDate(n.createdAt)}</small></div></div>`).join('') : `<div class="cv-empty-dash"><i class="fas fa-bell-slash"></i><p>${at('emptyDash')}</p></div>`;
-  const waNumber = '212600000000';
+  const waNumber = '212679631557';
   dashList.innerHTML = `
     <div class="cv-dash-shell">
       <div class="cv-dash-hero">
@@ -7944,6 +9030,50 @@ document.addEventListener('input', function(e){
   fill.style.width=lv.w; fill.style.background=lv.bg;
   label.style.color=lv.bg; label.textContent=at(lv.key);
 });
+
+/* ── Language Switcher Dropdown ── */
+const CV_LANG_META = {
+  ar: { flag:'https://flagcdn.com/w40/ma.png', flagAlt:'العربية', code:'عر', rtl:true },
+  fr: { flag:'https://flagcdn.com/w40/fr.png', flagAlt:'Français', code:'FR', rtl:false },
+  en: { flag:'https://flagcdn.com/w40/us.png', flagAlt:'English', code:'EN', rtl:false },
+  es: { flag:'https://flagcdn.com/w40/es.png', flagAlt:'Español', code:'ES', rtl:false },
+  de: { flag:'https://flagcdn.com/w40/de.png', flagAlt:'Deutsch', code:'DE', rtl:false },
+};
+window.cvToggleLangDropdown = function(e){
+  e.stopPropagation();
+  const btn = e.currentTarget.closest('.cv-lang-switcher');
+  const isOpen = btn.classList.contains('open');
+  // close all
+  document.querySelectorAll('.cv-lang-switcher.open').forEach(el=>el.classList.remove('open'));
+  if(!isOpen) btn.classList.add('open');
+};
+document.addEventListener('click', function(){ document.querySelectorAll('.cv-lang-switcher.open').forEach(el=>el.classList.remove('open')); });
+window.cvSelectLang = function(lang, optEl){
+  // Update all trigger displays
+  const meta = CV_LANG_META[lang] || CV_LANG_META.en;
+  document.querySelectorAll('.cv-lang-flag').forEach(el=>{
+    el.innerHTML = '<img class="cv-flag-img" src="'+meta.flag+'" alt="'+meta.flagAlt+'">';
+  });
+  document.querySelectorAll('.cv-lang-code').forEach(el=>el.textContent=meta.code);
+  // Update active option
+  document.querySelectorAll('.cv-lang-option').forEach(el=>el.classList.remove('active'));
+  document.querySelectorAll(`.cv-lang-option[data-lang="${lang}"]`).forEach(el=>el.classList.add('active'));
+  // Close dropdowns
+  document.querySelectorAll('.cv-lang-switcher.open').forEach(el=>el.classList.remove('open'));
+  // Call the existing setLanguage
+  if(typeof setLanguage === 'function') setLanguage(lang);
+};
+// Init trigger display from saved lang
+(function(){
+  const saved = localStorage.getItem('careviaLanguage') || 'en';
+  const meta = CV_LANG_META[saved] || CV_LANG_META.en;
+  document.querySelectorAll('.cv-lang-flag').forEach(el=>{
+    el.innerHTML = '<img class="cv-flag-img" src="'+meta.flag+'" alt="'+meta.flagAlt+'">';
+  });
+  document.querySelectorAll('.cv-lang-code').forEach(el=>el.textContent=meta.code);
+  document.querySelectorAll(`.cv-lang-option[data-lang="${saved}"]`).forEach(el=>el.classList.add('active'));
+  document.querySelectorAll(`.cv-lang-option:not([data-lang="${saved}"])`).forEach(el=>el.classList.remove('active'));
+})();
 
 /* ── Hook setLanguage to re-render auth text ── */
 if(typeof setLanguage === 'function'){
