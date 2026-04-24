@@ -6,14 +6,13 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const accountSid = process.env.TWILIO_SID;
-const authToken = process.env.TWILIO_TOKEN;
-const twilioNumber = process.env.TWILIO_NUMBER;
-const client = twilio(accountSid, authToken);
+const client = twilio(
+  process.env.TWILIO_SID,
+  process.env.TWILIO_TOKEN
+);
 
 const otps = {};
 
-// إرسال OTP
 app.post('/send-otp', async (req, res) => {
   const { phone } = req.body;
   const code = Math.floor(100000 + Math.random() * 900000).toString();
@@ -21,8 +20,8 @@ app.post('/send-otp', async (req, res) => {
 
   try {
     await client.messages.create({
-      body: `كود التحقق الخاص بك: ${code}`,
-      from: twilioNumber,
+      body: `كود التحقق: ${code}`,
+      from: process.env.TWILIO_NUMBER,
       to: phone
     });
     res.json({ success: true });
@@ -31,7 +30,6 @@ app.post('/send-otp', async (req, res) => {
   }
 });
 
-// التحقق من OTP
 app.post('/verify-otp', (req, res) => {
   const { phone, code } = req.body;
   const record = otps[phone];
@@ -48,5 +46,4 @@ app.post('/verify-otp', (req, res) => {
   res.json({ success: false, message: "الكود خاطئ" });
 });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(process.env.PORT || 3000, () => console.log('Server running'));
