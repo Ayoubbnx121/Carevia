@@ -1,83 +1,52 @@
 const express = require('express');
-const mysql = require('mysql2/promise');
-const bcrypt = require('bcrypt');
+const twilio = require('twilio');
 const cors = require('cors');
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-const db = mysql.createPool({
-  host: 'localhost',
-  user: 'root',
-  password: '',
-  database: 'carevia_db'
-});
+const accountSid = process.env.TWILIO_SID;
+const authToken = process.env.TWILIO_TOKEN;
+const twilioNumber = process.env.TWILIO_NUMBER;
+const client = twilio(accountSid, authToken);
 
-app.post('/api/register', async (req, res) => {
+const otps = {};
+
+// إرسال OTP
+app.post('/send-otp', async (req, res) => {
+  const { phone } = req.body;
+  const code = Math.floor(100000 + Math.random() * 900000).toString();
+  otps[phone] = { code, expires: Date.now() + 5 * 60 * 1000 };
+
   try {
-    const { first_name, last_name, birth_date, email, password } = req.body;
-
-    if (!first_name || !last_name || !birth_date || !email || !password) {
-      return res.status(400).json({ message: 'جميع الحقول مطلوبة' });
-    }
-
-    const [existing] = await db.query('SELECT id FROM users WHERE email = ?', [email]);
-    if (existing.length > 0) {
-      return res.status(400).json({ message: 'البريد الإلكتروني مستخدم بالفعل' });
-    }
-
-    const password_hash = await bcrypt.hash(password, 10);
-
-    const [result] = await db.query(
-      'INSERT INTO users (first_name, last_name, birth_date, email, password_hash) VALUES (?, ?, ?, ?, ?)',
-      [first_name, last_name, birth_date, email, password_hash]
-    );
-
-    res.json({
-      message: 'تم إنشاء الحساب بنجاح',
-      user: {
-        id: result.insertId,
-        first_name,
-        last_name,
-        email
-      }
+    await client.messages.create({
+      body: `كود التحقق الخاص بك: ${code}`,
+      from: twilioNumber,
+      to: phone
     });
-  } catch (error) {
-    res.status(500).json({ message: 'خطأ في السيرفر' });
+    res.json({ success: true });
+  } catch (err) {
+    res.json({ success: false, error: err.message });
   }
 });
 
-app.post('/api/login', async (req, res) => {
-  try {
-    const { email, password } = req.body;
+// التحقق من OTP
+app.post('/verify-otp', (req, res) => {
+  const { phone, code } = req.body;
+  const record = otps[phone];
 
-    const [rows] = await db.query('SELECT * FROM users WHERE email = ?', [email]);
-    if (rows.length === 0) {
-      return res.status(401).json({ message: 'البريد أو كلمة المرور غير صحيحين' });
-    }
-
-    const user = rows[0];
-    const match = await bcrypt.compare(password, user.password_hash);
-
-    if (!match) {
-      return res.status(401).json({ message: 'البريد أو كلمة المرور غير صحيحين' });
-    }
-
-    res.json({
-      message: 'تم تسجيل الدخول بنجاح',
-      user: {
-        id: user.id,
-        first_name: user.first_name,
-        last_name: user.last_name,
-        email: user.email
-      }
-    });
-  } catch (error) {
-    res.status(500).json({ message: 'خطأ في السيرفر' });
+  if (!record) return res.json({ success: false, message: "أرسل الكود أولاً" });
+  if (Date.now() > record.expires) {
+    delete otps[phone];
+    return res.json({ success: false, message: "انتهت صلاحية الكود" });
   }
+  if (record.code === code) {
+    delete otps[phone];
+    return res.json({ success: true });
+  }
+  res.json({ success: false, message: "الكود خاطئ" });
 });
 
-app.listen(3000, () => {
-  console.log('Server running on http://localhost:3000');
-});
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
