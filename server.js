@@ -7,8 +7,8 @@ app.use(cors());
 app.use(express.json());
 
 const client = twilio(
-  process.env.TWILIO_SID,
-  process.env.TWILIO_TOKEN
+  process.env.TW_SID,
+  process.env.TW_TOKEN
 );
 
 const otps = {};
@@ -21,7 +21,7 @@ app.post('/send-otp', async (req, res) => {
   try {
     await client.messages.create({
       body: `كود التحقق: ${code}`,
-      from: process.env.TWILIO_NUMBER,
+      from: process.env.TW_NUMBER,
       to: phone
     });
     res.json({ success: true });
