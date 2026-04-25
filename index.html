@@ -6,6 +6,48 @@
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes" name="viewport"/>
 <title>CareVia | First In Morocco</title>
 <link rel="icon" type="image/png" href="favicon.png"/>
+<!-- EmailJS for Join Us notifications -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script type="text/javascript">
+(function(){
+  // =====================================================
+  // CAREVIA EMAILJS SETUP
+  // 1. روح على https://www.emailjs.com وسجل حساب مجاني
+  // 2. ربط Gmail ديالك (carevia.maroc@gmail.com) كـ Email Service
+  //    واحفظ Service ID وحطه هنا بدل 'carevia_service'
+  // 3. زيد Template جديد ولقق HTML فيه، احفظ Template ID
+  //    وحطه هنا بدل 'carevia_join_template'
+  // 4. من Account > API Keys، انسخ Public Key وحطه هنا
+  // =====================================================
+  const EMAILJS_PUBLIC_KEY  = 'YOUR_PUBLIC_KEY';   // ← حط Public Key ديالك هنا
+  const EMAILJS_SERVICE_ID  = 'carevia_service';   // ← Service ID ديالك
+  const EMAILJS_TEMPLATE_ID = 'carevia_join_template'; // ← Template ID ديالك
+
+  if(typeof emailjs !== 'undefined') {
+    emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+  }
+
+  // Override the send function with correct IDs
+  window._cvSendJoinEmail = async function({ appId, data, htmlBody, cvFileName, selfieFileName }) {
+    if(typeof emailjs === 'undefined') return;
+    const statusLabel = data.currentStatus==='student' ? 'طالب/ة' : data.currentStatus==='working' ? 'موظف/ة' : 'أخرى';
+    const jobTypeLabel = data.jobType==='main' ? 'خدمة رئيسية' : 'Part-time';
+    return emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+      to_email: 'carevia.maroc@gmail.com',
+      app_id: appId,
+      full_name: `${data.firstName} ${data.lastName}`,
+      applicant_email: data.email,
+      applicant_phone: data.phone,
+      applicant_city: data.city,
+      applicant_status: statusLabel,
+      job_type: jobTypeLabel,
+      cv_file: cvFileName,
+      selfie_file: selfieFileName,
+      html_content: htmlBody
+    });
+  };
+})();
+</script>
 <!-- Font Awesome 6 (free) -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet"/>
 <!-- Google Fonts: Poppins, Open Sans, and Cairo for Arabic -->
@@ -3100,7 +3142,20 @@ body:not(.home-view-active) .home-only-global{display:none !important}
 <option value="Larache">Larache</option>
 </select>
 </div>
-<div class="form-group"><label data-i18n="phone">Phone Number * (Moroccan format)</label><input class="form-control" id="clientPhone" placeholder="+212 6XX-XXXXXX or 06XXXXXXXX" required="" type="tel"/></div>
+<div class="form-group"><label data-i18n="phone">Phone Number * (Moroccan format)</label>
+  <div style="display:flex;gap:8px;align-items:center;">
+    <input class="form-control" id="clientPhone" placeholder="+212 6XX-XXXXXX or 06XXXXXXXX" required="" type="tel" style="flex:1;"/>
+    <button type="button" onclick="cvSendBookingOTP()" id="cvBookSendBtn" style="white-space:nowrap;padding:0.5rem 1rem;background:var(--accent-dark);color:white;border:none;border-radius:8px;cursor:pointer;font-size:0.85rem;">إرسال كود</button>
+  </div>
+</div>
+<div id="cvBookOtpBox" style="display:none;">
+  <div class="form-group">
+    <label><i class="fas fa-shield-alt"></i> كود التحقق</label>
+    <input class="form-control" type="text" id="cvBookOtpCode" inputmode="numeric" maxlength="6" placeholder="أدخل الكود المكوّن من 6 أرقام"/>
+  </div>
+  <button type="button" onclick="cvVerifyBookingOTP()" style="width:100%;padding:0.6rem;background:var(--accent-dark);color:white;border:none;border-radius:8px;cursor:pointer;margin-bottom:0.5rem;">تأكيد الكود</button>
+</div>
+<div id="cvBookOtpStatus" style="font-size:0.9rem;margin-bottom:0.5rem;"></div>
 <div class="form-group"><label data-i18n="email">Email Address *</label><input class="form-control" id="clientEmail" placeholder="example@mail.com" required="" type="email"/></div>
 <button class="btn" data-i18n="continueBtn" onclick="validateAndSaveClientInfo()" style="width:100%;">Continue →</button>
 </div>
@@ -5856,6 +5911,11 @@ body:not(.home-view-active) .home-only-global{display:none !important}
                 showPopup(translations[currentLang].validationEmail);
                 return;
             }
+            if (!window._cvBookingPhoneVerified) {
+                document.getElementById('cvBookOtpStatus').textContent = '⚠️ يجب التحقق من رقم الهاتف أولاً';
+                document.getElementById('cvBookOtpStatus').style.color = 'orange';
+                return;
+            }
 
             clientInfo = {
                 firstName: firstName,
@@ -6516,7 +6576,39 @@ body.rtl .hero-cta-group{justify-content:flex-start;}
   };
   window.submitJoinUsApplication=async function(){ const submitBtn=document.querySelector('[onclick="submitJoinUsApplication()"]'); const data = { firstName:(document.getElementById('joinFirstName')||{}).value?.trim()||'', lastName:(document.getElementById('joinLastName')||{}).value?.trim()||'', birthDate:(document.getElementById('joinBirthDate')||{}).value||'', residence:(document.getElementById('joinResidence')||{}).value?.trim()||'', address:(document.getElementById('joinAddress')||{}).value?.trim()||'', city:(document.getElementById('joinCity')||{}).value||'', phone:normalizeMoroccanPhone((document.getElementById('joinPhone')||{}).value?.trim()||''), email:(document.getElementById('joinEmail')||{}).value?.trim()||'', educationLevel:(document.getElementById('joinEducationLevel')||{}).value?.trim()||'', diplomas:(document.getElementById('joinDiplomas')||{}).value?.trim()||'', certificates:(document.getElementById('joinCertificates')||{}).value?.trim()||'', formations:(document.getElementById('joinFormations')||{}).value?.trim()||'', currentStatus:(document.getElementById('joinCurrentStatus')||{}).value||'', studentStudy:(document.getElementById('joinStudentStudy')||{}).value?.trim()||'', workerJob:(document.getElementById('joinWorkerJob')||{}).value?.trim()||'', jobType:(document.getElementById('joinJobType')||{}).value||'' };
     const cvFile=(document.getElementById('joinCv')||{}).files?.[0] || null; const selfieFile=(document.getElementById('joinSelfie')||{}).files?.[0] || null; if(!data.firstName||!data.lastName||!data.birthDate||!data.residence||!data.address||!data.city||!data.phone||!data.email||!data.educationLevel||!data.currentStatus||!data.jobType||!cvFile||!selfieFile){ showPopup(dt('joinMissingFields')); return; } if(!isValidMoroccanPhone(data.phone)){ showPopup(dt('joinPhoneInvalid')); return; } if(!data.email.includes('@') || !data.email.includes('.')){ showPopup(dt('joinEmailInvalid')); return; } if(data.currentStatus==='student' && !data.studentStudy){ showPopup(dt('joinStudentStudyRequired')); return; } if(data.currentStatus==='working' && !data.workerJob){ showPopup(dt('joinWorkerJobRequired')); return; } if(submitBtn){ submitBtn.textContent=dt('submitting'); submitBtn.disabled=true; }
-    try { const payload = { type:'job_application', bookingId:'JOB-'+String(Date.now()).slice(-6), fullName:`${data.firstName} ${data.lastName}`.trim(), email:data.email, phone:data.phone, city:data.city, service:'CareVia recruitment', serviceKey:'join-us', date:'', timeSlots:[], caregiver:'', caregiverKey:'', hoursCount:0, pricePerHour:0, travelFee:0, nightFee:0, weekendFee:0, discount:0, total:0, paymentMethod:'not-applicable', notes: JSON.stringify({ applicationType:'join-us', birthDate:data.birthDate, residence:data.residence, address:data.address, educationLevel:data.educationLevel, diplomas:data.diplomas, certificates:data.certificates, formations:data.formations, currentStatus:data.currentStatus, studentStudy:data.studentStudy, workerJob:data.workerJob, jobType:data.jobType, cvFileName:cvFile.name, selfieFileName:selfieFile.name }), createdAt:new Date().toISOString() }; const result = await postJsonToAppsScript(payload); if(result && result.ok===false){ throw new Error(result.error || result.message || 'Request failed'); } const formWrap=document.getElementById('joinUsFormWrap'); const success=document.getElementById('joinUsSuccess'); if(formWrap) formWrap.style.display='none'; if(success) success.style.display='block'; const set=(id,val)=>{ const el=document.getElementById(id); if(el) el.textContent=val; }; set('joinSuccessEmail', data.email); set('joinSuccessJobType', dt(data.jobType==='main' ? 'joinJobTypeMain' : 'joinJobTypePartTime')); set('joinSuccessStatus', dt(data.currentStatus==='student' ? 'joinStatusStudent' : data.currentStatus==='working' ? 'joinStatusWorking' : 'joinStatusOther')); if (typeof setLanguage === 'function') setTimeout(()=>setLanguage(currentLang),0); }
+    try {
+      const appId = 'JOB-'+String(Date.now()).slice(-6);
+      const statusLabel = data.currentStatus==='student' ? 'طالب/ة' : data.currentStatus==='working' ? 'موظف/ة' : 'أخرى';
+      const jobTypeLabel = data.jobType==='main' ? 'خدمة رئيسية' : 'Part-time';
+      const extraField = data.currentStatus==='student' && data.studentStudy
+        ? `<tr><td style="padding:8px 12px;color:#666;font-weight:600;width:40%;">مجال الدراسة</td><td style="padding:8px 12px;">${data.studentStudy}</td></tr>`
+        : data.currentStatus==='working' && data.workerJob
+        ? `<tr><td style="padding:8px 12px;color:#666;font-weight:600;width:40%;">العمل الحالي</td><td style="padding:8px 12px;">${data.workerJob}</td></tr>`
+        : '';
+      const dateStr = new Date().toLocaleDateString('ar-MA',{year:'numeric',month:'long',day:'numeric'});
+      const htmlBody = `<!DOCTYPE html><html dir="rtl" lang="ar"><head><meta charset="UTF-8"></head><body style="margin:0;padding:0;background:#f0f7f4;font-family:Cairo,Arial,sans-serif;direction:rtl;"><table width="100%" cellpadding="0" cellspacing="0" style="background:#f0f7f4;padding:32px 0;"><tr><td align="center"><table width="600" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(15,88,115,0.10);max-width:600px;width:100%;"><tr><td style="background:linear-gradient(135deg,#0f5873 0%,#1a7a9a 100%);padding:36px 40px;text-align:center;"><div style="font-size:2.2rem;font-weight:900;color:#ffffff;font-family:Poppins,Arial,sans-serif;letter-spacing:-1px;">Care<span style="color:#76b84f;">Via</span></div><div style="color:rgba(255,255,255,0.85);font-size:0.95rem;margin-top:6px;">First In Morocco</div><div style="margin-top:20px;background:rgba(255,255,255,0.15);border-radius:50px;padding:10px 24px;display:inline-block;"><span style="color:#fff;font-size:1.05rem;font-weight:700;">🧑‍💼 طلب انضمام جديد</span></div></td></tr><tr><td style="padding:24px 40px 0;"><div style="background:#e8f5ee;border-right:4px solid #76b84f;border-radius:8px;padding:12px 16px;font-size:0.9rem;color:#0f5873;"><strong>رقم الطلب:</strong> ${appId} &nbsp;|&nbsp; <strong>التاريخ:</strong> ${dateStr}</div></td></tr><tr><td style="padding:24px 40px 0;"><div style="font-size:1rem;font-weight:800;color:#0f5873;margin-bottom:12px;border-bottom:2px solid #e8f5ee;padding-bottom:8px;">👤 المعلومات الشخصية</div><table width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;"><tr style="background:#f8fdfb;"><td style="padding:8px 12px;color:#666;font-weight:600;width:40%;">الاسم الكامل</td><td style="padding:8px 12px;font-weight:700;color:#173042;">${data.firstName} ${data.lastName}</td></tr><tr><td style="padding:8px 12px;color:#666;font-weight:600;">تاريخ الميلاد</td><td style="padding:8px 12px;">${data.birthDate}</td></tr><tr style="background:#f8fdfb;"><td style="padding:8px 12px;color:#666;font-weight:600;">الهاتف</td><td style="padding:8px 12px;font-weight:700;color:#0f5873;">${data.phone}</td></tr><tr><td style="padding:8px 12px;color:#666;font-weight:600;">الإيميل</td><td style="padding:8px 12px;color:#0f5873;">${data.email}</td></tr><tr style="background:#f8fdfb;"><td style="padding:8px 12px;color:#666;font-weight:600;">المدينة</td><td style="padding:8px 12px;">${data.city}</td></tr><tr><td style="padding:8px 12px;color:#666;font-weight:600;">مكان الإقامة</td><td style="padding:8px 12px;">${data.residence}</td></tr><tr style="background:#f8fdfb;"><td style="padding:8px 12px;color:#666;font-weight:600;">العنوان</td><td style="padding:8px 12px;">${data.address}</td></tr></table></td></tr><tr><td style="padding:24px 40px 0;"><div style="font-size:1rem;font-weight:800;color:#0f5873;margin-bottom:12px;border-bottom:2px solid #e8f5ee;padding-bottom:8px;">🎓 المعلومات المهنية</div><table width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;"><tr style="background:#f8fdfb;"><td style="padding:8px 12px;color:#666;font-weight:600;width:40%;">المستوى الدراسي</td><td style="padding:8px 12px;">${data.educationLevel}</td></tr><tr><td style="padding:8px 12px;color:#666;font-weight:600;">الدبلومات</td><td style="padding:8px 12px;">${data.diplomas||'—'}</td></tr><tr style="background:#f8fdfb;"><td style="padding:8px 12px;color:#666;font-weight:600;">الشهادات</td><td style="padding:8px 12px;">${data.certificates||'—'}</td></tr><tr><td style="padding:8px 12px;color:#666;font-weight:600;">التكوينات</td><td style="padding:8px 12px;">${data.formations||'—'}</td></tr><tr style="background:#f8fdfb;"><td style="padding:8px 12px;color:#666;font-weight:600;">الوضعية الحالية</td><td style="padding:8px 12px;">${statusLabel}</td></tr>${extraField}<tr><td style="padding:8px 12px;color:#666;font-weight:600;">نوع الخدمة</td><td style="padding:8px 12px;"><span style="background:#e8f5ee;color:#0f5873;padding:4px 12px;border-radius:50px;font-weight:700;">${jobTypeLabel}</span></td></tr></table></td></tr><tr><td style="padding:24px 40px;"><div style="font-size:1rem;font-weight:800;color:#0f5873;margin-bottom:12px;border-bottom:2px solid #e8f5ee;padding-bottom:8px;">📎 الملفات</div><div style="background:#fff8e1;border:1px solid #ffe082;border-radius:8px;padding:12px 16px;font-size:0.9rem;color:#7a6000;">⚠️ يرجى التواصل مع المتقدم لطلب الملفات مباشرة.<br><strong>السيرة الذاتية:</strong> ${cvFile.name} &nbsp;|&nbsp; <strong>الصورة:</strong> ${selfieFile.name}</div></td></tr><tr><td style="padding:24px 40px;text-align:center;background:#f8fdfb;border-top:1px solid #e8f5ee;"><div style="font-size:0.85rem;color:#999;">إيميل تلقائي من منصة <strong style="color:#0f5873;">CareVia</strong> — First In Morocco</div></td></tr></table></td></tr></table></body></html>`;
+
+      // Send via EmailJS
+      if(window.emailjs) {
+        await window.emailjs.send('carevia_service', 'carevia_join_template', {
+          to_email: 'carevia.maroc@gmail.com',
+          app_id: appId,
+          full_name: `${data.firstName} ${data.lastName}`,
+          email: data.email,
+          phone: data.phone,
+          city: data.city,
+          status: statusLabel,
+          job_type: jobTypeLabel,
+          html_body: htmlBody
+        });
+      }
+
+      // Also send to Google Apps Script as backup
+      const payload = { type:'job_application', bookingId:appId, fullName:`${data.firstName} ${data.lastName}`.trim(), email:data.email, phone:data.phone, city:data.city, service:'CareVia recruitment', serviceKey:'join-us', date:'', timeSlots:[], caregiver:'', caregiverKey:'', hoursCount:0, pricePerHour:0, travelFee:0, nightFee:0, weekendFee:0, discount:0, total:0, paymentMethod:'not-applicable', notes: JSON.stringify({ applicationType:'join-us', birthDate:data.birthDate, residence:data.residence, address:data.address, educationLevel:data.educationLevel, diplomas:data.diplomas, certificates:data.certificates, formations:data.formations, currentStatus:data.currentStatus, studentStudy:data.studentStudy, workerJob:data.workerJob, jobType:data.jobType, cvFileName:cvFile.name, selfieFileName:selfieFile.name }), createdAt:new Date().toISOString() };
+      await postJsonToAppsScript(payload);
+
+      const formWrap=document.getElementById('joinUsFormWrap'); const success=document.getElementById('joinUsSuccess'); if(formWrap) formWrap.style.display='none'; if(success) success.style.display='block'; const set=(id,val)=>{ const el=document.getElementById(id); if(el) el.textContent=val; }; set('joinSuccessEmail', data.email); set('joinSuccessJobType', dt(data.jobType==='main' ? 'joinJobTypeMain' : 'joinJobTypePartTime')); set('joinSuccessStatus', dt(data.currentStatus==='student' ? 'joinStatusStudent' : data.currentStatus==='working' ? 'joinStatusWorking' : 'joinStatusOther')); if (typeof setLanguage === 'function') setTimeout(()=>setLanguage(currentLang),0);
+    }
     catch(error){ console.error(error); showPopup(currentLang==='ar' ? 'وقع مشكل فإرسال طلب الانضمام.' : (currentLang==='fr' ? 'Un problème est survenu lors de l’envoi de la candidature.' : 'There was a problem sending the application.')); }
     finally { if(submitBtn){ submitBtn.textContent=dt('joinSubmitBtn'); submitBtn.disabled=false; } }
   };
@@ -7513,6 +7605,35 @@ body.rtl .cv-user-chip{flex-direction:row-reverse;}
           </div>
           <div class="cv-verify-status" id="cvVerifyStatus"></div>
           <button type="button" class="cv-reg-back-btn" onclick="cvRegGoStep1()"><i class="fas fa-arrow-right"></i> رجوع</button>
+        </div>
+
+        <!-- Step 2.5: Phone OTP -->
+        <div class="cv-reg-panel" id="cvRegPanel25" style="display:none;">
+          <p class="cv-reg-panel-hint"><i class="fas fa-mobile-alt"></i> سنرسل كود تحقق إلى رقم هاتفك</p>
+          <div class="form-group">
+            <label><i class="fas fa-phone"></i> رقم الهاتف</label>
+            <div class="cv-input-wrap">
+              <i class="fas fa-phone cv-input-icon"></i>
+              <input type="tel" id="cvRegPhone" placeholder="+212612345678"/>
+            </div>
+          </div>
+          <button type="button" class="cv-btn-secondary" id="cvSendPhoneBtn" onclick="cvSendPhoneOTP()" style="width:100%;margin-bottom:.8rem;">
+            <i class="fas fa-paper-plane"></i> إرسال كود التحقق
+          </button>
+          <div id="cvPhoneCodeBox" style="display:none;">
+            <div class="form-group">
+              <label><i class="fas fa-shield-alt"></i> كود التحقق</label>
+              <div class="cv-input-wrap">
+                <i class="fas fa-shield-alt cv-input-icon"></i>
+                <input type="text" id="cvRegPhoneCode" inputmode="numeric" maxlength="6" placeholder="أدخل الكود المكوّن من 6 أرقام"/>
+              </div>
+            </div>
+            <button type="button" class="cv-btn-primary" onclick="cvVerifyPhoneOTP()" style="margin-top:.6rem;">
+              <i class="fas fa-circle-check"></i> تأكيد الكود والمتابعة
+            </button>
+          </div>
+          <div class="cv-verify-status" id="cvPhoneVerifyStatus"></div>
+          <button type="button" class="cv-reg-back-btn" onclick="cvRegGoStep2()"><i class="fas fa-arrow-right"></i> رجوع</button>
         </div>
 
         <!-- Step 3: Password -->
@@ -9086,6 +9207,112 @@ if(typeof setLanguage === 'function'){
 }
 
 })();
+
+// ========== CareVia Phone OTP ==========
+const CV_SERVER = "https://carevia-production.up.railway.app";
+
+// ----- Registration OTP -----
+window.cvRegGoStep25 = function() {
+  var p1 = document.getElementById('cvRegPanel1');
+  if(p1) p1.style.display = 'none';
+  document.getElementById('cvRegPanel2').style.display  = 'none';
+  document.getElementById('cvRegPanel25').style.display = '';
+  document.getElementById('cvRegPanel3').style.display  = 'none';
+};
+
+window.cvSendPhoneOTP = async function() {
+  var phone = (document.getElementById('cvRegPhone').value || '').trim();
+  if (!phone) { document.getElementById('cvPhoneVerifyStatus').textContent = 'أدخل رقم الهاتف'; return; }
+  document.getElementById('cvPhoneVerifyStatus').textContent = 'جاري الإرسال...';
+  document.getElementById('cvSendPhoneBtn').disabled = true;
+  try {
+    var res  = await fetch(CV_SERVER + '/send-otp', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ phone: phone }) });
+    var data = await res.json();
+    if (data.success) {
+      document.getElementById('cvPhoneCodeBox').style.display = 'block';
+      document.getElementById('cvPhoneVerifyStatus').textContent = '✅ تم إرسال الكود';
+    } else {
+      document.getElementById('cvPhoneVerifyStatus').textContent = '❌ ' + (data.error || 'فشل الإرسال');
+      document.getElementById('cvSendPhoneBtn').disabled = false;
+    }
+  } catch(e) {
+    document.getElementById('cvPhoneVerifyStatus').textContent = '❌ خطأ في الاتصال';
+    document.getElementById('cvSendPhoneBtn').disabled = false;
+  }
+};
+
+window.cvVerifyPhoneOTP = async function() {
+  var phone = (document.getElementById('cvRegPhone').value || '').trim();
+  var code  = (document.getElementById('cvRegPhoneCode').value || '').trim();
+  if (!code) return;
+  document.getElementById('cvPhoneVerifyStatus').textContent = 'جاري التحقق...';
+  try {
+    var res  = await fetch(CV_SERVER + '/verify-otp', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ phone: phone, code: code }) });
+    var data = await res.json();
+    if (data.success) {
+      document.getElementById('cvRegPanel25').dataset.verified = 'true';
+      document.getElementById('cvPhoneVerifyStatus').textContent = '✅ تم التحقق!';
+      document.getElementById('cvPhoneVerifyStatus').style.color = 'green';
+      setTimeout(function(){ cvRegGoStep3(); }, 600);
+    } else {
+      document.getElementById('cvPhoneVerifyStatus').textContent = '❌ ' + (data.message || 'الكود خاطئ');
+      document.getElementById('cvPhoneVerifyStatus').style.color = 'red';
+    }
+  } catch(e) { document.getElementById('cvPhoneVerifyStatus').textContent = '❌ خطأ في الاتصال'; }
+};
+
+var _origGoStep3 = window.cvRegGoStep3;
+window.cvRegGoStep3 = function() {
+  var panel25 = document.getElementById('cvRegPanel25');
+  var verified = panel25 && panel25.dataset.verified === 'true';
+  if (!verified) { cvRegGoStep25(); return; }
+  if (_origGoStep3) _origGoStep3();
+};
+
+// ----- Booking OTP -----
+window._cvBookingPhoneVerified = false;
+
+window.cvSendBookingOTP = async function() {
+  var phone = (document.getElementById('clientPhone').value || '').trim();
+  if (!phone) { document.getElementById('cvBookOtpStatus').textContent = 'أدخل رقم الهاتف أولاً'; return; }
+  document.getElementById('cvBookOtpStatus').textContent = 'جاري الإرسال...';
+  document.getElementById('cvBookSendBtn').disabled = true;
+  try {
+    var res  = await fetch(CV_SERVER + '/send-otp', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ phone: phone }) });
+    var data = await res.json();
+    if (data.success) {
+      document.getElementById('cvBookOtpBox').style.display = 'block';
+      document.getElementById('cvBookOtpStatus').textContent = '✅ تم إرسال الكود';
+    } else {
+      document.getElementById('cvBookOtpStatus').textContent = '❌ ' + (data.error || 'فشل الإرسال');
+      document.getElementById('cvBookSendBtn').disabled = false;
+    }
+  } catch(e) {
+    document.getElementById('cvBookOtpStatus').textContent = '❌ خطأ في الاتصال';
+    document.getElementById('cvBookSendBtn').disabled = false;
+  }
+};
+
+window.cvVerifyBookingOTP = async function() {
+  var phone = (document.getElementById('clientPhone').value || '').trim();
+  var code  = (document.getElementById('cvBookOtpCode').value || '').trim();
+  if (!code) return;
+  document.getElementById('cvBookOtpStatus').textContent = 'جاري التحقق...';
+  try {
+    var res  = await fetch(CV_SERVER + '/verify-otp', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ phone: phone, code: code }) });
+    var data = await res.json();
+    if (data.success) {
+      window._cvBookingPhoneVerified = true;
+      document.getElementById('cvBookOtpStatus').textContent = '✅ تم التحقق من الرقم!';
+      document.getElementById('cvBookOtpStatus').style.color = 'green';
+      document.getElementById('cvBookOtpBox').style.display = 'none';
+    } else {
+      document.getElementById('cvBookOtpStatus').textContent = '❌ ' + (data.message || 'الكود خاطئ');
+      document.getElementById('cvBookOtpStatus').style.color = 'red';
+    }
+  } catch(e) { document.getElementById('cvBookOtpStatus').textContent = '❌ خطأ في الاتصال'; }
+};
+
 </script>
 </body>
 </html>
