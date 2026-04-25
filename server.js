@@ -2,14 +2,26 @@ const express = require('express');
 const twilio = require('twilio');
 const cors = require('cors');
 const app = express();
-app.use(cors({ origin: '*', methods: ['GET', 'POST', 'OPTIONS'], allowedHeaders: ['Content-Type'] }));
-app.options('*', cors());
+
+// Handle CORS manually
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+  next();
+});
+
 app.use(express.json());
+
 const accountSid = process.env.TW_SID;
 const authToken = process.env.TW_TOKEN;
 const twilioNumber = process.env.TW_NUMBER;
 const client = twilio(accountSid, authToken);
 const otps = {};
+
 app.post('/send-otp', async (req, res) => {
   const phone = req.body.phone;
   const code = Math.floor(100000 + Math.random() * 900000).toString();
@@ -21,6 +33,7 @@ app.post('/send-otp', async (req, res) => {
     res.json({ success: false, error: err.message });
   }
 });
+
 app.post('/verify-otp', (req, res) => {
   const phone = req.body.phone;
   const code = req.body.code;
@@ -30,4 +43,5 @@ app.post('/verify-otp', (req, res) => {
   if (record.code === code) { delete otps[phone]; return res.json({ success: true }); }
   res.json({ success: false, message: 'الكود خاطئ' });
 });
+
 app.listen(process.env.PORT || 3000, () => console.log('Server running'));
