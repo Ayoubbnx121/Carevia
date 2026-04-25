@@ -3,7 +3,13 @@ const twilio = require('twilio');
 const cors = require('cors');
 
 const app = express();
-app.use(cors());
+
+app.use(cors({
+  origin: '*',
+  methods: ['GET', 'POST', 'OPTIONS'],
+  allowedHeaders: ['Content-Type']
+}));
+app.options('*', cors());
 app.use(express.json());
 
 const client = twilio(
@@ -17,7 +23,6 @@ app.post('/send-otp', async (req, res) => {
   const { phone } = req.body;
   const code = Math.floor(100000 + Math.random() * 900000).toString();
   otps[phone] = { code, expires: Date.now() + 5 * 60 * 1000 };
-
   try {
     await client.messages.create({
       body: `كود التحقق: ${code}`,
@@ -33,7 +38,6 @@ app.post('/send-otp', async (req, res) => {
 app.post('/verify-otp', (req, res) => {
   const { phone, code } = req.body;
   const record = otps[phone];
-
   if (!record) return res.json({ success: false, message: "أرسل الكود أولاً" });
   if (Date.now() > record.expires) {
     delete otps[phone];
