@@ -21,21 +21,11 @@
       --radius: 18px;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
-    body {
-      font-family: Arial, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-    }
+    body { font-family: Arial, sans-serif; background: var(--bg); color: var(--text); }
 
-    .hidden {
-      display: none !important;
-    }
+    .hidden { display: none !important; }
 
     .login-screen {
       min-height: 100vh;
@@ -56,356 +46,119 @@
       padding: 30px 24px;
     }
 
-    .login-card h1 {
-      font-size: 30px;
-      color: var(--primary);
-      margin-bottom: 8px;
-    }
+    .login-card h1 { font-size: 30px; color: var(--primary); margin-bottom: 8px; }
+    .login-card p { color: var(--muted); margin-bottom: 24px; }
+    .brand-inline span { color: var(--secondary); }
 
-    .login-card p {
-      color: var(--muted);
-      margin-bottom: 24px;
-    }
-
-    .brand-inline span {
-      color: var(--secondary);
-    }
-
-    .input-group {
-      margin-bottom: 16px;
-    }
-
-    .input-group label {
-      display: block;
-      margin-bottom: 6px;
-      font-size: 14px;
-      font-weight: bold;
-    }
-
-    .input-group input,
-    .input-group select,
-    textarea {
-      width: 100%;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 12px 14px;
-      font-size: 14px;
-      outline: none;
-      background: #fff;
+    .input-group { margin-bottom: 16px; }
+    .input-group label { display: block; margin-bottom: 6px; font-size: 14px; font-weight: bold; }
+    .input-group input, .input-group select, textarea {
+      width: 100%; border: 1px solid var(--border); border-radius: 12px;
+      padding: 12px 14px; font-size: 14px; outline: none; background: #fff;
     }
 
     .btn {
-      border: none;
-      border-radius: 12px;
-      padding: 11px 16px;
-      cursor: pointer;
-      font-weight: bold;
-      transition: 0.2s ease;
+      border: none; border-radius: 12px; padding: 11px 16px;
+      cursor: pointer; font-weight: bold; transition: 0.2s ease;
     }
+    .btn:hover { transform: translateY(-1px); opacity: 0.95; }
+    .btn-primary { background: var(--primary); color: #fff; }
+    .btn-secondary { background: var(--secondary); color: #fff; }
+    .btn-danger { background: var(--danger); color: #fff; }
+    .btn-warning { background: var(--warning); color: #fff; }
+    .btn-success { background: var(--success); color: #fff; }
 
-    .btn:hover {
-      transform: translateY(-1px);
-      opacity: 0.95;
-    }
+    .otp-status { margin-top: 10px; font-size: 14px; min-height: 20px; }
 
-    .btn-primary {
-      background: var(--primary);
-      color: #fff;
-    }
+    .app-layout { display: grid; grid-template-columns: 260px 1fr; min-height: 100vh; }
 
-    .btn-secondary {
-      background: var(--secondary);
-      color: #fff;
-    }
-
-    .btn-danger {
-      background: var(--danger);
-      color: #fff;
-    }
-
-    .btn-warning {
-      background: var(--warning);
-      color: #fff;
-    }
-
-    .btn-success {
-      background: var(--success);
-      color: #fff;
-    }
-
-    .app-layout {
-      display: grid;
-      grid-template-columns: 260px 1fr;
-      min-height: 100vh;
-    }
-
-    .sidebar {
-      background: var(--sidebar);
-      border-right: 1px solid var(--border);
-      padding: 24px 18px;
-    }
-
-    .brand {
-      font-size: 28px;
-      font-weight: 800;
-      color: var(--primary);
-      margin-bottom: 28px;
-    }
-
-    .brand span {
-      color: var(--secondary);
-    }
+    .sidebar { background: var(--sidebar); border-right: 1px solid var(--border); padding: 24px 18px; }
+    .brand { font-size: 28px; font-weight: 800; color: var(--primary); margin-bottom: 28px; }
+    .brand span { color: var(--secondary); }
 
     .menu button {
-      width: 100%;
-      text-align: left;
-      padding: 13px 14px;
-      border: none;
-      border-radius: 12px;
-      background: transparent;
-      cursor: pointer;
-      margin-bottom: 8px;
-      font-size: 15px;
-      color: var(--text);
+      width: 100%; text-align: left; padding: 13px 14px; border: none;
+      border-radius: 12px; background: transparent; cursor: pointer;
+      margin-bottom: 8px; font-size: 15px; color: var(--text);
     }
+    .menu button:hover, .menu button.active { background: #eef6f4; color: var(--primary); font-weight: bold; }
 
-    .menu button:hover,
-    .menu button.active {
-      background: #eef6f4;
-      color: var(--primary);
-      font-weight: bold;
-    }
+    .content { padding: 24px; }
+    .topbar { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 22px; flex-wrap: wrap; }
+    .topbar h2 { font-size: 28px; }
 
-    .content {
-      padding: 24px;
-    }
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 24px; }
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px; }
+    .card h3 { font-size: 14px; color: var(--muted); margin-bottom: 10px; }
+    .card .value { font-size: 28px; font-weight: 800; color: var(--primary); }
 
-    .topbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 22px;
-      flex-wrap: wrap;
-    }
+    .section { display: none; }
+    .section.active { display: block; }
 
-    .topbar h2 {
-      font-size: 28px;
-    }
+    .toolbar { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; align-items: center; }
+    .toolbar input, .toolbar select { min-width: 180px; }
 
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 16px;
-      margin-bottom: 24px;
-    }
+    .table-wrap { background: #fff; border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
+    .table-scroll { overflow: auto; }
 
-    .card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 20px;
-    }
+    table { width: 100%; border-collapse: collapse; min-width: 900px; }
+    th, td { padding: 14px 12px; border-bottom: 1px solid #edf2f1; text-align: left; font-size: 14px; vertical-align: top; }
+    th { background: #f9fcfb; color: var(--primary); font-weight: 700; }
 
-    .card h3 {
-      font-size: 14px;
-      color: var(--muted);
-      margin-bottom: 10px;
-    }
+    .status-badge { display: inline-block; padding: 6px 10px; border-radius: 999px; background: #eef6f4; color: var(--primary); font-size: 12px; font-weight: bold; white-space: nowrap; }
+    .actions { display: flex; gap: 8px; flex-wrap: wrap; }
+    .actions .btn { padding: 8px 10px; font-size: 12px; border-radius: 10px; }
+    .muted { color: var(--muted); font-size: 14px; }
+    .empty-state { padding: 22px; text-align: center; color: var(--muted); }
 
-    .card .value {
-      font-size: 28px;
-      font-weight: 800;
-      color: var(--primary);
-    }
-
-    .section {
-      display: none;
-    }
-
-    .section.active {
-      display: block;
-    }
-
-    .toolbar {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-bottom: 16px;
-      align-items: center;
-    }
-
-    .toolbar input,
-    .toolbar select {
-      min-width: 180px;
-    }
-
-    .table-wrap {
-      background: #fff;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      overflow: hidden;
-    }
-
-    .table-scroll {
-      overflow: auto;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      min-width: 900px;
-    }
-
-    th, td {
-      padding: 14px 12px;
-      border-bottom: 1px solid #edf2f1;
-      text-align: left;
-      font-size: 14px;
-      vertical-align: top;
-    }
-
-    th {
-      background: #f9fcfb;
-      color: var(--primary);
-      font-weight: 700;
-    }
-
-    .status-badge {
-      display: inline-block;
-      padding: 6px 10px;
-      border-radius: 999px;
-      background: #eef6f4;
-      color: var(--primary);
-      font-size: 12px;
-      font-weight: bold;
-      white-space: nowrap;
-    }
-
-    .actions {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    .actions .btn {
-      padding: 8px 10px;
-      font-size: 12px;
-      border-radius: 10px;
-    }
-
-    .muted {
-      color: var(--muted);
-      font-size: 14px;
-    }
-
-    .empty-state {
-      padding: 22px;
-      text-align: center;
-      color: var(--muted);
-    }
-
-    .modal-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.4);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 16px;
-      z-index: 1000;
-    }
-
-    .modal-overlay.show {
-      display: flex;
-    }
-
-    .modal {
-      width: 100%;
-      max-width: 760px;
-      background: #fff;
-      border-radius: 20px;
-      overflow: hidden;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.2);
-    }
-
-    .modal-header {
-      padding: 18px 20px;
-      background: #f8fbfa;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .modal-body {
-      padding: 20px;
-      max-height: 75vh;
-      overflow: auto;
-    }
-
-    .detail-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 12px;
-    }
-
-    .detail-item {
-      background: #fbfdfc;
-      border: 1px solid #edf2f1;
-      border-radius: 14px;
-      padding: 14px;
-    }
-
-    .detail-item strong {
-      display: block;
-      margin-bottom: 6px;
-      color: var(--primary);
-      font-size: 13px;
-    }
-
-    .login-error {
-      margin-top: 12px;
-      color: var(--danger);
-      font-size: 14px;
-    }
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); display: none; align-items: center; justify-content: center; padding: 16px; z-index: 1000; }
+    .modal-overlay.show { display: flex; }
+    .modal { width: 100%; max-width: 760px; background: #fff; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.2); }
+    .modal-header { padding: 18px 20px; background: #f8fbfa; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+    .modal-body { padding: 20px; max-height: 75vh; overflow: auto; }
+    .detail-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+    .detail-item { background: #fbfdfc; border: 1px solid #edf2f1; border-radius: 14px; padding: 14px; }
+    .detail-item strong { display: block; margin-bottom: 6px; color: var(--primary); font-size: 13px; }
 
     @media (max-width: 920px) {
-      .app-layout {
-        grid-template-columns: 1fr;
-      }
-
-      .sidebar {
-        border-right: none;
-        border-bottom: 1px solid var(--border);
-      }
+      .app-layout { grid-template-columns: 1fr; }
+      .sidebar { border-right: none; border-bottom: 1px solid var(--border); }
     }
   </style>
 </head>
 <body>
+
+  <!-- ===== LOGIN SCREEN ===== -->
   <div id="loginScreen" class="login-screen">
     <div class="login-card">
       <h1 class="brand-inline">Care<span>Via</span> Admin</h1>
-      <p>Connexion à l’espace d’administration</p>
+      <p>Connexion à l'espace d'administration</p>
 
-      <div class="input-group">
-        <label for="adminEmail">Email</label>
-        <input type="email" id="adminEmail" placeholder="admin@carevia.ma" />
+      <!-- Step 1: Phone -->
+      <div id="stepPhone">
+        <div class="input-group">
+          <label>رقم الهاتف</label>
+          <input type="tel" id="adminPhone" placeholder="+212612345678" />
+        </div>
+        <button class="btn btn-primary" style="width:100%;" onclick="sendAdminOTP()">إرسال كود التحقق</button>
+        <div class="otp-status" id="phoneStatus"></div>
       </div>
 
-      <div class="input-group">
-        <label for="adminPassword">Mot de passe</label>
-        <input type="password" id="adminPassword" placeholder="********" />
+      <!-- Step 2: OTP -->
+      <div id="stepOTP" class="hidden">
+        <div class="input-group">
+          <label>كود التحقق</label>
+          <input type="text" id="adminOTPInput" inputmode="numeric" maxlength="6" placeholder="أدخل الكود المكوّن من 6 أرقام" />
+        </div>
+        <button class="btn btn-primary" style="width:100%;" onclick="verifyAdminOTP()">تأكيد الدخول</button>
+        <button class="btn" style="width:100%;margin-top:8px;background:#eee;" onclick="backToPhone()">← تغيير الرقم</button>
+        <div class="otp-status" id="otpStatus"></div>
       </div>
 
-      <button class="btn btn-primary" style="width:100%;" onclick="loginAdmin()">Login</button>
-      <div id="loginError" class="login-error"></div>
     </div>
   </div>
 
+  <!-- ===== ADMIN APP ===== -->
   <div id="adminApp" class="app-layout hidden">
     <aside class="sidebar">
       <div class="brand">Care<span>Via</span></div>
@@ -434,7 +187,6 @@
           <div class="card"><h3>Join Us</h3><div class="value" id="statJoinUs">0</div></div>
           <div class="card"><h3>Caregivers</h3><div class="value" id="statCaregivers">0</div></div>
         </div>
-
         <div class="card">
           <h3 style="margin-bottom:10px;">Résumé</h3>
           <p class="muted">من هنا تقدر تشوف الطلبات، تبدل status، وتشوف الترشيحات ومعلومات الـ caregivers.</p>
@@ -452,22 +204,14 @@
             <option value="annulé">annulé</option>
           </select>
         </div>
-
         <div class="table-wrap">
           <div class="table-scroll">
             <table>
               <thead>
                 <tr>
-                  <th>Booking ID</th>
-                  <th>Nom</th>
-                  <th>Téléphone</th>
-                  <th>Email</th>
-                  <th>Ville</th>
-                  <th>Service</th>
-                  <th>Date</th>
-                  <th>Total</th>
-                  <th>Status</th>
-                  <th>Actions</th>
+                  <th>Booking ID</th><th>Nom</th><th>Téléphone</th><th>Email</th>
+                  <th>Ville</th><th>Service</th><th>Date</th><th>Total</th>
+                  <th>Status</th><th>Actions</th>
                 </tr>
               </thead>
               <tbody id="bookingsTableBody"></tbody>
@@ -483,14 +227,8 @@
             <table>
               <thead>
                 <tr>
-                  <th>ID</th>
-                  <th>First Name</th>
-                  <th>Last Name</th>
-                  <th>Phone</th>
-                  <th>Email</th>
-                  <th>City</th>
-                  <th>Education</th>
-                  <th>Status</th>
+                  <th>ID</th><th>First Name</th><th>Last Name</th><th>Phone</th>
+                  <th>Email</th><th>City</th><th>Education</th><th>Status</th>
                 </tr>
               </thead>
               <tbody id="joinUsTableBody"></tbody>
@@ -506,14 +244,8 @@
             <table>
               <thead>
                 <tr>
-                  <th>ID</th>
-                  <th>Full Name</th>
-                  <th>Phone</th>
-                  <th>Email</th>
-                  <th>City</th>
-                  <th>Services</th>
-                  <th>Availability</th>
-                  <th>Notes</th>
+                  <th>ID</th><th>Full Name</th><th>Phone</th><th>Email</th>
+                  <th>City</th><th>Services</th><th>Availability</th><th>Notes</th>
                 </tr>
               </thead>
               <tbody id="caregiversTableBody"></tbody>
@@ -525,6 +257,7 @@
     </main>
   </div>
 
+  <!-- Modal -->
   <div id="detailsModalOverlay" class="modal-overlay">
     <div class="modal">
       <div class="modal-header">
@@ -533,7 +266,6 @@
       </div>
       <div class="modal-body">
         <div id="bookingDetailGrid" class="detail-grid"></div>
-
         <div style="margin-top:20px;">
           <label for="statusUpdateSelect" style="display:block;font-weight:bold;margin-bottom:8px;">Changer le status</label>
           <select id="statusUpdateSelect">
@@ -551,35 +283,97 @@
   <script>
     const CONFIG = {
       WEB_APP_URL: 'https://script.google.com/macros/s/AKfycbxf3gnZ5ZPXdqK-xB-zrXTSptJ1dm_aG3SXB-HducyGFUAlyip6CgSuM_Kb6VdLjdjt/exec',
-      ADMIN_EMAIL: 'admin@carevia.ma',
-      ADMIN_PASSWORD: '12345678'
+      OTP_SERVER: 'https://carevia-alpha.vercel.app',
+      // ⚠️ زيد هنا أرقام الـ admin فقط اللي يقدرو يدخلو
+      ALLOWED_PHONES: ['+212632700923'] // ← بدل برقمك الحقيقي
     };
 
     const state = {
-      bookings: [],
-      joinUs: [],
-      caregivers: [],
-      currentBooking: null
+      bookings: [], joinUs: [], caregivers: [], currentBooking: null,
+      adminPhone: ''
     };
 
-    function loginAdmin() {
-      const email = document.getElementById('adminEmail').value.trim();
-      const password = document.getElementById('adminPassword').value.trim();
-      const errorEl = document.getElementById('loginError');
+    // ===== OTP LOGIN =====
+    async function sendAdminOTP() {
+      const phone = document.getElementById('adminPhone').value.trim();
+      const statusEl = document.getElementById('phoneStatus');
 
-      if (email === CONFIG.ADMIN_EMAIL && password === CONFIG.ADMIN_PASSWORD) {
-        sessionStorage.setItem('carevia_admin_logged_in', 'true');
-        document.getElementById('loginScreen').classList.add('hidden');
-        document.getElementById('adminApp').classList.remove('hidden');
-        loadInitialData();
+      if (!phone) { statusEl.textContent = '⚠️ أدخل رقم الهاتف'; statusEl.style.color = 'orange'; return; }
+
+      if (!CONFIG.ALLOWED_PHONES.includes(phone)) {
+        statusEl.textContent = '❌ هذا الرقم غير مخول للدخول';
+        statusEl.style.color = 'red';
         return;
       }
 
-      errorEl.textContent = 'Invalid email or password';
+      statusEl.textContent = 'جاري الإرسال...';
+      statusEl.style.color = '';
+
+      try {
+        const res = await fetch(CONFIG.OTP_SERVER + '/send-otp', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ phone })
+        });
+        const data = await res.json();
+        if (data.success) {
+          state.adminPhone = phone;
+          document.getElementById('stepPhone').classList.add('hidden');
+          document.getElementById('stepOTP').classList.remove('hidden');
+          document.getElementById('otpStatus').textContent = '✅ تم إرسال الكود';
+          document.getElementById('otpStatus').style.color = 'green';
+        } else {
+          statusEl.textContent = '❌ ' + (data.error || 'فشل الإرسال');
+          statusEl.style.color = 'red';
+        }
+      } catch(e) {
+        statusEl.textContent = '❌ خطأ في الاتصال بالسيرفر';
+        statusEl.style.color = 'red';
+      }
+    }
+
+    async function verifyAdminOTP() {
+      const code = document.getElementById('adminOTPInput').value.trim();
+      const statusEl = document.getElementById('otpStatus');
+      if (!code) return;
+
+      statusEl.textContent = 'جاري التحقق...';
+      statusEl.style.color = '';
+
+      try {
+        const res = await fetch(CONFIG.OTP_SERVER + '/verify-otp', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ phone: state.adminPhone, code })
+        });
+        const data = await res.json();
+        if (data.success) {
+          sessionStorage.setItem('carevia_admin_logged_in', 'true');
+          sessionStorage.setItem('carevia_admin_phone', state.adminPhone);
+          document.getElementById('loginScreen').classList.add('hidden');
+          document.getElementById('adminApp').classList.remove('hidden');
+          loadInitialData();
+        } else {
+          statusEl.textContent = '❌ ' + (data.message || 'الكود خاطئ');
+          statusEl.style.color = 'red';
+        }
+      } catch(e) {
+        statusEl.textContent = '❌ خطأ في الاتصال';
+        statusEl.style.color = 'red';
+      }
+    }
+
+    function backToPhone() {
+      document.getElementById('stepOTP').classList.add('hidden');
+      document.getElementById('stepPhone').classList.remove('hidden');
+      document.getElementById('phoneStatus').textContent = '';
+      document.getElementById('otpStatus').textContent = '';
+      document.getElementById('adminOTPInput').value = '';
     }
 
     function logoutAdmin() {
       sessionStorage.removeItem('carevia_admin_logged_in');
+      sessionStorage.removeItem('carevia_admin_phone');
       location.reload();
     }
 
@@ -592,20 +386,13 @@
       }
     }
 
+    // ===== APP LOGIC =====
     function showSection(sectionId, btn) {
       document.querySelectorAll('.section').forEach(el => el.classList.remove('active'));
       document.querySelectorAll('.menu button').forEach(el => el.classList.remove('active'));
-
       document.getElementById(sectionId).classList.add('active');
       if (btn) btn.classList.add('active');
-
-      const titles = {
-        dashboard: 'Dashboard',
-        bookings: 'Bookings',
-        joinus: 'Join Us',
-        caregivers: 'Caregivers'
-      };
-
+      const titles = { dashboard: 'Dashboard', bookings: 'Bookings', joinus: 'Join Us', caregivers: 'Caregivers' };
       document.getElementById('pageTitle').textContent = titles[sectionId] || 'Dashboard';
     }
 
@@ -617,43 +404,30 @@
     async function apiPost(payload) {
       const response = await fetch(CONFIG.WEB_APP_URL, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'text/plain;charset=utf-8'
-        },
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
         body: JSON.stringify(payload)
       });
       return await response.json();
     }
 
-    async function loadInitialData() {
-      await refreshAll();
-    }
+    async function loadInitialData() { await refreshAll(); }
 
     async function refreshAll() {
       try {
         const [bookingsRes, joinUsRes, caregiversRes] = await Promise.all([
-          apiGet('getBookings'),
-          apiGet('getJoinUs'),
-          apiGet('getCaregivers')
+          apiGet('getBookings'), apiGet('getJoinUs'), apiGet('getCaregivers')
         ]);
-
         state.bookings = bookingsRes.ok ? bookingsRes.bookings : [];
         state.joinUs = joinUsRes.ok ? joinUsRes.joinUs : [];
         state.caregivers = caregiversRes.ok ? caregiversRes.caregivers : [];
-
-        updateStats();
-        renderBookings();
-        renderJoinUs();
-        renderCaregivers();
+        updateStats(); renderBookings(); renderJoinUs(); renderCaregivers();
       } catch (error) {
         console.error(error);
         alert('Error while loading data');
       }
     }
 
-    function normalizeStatus(value) {
-      return String(value || '').trim().toLowerCase();
-    }
+    function normalizeStatus(value) { return String(value || '').trim().toLowerCase(); }
 
     function updateStats() {
       document.getElementById('statTotalBookings').textContent = state.bookings.length;
@@ -672,24 +446,17 @@
       const status = document.getElementById('bookingStatusFilter').value.trim().toLowerCase();
 
       const filtered = state.bookings.filter(item => {
-        const matchSearch =
-          !search ||
+        const matchSearch = !search ||
           String(item.bookingId || '').toLowerCase().includes(search) ||
           String(item.fullName || '').toLowerCase().includes(search) ||
           String(item.phone || '').toLowerCase().includes(search) ||
           String(item.email || '').toLowerCase().includes(search);
-
         const matchStatus = !status || normalizeStatus(item.status) === status;
         return matchSearch && matchStatus;
       });
 
       tbody.innerHTML = '';
-
-      if (!filtered.length) {
-        empty.classList.remove('hidden');
-        return;
-      }
-
+      if (!filtered.length) { empty.classList.remove('hidden'); return; }
       empty.classList.add('hidden');
 
       filtered.forEach(item => {
@@ -711,8 +478,7 @@
               <button class="btn btn-warning" onclick="quickUpdateStatus('${escapeJs(item.bookingId)}', 'terminé')">Terminer</button>
               <button class="btn btn-danger" onclick="quickUpdateStatus('${escapeJs(item.bookingId)}', 'annulé')">Annuler</button>
             </div>
-          </td>
-        `;
+          </td>`;
         tbody.appendChild(tr);
       });
     }
@@ -721,26 +487,15 @@
       const tbody = document.getElementById('joinUsTableBody');
       const empty = document.getElementById('joinUsEmpty');
       tbody.innerHTML = '';
-
-      if (!state.joinUs.length) {
-        empty.classList.remove('hidden');
-        return;
-      }
-
+      if (!state.joinUs.length) { empty.classList.remove('hidden'); return; }
       empty.classList.add('hidden');
-
       state.joinUs.forEach(item => {
         const tr = document.createElement('tr');
         tr.innerHTML = `
-          <td>${escapeHtml(item.id || '-')}</td>
-          <td>${escapeHtml(item.firstName || '-')}</td>
-          <td>${escapeHtml(item.lastName || '-')}</td>
-          <td>${escapeHtml(item.phone || '-')}</td>
-          <td>${escapeHtml(item.email || '-')}</td>
-          <td>${escapeHtml(item.city || '-')}</td>
-          <td>${escapeHtml(item.educationLevel || '-')}</td>
-          <td>${escapeHtml(item.status || '-')}</td>
-        `;
+          <td>${escapeHtml(item.id || '-')}</td><td>${escapeHtml(item.firstName || '-')}</td>
+          <td>${escapeHtml(item.lastName || '-')}</td><td>${escapeHtml(item.phone || '-')}</td>
+          <td>${escapeHtml(item.email || '-')}</td><td>${escapeHtml(item.city || '-')}</td>
+          <td>${escapeHtml(item.educationLevel || '-')}</td><td>${escapeHtml(item.status || '-')}</td>`;
         tbody.appendChild(tr);
       });
     }
@@ -749,26 +504,15 @@
       const tbody = document.getElementById('caregiversTableBody');
       const empty = document.getElementById('caregiversEmpty');
       tbody.innerHTML = '';
-
-      if (!state.caregivers.length) {
-        empty.classList.remove('hidden');
-        return;
-      }
-
+      if (!state.caregivers.length) { empty.classList.remove('hidden'); return; }
       empty.classList.add('hidden');
-
       state.caregivers.forEach(item => {
         const tr = document.createElement('tr');
         tr.innerHTML = `
-          <td>${escapeHtml(item.id || '-')}</td>
-          <td>${escapeHtml(item.fullName || '-')}</td>
-          <td>${escapeHtml(item.phone || '-')}</td>
-          <td>${escapeHtml(item.email || '-')}</td>
-          <td>${escapeHtml(item.city || '-')}</td>
-          <td>${escapeHtml(item.services || '-')}</td>
-          <td>${escapeHtml(item.availability || '-')}</td>
-          <td>${escapeHtml(item.notes || '-')}</td>
-        `;
+          <td>${escapeHtml(item.id || '-')}</td><td>${escapeHtml(item.fullName || '-')}</td>
+          <td>${escapeHtml(item.phone || '-')}</td><td>${escapeHtml(item.email || '-')}</td>
+          <td>${escapeHtml(item.city || '-')}</td><td>${escapeHtml(item.services || '-')}</td>
+          <td>${escapeHtml(item.availability || '-')}</td><td>${escapeHtml(item.notes || '-')}</td>`;
         tbody.appendChild(tr);
       });
     }
@@ -776,40 +520,25 @@
     function openBookingDetails(bookingId) {
       const booking = state.bookings.find(item => String(item.bookingId) === String(bookingId));
       if (!booking) return;
-
       state.currentBooking = booking;
-
       const details = [
-        ['Booking ID', booking.bookingId],
-        ['Created At', booking.createdAt],
-        ['Full Name', booking.fullName],
-        ['Phone', booking.phone],
-        ['Email', booking.email],
-        ['City', booking.city],
-        ['Service', booking.service],
-        ['Date', booking.date],
-        ['Time Slots', booking.timeSlots],
-        ['Caregiver', booking.caregiver],
-        ['Hours Count', booking.hoursCount],
-        ['Price Per Hour', booking.pricePerHour],
-        ['Travel Fee', booking.travelFee],
-        ['Night Fee', booking.nightFee],
-        ['Weekend Fee', booking.weekendFee],
-        ['Discount', booking.discount],
-        ['Total', booking.total + ' MAD'],
-        ['Payment Method', booking.paymentMethod],
-        ['Status', booking.status],
-        ['Notes', booking.notes]
+        ['Booking ID', booking.bookingId], ['Created At', booking.createdAt],
+        ['Full Name', booking.fullName], ['Phone', booking.phone],
+        ['Email', booking.email], ['City', booking.city],
+        ['Service', booking.service], ['Date', booking.date],
+        ['Time Slots', booking.timeSlots], ['Caregiver', booking.caregiver],
+        ['Hours Count', booking.hoursCount], ['Price Per Hour', booking.pricePerHour],
+        ['Travel Fee', booking.travelFee], ['Night Fee', booking.nightFee],
+        ['Weekend Fee', booking.weekendFee], ['Discount', booking.discount],
+        ['Total', booking.total + ' MAD'], ['Payment Method', booking.paymentMethod],
+        ['Status', booking.status], ['Notes', booking.notes]
       ];
-
       const grid = document.getElementById('bookingDetailGrid');
       grid.innerHTML = details.map(([label, value]) => `
         <div class="detail-item">
           <strong>${escapeHtml(label)}</strong>
           <div>${escapeHtml(formatValue(value))}</div>
-        </div>
-      `).join('');
-
+        </div>`).join('');
       document.getElementById('statusUpdateSelect').value = booking.status || 'en attente';
       document.getElementById('detailsModalOverlay').classList.add('show');
     }
@@ -821,55 +550,26 @@
 
     async function saveBookingStatus() {
       if (!state.currentBooking) return;
-      const status = document.getElementById('statusUpdateSelect').value;
-      await updateBookingStatus(state.currentBooking.bookingId, status);
+      await updateBookingStatus(state.currentBooking.bookingId, document.getElementById('statusUpdateSelect').value);
     }
 
-    async function quickUpdateStatus(bookingId, status) {
-      await updateBookingStatus(bookingId, status);
-    }
+    async function quickUpdateStatus(bookingId, status) { await updateBookingStatus(bookingId, status); }
 
     async function updateBookingStatus(bookingId, status) {
       try {
-        const res = await apiPost({
-          action: 'updateBookingStatus',
-          bookingId: bookingId,
-          status: status
-        });
-
-        if (!res.ok) {
-          alert(res.error || 'Failed to update status');
-          return;
-        }
-
+        const res = await apiPost({ action: 'updateBookingStatus', bookingId, status });
+        if (!res.ok) { alert(res.error || 'Failed to update status'); return; }
         await refreshAll();
-
-        if (state.currentBooking && String(state.currentBooking.bookingId) === String(bookingId)) {
-          closeModal();
-        }
+        if (state.currentBooking && String(state.currentBooking.bookingId) === String(bookingId)) closeModal();
       } catch (error) {
         console.error(error);
         alert('Error while updating status');
       }
     }
 
-    function formatValue(value) {
-      if (value === null || value === undefined || value === '') return '-';
-      return String(value);
-    }
-
-    function escapeHtml(value) {
-      return String(value || '')
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#39;');
-    }
-
-    function escapeJs(value) {
-      return String(value || '').replace(/'/g, "\\'");
-    }
+    function formatValue(value) { if (value === null || value === undefined || value === '') return '-'; return String(value); }
+    function escapeHtml(value) { return String(value || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
+    function escapeJs(value) { return String(value || '').replace(/'/g, "\\'"); }
 
     checkSession();
   </script>
