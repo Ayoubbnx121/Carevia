@@ -3142,20 +3142,7 @@ body:not(.home-view-active) .home-only-global{display:none !important}
 <option value="Larache">Larache</option>
 </select>
 </div>
-<div class="form-group"><label data-i18n="phone">Phone Number * (Moroccan format)</label>
-  <div style="display:flex;gap:8px;align-items:center;">
-    <input class="form-control" id="clientPhone" placeholder="+212 6XX-XXXXXX or 06XXXXXXXX" required="" type="tel" style="flex:1;"/>
-    <button type="button" onclick="cvSendBookingOTP()" id="cvBookSendBtn" style="white-space:nowrap;padding:0.5rem 1rem;background:var(--accent-dark);color:white;border:none;border-radius:8px;cursor:pointer;font-size:0.85rem;">إرسال كود</button>
-  </div>
-</div>
-<div id="cvBookOtpBox" style="display:none;">
-  <div class="form-group">
-    <label><i class="fas fa-shield-alt"></i> كود التحقق</label>
-    <input class="form-control" type="text" id="cvBookOtpCode" inputmode="numeric" maxlength="6" placeholder="أدخل الكود المكوّن من 6 أرقام"/>
-  </div>
-  <button type="button" onclick="cvVerifyBookingOTP()" style="width:100%;padding:0.6rem;background:var(--accent-dark);color:white;border:none;border-radius:8px;cursor:pointer;margin-bottom:0.5rem;">تأكيد الكود</button>
-</div>
-<div id="cvBookOtpStatus" style="font-size:0.9rem;margin-bottom:0.5rem;"></div>
+<div class="form-group"><label data-i18n="phone">Phone Number * (Moroccan format)</label><input class="form-control" id="clientPhone" placeholder="+212 6XX-XXXXXX or 06XXXXXXXX" required="" type="tel"/></div>
 <div class="form-group"><label data-i18n="email">Email Address *</label><input class="form-control" id="clientEmail" placeholder="example@mail.com" required="" type="email"/></div>
 <button class="btn" data-i18n="continueBtn" onclick="validateAndSaveClientInfo()" style="width:100%;">Continue →</button>
 </div>
@@ -5911,11 +5898,6 @@ body:not(.home-view-active) .home-only-global{display:none !important}
                 showPopup(translations[currentLang].validationEmail);
                 return;
             }
-            if (!window._cvBookingPhoneVerified) {
-                document.getElementById('cvBookOtpStatus').textContent = '⚠️ يجب التحقق من رقم الهاتف أولاً';
-                document.getElementById('cvBookOtpStatus').style.color = 'orange';
-                return;
-            }
 
             clientInfo = {
                 firstName: firstName,
@@ -7607,35 +7589,6 @@ body.rtl .cv-user-chip{flex-direction:row-reverse;}
           <button type="button" class="cv-reg-back-btn" onclick="cvRegGoStep1()"><i class="fas fa-arrow-right"></i> رجوع</button>
         </div>
 
-        <!-- Step 2.5: Phone OTP -->
-        <div class="cv-reg-panel" id="cvRegPanel25" style="display:none;">
-          <p class="cv-reg-panel-hint"><i class="fas fa-mobile-alt"></i> سنرسل كود تحقق إلى رقم هاتفك</p>
-          <div class="form-group">
-            <label><i class="fas fa-phone"></i> رقم الهاتف</label>
-            <div class="cv-input-wrap">
-              <i class="fas fa-phone cv-input-icon"></i>
-              <input type="tel" id="cvRegPhone" placeholder="+212612345678"/>
-            </div>
-          </div>
-          <button type="button" class="cv-btn-secondary" id="cvSendPhoneBtn" onclick="cvSendPhoneOTP()" style="width:100%;margin-bottom:.8rem;">
-            <i class="fas fa-paper-plane"></i> إرسال كود التحقق
-          </button>
-          <div id="cvPhoneCodeBox" style="display:none;">
-            <div class="form-group">
-              <label><i class="fas fa-shield-alt"></i> كود التحقق</label>
-              <div class="cv-input-wrap">
-                <i class="fas fa-shield-alt cv-input-icon"></i>
-                <input type="text" id="cvRegPhoneCode" inputmode="numeric" maxlength="6" placeholder="أدخل الكود المكوّن من 6 أرقام"/>
-              </div>
-            </div>
-            <button type="button" class="cv-btn-primary" onclick="cvVerifyPhoneOTP()" style="margin-top:.6rem;">
-              <i class="fas fa-circle-check"></i> تأكيد الكود والمتابعة
-            </button>
-          </div>
-          <div class="cv-verify-status" id="cvPhoneVerifyStatus"></div>
-          <button type="button" class="cv-reg-back-btn" onclick="cvRegGoStep2()"><i class="fas fa-arrow-right"></i> رجوع</button>
-        </div>
-
         <!-- Step 3: Password -->
         <div class="cv-reg-panel" id="cvRegPanel3" style="display:none;">
           <p class="cv-reg-panel-hint" id="cvRegStep3Hint"><i class="fas fa-lock"></i> اختر كلمة مرور قوية لحماية حسابك</p>
@@ -9207,112 +9160,6 @@ if(typeof setLanguage === 'function'){
 }
 
 })();
-
-// ========== CareVia Phone OTP ==========
-const CV_SERVER = "https://carevia-alpha.vercel.app";
-
-// ----- Registration OTP -----
-window.cvRegGoStep25 = function() {
-  var p1 = document.getElementById('cvRegPanel1');
-  if(p1) p1.style.display = 'none';
-  document.getElementById('cvRegPanel2').style.display  = 'none';
-  document.getElementById('cvRegPanel25').style.display = '';
-  document.getElementById('cvRegPanel3').style.display  = 'none';
-};
-
-window.cvSendPhoneOTP = async function() {
-  var phone = (document.getElementById('cvRegPhone').value || '').trim();
-  if (!phone) { document.getElementById('cvPhoneVerifyStatus').textContent = 'أدخل رقم الهاتف'; return; }
-  document.getElementById('cvPhoneVerifyStatus').textContent = 'جاري الإرسال...';
-  document.getElementById('cvSendPhoneBtn').disabled = true;
-  try {
-    var res  = await fetch(CV_SERVER + '/send-otp', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ phone: phone }) });
-    var data = await res.json();
-    if (data.success) {
-      document.getElementById('cvPhoneCodeBox').style.display = 'block';
-      document.getElementById('cvPhoneVerifyStatus').textContent = '✅ تم إرسال الكود';
-    } else {
-      document.getElementById('cvPhoneVerifyStatus').textContent = '❌ ' + (data.error || 'فشل الإرسال');
-      document.getElementById('cvSendPhoneBtn').disabled = false;
-    }
-  } catch(e) {
-    document.getElementById('cvPhoneVerifyStatus').textContent = '❌ خطأ في الاتصال';
-    document.getElementById('cvSendPhoneBtn').disabled = false;
-  }
-};
-
-window.cvVerifyPhoneOTP = async function() {
-  var phone = (document.getElementById('cvRegPhone').value || '').trim();
-  var code  = (document.getElementById('cvRegPhoneCode').value || '').trim();
-  if (!code) return;
-  document.getElementById('cvPhoneVerifyStatus').textContent = 'جاري التحقق...';
-  try {
-    var res  = await fetch(CV_SERVER + '/verify-otp', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ phone: phone, code: code }) });
-    var data = await res.json();
-    if (data.success) {
-      document.getElementById('cvRegPanel25').dataset.verified = 'true';
-      document.getElementById('cvPhoneVerifyStatus').textContent = '✅ تم التحقق!';
-      document.getElementById('cvPhoneVerifyStatus').style.color = 'green';
-      setTimeout(function(){ cvRegGoStep3(); }, 600);
-    } else {
-      document.getElementById('cvPhoneVerifyStatus').textContent = '❌ ' + (data.message || 'الكود خاطئ');
-      document.getElementById('cvPhoneVerifyStatus').style.color = 'red';
-    }
-  } catch(e) { document.getElementById('cvPhoneVerifyStatus').textContent = '❌ خطأ في الاتصال'; }
-};
-
-var _origGoStep3 = window.cvRegGoStep3;
-window.cvRegGoStep3 = function() {
-  var panel25 = document.getElementById('cvRegPanel25');
-  var verified = panel25 && panel25.dataset.verified === 'true';
-  if (!verified) { cvRegGoStep25(); return; }
-  if (_origGoStep3) _origGoStep3();
-};
-
-// ----- Booking OTP -----
-window._cvBookingPhoneVerified = false;
-
-window.cvSendBookingOTP = async function() {
-  var phone = (document.getElementById('clientPhone').value || '').trim();
-  if (!phone) { document.getElementById('cvBookOtpStatus').textContent = 'أدخل رقم الهاتف أولاً'; return; }
-  document.getElementById('cvBookOtpStatus').textContent = 'جاري الإرسال...';
-  document.getElementById('cvBookSendBtn').disabled = true;
-  try {
-    var res  = await fetch(CV_SERVER + '/send-otp', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ phone: phone }) });
-    var data = await res.json();
-    if (data.success) {
-      document.getElementById('cvBookOtpBox').style.display = 'block';
-      document.getElementById('cvBookOtpStatus').textContent = '✅ تم إرسال الكود';
-    } else {
-      document.getElementById('cvBookOtpStatus').textContent = '❌ ' + (data.error || 'فشل الإرسال');
-      document.getElementById('cvBookSendBtn').disabled = false;
-    }
-  } catch(e) {
-    document.getElementById('cvBookOtpStatus').textContent = '❌ خطأ في الاتصال';
-    document.getElementById('cvBookSendBtn').disabled = false;
-  }
-};
-
-window.cvVerifyBookingOTP = async function() {
-  var phone = (document.getElementById('clientPhone').value || '').trim();
-  var code  = (document.getElementById('cvBookOtpCode').value || '').trim();
-  if (!code) return;
-  document.getElementById('cvBookOtpStatus').textContent = 'جاري التحقق...';
-  try {
-    var res  = await fetch(CV_SERVER + '/verify-otp', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ phone: phone, code: code }) });
-    var data = await res.json();
-    if (data.success) {
-      window._cvBookingPhoneVerified = true;
-      document.getElementById('cvBookOtpStatus').textContent = '✅ تم التحقق من الرقم!';
-      document.getElementById('cvBookOtpStatus').style.color = 'green';
-      document.getElementById('cvBookOtpBox').style.display = 'none';
-    } else {
-      document.getElementById('cvBookOtpStatus').textContent = '❌ ' + (data.message || 'الكود خاطئ');
-      document.getElementById('cvBookOtpStatus').style.color = 'red';
-    }
-  } catch(e) { document.getElementById('cvBookOtpStatus').textContent = '❌ خطأ في الاتصال'; }
-};
-
 </script>
 </body>
 </html>
