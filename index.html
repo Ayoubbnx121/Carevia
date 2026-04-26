@@ -19,9 +19,9 @@
   //    وحطه هنا بدل 'carevia_join_template'
   // 4. من Account > API Keys، انسخ Public Key وحطه هنا
   // =====================================================
-  const EMAILJS_PUBLIC_KEY  = 'YOUR_PUBLIC_KEY';   // ← حط Public Key ديالك هنا
-  const EMAILJS_SERVICE_ID  = 'carevia_service';   // ← Service ID ديالك
-  const EMAILJS_TEMPLATE_ID = 'carevia_join_template'; // ← Template ID ديالك
+  const EMAILJS_PUBLIC_KEY  = 'HjLGrrx1T_SGtczbT';
+  const EMAILJS_SERVICE_ID  = 'service_avdmeq8';
+  const EMAILJS_TEMPLATE_ID = 'template_3u3udy4';
 
   if(typeof emailjs !== 'undefined') {
     emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
@@ -6111,7 +6111,7 @@ body:not(.home-view-active) .home-only-global{display:none !important}
             e.target.value = value;
         });
 
-        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwzmEMNk4G5L1N_iv46tal-v_jo2UseklQl3fa-Wz4R4XlpwzfodO3f8jygREgj7ljn3w/exec';
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxf3gnZ5ZPXdqK-xB-zrXTSptJ1dm_aG3SXB-HducyGFUAlyip6CgSuM_Kb6VdLjdjt/exec';
 
         function processPayment() {
             const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
@@ -6432,7 +6432,7 @@ body.dark-mode .hero-stat {
         companionship:{hourlyRate:70,minHours:2,travelFee:0,nightExtra:15,weekendExtra:15,startingFrom:140}
     };
 
-    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwzmEMNk4G5L1N_iv46tal-v_jo2UseklQl3fa-Wz4R4XlpwzfodO3f8jygREgj7ljn3w/exec';
+    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxf3gnZ5ZPXdqK-xB-zrXTSptJ1dm_aG3SXB-HducyGFUAlyip6CgSuM_Kb6VdLjdjt/exec';
 
     async function postJsonToAppsScript(payload){
         await fetch(GOOGLE_SCRIPT_URL, {
@@ -6510,7 +6510,7 @@ body.rtl .hero-cta-group{justify-content:flex-start;}
 </style>
 <script id="urgent-booking-v15-script">
 (function(){
-  const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwzmEMNk4G5L1N_iv46tal-v_jo2UseklQl3fa-Wz4R4XlpwzfodO3f8jygREgj7ljn3w/exec';
+  const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxf3gnZ5ZPXdqK-xB-zrXTSptJ1dm_aG3SXB-HducyGFUAlyip6CgSuM_Kb6VdLjdjt/exec';
   async function postJsonToAppsScript(payload){
     await fetch(GOOGLE_SCRIPT_URL, {
       method: 'POST',
@@ -6570,22 +6570,24 @@ body.rtl .hero-cta-group{justify-content:flex-start;}
       const dateStr = new Date().toLocaleDateString('ar-MA',{year:'numeric',month:'long',day:'numeric'});
       const htmlBody = `<!DOCTYPE html><html dir="rtl" lang="ar"><head><meta charset="UTF-8"></head><body style="margin:0;padding:0;background:#f0f7f4;font-family:Cairo,Arial,sans-serif;direction:rtl;"><table width="100%" cellpadding="0" cellspacing="0" style="background:#f0f7f4;padding:32px 0;"><tr><td align="center"><table width="600" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(15,88,115,0.10);max-width:600px;width:100%;"><tr><td style="background:linear-gradient(135deg,#0f5873 0%,#1a7a9a 100%);padding:36px 40px;text-align:center;"><div style="font-size:2.2rem;font-weight:900;color:#ffffff;font-family:Poppins,Arial,sans-serif;letter-spacing:-1px;">Care<span style="color:#76b84f;">Via</span></div><div style="color:rgba(255,255,255,0.85);font-size:0.95rem;margin-top:6px;">First In Morocco</div><div style="margin-top:20px;background:rgba(255,255,255,0.15);border-radius:50px;padding:10px 24px;display:inline-block;"><span style="color:#fff;font-size:1.05rem;font-weight:700;">🧑‍💼 طلب انضمام جديد</span></div></td></tr><tr><td style="padding:24px 40px 0;"><div style="background:#e8f5ee;border-right:4px solid #76b84f;border-radius:8px;padding:12px 16px;font-size:0.9rem;color:#0f5873;"><strong>رقم الطلب:</strong> ${appId} &nbsp;|&nbsp; <strong>التاريخ:</strong> ${dateStr}</div></td></tr><tr><td style="padding:24px 40px 0;"><div style="font-size:1rem;font-weight:800;color:#0f5873;margin-bottom:12px;border-bottom:2px solid #e8f5ee;padding-bottom:8px;">👤 المعلومات الشخصية</div><table width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;"><tr style="background:#f8fdfb;"><td style="padding:8px 12px;color:#666;font-weight:600;width:40%;">الاسم الكامل</td><td style="padding:8px 12px;font-weight:700;color:#173042;">${data.firstName} ${data.lastName}</td></tr><tr><td style="padding:8px 12px;color:#666;font-weight:600;">تاريخ الميلاد</td><td style="padding:8px 12px;">${data.birthDate}</td></tr><tr style="background:#f8fdfb;"><td style="padding:8px 12px;color:#666;font-weight:600;">الهاتف</td><td style="padding:8px 12px;font-weight:700;color:#0f5873;">${data.phone}</td></tr><tr><td style="padding:8px 12px;color:#666;font-weight:600;">الإيميل</td><td style="padding:8px 12px;color:#0f5873;">${data.email}</td></tr><tr style="background:#f8fdfb;"><td style="padding:8px 12px;color:#666;font-weight:600;">المدينة</td><td style="padding:8px 12px;">${data.city}</td></tr><tr><td style="padding:8px 12px;color:#666;font-weight:600;">مكان الإقامة</td><td style="padding:8px 12px;">${data.residence}</td></tr><tr style="background:#f8fdfb;"><td style="padding:8px 12px;color:#666;font-weight:600;">العنوان</td><td style="padding:8px 12px;">${data.address}</td></tr></table></td></tr><tr><td style="padding:24px 40px 0;"><div style="font-size:1rem;font-weight:800;color:#0f5873;margin-bottom:12px;border-bottom:2px solid #e8f5ee;padding-bottom:8px;">🎓 المعلومات المهنية</div><table width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;"><tr style="background:#f8fdfb;"><td style="padding:8px 12px;color:#666;font-weight:600;width:40%;">المستوى الدراسي</td><td style="padding:8px 12px;">${data.educationLevel}</td></tr><tr><td style="padding:8px 12px;color:#666;font-weight:600;">الدبلومات</td><td style="padding:8px 12px;">${data.diplomas||'—'}</td></tr><tr style="background:#f8fdfb;"><td style="padding:8px 12px;color:#666;font-weight:600;">الشهادات</td><td style="padding:8px 12px;">${data.certificates||'—'}</td></tr><tr><td style="padding:8px 12px;color:#666;font-weight:600;">التكوينات</td><td style="padding:8px 12px;">${data.formations||'—'}</td></tr><tr style="background:#f8fdfb;"><td style="padding:8px 12px;color:#666;font-weight:600;">الوضعية الحالية</td><td style="padding:8px 12px;">${statusLabel}</td></tr>${extraField}<tr><td style="padding:8px 12px;color:#666;font-weight:600;">نوع الخدمة</td><td style="padding:8px 12px;"><span style="background:#e8f5ee;color:#0f5873;padding:4px 12px;border-radius:50px;font-weight:700;">${jobTypeLabel}</span></td></tr></table></td></tr><tr><td style="padding:24px 40px;"><div style="font-size:1rem;font-weight:800;color:#0f5873;margin-bottom:12px;border-bottom:2px solid #e8f5ee;padding-bottom:8px;">📎 الملفات</div><div style="background:#fff8e1;border:1px solid #ffe082;border-radius:8px;padding:12px 16px;font-size:0.9rem;color:#7a6000;">⚠️ يرجى التواصل مع المتقدم لطلب الملفات مباشرة.<br><strong>السيرة الذاتية:</strong> ${cvFile.name} &nbsp;|&nbsp; <strong>الصورة:</strong> ${selfieFile.name}</div></td></tr><tr><td style="padding:24px 40px;text-align:center;background:#f8fdfb;border-top:1px solid #e8f5ee;"><div style="font-size:0.85rem;color:#999;">إيميل تلقائي من منصة <strong style="color:#0f5873;">CareVia</strong> — First In Morocco</div></td></tr></table></td></tr></table></body></html>`;
 
-      // Send via EmailJS
-      if(window.emailjs) {
-        await window.emailjs.send('carevia_service', 'carevia_join_template', {
-          to_email: 'carevia.maroc@gmail.com',
-          app_id: appId,
-          full_name: `${data.firstName} ${data.lastName}`,
-          email: data.email,
-          phone: data.phone,
-          city: data.city,
-          status: statusLabel,
-          job_type: jobTypeLabel,
-          html_body: htmlBody
-        });
-      }
+      // EmailJS — إيميل تأكيد للمتقدم
+      try {
+        if(window.emailjs) {
+          await window.emailjs.send('service_avdmeq8', 'template_3u3udy4', {
+            to_email: data.email,
+            app_id: appId,
+            full_name: `${data.firstName} ${data.lastName}`,
+            email: data.email,
+            applicant_email: data.email,
+            applicant_phone: data.phone,
+            applicant_city: data.city,
+            status: statusLabel,
+            job_type: jobTypeLabel
+          });
+        }
+      } catch(emailJsErr) { console.warn('EmailJS skipped:', emailJsErr); }
 
-      // Also send to Google Apps Script as backup
+      // Send to Google Apps Script
       const payload = { type:'job_application', bookingId:appId, fullName:`${data.firstName} ${data.lastName}`.trim(), email:data.email, phone:data.phone, city:data.city, service:'CareVia recruitment', serviceKey:'join-us', date:'', timeSlots:[], caregiver:'', caregiverKey:'', hoursCount:0, pricePerHour:0, travelFee:0, nightFee:0, weekendFee:0, discount:0, total:0, paymentMethod:'not-applicable', notes: JSON.stringify({ applicationType:'join-us', birthDate:data.birthDate, residence:data.residence, address:data.address, educationLevel:data.educationLevel, diplomas:data.diplomas, certificates:data.certificates, formations:data.formations, currentStatus:data.currentStatus, studentStudy:data.studentStudy, workerJob:data.workerJob, jobType:data.jobType, cvFileName:cvFile.name, selfieFileName:selfieFile.name }), createdAt:new Date().toISOString() };
       await postJsonToAppsScript(payload);
 
