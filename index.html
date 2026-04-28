@@ -7845,7 +7845,7 @@ const AUTH_T = {
     emptyDash:'ما عندكش طلبات بعد', statusPending:'في الانتظار',
     statusConfirmed:'مؤكد', statusInprogress:'قيد التنفيذ', statusCancelled:'ملغى',
     errEmail:'البريد الإلكتروني مش صحيح', errPass:'المرور قصير (6 حروف على الأقل)',
-    errPassMatch:'كلمتا المرور ما تتطابقاش', errExists:'هذا البريد مسجل بالفعل',
+    errPassMatch:'كلمتا المرور ما تتطابقاش', errExists:'هذا البريد مسجل بالفعل', loginPrompt:'جرّب تسجيل الدخول',
     errNotFound:'البريد أو المرور خاطئ', errFill:'عبّي جميع الخانات',
     welcomeMsg:'أهلاً بك,',
     dashKicker:'مساحة الحساب المميزة',
@@ -7907,7 +7907,7 @@ const AUTH_T = {
     emptyDash:'Aucune demande pour l\'instant', statusPending:'En attente',
     statusConfirmed:'Confirmée', statusInprogress:'En cours', statusCancelled:'Annulée',
     errEmail:'Email invalide', errPass:'Mot de passe trop court (6 caractères min)',
-    errPassMatch:'Les mots de passe ne correspondent pas', errExists:'Cet email est déjà utilisé',
+    errPassMatch:'Les mots de passe ne correspondent pas', errExists:'Cet email est déjà utilisé', loginPrompt:'Essayez de vous connecter',
     errNotFound:'Email ou mot de passe incorrect', errFill:'Veuillez remplir tous les champs',
     welcomeMsg:'Bienvenue,',
     dashKicker:'Espace compte premium',
@@ -7969,7 +7969,7 @@ const AUTH_T = {
     emptyDash:'No bookings yet', statusPending:'Pending',
     statusConfirmed:'Confirmed', statusInprogress:'In Progress', statusCancelled:'Cancelled',
     errEmail:'Invalid email address', errPass:'Password too short (min 6 characters)',
-    errPassMatch:'Passwords do not match', errExists:'This email is already registered',
+    errPassMatch:'Passwords do not match', errExists:'This email is already registered', loginPrompt:'Try signing in instead',
     errNotFound:'Incorrect email or password', errFill:'Please fill in all fields',
     welcomeMsg:'Welcome,',
     dashKicker:'Premium account space',
@@ -8031,7 +8031,7 @@ const AUTH_T = {
     emptyDash:'Aún no hay reservas', statusPending:'Pendiente',
     statusConfirmed:'Confirmado', statusInprogress:'En progreso', statusCancelled:'Cancelado',
     errEmail:'Correo inválido', errPass:'Contraseña muy corta (mín. 6 caracteres)',
-    errPassMatch:'Las contraseñas no coinciden', errExists:'Este correo ya está registrado',
+    errPassMatch:'Las contraseñas no coinciden', errExists:'Este correo ya está registrado', loginPrompt:'Intente iniciar sesión',
     errNotFound:'Correo o contraseña incorrectos', errFill:'Por favor rellena todos los campos',
     welcomeMsg:'Bienvenido,',
     dashKicker:'Espacio de cuenta premium',
@@ -8084,7 +8084,7 @@ const AUTH_T = {
     emptyDash:'Noch keine Buchungen', statusPending:'Ausstehend',
     statusConfirmed:'Bestätigt', statusInprogress:'In Bearbeitung', statusCancelled:'Storniert',
     errEmail:'Ungültige E-Mail-Adresse', errPass:'Passwort zu kurz (mind. 6 Zeichen)',
-    errPassMatch:'Passwörter stimmen nicht überein', errExists:'Diese E-Mail ist bereits registriert',
+    errPassMatch:'Passwörter stimmen nicht überein', errExists:'Diese E-Mail ist bereits registriert', loginPrompt:'Versuchen Sie sich anzumelden',
     errNotFound:'Falsche E-Mail oder Passwort', errFill:'Bitte alle Felder ausfüllen',
     welcomeMsg:'Willkommen,',
     dashKicker:'Premium-Kontobereich',
@@ -8212,6 +8212,26 @@ window.cvSendEmailCode = async function(){
   const em=(document.getElementById('cvRegEm')?.value || '').trim().toLowerCase();
   if(!em) return cvSetVerifyStatus('error', at('errFill'));
   if(!isValidEmailLocal(em)) return cvSetVerifyStatus('error', at('errEmail'));
+  /* ── تحقق هل الإيميل ديجا مسجل قبل ما نبعثو الكود ── */
+  /* الطريقة الأضمن مع Firebase 12: نجربو createUser بكلمة مرور مؤقتة ونشوفو العيب */
+  if(window.cvFirebaseAuth){
+    try{
+      const tempCred = await window.cvFirebaseAuth.createUserWithEmailAndPassword(em, '__cv_tmp_' + Date.now() + '__');
+      /* إذا نجح (الإيميل ماكانش) نحذفو فوراً */
+      if(tempCred && tempCred.user){
+        try{ await tempCred.user.delete(); }catch(delErr){ console.warn('temp user delete failed:', delErr); }
+      }
+      /* نكملو بحال عادي — الإيميل غير مسجل */
+    }catch(firebaseErr){
+      const code = firebaseErr.code || '';
+      if(code === 'auth/email-already-in-use'){
+        /* الإيميل ديجا مسجل — نوقفو هنا */
+        return cvSetVerifyStatus('error', at('errExists') + ' — ' + at('loginPrompt'));
+      }
+      /* أي error آخر (network, weak-password, etc.) نكملو */
+      console.warn('Email pre-check skipped:', code);
+    }
+  }
   const state = window._cvEmailVerification || cvBaseVerificationState();
   const now = Date.now();
   if(state.lockUntil && state.lockUntil > now) return cvSetVerifyStatus('error', at('temporarilyLocked'));
@@ -9072,10 +9092,13 @@ if(_origVerify){
 /* Auto-show code box after send */
 const _origSC2 = window.cvSendEmailCode;
 if(_origSC2){
-  window.cvSendEmailCode = function(){
-    const result = _origSC2.apply(this, arguments);
+  window.cvSendEmailCode = async function(){
+    const result = await _origSC2.apply(this, arguments);
+    /* فقط نوري صندوق الكود إذا ما كانش خطأ (مثلا الإيميل مسجل) */
+    const st = document.getElementById('cvVerifyStatus');
+    const isError = st && st.classList.contains('error');
     const box = document.getElementById('cvCodeBox');
-    if(box) setTimeout(()=>{ box.style.display='block'; }, 350);
+    if(box && !isError) setTimeout(()=>{ box.style.display='block'; }, 350);
     return result;
   };
 }
