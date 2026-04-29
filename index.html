@@ -6940,6 +6940,183 @@ body.dark-mode .cv-btn-secondary{
 /* ════════════════════════════════
    NAVBAR AUTH BUTTON — REFINED
 ════════════════════════════════ */
+/* ══ PHOTO UPLOAD ══ */
+.cv-photo-upload-card{ overflow:visible!important; }
+.cv-photo-upload-row{
+  display:flex;align-items:center;gap:1rem;
+  margin-top:.55rem;
+}
+.cv-photo-thumb{
+  width:68px;height:68px;flex-shrink:0;
+  border-radius:20px;
+  background:linear-gradient(135deg,rgba(15,88,115,.08),rgba(118,184,79,.1));
+  border:2px dashed rgba(15,88,115,.18);
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;
+  color:rgba(15,88,115,.4);font-size:1.6rem;
+  transition:border-color .2s;
+}
+.cv-photo-thumb img{ width:100%;height:100%;object-fit:cover; }
+.cv-photo-upload-actions{
+  display:flex;flex-direction:column;gap:.45rem;min-width:0;
+}
+.cv-upload-btn{
+  display:inline-flex;align-items:center;gap:.45rem;
+  padding:.52rem 1.1rem;
+  border-radius:12px;
+  background:#fff;
+  color:#0b3d54;
+  font-size:.82rem;font-weight:800;letter-spacing:.01em;
+  cursor:pointer;
+  border:1.5px solid rgba(15,88,115,.2);
+  box-shadow:0 2px 8px rgba(15,88,115,.12);
+  transition:all .22s cubic-bezier(.34,1.56,.64,1);
+  user-select:none;width:fit-content;
+}
+.cv-upload-btn:hover{
+  transform:translateY(-2px);
+  border-color:rgba(15,88,115,.4);
+  box-shadow:0 6px 16px rgba(15,88,115,.2);
+  background:#f0f8fc;
+}
+.cv-upload-btn i{ font-size:.8rem; color:#0f6b8e; }
+body.dark-mode .cv-upload-btn{
+  background:rgba(255,255,255,.1);
+  color:#d8eef7;
+  border-color:rgba(102,182,207,.25);
+}
+body.dark-mode .cv-upload-btn:hover{
+  background:rgba(255,255,255,.18);
+  border-color:rgba(102,182,207,.4);
+}
+body.dark-mode .cv-upload-btn i{ color:#5bc8e8; }
+.cv-upload-hint{ font-size:.73rem;color:#8aabb8;line-height:1.4; }
+body.dark-mode .cv-upload-hint{color:#5a8898;}
+
+/* ══ PANEL ACTION BUTTONS ══ */
+.cv-panel-save-btn,
+.cv-panel-reset-btn{
+  display:flex;align-items:center;justify-content:center;gap:.6rem;
+  border:none;cursor:pointer;font-weight:800;font-size:.88rem;
+  border-radius:18px;min-height:54px;padding:.6rem 1rem;
+  transition:all .26s cubic-bezier(.34,1.56,.64,1);
+  position:relative;overflow:hidden;white-space:nowrap;width:100%;
+}
+.cv-panel-save-btn::after,.cv-panel-reset-btn::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(105deg,transparent 30%,rgba(255,255,255,.18) 50%,transparent 70%);
+  transform:translateX(-100%);transition:transform .5s ease;pointer-events:none;
+}
+.cv-panel-save-btn:hover::after,.cv-panel-reset-btn:hover::after{ transform:translateX(100%); }
+.cv-panel-save-btn{
+  background:linear-gradient(135deg,#0f6b8e 0%,#094f6e 100%);
+  color:#fff;
+  box-shadow:0 6px 20px rgba(15,88,115,.35), 0 1px 0 rgba(255,255,255,.15) inset;
+}
+.cv-panel-save-btn:hover{ transform:translateY(-2px);box-shadow:0 10px 28px rgba(15,88,115,.5);filter:brightness(1.08); }
+.cv-panel-save-btn:active{ transform:scale(.97); }
+.cv-panel-save-icon{
+  width:30px;height:30px;border-radius:9px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(255,255,255,.18);font-size:.85rem;
+}
+.cv-panel-reset-btn{
+  background:linear-gradient(180deg,rgba(255,255,255,.98),rgba(240,248,244,.98));
+  color:#0b3d54;border:1.5px solid rgba(15,88,115,.15);
+  box-shadow:0 2px 10px rgba(15,88,115,.08);
+}
+.cv-panel-reset-btn:hover{ transform:translateY(-2px);border-color:rgba(15,88,115,.28);box-shadow:0 8px 22px rgba(15,88,115,.15); }
+.cv-panel-reset-btn:active{ transform:scale(.97); }
+.cv-panel-reset-icon{
+  width:30px;height:30px;border-radius:9px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,rgba(15,88,115,.1),rgba(118,184,79,.1));
+  color:#0f6b8e;font-size:.82rem;
+}
+body.dark-mode .cv-panel-reset-btn{
+  background:linear-gradient(180deg,rgba(10,26,38,.97),rgba(13,32,46,.97));
+  color:#d8eef7;border-color:rgba(102,182,207,.18);
+}
+body.dark-mode .cv-panel-reset-icon{ color:#4ab8d8; }
+
+/* ══ CHIP BUTTONS — MY BOOKINGS + LOGOUT ══ */
+
+/* My Bookings */
+.cv-user-chip .cv-dash-link{
+  display:inline-flex;
+  align-items:center;
+  gap:.45rem;
+  padding:.52rem 1rem;
+  border:none;
+  border-radius:999px;
+  background:linear-gradient(135deg, #0f6b8e 0%, #094f6e 100%);
+  color:#fff;
+  font-size:.82rem;
+  font-weight:800;
+  letter-spacing:.01em;
+  cursor:pointer;
+  white-space:nowrap;
+  position:relative;
+  overflow:hidden;
+  box-shadow:0 4px 14px rgba(15,88,115,.35);
+  transition:all .25s cubic-bezier(.34,1.56,.64,1);
+}
+.cv-user-chip .cv-dash-link::before{
+  content:'';
+  position:absolute;inset:0;
+  background:linear-gradient(105deg,transparent 30%,rgba(255,255,255,.2) 50%,transparent 70%);
+  transform:translateX(-100%);
+  transition:transform .5s ease;
+  pointer-events:none;
+}
+.cv-user-chip .cv-dash-link:hover::before{ transform:translateX(100%); }
+.cv-user-chip .cv-dash-link:hover{
+  transform:translateY(-2px) scale(1.04);
+  box-shadow:0 8px 20px rgba(15,88,115,.5);
+  filter:brightness(1.1);
+}
+.cv-user-chip .cv-dash-link:active{ transform:scale(.96); }
+.cv-user-chip .cv-dash-link i{
+  font-size:.82rem;
+  opacity:.9;
+}
+body.dark-mode .cv-user-chip .cv-dash-link{
+  background:linear-gradient(135deg, #0d4d6a 0%, #072d3e 100%);
+  box-shadow:0 4px 14px rgba(0,0,0,.45);
+}
+
+/* Logout */
+.cv-user-chip .cv-logout{
+  width:34px;
+  height:34px;
+  flex-shrink:0;
+  border:none;
+  border-radius:50%;
+  background:rgba(15,88,115,.07);
+  color:rgba(15,88,115,.5);
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  font-size:.84rem;
+  cursor:pointer;
+  transition:all .25s cubic-bezier(.34,1.56,.64,1);
+}
+.cv-user-chip .cv-logout:hover{
+  background:rgba(220,53,69,.1);
+  color:#dc3545;
+  transform:rotate(10deg) scale(1.12);
+  box-shadow:0 3px 10px rgba(220,53,69,.2);
+}
+.cv-user-chip .cv-logout:active{ transform:scale(.9); }
+body.dark-mode .cv-user-chip .cv-logout{
+  background:rgba(255,255,255,.07);
+  color:rgba(255,255,255,.4);
+}
+body.dark-mode .cv-user-chip .cv-logout:hover{
+  background:rgba(220,53,69,.2);
+  color:#ff8080;
+}
+
 /* ══ SIGN IN BTN — PREMIUM ══ */
 .cv-auth-btn{
   position:relative;
@@ -7124,6 +7301,13 @@ body.dark-mode .cv-user-chip .cv-user-profile{
   transition:
     transform .3s cubic-bezier(.34,1.56,.64,1),
     box-shadow .3s ease;
+  overflow:hidden;
+}
+.cv-user-chip .cv-user-avatar img{
+  width:100%;height:100%;
+  object-fit:cover;
+  display:block;
+  border-radius:50%;
 }
 .cv-user-chip:hover .cv-user-avatar{
   transform:scale(1.08);
@@ -7514,6 +7698,13 @@ body.dark-mode #dashboardView .booking-card{
   background:linear-gradient(180deg, rgba(255,255,255,.22), rgba(255,255,255,.08));
   border:1px solid rgba(255,255,255,.22);
   box-shadow:0 12px 24px -18px rgba(0,0,0,.35);
+  overflow:hidden;
+  flex-shrink:0;
+}
+.cv-dash-avatar img{
+  width:100%;height:100%;
+  object-fit:cover;
+  display:block;
 }
 .cv-dash-user-meta strong{display:block;font-size:1.05rem;}
 .cv-dash-user-meta span{font-size:.88rem;opacity:.92;}
@@ -8052,7 +8243,7 @@ const AUTH_T = {
     easyRebookingDesc:'ارجع في أي وقت وابدأ طلب رعاية جديداً بسرعة أكبر.',
     resendCodeBtn:'إعادة إرسال الكود', resendIn:'يمكنك إعادة الإرسال بعد', attemptsLeft:'المحاولات المتبقية', temporarilyLocked:'تم توقيف التحقق مؤقتاً. حاول لاحقاً.',
     forgotTitle:'نسيت كلمة المرور', forgotLead:'أدخل بريدك الإلكتروني وسنرسل لك كود التحقق ثم رابطاً آمناً لتغيير كلمة المرور.', forgotLink:'نسيت كلمة المرور؟', forgotSendBtn:'إرسال الكود', forgotResetBtn:'إرسال رابط تغيير كلمة المرور', forgotCodeSent:'إذا كان هذا البريد مرتبطاً بحساب، فقد أرسلنا إليه كود الاسترجاع.', forgotCodeVerified:'تم التحقق من الكود. إذا كان هذا البريد مرتبطاً بحساب، فقد أرسلنا رابطاً آمناً لتغيير كلمة المرور.', forgotNoUser:'إذا كان هذا البريد مرتبطاً بحساب، فستتوصل برسالة الاسترجاع.', forgotInvalid:'كود الاسترجاع غير صحيح.',
-    profileEditTitle:'تعديل الملف الشخصي', profileSaveBtn:'حفظ التعديلات', phoneLabel:'الهاتف', cityLabel:'المدينة', photoLabel:'رابط الصورة', verifiedEmailLabel:'البريد موثّق', accountActiveLabel:'الحساب نشط', notificationsLabel:'الإشعارات', whatsappLabel:'واتساب مباشر', changePasswordLabel:'تغيير كلمة المرور', sendResetLinkLabel:'إرسال رابط تغيير كلمة المرور', saveSuccess:'تم حفظ التعديلات بنجاح',
+    profileEditTitle:'تعديل الملف الشخصي', uploadPhotoBtn:'رفع الصورة', uploadPhotoHint:'JPG، PNG، WEBP — الحجم الأقصى 2MB', profileSaveBtn:'حفظ التعديلات', phoneLabel:'الهاتف', cityLabel:'المدينة', photoLabel:'رابط الصورة', verifiedEmailLabel:'البريد موثّق', accountActiveLabel:'الحساب نشط', notificationsLabel:'الإشعارات', whatsappLabel:'واتساب مباشر', changePasswordLabel:'تغيير كلمة المرور', sendResetLinkLabel:'إرسال رابط تغيير كلمة المرور', saveSuccess:'تم حفظ التعديلات بنجاح',
     notifCreated:'تم إنشاء الطلب', notifAccepted:'تم قبول الطلب', notifConfirmed:'تم تأكيد الموعد',
     regSubtitle:'انضم إلى عائلة CareVia',
     regStep1Label:'معلوماتك', regStep2Label:'التحقق', regStep3Label:'كلمة المرور',
@@ -8114,7 +8305,7 @@ const AUTH_T = {
     easyRebookingDesc:'Revenez à tout moment et lancez plus vite une nouvelle demande de service.',
     resendCodeBtn:'Renvoyer le code', resendIn:'Nouveau renvoi dans', attemptsLeft:'Tentatives restantes', temporarilyLocked:'Vérification temporairement bloquée. Réessayez plus tard.',
     forgotTitle:'Mot de passe oublié', forgotLead:'Entrez votre email. Nous vous enverrons un code puis un lien sécurisé pour changer le mot de passe.', forgotLink:'Mot de passe oublié ?', forgotSendBtn:'Envoyer le code', forgotResetBtn:'Envoyer le lien de changement', forgotCodeSent:'Si cet email est lié à un compte, le code de récupération a été envoyé.', forgotCodeVerified:'Code vérifié. Si cet email est lié à un compte, un lien sécurisé de réinitialisation a été envoyé.', forgotNoUser:'Si cet email est lié à un compte, vous recevrez le message de récupération.', forgotInvalid:'Code de récupération invalide.',
-    profileEditTitle:'Modifier le profil', profileSaveBtn:'Enregistrer', phoneLabel:'Téléphone', cityLabel:'Ville', photoLabel:'Lien de la photo', verifiedEmailLabel:'Email vérifié', accountActiveLabel:'Compte actif', notificationsLabel:'Notifications', whatsappLabel:'WhatsApp direct', changePasswordLabel:'Changer le mot de passe', sendResetLinkLabel:'Envoyer le lien de changement', saveSuccess:'Modifications enregistrées',
+    profileEditTitle:'Modifier le profil', uploadPhotoBtn:'Télécharger photo', uploadPhotoHint:'JPG, PNG, WEBP — max 2MB', profileSaveBtn:'Enregistrer', phoneLabel:'Téléphone', cityLabel:'Ville', photoLabel:'Lien de la photo', verifiedEmailLabel:'Email vérifié', accountActiveLabel:'Compte actif', notificationsLabel:'Notifications', whatsappLabel:'WhatsApp direct', changePasswordLabel:'Changer le mot de passe', sendResetLinkLabel:'Envoyer le lien de changement', saveSuccess:'Modifications enregistrées',
     notifCreated:'Demande créée', notifAccepted:'Demande acceptée', notifConfirmed:'Rendez-vous confirmé',
     regSubtitle:'Rejoignez la famille CareVia',
     regStep1Label:'Vos infos', regStep2Label:'Vérification', regStep3Label:'Mot de passe',
@@ -8176,7 +8367,7 @@ const AUTH_T = {
     easyRebookingDesc:'Come back anytime and start a new care request faster.',
     resendCodeBtn:'Resend code', resendIn:'Resend available in', attemptsLeft:'Attempts left', temporarilyLocked:'Verification is temporarily locked. Please try again later.',
     forgotTitle:'Forgot password', forgotLead:'Use the secure recovery flow to reset your password in a few steps.', forgotLink:'Forgot password?', forgotSendBtn:'Send code', forgotResetBtn:'Send password reset link', forgotCodeSent:'If this email is linked to an account, a recovery code has been sent.', forgotCodeVerified:'Code verified. If this email is linked to an account, we sent a secure password reset link.', forgotNoUser:'If this email is linked to an account, you will receive the recovery message.', forgotInvalid:'Invalid recovery code.',
-    profileEditTitle:'Edit profile', profileSaveBtn:'Save changes', phoneLabel:'Phone', cityLabel:'City', photoLabel:'Photo URL', verifiedEmailLabel:'Email verified', accountActiveLabel:'Account active', notificationsLabel:'Notifications', whatsappLabel:'Direct WhatsApp', changePasswordLabel:'Change password', sendResetLinkLabel:'Send password reset link', saveSuccess:'Changes saved successfully',
+    profileEditTitle:'Edit profile', uploadPhotoBtn:'Upload photo', uploadPhotoHint:'JPG, PNG, WEBP — max 2MB', profileSaveBtn:'Save changes', phoneLabel:'Phone', cityLabel:'City', photoLabel:'Photo URL', verifiedEmailLabel:'Email verified', accountActiveLabel:'Account active', notificationsLabel:'Notifications', whatsappLabel:'Direct WhatsApp', changePasswordLabel:'Change password', sendResetLinkLabel:'Send password reset link', saveSuccess:'Changes saved successfully',
     notifCreated:'Request created', notifAccepted:'Request accepted', notifConfirmed:'Appointment confirmed',
     regSubtitle:'Join the CareVia family',
     regStep1Label:'Your info', regStep2Label:'Verification', regStep3Label:'Password',
@@ -8229,7 +8420,7 @@ const AUTH_T = {
     easyRebookingLabel:'Nueva reserva fácil', easyRebookingDesc:'Vuelve cuando quieras y empieza más rápido.',
     resendCodeBtn:'Reenviar código', resendIn:'Reenvío disponible en', attemptsLeft:'Intentos restantes', temporarilyLocked:'Verificación bloqueada temporalmente. Inténtalo más tarde.',
     forgotTitle:'Olvidé mi contraseña', forgotLead:'Ingresa tu correo. Te enviaremos un código y un enlace seguro para cambiar la contraseña.', forgotLink:'¿Olvidaste tu contraseña?', forgotSendBtn:'Enviar código', forgotResetBtn:'Enviar enlace de cambio', forgotCodeSent:'Si este correo está vinculado a una cuenta, se envió el código.', forgotCodeVerified:'Código verificado. Si el correo está vinculado, enviamos un enlace seguro.', forgotNoUser:'Si el correo está vinculado, recibirás el mensaje de recuperación.', forgotInvalid:'Código de recuperación inválido.',
-    profileEditTitle:'Editar perfil', profileSaveBtn:'Guardar cambios', phoneLabel:'Teléfono', cityLabel:'Ciudad', photoLabel:'URL de foto', verifiedEmailLabel:'Correo verificado', accountActiveLabel:'Cuenta activa', notificationsLabel:'Notificaciones', whatsappLabel:'WhatsApp directo', changePasswordLabel:'Cambiar contraseña', sendResetLinkLabel:'Enviar enlace de cambio', saveSuccess:'Cambios guardados correctamente',
+    profileEditTitle:'Editar perfil', uploadPhotoBtn:'Subir foto', uploadPhotoHint:'JPG, PNG, WEBP — máx 2MB', profileSaveBtn:'Guardar cambios', phoneLabel:'Teléfono', cityLabel:'Ciudad', photoLabel:'URL de foto', verifiedEmailLabel:'Correo verificado', accountActiveLabel:'Cuenta activa', notificationsLabel:'Notificaciones', whatsappLabel:'WhatsApp directo', changePasswordLabel:'Cambiar contraseña', sendResetLinkLabel:'Enviar enlace de cambio', saveSuccess:'Cambios guardados correctamente',
     notifCreated:'Solicitud creada', notifAccepted:'Solicitud aceptada', notifConfirmed:'Cita confirmada',
     regSubtitle:'Únete a la familia CareVia',
     regStep1Label:'Tu info', regStep2Label:'Verificación', regStep3Label:'Contraseña',
@@ -8282,7 +8473,7 @@ const AUTH_T = {
     easyRebookingLabel:'Einfache Neubuchung', easyRebookingDesc:'Komm jederzeit zurück und starte schneller.',
     resendCodeBtn:'Code erneut senden', resendIn:'Erneutes Senden in', attemptsLeft:'Verbleibende Versuche', temporarilyLocked:'Verifizierung vorübergehend gesperrt. Versuche es später.',
     forgotTitle:'Passwort vergessen', forgotLead:'Gib deine E-Mail ein. Wir senden dir einen Code und einen sicheren Link zum Ändern des Passworts.', forgotLink:'Passwort vergessen?', forgotSendBtn:'Code senden', forgotResetBtn:'Rücksetz-Link senden', forgotCodeSent:'Wenn diese E-Mail mit einem Konto verknüpft ist, wurde der Code gesendet.', forgotCodeVerified:'Code bestätigt. Wenn die E-Mail verknüpft ist, haben wir einen sicheren Link gesendet.', forgotNoUser:'Wenn diese E-Mail verknüpft ist, erhältst du die Wiederherstellungsnachricht.', forgotInvalid:'Ungültiger Wiederherstellungscode.',
-    profileEditTitle:'Profil bearbeiten', profileSaveBtn:'Änderungen speichern', phoneLabel:'Telefon', cityLabel:'Stadt', photoLabel:'Foto-URL', verifiedEmailLabel:'E-Mail verifiziert', accountActiveLabel:'Konto aktiv', notificationsLabel:'Benachrichtigungen', whatsappLabel:'WhatsApp direkt', changePasswordLabel:'Passwort ändern', sendResetLinkLabel:'Rücksetz-Link senden', saveSuccess:'Änderungen erfolgreich gespeichert',
+    profileEditTitle:'Profil bearbeiten', uploadPhotoBtn:'Foto hochladen', uploadPhotoHint:'JPG, PNG, WEBP — max 2MB', profileSaveBtn:'Änderungen speichern', phoneLabel:'Telefon', cityLabel:'Stadt', photoLabel:'Foto-URL', verifiedEmailLabel:'E-Mail verifiziert', accountActiveLabel:'Konto aktiv', notificationsLabel:'Benachrichtigungen', whatsappLabel:'WhatsApp direkt', changePasswordLabel:'Passwort ändern', sendResetLinkLabel:'Rücksetz-Link senden', saveSuccess:'Änderungen erfolgreich gespeichert',
     notifCreated:'Anfrage erstellt', notifAccepted:'Anfrage angenommen', notifConfirmed:'Termin bestätigt',
     regSubtitle:'Tritt der CareVia-Familie bei',
     regStep1Label:'Deine Info', regStep2Label:'Verifizierung', regStep3Label:'Passwort',
@@ -8597,7 +8788,7 @@ function updateNavbar(){
       const displayName = [session.fn, session.ln].filter(Boolean).join(' ') || (session.email ? session.email.split('@')[0] : 'User');
       wrap.innerHTML = `<div class="cv-user-chip">
         <div class="cv-user-profile">
-          <div class="cv-user-avatar">${initials}</div>
+          <div class="cv-user-avatar">${session && session.photo ? `<img src="${session.photo}" alt="avatar" onerror="this.parentNode.innerHTML='${initials}'">` : initials}</div>
           <div class="cv-user-meta">
             <span class="cv-user-label">Account</span>
             <span class="cv-user-name">${displayName}</span>
@@ -8865,6 +9056,28 @@ function cvSyncProfileAvatarPreview(){
     holder.innerHTML = `<span>${initials}</span>`;
   }
 }
+window.cvHandlePhotoUpload = function(event){
+  const file = event.target.files[0];
+  if(!file) return;
+  if(file.size > 2 * 1024 * 1024){
+    cvShowToast('CareVia', 'Max file size is 2MB', 'fa-circle-exclamation');
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = function(e){
+    const dataUrl = e.target.result;
+    // update hidden input
+    const urlInput = document.getElementById('cvProfilePhoto');
+    if(urlInput) urlInput.value = dataUrl;
+    // update thumb preview
+    const thumb = document.getElementById('cvPhotoThumb');
+    if(thumb) thumb.innerHTML = `<img src="${dataUrl}" alt="avatar">`;
+    // update editor avatar
+    cvSyncProfileAvatarPreview();
+  };
+  reader.readAsDataURL(file);
+};
+
 window.cvSaveProfile = async function(){
   const session=getSession(); if(!session) return;
   const fn=(document.getElementById('cvProfileFn')?.value||'').trim();
@@ -9020,15 +9233,39 @@ function renderDashboard(){
               <div class="cv-field-card"><label>${at('lastNameLabel')}</label><input id="cvProfileLn" type="text" value="${(session.ln||'').replace(/"/g,'&quot;')}" placeholder="${at('lastNameLabel')}"></div>
               <div class="cv-field-card"><label>${at('phoneLabel')}</label><input id="cvProfilePhone" type="text" value="${(session.phone||'').replace(/"/g,'&quot;')}" placeholder="+212 ..."></div>
               <div class="cv-field-card"><label>${at('cityLabel')}</label><input id="cvProfileCity" type="text" value="${(session.city||'').replace(/"/g,'&quot;')}" placeholder="${at('cityLabel')}"></div>
-              <div class="cv-field-card full"><label>${at('photoLabel')}</label><input id="cvProfilePhoto" type="url" value="${(session.photo||'').replace(/"/g,'&quot;')}" placeholder="https://..."><div class="cv-inline-note">${at('photoLabel')}</div></div>
+              <div class="cv-field-card full cv-photo-upload-card">
+                <label>${at('photoLabel')}</label>
+                <div class="cv-photo-upload-row">
+                  <div class="cv-photo-thumb" id="cvPhotoThumb">
+                    ${session.photo
+                      ? `<img src="${session.photo}" alt="avatar" onerror="this.parentNode.innerHTML='<i class=\"fas fa-user\"></i>'">`
+                      : `<i class="fas fa-user"></i>`}
+                  </div>
+                  <div class="cv-photo-upload-actions">
+                    <label class="cv-upload-btn" for="cvPhotoFileInput">
+                      <i class="fas fa-arrow-up-from-bracket"></i>
+                      <span>${at('uploadPhotoBtn') || 'Upload photo'}</span>
+                    </label>
+                    <input id="cvPhotoFileInput" type="file" accept="image/*" style="display:none" onchange="cvHandlePhotoUpload(event)">
+                    <input id="cvProfilePhoto" type="url" value="${(session.photo||'').replace(/"/g,'&quot;')}" placeholder="https://..." style="display:none">
+                    <span class="cv-upload-hint">${at('uploadPhotoHint') || 'JPG, PNG, WEBP — max 2MB'}</span>
+                  </div>
+                </div>
+              </div>
             </div>
             <div class="cv-reset-card">
               <strong>${at('changePasswordLabel')}</strong>
               <p>${at('forgotLead')}</p>
             </div>
             <div class="cv-panel-actions">
-              <button class="cv-btn-primary" type="button" onclick="cvSaveProfile()"><i class="fas fa-floppy-disk"></i> ${at('profileSaveBtn')}</button>
-              <button class="cv-btn-secondary" type="button" onclick="cvSendResetLinkLogged()"><i class="fas fa-key"></i> ${at('sendResetLinkLabel')}</button>
+              <button class="cv-panel-save-btn" type="button" onclick="cvSaveProfile()">
+                <span class="cv-panel-save-icon"><i class="fas fa-floppy-disk"></i></span>
+                <span>${at('profileSaveBtn')}</span>
+              </button>
+              <button class="cv-panel-reset-btn" type="button" onclick="cvSendResetLinkLogged()">
+                <span class="cv-panel-reset-icon"><i class="fas fa-key"></i></span>
+                <span>${at('sendResetLinkLabel')}</span>
+              </button>
             </div>
           </div>
         </div>
