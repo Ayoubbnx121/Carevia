@@ -5,7 +5,9 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes" name="viewport"/>
 <title>CareVia | First In Morocco</title>
-<link rel="icon" type="image/png" href="favicon.png"/>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+CiAgPGRlZnM+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9ImciIHgxPSIwIiB5MT0iMCIgeDI9IjEiIHkyPSIxIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzBmNmI4ZSIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiM3NmI4NGYiLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgPC9kZWZzPgogIDxyZWN0IHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCIgcng9IjE0IiBmaWxsPSJ1cmwoI2cpIi8+CiAgPHRleHQgeD0iMzIiIHk9IjI2IiBmb250LWZhbWlseT0iQXJpYWwgQmxhY2ssc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9IjkwMCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGRvbWluYW50LWJhc2VsaW5lPSJtaWRkbGUiPkNhcmU8L3RleHQ+CiAgPHRleHQgeD0iMzIiIHk9IjQ0IiBmb250LWZhbWlseT0iQXJpYWwgQmxhY2ssc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9IjkwMCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGRvbWluYW50LWJhc2VsaW5lPSJtaWRkbGUiPlZpYTwvdGV4dD4KPC9zdmc+"/>
+<link rel="icon" type="image/png" href="favicon.png" sizes="64x64"/>
+<link rel="apple-touch-icon" sizes="180x180" href="favicon.png"/>
 <!-- EmailJS for Join Us notifications -->
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script type="text/javascript">
@@ -7130,6 +7132,78 @@ body.dark-mode .cv-user-chip .cv-logout:hover{
   color:#ff8080;
 }
 
+/* ══ LOGOUT CONFIRM MODAL ══ */
+.cv-logout-modal{
+  max-width:340px;width:calc(100% - 2rem);
+  border-radius:28px;
+  padding:2rem 1.75rem 1.6rem;
+  background:#fff;
+  border:1px solid rgba(220,53,69,.1);
+  box-shadow:0 24px 60px -12px rgba(0,0,0,.28), 0 8px 20px rgba(220,53,69,.08);
+  display:flex;flex-direction:column;align-items:center;gap:1rem;
+  text-align:center;
+  animation:cvModeIn .3s cubic-bezier(.22,1,.36,1) both;
+}
+body.dark-mode .cv-logout-modal{
+  background:#0d1d29;
+  border-color:rgba(220,53,69,.18);
+}
+.cv-logout-icon-wrap{
+  width:64px;height:64px;border-radius:50%;
+  background:linear-gradient(135deg,rgba(220,53,69,.1),rgba(220,53,69,.18));
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.5rem;color:#dc3545;
+  border:1.5px solid rgba(220,53,69,.2);
+  box-shadow:0 4px 16px rgba(220,53,69,.15);
+}
+.cv-logout-modal h3{
+  margin:0;font-size:1.15rem;font-weight:800;
+  color:#0b3d54;letter-spacing:-.01em;
+}
+body.dark-mode .cv-logout-modal h3{color:#d8eef7;}
+.cv-logout-modal p{
+  margin:0;font-size:.88rem;color:#6b8a9a;line-height:1.55;
+}
+body.dark-mode .cv-logout-modal p{color:#5a8898;}
+.cv-logout-actions{
+  display:flex;flex-direction:column;gap:.65rem;width:100%;margin-top:.4rem;
+}
+.cv-logout-confirm-btn{
+  display:flex;align-items:center;justify-content:center;gap:.5rem;
+  padding:.72rem 1.2rem;border-radius:14px;border:none;
+  background:linear-gradient(135deg,#dc3545,#b02030);
+  color:#fff;font-size:.9rem;font-weight:800;
+  cursor:pointer;width:100%;
+  box-shadow:0 6px 18px rgba(220,53,69,.35);
+  transition:all .22s cubic-bezier(.34,1.56,.64,1);
+}
+.cv-logout-confirm-btn:hover{
+  transform:translateY(-2px);
+  box-shadow:0 10px 24px rgba(220,53,69,.5);
+  filter:brightness(1.08);
+}
+.cv-logout-confirm-btn:active{transform:scale(.97);}
+.cv-logout-cancel-btn{
+  padding:.68rem 1.2rem;border-radius:14px;
+  background:rgba(15,88,115,.06);
+  border:1.5px solid rgba(15,88,115,.12);
+  color:#0b3d54;font-size:.88rem;font-weight:700;
+  cursor:pointer;width:100%;
+  transition:all .22s ease;
+}
+.cv-logout-cancel-btn:hover{
+  background:rgba(15,88,115,.1);
+  border-color:rgba(15,88,115,.22);
+}
+body.dark-mode .cv-logout-cancel-btn{
+  background:rgba(255,255,255,.07);
+  border-color:rgba(255,255,255,.1);
+  color:#d8eef7;
+}
+body.dark-mode .cv-logout-cancel-btn:hover{
+  background:rgba(255,255,255,.12);
+}
+
 /* ══ SIGN IN BTN — PREMIUM ══ */
 .cv-auth-btn{
   position:relative;
@@ -7937,6 +8011,14 @@ body.rtl .cv-user-chip{flex-direction:row-reverse;}
               <input type="date" id="cvRegBd" class="cv-date"/>
             </div>
           </div>
+          <div class="form-group">
+            <label id="cvRegPhoneLabel"><i class="fas fa-phone"></i> رقم الهاتف</label>
+            <div class="cv-input-wrap">
+              <i class="fas fa-phone cv-input-icon"></i>
+              <input type="tel" id="cvRegPhone" autocomplete="tel" placeholder="+212 6XX XXX XXX" inputmode="tel"/>
+            </div>
+            <div class="cv-field-error" id="cvRegPhoneErr" style="display:none;color:#dc3545;font-size:.78rem;margin-top:.3rem;"></div>
+          </div>
           <button type="button" class="cv-btn-primary cv-reg-next-btn" id="cvRegNextBtn" onclick="cvRegGoStep2()">
             <span>التالي</span> <i class="fas fa-arrow-left"></i>
           </button>
@@ -8121,7 +8203,7 @@ body.rtl .cv-user-chip{flex-direction:row-reverse;}
         <div class="cv-mode-copy"><h3 id="cvModeRegLabel">إنشاء حساب</h3><p id="cvModeRegDesc">جديد؟ أنشئ حسابك في دقيقة واحدة</p></div>
         <span class="cv-mode-arrow"><i class="fas fa-arrow-right"></i></span>
       </div>
-      <div class="cv-mode-card" onclick="cvModeGuest()">
+      <div class="cv-mode-card" id="cvModeGuestCard" style="display:none" onclick="cvModeGuest()">
         <span class="cv-mode-icon"><i class="fas fa-bolt"></i></span>
         <div class="cv-mode-copy"><h3 id="cvModeGuestLabel">المتابعة بدون حساب</h3><p id="cvModeGuestDesc">احجز مباشرة دون تسجيل</p></div>
         <span class="cv-mode-arrow"><i class="fas fa-arrow-right"></i></span>
@@ -8130,6 +8212,24 @@ body.rtl .cv-user-chip{flex-direction:row-reverse;}
   </div>
 </div>
 
+
+<!-- Logout Confirm -->
+<div class="cv-overlay" id="cvLogoutOverlay" style="display:none;">
+  <div class="cv-modal cv-logout-modal">
+    <div class="cv-logout-icon-wrap"><i class="fas fa-right-from-bracket"></i></div>
+    <h3 id="cvLogoutTitle">تسجيل الخروج</h3>
+    <p id="cvLogoutDesc">هل أنت متأكد أنك تريد تسجيل الخروج من حسابك؟</p>
+    <div class="cv-logout-actions">
+      <button class="cv-logout-confirm-btn" onclick="cvConfirmLogout()">
+        <i class="fas fa-right-from-bracket"></i>
+        <span id="cvLogoutConfirmBtn">تأكيد الخروج</span>
+      </button>
+      <button class="cv-logout-cancel-btn" onclick="cvCancelLogout()">
+        <span id="cvLogoutCancelBtn">إلغاء</span>
+      </button>
+    </div>
+  </div>
+</div>
 <!-- Dashboard View -->
 <div class="view" id="dashboardView">
   <div class="navbar">
@@ -8210,7 +8310,7 @@ const AUTH_T = {
   ar:{
     loginTitle:'تسجيل الدخول', regTitle:'إنشاء حساب',
     emailLabel:'البريد الإلكتروني', passLabel:'كلمة المرور',
-    fnLabel:'الاسم الأول', lnLabel:'النسب', bdLabel:'تاريخ الازدياد',
+    fnLabel:'الاسم الأول', regPhoneLabel:'رقم الهاتف', errPhoneRequired:'رقم الهاتف مطلوب (8 أرقام على الأقل)', lnLabel:'النسب', bdLabel:'تاريخ الازدياد',
     pw2Label:'تأكيد كلمة المرور', loginBtn:'دخول', regBtn:'إنشاء الحساب',
     emailCodeLabel:'كود التحقق', sendCodeBtn:'إرسال الكود', verifyCodeBtn:'تأكيد الكود',
     verifyPending:'دخل بريدك الإلكتروني ثم صيفط الكود', verifyCodePlaceholder:'أدخل كود التحقق',
@@ -8272,7 +8372,7 @@ const AUTH_T = {
   fr:{
     loginTitle:'Connexion', regTitle:'Créer un compte',
     emailLabel:'Email', passLabel:'Mot de passe',
-    fnLabel:'Prénom', lnLabel:'Nom', bdLabel:'Date de naissance',
+    fnLabel:'Prénom', regPhoneLabel:'Numéro de téléphone', errPhoneRequired:'Numéro requis (8 chiffres min.)', lnLabel:'Nom', bdLabel:'Date de naissance',
     pw2Label:'Confirmer le mot de passe', loginBtn:'Se connecter', regBtn:'Créer le compte',
     emailCodeLabel:'Code de vérification', sendCodeBtn:'Envoyer le code', verifyCodeBtn:'Vérifier le code',
     verifyPending:'Entrez votre email puis envoyez le code', verifyCodePlaceholder:'Entrez le code de vérification',
@@ -8343,8 +8443,8 @@ const AUTH_T = {
     errVerifyEmail:'You must verify your email with the code before creating the account',
     toReg:'No account?', toRegLink:'Create one',
     toLogin:'Already have an account?', toLoginLink:'Sign In',
-    modeTitle:'How would you like to book?',
-    modeLead:'Choose the option that suits you best and continue with a simple, clear booking flow.',
+    modeTitle:'Welcome to CareVia',
+    modeLead:'Sign in or create an account to continue.',
     modeLoginLabel:'Sign In', modeLoginDesc:'Have an account — track your bookings',
     modeRegLabel:'Create Account', modeRegDesc:'New? Set up your account in a minute',
     modeGuestLabel:'Continue as Guest', modeGuestDesc:'Book directly without signing in',
@@ -8396,7 +8496,7 @@ const AUTH_T = {
   es:{
     loginTitle:'Iniciar sesión', regTitle:'Crear cuenta',
     emailLabel:'Correo electrónico', passLabel:'Contraseña',
-    fnLabel:'Nombre', lnLabel:'Apellido', bdLabel:'Fecha de nacimiento',
+    fnLabel:'Nombre', regPhoneLabel:'Número de teléfono', errPhoneRequired:'Teléfono requerido (mín. 8 dígitos)', lnLabel:'Apellido', bdLabel:'Fecha de nacimiento',
     pw2Label:'Confirmar contraseña', loginBtn:'Entrar', regBtn:'Crear cuenta',
     emailCodeLabel:'Código de verificación', sendCodeBtn:'Enviar código', verifyCodeBtn:'Verificar código',
     verifyPending:'Ingresa tu correo y envía el código', verifyCodePlaceholder:'Ingresa el código de verificación',
@@ -8449,7 +8549,7 @@ const AUTH_T = {
   de:{
     loginTitle:'Anmelden', regTitle:'Konto erstellen',
     emailLabel:'E-Mail', passLabel:'Passwort',
-    fnLabel:'Vorname', lnLabel:'Nachname', bdLabel:'Geburtsdatum',
+    fnLabel:'Vorname', regPhoneLabel:'Telefonnummer', errPhoneRequired:'Telefon erforderlich (mind. 8 Ziffern)', lnLabel:'Nachname', bdLabel:'Geburtsdatum',
     pw2Label:'Passwort bestätigen', loginBtn:'Anmelden', regBtn:'Konto erstellen',
     emailCodeLabel:'Bestätigungscode', sendCodeBtn:'Code senden', verifyCodeBtn:'Code bestätigen',
     verifyPending:'Gib deine E-Mail ein und sende den Code', verifyCodePlaceholder:'Bestätigungscode eingeben',
@@ -8716,7 +8816,7 @@ function renderAuthText(){
   setT('cvLoginTitle','loginTitle'); setT('cvRegTitle','regTitle');
   setT('cvLoginEmailLabel','emailLabel'); setT('cvLoginPassLabel','passLabel');
   setT('cvLoginBtn','loginBtn'); setT('cvRegBtn','regBtn');
-  setT('cvRegFnLabel','fnLabel'); setT('cvRegLnLabel','lnLabel');
+  setT('cvRegFnLabel','fnLabel'); setT('cvRegLnLabel','lnLabel'); setT('cvRegPhoneLabel','regPhoneLabel');
   setT('cvRegBdLabel','bdLabel'); setT('cvRegEmLabel','emailLabel');
   setT('cvRegPwLabel','passLabel'); setT('cvRegPw2Label','pw2Label');
   // Multi-step register form
@@ -8869,7 +8969,10 @@ window.cvTogglePassword = function(inputId, btn){
 };
 
 /* ── Mode Modal ── */
-window.cvShowMode = function(){
+window.cvShowMode = function(fromBooking){
+  // Show/hide Guest card based on context
+  const guestCard = document.getElementById('cvModeGuestCard');
+  if(guestCard) guestCard.style.display = fromBooking ? '' : 'none';
   document.getElementById('cvModeOverlay').style.display='flex';
 };
 window.cvCloseMode = function(){
@@ -8883,9 +8986,8 @@ window.cvModeRegister = function(){
 };
 window.cvModeGuest = function(){
   cvCloseMode();
-  // Proceed with booking directly
-  const origSSS = window.showServiceSelection;
-  if(origSSS) origSSS();
+  window._cvPendingBooking = false;
+  if(typeof _origSSS === 'function') _origSSS();
 };
 
 /* Override Book a Caregiver button to show mode modal if not logged in */
@@ -8895,16 +8997,9 @@ window.showServiceSelection = function(){
   if(session){
     if(_origSSS) _origSSS();
   } else {
-    cvShowMode();
-    // Store that after login we want to go to booking
+    cvShowMode(true); // fromBooking = true → show Guest option
     window._cvPendingBooking = true;
   }
-};
-// Guest path from mode modal goes directly
-window.cvModeGuest = function(){
-  cvCloseMode();
-  window._cvPendingBooking = false;
-  if(_origSSS) _origSSS();
 };
 
 /* ── Register (Firebase Auth + Firestore) ── */
@@ -8912,6 +9007,7 @@ window.cvDoRegister = async function(){
   const fn=document.getElementById('cvRegFn').value.trim();
   const ln=document.getElementById('cvRegLn').value.trim();
   const bd=document.getElementById('cvRegBd').value;
+  const phone=(document.getElementById('cvRegPhone')?.value||'').trim();
   const em=document.getElementById('cvRegEm').value.trim().toLowerCase();
   const pw=document.getElementById('cvRegPw').value;
   const pw2=document.getElementById('cvRegPw2').value;
@@ -8933,6 +9029,7 @@ window.cvDoRegister = async function(){
       fn,
       ln,
       bd,
+      phone,
       email:em,
       phone:'',
       city:'',
@@ -8996,7 +9093,37 @@ window.cvDoLogin = async function(){
 };
 
 /* ── Logout ── */
-window.cvLogout = async function(){
+/* Logout with confirmation */
+window.cvLogout = function(){
+  // Show confirmation popup instead of logging out directly
+  const overlay = document.getElementById('cvLogoutOverlay');
+  if(overlay) overlay.style.display='flex';
+  // Apply translations
+  const t = {
+    ar:{ title:'تسجيل الخروج', desc:'هل أنت متأكد أنك تريد تسجيل الخروج؟', confirm:'تأكيد الخروج', cancel:'إلغاء' },
+    fr:{ title:'Déconnexion', desc:'Êtes-vous sûr de vouloir vous déconnecter ?', confirm:'Se déconnecter', cancel:'Annuler' },
+    en:{ title:'Sign Out', desc:'Are you sure you want to sign out of your account?', confirm:'Sign Out', cancel:'Cancel' },
+    es:{ title:'Cerrar sesión', desc:'¿Estás seguro de que quieres cerrar sesión?', confirm:'Cerrar sesión', cancel:'Cancelar' },
+    de:{ title:'Abmelden', desc:'Möchten Sie sich wirklich abmelden?', confirm:'Abmelden', cancel:'Abbrechen' },
+  };
+  const lang = (typeof currentLang !== 'undefined' ? currentLang : 'en') || 'en';
+  const tx = t[lang] || t.en;
+  const el = (id,txt)=>{ const e=document.getElementById(id); if(e) e.textContent=txt; };
+  el('cvLogoutTitle', tx.title);
+  el('cvLogoutDesc', tx.desc);
+  el('cvLogoutConfirmBtn', tx.confirm);
+  el('cvLogoutCancelBtn', tx.cancel);
+};
+window.cvCancelLogout = function(){
+  const overlay = document.getElementById('cvLogoutOverlay');
+  if(overlay) overlay.style.display='none';
+};
+window.cvConfirmLogout = async function(){
+  const overlay = document.getElementById('cvLogoutOverlay');
+  if(overlay) overlay.style.display='none';
+  await cvDoLogout();
+};
+window.cvDoLogout = async function(){
   try{
     if(window.cvFirebaseAuth && typeof window.cvFirebaseAuth.signOut === 'function'){
       await window.cvFirebaseAuth.signOut();
@@ -9466,7 +9593,17 @@ window.cvRegGoStep1 = function(reset){
 window.cvRegGoStep2 = function(){
   const fn=(document.getElementById('cvRegFn')?.value||'').trim();
   const ln=(document.getElementById('cvRegLn')?.value||'').trim();
+  const phone=(document.getElementById('cvRegPhone')?.value||'').trim();
+  const phoneErr=document.getElementById('cvRegPhoneErr');
+  // Validate phone — must have at least 8 digits
+  const phoneDigits = phone.replace(/\D/g,'');
   if(!fn||!ln){ return; }
+  if(!phone || phoneDigits.length < 8){
+    if(phoneErr){ phoneErr.textContent = at('errPhoneRequired') || 'رقم الهاتف مطلوب (8 أرقام على الأقل)'; phoneErr.style.display='block'; }
+    document.getElementById('cvRegPhone')?.focus();
+    return;
+  }
+  if(phoneErr) phoneErr.style.display='none';
   const p1=document.getElementById('cvRegPanel1');
   const p2=document.getElementById('cvRegPanel2');
   const p3=document.getElementById('cvRegPanel3');
