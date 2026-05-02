@@ -290,7 +290,7 @@
 
     const state = {
       bookings: [], joinUs: [], caregivers: [], currentBooking: null,
-      adminPhone: ''
+      adminPhone: '', cancelTargetId: null
     };
 
     // ===== OTP LOGIN =====
@@ -474,9 +474,15 @@
           <td>
             <div class="actions">
               <button class="btn btn-primary" onclick="openBookingDetails('${escapeJs(item.bookingId)}')">Voir</button>
-              <button class="btn btn-success" onclick="quickUpdateStatus('${escapeJs(item.bookingId)}', 'confirmé')">Confirmer</button>
-              <button class="btn btn-warning" onclick="quickUpdateStatus('${escapeJs(item.bookingId)}', 'terminé')">Terminer</button>
-              <button class="btn btn-danger" onclick="quickUpdateStatus('${escapeJs(item.bookingId)}', 'annulé')">Annuler</button>
+              ${normalizeStatus(item.status) !== 'confirmé' && normalizeStatus(item.status) !== 'terminé' && normalizeStatus(item.status) !== 'annulé'
+                ? `<button class="btn btn-success" onclick="quickUpdateStatus('${escapeJs(item.bookingId)}', 'confirmé')">Confirmer</button>`
+                : ''}
+              ${normalizeStatus(item.status) === 'confirmé'
+                ? `<button class="btn btn-warning" onclick="quickUpdateStatus('${escapeJs(item.bookingId)}', 'terminé')">🏁 Terminer</button>`
+                : ''}
+              ${normalizeStatus(item.status) !== 'annulé' && normalizeStatus(item.status) !== 'terminé'
+                ? `<button class="btn btn-danger" onclick="quickUpdateStatus('${escapeJs(item.bookingId)}', 'annulé')">Annuler</button>`
+                : ''}
             </div>
           </td>`;
         tbody.appendChild(tr);
@@ -553,12 +559,38 @@
       await updateBookingStatus(state.currentBooking.bookingId, document.getElementById('statusUpdateSelect').value);
     }
 
-    async function quickUpdateStatus(bookingId, status) { await updateBookingStatus(bookingId, status); }
+    async function quickUpdateStatus(bookingId, status) {
+      if (status === 'annulé') {
+        showCancelModal(bookingId);
+      } else {
+        await updateBookingStatus(bookingId, status);
+      }
+    }
 
-    async function updateBookingStatus(bookingId, status) {
+    function showCancelModal(bookingId) {
+      state.cancelTargetId = bookingId;
+      document.getElementById('cancelModalOverlay').classList.add('show');
+    }
+
+    function closeCancelModal() {
+      document.getElementById('cancelModalOverlay').classList.remove('show');
+      state.cancelTargetId = null;
+    }
+
+    async function confirmCancelWithReason(reasonNum, reasonLabel) {
+      const bookingId = state.cancelTargetId;
+      if (!bookingId) return;
+      closeCancelModal();
+      await updateBookingStatus(bookingId, 'annulé', reasonNum, reasonLabel);
+    }
+
+    async function updateBookingStatus(bookingId, status, cancelReason, cancelReasonLabel) {
       try {
-        const res = await apiPost({ action: 'updateBookingStatus', bookingId, status });
+        const payload = { action: 'updateBookingStatus', bookingId, status };
+        if (cancelReason) { payload.cancelReason = cancelReason; payload.cancelReasonLabel = cancelReasonLabel; }
+        const res = await apiPost(payload);
         if (!res.ok) { alert(res.error || 'Failed to update status'); return; }
+        showToast(status === 'confirmé' ? '✅ Réservation confirmée !' : status === 'annulé' ? '❌ Réservation annulée' : status === 'terminé' ? '🏁 Service terminé - Email envoyé !' : 'Statut mis à jour');
         await refreshAll();
         if (state.currentBooking && String(state.currentBooking.bookingId) === String(bookingId)) closeModal();
       } catch (error) {
@@ -567,11 +599,53 @@
       }
     }
 
+    function showToast(msg) {
+      let toast = document.getElementById('toastNotif');
+      if (!toast) { toast = document.createElement('div'); toast.id = 'toastNotif'; document.body.appendChild(toast); }
+      toast.textContent = msg;
+      toast.style.cssText = 'position:fixed;bottom:30px;right:30px;background:#0f5873;color:#fff;padding:14px 22px;border-radius:12px;font-size:15px;font-weight:bold;box-shadow:0 6px 24px rgba(0,0,0,0.18);z-index:9999;transition:opacity 0.4s;';
+      toast.style.opacity = '1';
+      clearTimeout(toast._t);
+      toast._t = setTimeout(() => { toast.style.opacity = '0'; }, 3000);
+    }
+
     function formatValue(value) { if (value === null || value === undefined || value === '') return '-'; return String(value); }
     function escapeHtml(value) { return String(value || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
     function escapeJs(value) { return String(value || '').replace(/'/g, "\\'"); }
 
     checkSession();
   </script>
+  <!-- ===== CANCEL REASON MODAL ===== -->
+  <div id="cancelModalOverlay" class="modal-overlay" onclick="if(event.target===this)closeCancelModal()">
+    <div class="modal-content" style="max-width:480px;" onclick="event.stopPropagation()">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+        <h3 style="font-size:18px;color:#b91c1c;">❌ Sélectionnez le motif d'annulation</h3>
+        <button onclick="closeCancelModal()" style="background:none;border:none;font-size:22px;cursor:pointer;color:#6b7280;">✕</button>
+      </div>
+      <p style="font-size:14px;color:#6b7280;margin-bottom:18px;">Un email sera automatiquement envoyé au client avec le motif choisi.</p>
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <button class="btn" onclick="confirmCancelWithReason(1,'الشخص المطلوب غير متاح في هذا الوقت')"
+          style="background:#fff7ed;border:1.5px solid #f59e0b;color:#92400e;text-align:left;padding:14px 16px;border-radius:12px;font-size:14px;">
+          <strong>⏰ Motif 1 :</strong> Le soignant demandé n'est pas disponible à ce moment
+        </button>
+        <button class="btn" onclick="confirmCancelWithReason(2,'يوم عطلة لهذا الشخص')"
+          style="background:#f0f9ff;border:1.5px solid #7dd3fc;color:#075985;text-align:left;padding:14px 16px;border-radius:12px;font-size:14px;">
+          <strong>📅 Motif 2 :</strong> Le soignant est en congé à la date choisie
+        </button>
+        <button class="btn" onclick="confirmCancelWithReason(3,'تصرفات غير أخلاقية - رُفض الطلب')"
+          style="background:#fef2f2;border:1.5px solid #fca5a5;color:#7f1d1d;text-align:left;padding:14px 16px;border-radius:12px;font-size:14px;">
+          <strong>🚫 Motif 3 :</strong> Comportement inapproprié — demande refusée
+        </button>
+        <button class="btn" onclick="confirmCancelWithReason(4,'سبب آخر')"
+          style="background:#f8fafc;border:1.5px solid #d1d5db;color:#374151;text-align:left;padding:14px 16px;border-radius:12px;font-size:14px;">
+          <strong>📋 Motif 4 :</strong> Autre motif
+        </button>
+      </div>
+      <div style="margin-top:16px;text-align:right;">
+        <button class="btn" onclick="closeCancelModal()" style="background:#f3f4f6;color:#374151;">Retour</button>
+      </div>
+    </div>
+  </div>
+
 </body>
 </html>
