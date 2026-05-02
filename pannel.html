@@ -585,6 +585,10 @@
     }
 
     async function updateBookingStatus(bookingId, status, cancelReason, cancelReasonLabel) {
+      // منع double-click: نديزابل كل الأزرار مؤقتاً
+      if (state._updating) return;
+      state._updating = true;
+      document.querySelectorAll('.btn').forEach(b => { b.disabled = true; b.style.opacity = '0.6'; });
       try {
         const payload = { action: 'updateBookingStatus', bookingId, status };
         if (cancelReason) { payload.cancelReason = cancelReason; payload.cancelReasonLabel = cancelReasonLabel; }
@@ -596,6 +600,9 @@
       } catch (error) {
         console.error(error);
         alert('Error while updating status');
+      } finally {
+        state._updating = false;
+        document.querySelectorAll('.btn').forEach(b => { b.disabled = false; b.style.opacity = ''; });
       }
     }
 
