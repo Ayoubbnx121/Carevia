@@ -290,7 +290,7 @@
 
     const state = {
       bookings: [], joinUs: [], caregivers: [], currentBooking: null,
-      adminPhone: '', cancelTargetId: null
+      adminPhone: '', cancelTargetId: null, _updating: false
     };
 
     // ===== OTP LOGIN =====
@@ -474,15 +474,9 @@
           <td>
             <div class="actions">
               <button class="btn btn-primary" onclick="openBookingDetails('${escapeJs(item.bookingId)}')">Voir</button>
-              ${normalizeStatus(item.status) !== 'confirmé' && normalizeStatus(item.status) !== 'terminé' && normalizeStatus(item.status) !== 'annulé'
-                ? `<button class="btn btn-success" onclick="quickUpdateStatus('${escapeJs(item.bookingId)}', 'confirmé')">Confirmer</button>`
-                : ''}
-              ${normalizeStatus(item.status) === 'confirmé'
-                ? `<button class="btn btn-warning" onclick="quickUpdateStatus('${escapeJs(item.bookingId)}', 'terminé')">🏁 Terminer</button>`
-                : ''}
-              ${normalizeStatus(item.status) !== 'annulé' && normalizeStatus(item.status) !== 'terminé'
-                ? `<button class="btn btn-danger" onclick="quickUpdateStatus('${escapeJs(item.bookingId)}', 'annulé')">Annuler</button>`
-                : ''}
+              <button class="btn btn-success" onclick="quickUpdateStatus('${escapeJs(item.bookingId)}', 'confirmé')">Confirmer</button>
+              <button class="btn btn-warning" onclick="quickUpdateStatus('${escapeJs(item.bookingId)}', 'terminé')">Terminer</button>
+              <button class="btn btn-danger" onclick="quickUpdateStatus('${escapeJs(item.bookingId)}', 'annulé')">Annuler</button>
             </div>
           </td>`;
         tbody.appendChild(tr);
@@ -560,32 +554,26 @@
     }
 
     async function quickUpdateStatus(bookingId, status) {
-      if (status === 'annulé') {
-        showCancelModal(bookingId);
-      } else {
-        await updateBookingStatus(bookingId, status);
-      }
+      if (status === 'annulé') { showCancelModal(bookingId); return; }
+      await updateBookingStatus(bookingId, status);
     }
 
     function showCancelModal(bookingId) {
       state.cancelTargetId = bookingId;
       document.getElementById('cancelModalOverlay').classList.add('show');
     }
-
     function closeCancelModal() {
       document.getElementById('cancelModalOverlay').classList.remove('show');
       state.cancelTargetId = null;
     }
-
     async function confirmCancelWithReason(reasonNum, reasonLabel) {
-      const bookingId = state.cancelTargetId;
+      var bookingId = state.cancelTargetId;
       if (!bookingId) return;
       closeCancelModal();
       await updateBookingStatus(bookingId, 'annulé', reasonNum, reasonLabel);
     }
 
     async function updateBookingStatus(bookingId, status, cancelReason, cancelReasonLabel) {
-      // منع double-click: نديزابل كل الأزرار مؤقتاً
       if (state._updating) return;
       state._updating = true;
       document.querySelectorAll('.btn').forEach(b => { b.disabled = true; b.style.opacity = '0.6'; });
@@ -594,7 +582,8 @@
         if (cancelReason) { payload.cancelReason = cancelReason; payload.cancelReasonLabel = cancelReasonLabel; }
         const res = await apiPost(payload);
         if (!res.ok) { alert(res.error || 'Failed to update status'); return; }
-        showToast(status === 'confirmé' ? '✅ Réservation confirmée !' : status === 'annulé' ? '❌ Réservation annulée' : status === 'terminé' ? '🏁 Service terminé - Email envoyé !' : 'Statut mis à jour');
+        const msgs = { 'confirmé': '✅ Réservation confirmée !', 'annulé': '❌ Réservation annulée', 'terminé': '🏁 Service terminé - Email envoyé !' };
+        showToast(msgs[status] || 'Statut mis à jour');
         await refreshAll();
         if (state.currentBooking && String(state.currentBooking.bookingId) === String(bookingId)) closeModal();
       } catch (error) {
@@ -607,13 +596,12 @@
     }
 
     function showToast(msg) {
-      let toast = document.getElementById('toastNotif');
-      if (!toast) { toast = document.createElement('div'); toast.id = 'toastNotif'; document.body.appendChild(toast); }
-      toast.textContent = msg;
-      toast.style.cssText = 'position:fixed;bottom:30px;right:30px;background:#0f5873;color:#fff;padding:14px 22px;border-radius:12px;font-size:15px;font-weight:bold;box-shadow:0 6px 24px rgba(0,0,0,0.18);z-index:9999;transition:opacity 0.4s;';
-      toast.style.opacity = '1';
-      clearTimeout(toast._t);
-      toast._t = setTimeout(() => { toast.style.opacity = '0'; }, 3000);
+      let t = document.getElementById('toast_notif');
+      if (!t) { t = document.createElement('div'); t.id = 'toast_notif'; document.body.appendChild(t); }
+      t.textContent = msg;
+      t.style.cssText = 'position:fixed;bottom:30px;right:30px;background:#0f5873;color:#fff;padding:14px 22px;border-radius:12px;font-size:15px;font-weight:bold;box-shadow:0 6px 24px rgba(0,0,0,0.18);z-index:9999;opacity:1;transition:opacity 0.4s;';
+      clearTimeout(t._t);
+      t._t = setTimeout(() => { t.style.opacity = '0'; }, 3000);
     }
 
     function formatValue(value) { if (value === null || value === undefined || value === '') return '-'; return String(value); }
@@ -622,37 +610,25 @@
 
     checkSession();
   </script>
-  <!-- ===== CANCEL REASON MODAL ===== -->
+
+  <!-- CANCEL REASON MODAL -->
   <div id="cancelModalOverlay" class="modal-overlay" onclick="if(event.target===this)closeCancelModal()">
     <div class="modal-content" style="max-width:480px;" onclick="event.stopPropagation()">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
-        <h3 style="font-size:18px;color:#b91c1c;">❌ Sélectionnez le motif d'annulation</h3>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
+        <h3 style="font-size:17px;color:#b91c1c;margin:0;">❌ Motif d'annulation</h3>
         <button onclick="closeCancelModal()" style="background:none;border:none;font-size:22px;cursor:pointer;color:#6b7280;">✕</button>
       </div>
-      <p style="font-size:14px;color:#6b7280;margin-bottom:18px;">Un email sera automatiquement envoyé au client avec le motif choisi.</p>
-      <div style="display:flex;flex-direction:column;gap:12px;">
-        <button class="btn" onclick="confirmCancelWithReason(1,'الشخص المطلوب غير متاح في هذا الوقت')"
-          style="background:#fff7ed;border:1.5px solid #f59e0b;color:#92400e;text-align:left;padding:14px 16px;border-radius:12px;font-size:14px;">
-          <strong>⏰ Motif 1 :</strong> Le soignant demandé n'est pas disponible à ce moment
-        </button>
-        <button class="btn" onclick="confirmCancelWithReason(2,'يوم عطلة لهذا الشخص')"
-          style="background:#f0f9ff;border:1.5px solid #7dd3fc;color:#075985;text-align:left;padding:14px 16px;border-radius:12px;font-size:14px;">
-          <strong>📅 Motif 2 :</strong> Le soignant est en congé à la date choisie
-        </button>
-        <button class="btn" onclick="confirmCancelWithReason(3,'تصرفات غير أخلاقية - رُفض الطلب')"
-          style="background:#fef2f2;border:1.5px solid #fca5a5;color:#7f1d1d;text-align:left;padding:14px 16px;border-radius:12px;font-size:14px;">
-          <strong>🚫 Motif 3 :</strong> Comportement inapproprié — demande refusée
-        </button>
-        <button class="btn" onclick="confirmCancelWithReason(4,'سبب آخر')"
-          style="background:#f8fafc;border:1.5px solid #d1d5db;color:#374151;text-align:left;padding:14px 16px;border-radius:12px;font-size:14px;">
-          <strong>📋 Motif 4 :</strong> Autre motif
-        </button>
+      <p style="font-size:13px;color:#6b7280;margin-bottom:16px;">Un email sera automatiquement envoyé au client avec le motif choisi.</p>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <button onclick="confirmCancelWithReason(1,'غير متاح في هذا الوقت')" style="background:#fff7ed;border:1.5px solid #f59e0b;color:#92400e;text-align:left;padding:13px 15px;border-radius:10px;font-size:14px;cursor:pointer;">⏰ Le soignant n'est pas disponible à ce moment</button>
+        <button onclick="confirmCancelWithReason(2,'يوم عطلة')" style="background:#f0f9ff;border:1.5px solid #7dd3fc;color:#075985;text-align:left;padding:13px 15px;border-radius:10px;font-size:14px;cursor:pointer;">📅 Le soignant est en congé à cette date</button>
+        <button onclick="confirmCancelWithReason(3,'تصرف غير أخلاقي')" style="background:#fef2f2;border:1.5px solid #fca5a5;color:#7f1d1d;text-align:left;padding:13px 15px;border-radius:10px;font-size:14px;cursor:pointer;">🚫 Comportement inapproprié — demande refusée</button>
+        <button onclick="confirmCancelWithReason(4,'سبب آخر')" style="background:#f8fafc;border:1.5px solid #d1d5db;color:#374151;text-align:left;padding:13px 15px;border-radius:10px;font-size:14px;cursor:pointer;">📋 Autre motif</button>
       </div>
-      <div style="margin-top:16px;text-align:right;">
-        <button class="btn" onclick="closeCancelModal()" style="background:#f3f4f6;color:#374151;">Retour</button>
+      <div style="margin-top:14px;text-align:right;">
+        <button onclick="closeCancelModal()" style="background:#f3f4f6;border:none;color:#374151;padding:9px 18px;border-radius:8px;cursor:pointer;font-size:14px;">Retour</button>
       </div>
     </div>
   </div>
-
 </body>
 </html>
