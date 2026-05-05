@@ -6554,7 +6554,7 @@ body.rtl .hero-cta-group{justify-content:flex-start;}
   function injectJoinUsButtons(){ document.querySelectorAll('.footer-col').forEach(col=>{ const heading=col.querySelector('h4[data-i18n="contactUs"]'); if(!heading) return; const existing=col.querySelector('.join-us-btn'); if(existing){ const span=existing.querySelector('span'); if(span) span.textContent = dt('joinUsButton'); return; } const btn=document.createElement('button'); btn.className='btn join-us-btn'; btn.type='button'; btn.innerHTML=`<i class="fas fa-user-plus"></i><span>${dt('joinUsButton')}</span>`; btn.onclick=()=>{ resetJoinUsForm(); navigateTo('joinUsView'); requestAnimationFrame(()=>{ window.scrollTo({top:0,behavior:'auto'}); setTimeout(()=>{ if(typeof applyI18nToAll==='function') applyI18nToAll(); },0); }); }; col.appendChild(btn); }); }
   window.showUrgentBooking=function(){ resetUrgentBooking(); navigateTo('urgentBookingView'); requestAnimationFrame(()=>{ window.scrollTo({top:0,behavior:'auto'}); setTimeout(()=>{ if(typeof applyI18nToAll==='function') applyI18nToAll(); },0); }); };
   window.submitUrgentBooking=async function(){ const firstName=(document.getElementById('urgentFirstName')||{}).value?.trim()||''; const lastName=(document.getElementById('urgentLastName')||{}).value?.trim()||''; const phoneRaw=(document.getElementById('urgentPhone')||{}).value?.trim()||''; const phone=normalizeMoroccanPhone(phoneRaw); const email=(document.getElementById('urgentEmail')||{}).value?.trim()||''; const city=(document.getElementById('urgentCity')||{}).value||''; const service=(document.getElementById('urgentService')||{}).value||''; const timing=(document.getElementById('urgentTiming')||{}).value||''; const notes=(document.getElementById('urgentNotes')||{}).value?.trim()||''; const submitBtn=document.querySelector('[onclick="submitUrgentBooking()"]'); if(!firstName||!lastName||!phone||!city||!service||!timing||!notes){ showPopup(dt('urgentMissingFields')); return; } if(!isValidMoroccanPhone(phone)){ showPopup(dt('urgentPhoneInvalid')); return; } const ref='URG-'+String(Date.now()).slice(-6); if(submitBtn){ submitBtn.textContent = dt('submitting'); submitBtn.disabled = true; } const fullName=`${firstName} ${lastName}`.trim(); const timingLabel = dt('urgentTiming'+(timing==='now'?'Now':timing==='2hours'?'2Hours':timing==='today'?'Today':'Tonight')); const payload = { type:'urgent', bookingId: ref, fullName, firstName, lastName, email, phone, city, service: getServiceName(service), serviceKey: service, date:'', timeSlots: [], caregiver:'', caregiverKey:'', hoursCount: 0, pricePerHour: 0, travelFee: 0, nightFee: 0, weekendFee: 0, discount: 0, total: 0, paymentMethod: 'urgent-request', notes: `${dt('urgentTimingLabel')}: ${timingLabel} | ${notes}`.trim(), urgency: timing, createdAt: new Date().toISOString() };
-    try { const result = await postJsonToAppsScript(payload); if(result && result.ok === false){ throw new Error(result.error || result.message || 'Request failed'); } const refEl=document.getElementById('urgentRequestReference'); if(refEl) refEl.textContent=ref; const serviceEl=document.getElementById('urgentSuccessService'); if(serviceEl) serviceEl.textContent=getServiceName(service); const timingEl=document.getElementById('urgentSuccessTiming'); if(timingEl) timingEl.textContent=timingLabel; const cityEl=document.getElementById('urgentSuccessCity'); if(cityEl) cityEl.textContent=cityLabel(city); try{ localStorage.setItem('careviaUrgentBooking', JSON.stringify({firstName,lastName,phone,email,city,service,timing,notes,ref,at:new Date().toISOString()})); }catch(e){} const formWrap=document.getElementById('urgentBookingFormWrap'); const success=document.getElementById('urgentBookingSuccess'); if(formWrap) formWrap.style.display='none'; if(success) success.style.display='block'; if (typeof setLanguage === 'function') setTimeout(()=>setLanguage(currentLang),0); }
+    try { const result = await postJsonToAppsScript(payload); if(result && result.ok === false){ throw new Error(result.error || result.message || 'Request failed'); } const refEl=document.getElementById('urgentRequestReference'); if(refEl) refEl.textContent=ref; const serviceEl=document.getElementById('urgentSuccessService'); if(serviceEl) serviceEl.textContent=getServiceName(service); const timingEl=document.getElementById('urgentSuccessTiming'); if(timingEl) timingEl.textContent=timingLabel; const cityEl=document.getElementById('urgentSuccessCity'); if(cityEl) cityEl.textContent=cityLabel(city); try{ localStorage.setItem('careviaUrgentBooking', JSON.stringify({firstName,lastName,phone,email,city,service,timing,notes,ref,at:new Date().toISOString()})); }catch(e){} /* Save urgent booking to user dashboard */ try{ var _urgSess=(function(){ try{ return JSON.parse(localStorage.getItem('careviaSession')||'null'); }catch(e){ return null; } })(); if(_urgSess){ var _urgUid=_urgSess.uid||_urgSess.id||_urgSess.userId||_urgSess.email; var _urgOrders=(function(){ try{ return JSON.parse(localStorage.getItem('careviaOrders')||'[]'); }catch(e){ return []; } })(); var _alreadySaved=_urgOrders.some(function(o){ return o.bookingId===ref&&(o.userId===_urgUid||o.uid===_urgUid||o.email===_urgUid); }); if(!_alreadySaved){ _urgOrders.push({userId:_urgUid,bookingId:ref,service:getServiceName(service),date:'',time:timingLabel,location:cityLabel(city),status:'pending',createdAt:new Date().toISOString()}); try{ localStorage.setItem('careviaOrders',JSON.stringify(_urgOrders)); }catch(e){} } } }catch(e){} const formWrap=document.getElementById('urgentBookingFormWrap'); const success=document.getElementById('urgentBookingSuccess'); if(formWrap) formWrap.style.display='none'; if(success) success.style.display='block'; if (typeof setLanguage === 'function') setTimeout(()=>setLanguage(currentLang),0); }
     catch(error){ console.error(error); showPopup(currentLang==='ar' ? 'وقع مشكل فإرسال الطلب المستعجل.' : (currentLang==='fr' ? 'Un problème est survenu lors de l’envoi de la demande urgente.' : 'There was a problem sending the urgent request.')); }
     finally { if(submitBtn){ submitBtn.textContent = dt('urgentSubmitBtn'); submitBtn.disabled = false; } }
   };
@@ -9253,9 +9253,90 @@ window.cvOpenDashboard = function(){
   renderDashboard();
   navigateTo('dashboardView');
   requestAnimationFrame(()=>window.scrollTo({top:0,behavior:'auto'}));
+  // Sync statuses from server in background
+  const _sess = getSession();
+  if(_sess){
+    const _email = _sess.email || _sess.userId || '';
+    if(_email) cvSyncOrderStatuses(_email);
+  }
 };
 
 /* ── Render Dashboard ── */
+/* ── Sync order statuses from Apps Script (Admin Panel) ── */
+const CV_ADMIN_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxf3gnZ5ZPXdqK-xB-zrXTSptJ1dm_aG3SXB-HducyGFUAlyip6CgSuM_Kb6VdLjdjt/exec';
+
+async function cvSyncOrderStatuses(userEmail) {
+  if(!userEmail) return;
+  try {
+    const res = await fetch(CV_ADMIN_SCRIPT_URL + '?action=getBookings');
+    if(!res.ok) return;
+    const data = await res.json();
+    if(!data.ok || !Array.isArray(data.bookings)) return;
+    // Find bookings that belong to this user (match by email)
+    const userBookings = data.bookings.filter(b =>
+      (b.email || '').toLowerCase() === userEmail.toLowerCase()
+    );
+    if(!userBookings.length) return;
+    // Update local orders with real statuses from server
+    const localOrders = dbGet(DB_ORDERS);
+    let changed = false;
+    userBookings.forEach(serverBooking => {
+      const idx = localOrders.findIndex(o => o.bookingId === serverBooking.bookingId);
+      if(idx !== -1) {
+        // Map admin panel status values to local status keys
+        const statusMap = {
+          'en attente': 'pending',
+          'confirmé': 'confirmed',
+          'terminé': 'completed',
+          'annulé': 'cancelled',
+          'in progress': 'inprogress',
+          'pending': 'pending',
+          'confirmed': 'confirmed',
+          'completed': 'completed',
+          'cancelled': 'cancelled',
+          'inprogress': 'inprogress'
+        };
+        const rawStatus = (serverBooking.status || 'en attente').toLowerCase().trim();
+        const mappedStatus = statusMap[rawStatus] || 'pending';
+        if(localOrders[idx].status !== mappedStatus) {
+          localOrders[idx].status = mappedStatus;
+          localOrders[idx].updatedAt = new Date().toISOString();
+          changed = true;
+        }
+      } else {
+        // Booking exists on server but not locally — add it
+        const statusMap = {
+          'en attente': 'pending', 'confirmé': 'confirmed',
+          'terminé': 'completed', 'annulé': 'cancelled',
+          'in progress': 'inprogress', 'pending': 'pending',
+          'confirmed': 'confirmed', 'completed': 'completed',
+          'cancelled': 'cancelled', 'inprogress': 'inprogress'
+        };
+        const rawStatus = (serverBooking.status || 'en attente').toLowerCase().trim();
+        const session = getSession();
+        const userId = session ? (session.uid || session.id || session.userId || session.email) : userEmail;
+        localOrders.push({
+          userId,
+          bookingId: serverBooking.bookingId,
+          service: serverBooking.service || '—',
+          date: serverBooking.date || '',
+          time: serverBooking.timeSlots || '',
+          location: serverBooking.city || '',
+          status: statusMap[rawStatus] || 'pending',
+          createdAt: serverBooking.createdAt || new Date().toISOString()
+        });
+        changed = true;
+      }
+    });
+    if(changed){
+      dbSet(DB_ORDERS, localOrders);
+      renderDashboard(); // re-render with updated statuses
+    }
+  } catch(e) {
+    console.warn('[CareVia] Could not sync statuses:', e);
+  }
+}
+
 function renderDashboard(){
   const session = getSession();
   const dashTitle = document.getElementById('cvDashTitle');
@@ -9437,31 +9518,46 @@ function hookBookingSubmit(){
   if(_origPP){
     window.processPayment = async function(){
       const session = getSession();
-      // Call original — it internally posts and fills confirmation
-      const result = await _origPP.apply(this, arguments);
-      if(session){
-        // After successful booking, try to save order reference
+      // Snapshot booking data BEFORE calling original (variables may reset after)
+      const snapshotService = (typeof getServiceName === 'function' && typeof selectedService !== 'undefined') ? getServiceName(selectedService) : '—';
+      const snapshotDate = (typeof selectedDate !== 'undefined') ? selectedDate : '';
+      const snapshotTime = (typeof selectedTime !== 'undefined') ? selectedTime : '';
+      const snapshotLocation = (typeof selectedCity !== 'undefined' && typeof cityLabel === 'function') ? cityLabel(selectedCity) : '';
+
+      // Call original — it navigates to confirmationView on success, throws/shows popup on error
+      await _origPP.apply(this, arguments);
+
+      // Check if booking succeeded by verifying we are now on the confirmation view
+      const confirmView = document.getElementById('confirmationView');
+      const succeeded = confirmView && confirmView.classList.contains('active-view');
+
+      if(session && succeeded){
         try{
-          const orderId = document.getElementById('confirmationRef') ?
-            document.getElementById('confirmationRef').textContent : 'CV-'+Date.now();
-          const orders = dbGet(DB_ORDERS);
+          const refEl = document.getElementById('confirmationRef');
+          const orderId = (refEl && refEl.textContent && refEl.textContent.trim())
+            ? refEl.textContent.trim()
+            : 'CV-' + String(Date.now()).slice(-6);
           const userId = session.uid || session.id || session.userId || session.email;
-          orders.push({
-            userId,
-            bookingId: orderId,
-            service: (typeof getServiceName === 'function' && typeof selectedService !== 'undefined') ? getServiceName(selectedService) : '—',
-            date: (typeof selectedDate !== 'undefined') ? selectedDate : '',
-            time: (typeof selectedTime !== 'undefined') ? selectedTime : '',
-            location: (typeof selectedCity !== 'undefined' && typeof cityLabel === 'function') ? cityLabel(selectedCity) : '',
-            status: 'pending',
-            createdAt: new Date().toISOString()
-          });
-          dbSet(DB_ORDERS, orders);
-          cvPushNotification(userId, at('notifCreated'), `${orderId} • ${at('statusPending')}`, 'fa-file-circle-plus');
-          cvShowToast('CareVia', at('notifCreated'));
-        }catch(e){}
+          // Avoid duplicate saves
+          const orders = dbGet(DB_ORDERS);
+          const alreadySaved = orders.some(o => o.bookingId === orderId && (o.userId === userId || o.uid === userId || o.email === userId));
+          if(!alreadySaved){
+            orders.push({
+              userId,
+              bookingId: orderId,
+              service: snapshotService,
+              date: snapshotDate,
+              time: snapshotTime,
+              location: snapshotLocation,
+              status: 'pending',
+              createdAt: new Date().toISOString()
+            });
+            dbSet(DB_ORDERS, orders);
+            cvPushNotification(userId, at('notifCreated'), `${orderId} • ${at('statusPending')}`, 'fa-file-circle-plus');
+            cvShowToast('CareVia', at('notifCreated'));
+          }
+        }catch(e){ console.warn('[CareVia] Failed to save order to dashboard:', e); }
       }
-      return result;
     };
   }
 }
@@ -9749,5 +9845,6 @@ if(typeof setLanguage === 'function'){
 
 })();
 </script>
+
 </body>
 </html>
