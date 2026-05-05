@@ -7875,6 +7875,7 @@ body.dark-mode .cv-booking-item{
 .cv-status-confirmed{background:rgba(72,187,120,.12);color:#2f855a;border-color:rgba(72,187,120,.25);}
 .cv-status-inprogress{background:rgba(66,153,225,.12);color:#2b6cb0;border-color:rgba(66,153,225,.24);}
 .cv-status-cancelled{background:rgba(229,62,62,.12);color:#c53030;border-color:rgba(229,62,62,.24);}
+.cv-status-completed{background:rgba(56,178,172,.12);color:#285e61;border-color:rgba(56,178,172,.25);}
 .cv-empty-dash{text-align:center;padding:2.2rem 1rem;border:1px dashed var(--border-color);border-radius:24px;background:linear-gradient(180deg, var(--accent-light), rgba(118,184,79,.08));opacity:1;}
 .cv-empty-dash i{font-size:2rem;color:var(--accent-dark);margin-bottom:.65rem;display:block;}
 .cv-profile-list{display:flex;flex-direction:column;gap:.75rem;}
@@ -8327,7 +8328,7 @@ const AUTH_T = {
     authNavBtn:'دخول / حساب', logoutBtn:'خروج',
     dashTitle:'طلباتي', dashNewBtn:'+ طلب جديد',
     emptyDash:'ما عندكش طلبات بعد', statusPending:'في الانتظار',
-    statusConfirmed:'مؤكد', statusInprogress:'قيد التنفيذ', statusCancelled:'ملغى',
+    statusConfirmed:'مؤكد', statusInprogress:'قيد التنفيذ', statusCancelled:'ملغى', statusCompleted:'مكتمل',
     errEmail:'البريد الإلكتروني مش صحيح', errPass:'المرور قصير (6 حروف على الأقل)',
     errPassMatch:'كلمتا المرور ما تتطابقاش', errExists:'هذا البريد مسجل بالفعل', loginPrompt:'جرّب تسجيل الدخول',
     errNotFound:'البريد أو المرور خاطئ', errFill:'عبّي جميع الخانات',
@@ -8389,7 +8390,7 @@ const AUTH_T = {
     authNavBtn:'Connexion / Compte', logoutBtn:'Déconnexion',
     dashTitle:'Mes demandes', dashNewBtn:'+ Nouvelle demande',
     emptyDash:'Aucune demande pour l\'instant', statusPending:'En attente',
-    statusConfirmed:'Confirmée', statusInprogress:'En cours', statusCancelled:'Annulée',
+    statusConfirmed:'Confirmée', statusInprogress:'En cours', statusCancelled:'Annulée', statusCompleted:'Terminée',
     errEmail:'Email invalide', errPass:'Mot de passe trop court (6 caractères min)',
     errPassMatch:'Les mots de passe ne correspondent pas', errExists:'Cet email est déjà utilisé', loginPrompt:'Essayez de vous connecter',
     errNotFound:'Email ou mot de passe incorrect', errFill:'Veuillez remplir tous les champs',
@@ -8451,7 +8452,7 @@ const AUTH_T = {
     authNavBtn:'Sign In / Account', logoutBtn:'Sign Out',
     dashTitle:'My Bookings', dashNewBtn:'+ New Booking',
     emptyDash:'No bookings yet', statusPending:'Pending',
-    statusConfirmed:'Confirmed', statusInprogress:'In Progress', statusCancelled:'Cancelled',
+    statusConfirmed:'Confirmed', statusInprogress:'In Progress', statusCancelled:'Cancelled', statusCompleted:'Completed',
     errEmail:'Invalid email address', errPass:'Password too short (min 6 characters)',
     errPassMatch:'Passwords do not match', errExists:'This email is already registered', loginPrompt:'Try signing in instead',
     errNotFound:'Incorrect email or password', errFill:'Please fill in all fields',
@@ -8513,7 +8514,7 @@ const AUTH_T = {
     authNavBtn:'Entrar / Cuenta', logoutBtn:'Cerrar sesión',
     dashTitle:'Mis reservas', dashNewBtn:'+ Nueva reserva',
     emptyDash:'Aún no hay reservas', statusPending:'Pendiente',
-    statusConfirmed:'Confirmado', statusInprogress:'En progreso', statusCancelled:'Cancelado',
+    statusConfirmed:'Confirmado', statusInprogress:'En progreso', statusCancelled:'Cancelado', statusCompleted:'Completado',
     errEmail:'Correo inválido', errPass:'Contraseña muy corta (mín. 6 caracteres)',
     errPassMatch:'Las contraseñas no coinciden', errExists:'Este correo ya está registrado', loginPrompt:'Intente iniciar sesión',
     errNotFound:'Correo o contraseña incorrectos', errFill:'Por favor rellena todos los campos',
@@ -8566,7 +8567,7 @@ const AUTH_T = {
     authNavBtn:'Anmelden / Konto', logoutBtn:'Abmelden',
     dashTitle:'Meine Buchungen', dashNewBtn:'+ Neue Buchung',
     emptyDash:'Noch keine Buchungen', statusPending:'Ausstehend',
-    statusConfirmed:'Bestätigt', statusInprogress:'In Bearbeitung', statusCancelled:'Storniert',
+    statusConfirmed:'Bestätigt', statusInprogress:'In Bearbeitung', statusCancelled:'Storniert', statusCompleted:'Abgeschlossen',
     errEmail:'Ungültige E-Mail-Adresse', errPass:'Passwort zu kurz (mind. 6 Zeichen)',
     errPassMatch:'Passwörter stimmen nicht überein', errExists:'Diese E-Mail ist bereits registriert', loginPrompt:'Versuchen Sie sich anzumelden',
     errNotFound:'Falsche E-Mail oder Passwort', errFill:'Bitte alle Felder ausfüllen',
@@ -9355,7 +9356,7 @@ function renderDashboard(){
   const allOrders = dbGet(DB_ORDERS);
   const myOrders = allOrders.filter(o => (o.userId || o.uid || o.email) === userId).sort((a,b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
   const notifications = cvGetNotifications(userId);
-  const statusMap = { pending:'statusPending', confirmed:'statusConfirmed', inprogress:'statusInprogress', cancelled:'statusCancelled' };
+  const statusMap = { pending:'statusPending', confirmed:'statusConfirmed', inprogress:'statusInprogress', cancelled:'statusCancelled', completed:'statusCompleted' };
   const initials = `${(session.fn||'')[0]||''}${(session.ln||'')[0]||''}`.toUpperCase() || 'CU';
   const pendingCount = myOrders.filter(o => o.status === 'pending').length;
   const confirmedCount = myOrders.filter(o => o.status === 'confirmed').length;
