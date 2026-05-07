@@ -3857,13 +3857,13 @@ body.rtl .cv-step-label { font-family: inherit; }
   <!-- Client info section -->
   <div style="background:var(--bg-color);border-radius:20px;padding:1.2rem 1.4rem;margin-bottom:1.2rem;">
     <h3 data-i18n="summaryClientSection" style="font-size:1rem;opacity:.7;margin-bottom:.9rem;font-weight:600;">Client Information</h3>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.7rem;" id="summaryClientInfo"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.7rem;overflow:hidden;" id="summaryClientInfo"></div>
   </div>
 
   <!-- Booking details section -->
   <div style="background:var(--bg-color);border-radius:20px;padding:1.2rem 1.4rem;margin-bottom:1.2rem;">
     <h3 data-i18n="summaryBookingSection" style="font-size:1rem;opacity:.7;margin-bottom:.9rem;font-weight:600;">Booking Details</h3>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.7rem;" id="summaryBookingInfo"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.7rem;overflow:hidden;" id="summaryBookingInfo"></div>
   </div>
 
   <!-- Pricing section -->
@@ -10196,7 +10196,7 @@ window.goToBookingSummary = function() {
   const payMethod = selectedMethod.value === 'card' ? (dt('cardOption') || 'Credit card') : (dt('cashOption') || 'Cash (pay on arrival)');
 
   function row(label, value) {
-    return `<div style="background:var(--card-bg);border-radius:12px;padding:.7rem 1rem;"><span style="font-size:.82rem;opacity:.65;display:block;margin-bottom:.2rem;">${label}</span><strong style="font-size:.97rem;">${value || '—'}</strong></div>`;
+    return `<div style="background:var(--card-bg);border-radius:12px;padding:.7rem 1rem;overflow:hidden;min-width:0;"><span style="font-size:.82rem;opacity:.65;display:block;margin-bottom:.2rem;">${label}</span><strong style="font-size:.97rem;display:block;word-break:break-word;overflow-wrap:anywhere;">${value || '—'}</strong></div>`;
   }
 
   const clientEl = document.getElementById('summaryClientInfo');
