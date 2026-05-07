@@ -171,7 +171,7 @@
 
         .view {
             display: none;
-            max-width: 1280px;
+            max-width: 100%;
             margin: 0 auto;
             padding: 1.5rem 2rem 2rem;
             width: 100%;
@@ -2248,8 +2248,180 @@ body:not(.home-view-active) .home-only-global{display:none !important}
             justify-content: flex-start;
         }
 
-    </style></head>
+    </style>
+
+    <style>
+/* ===== LUXURY BOOKING PROGRESS BAR ===== */
+.cv-progress-bar-wrap {
+  width: 100%;
+  background: linear-gradient(135deg, #0f6b8e 0%, #1a9e6b 50%, #76b84f 100%);
+  padding: 16px 24px 14px;
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  box-shadow: 0 4px 24px rgba(15,107,142,0.35);
+  border-bottom: 1px solid rgba(255,255,255,0.18);
+  display: none;
+}
+.cv-progress-bar-wrap.visible { display: block; }
+
+.cv-progress-steps {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+.cv-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  position: relative;
+  cursor: default;
+}
+
+.cv-step-connector {
+  flex: 1;
+  height: 2px;
+  background: rgba(255,255,255,0.25);
+  margin: 0;
+  margin-bottom: 20px;
+  transition: background 0.4s ease;
+}
+.cv-step-connector.done {
+  background: linear-gradient(90deg, #fff, rgba(255,255,255,0.8));
+}
+
+.cv-step-circle {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.4);
+  background: rgba(255,255,255,0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.6);
+  transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
+  letter-spacing: 0.02em;
+  position: relative;
+  z-index: 2;
+}
+
+.cv-step.done .cv-step-circle {
+  border-color: #fff;
+  background: rgba(255,255,255,0.22);
+  color: #fff;
+  box-shadow: 0 0 12px rgba(255,255,255,0.3);
+}
+
+.cv-step.active .cv-step-circle {
+  border-color: #fff;
+  background: #fff;
+  color: #0f6b8e;
+  box-shadow: 0 0 20px rgba(255,255,255,0.6), 0 0 40px rgba(255,255,255,0.2);
+  transform: scale(1.12);
+}
+
+.cv-step-label {
+  font-size: 9.5px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.5);
+  margin-top: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  text-align: center;
+  white-space: nowrap;
+  transition: color 0.4s ease;
+  font-family: inherit;
+}
+.cv-step.done .cv-step-label { color: rgba(255,255,255,0.75); }
+.cv-step.active .cv-step-label { color: #fff; font-weight: 700; }
+
+.cv-step-check {
+  display: none;
+}
+.cv-step.done .cv-step-check { display: inline; }
+.cv-step.done .cv-step-num { display: none; }
+
+/* RTL support */
+body.rtl .cv-step-label { font-family: inherit; }
+
+@media (max-width: 480px) {
+  .cv-progress-bar-wrap { padding: 12px 12px 10px; }
+  .cv-step-circle { width: 26px; height: 26px; font-size: 10px; }
+  .cv-step-label { font-size: 8px; }
+}
+    </style>
+</head>
 <body>
+
+<!-- ===== LUXURY BOOKING PROGRESS BAR ===== -->
+<div class="cv-progress-bar-wrap" id="cvProgressBar">
+  <div class="cv-progress-steps">
+    <div class="cv-step" id="cvStep1">
+      <div class="cv-step-circle">
+        <span class="cv-step-num">1</span>
+        <span class="cv-step-check">✓</span>
+      </div>
+      <div class="cv-step-label" data-i18n="progressService">Service</div>
+    </div>
+    <div class="cv-step-connector" id="cvConn1"></div>
+    <div class="cv-step" id="cvStep2">
+      <div class="cv-step-circle">
+        <span class="cv-step-num">2</span>
+        <span class="cv-step-check">✓</span>
+      </div>
+      <div class="cv-step-label" data-i18n="progressInfo">Info</div>
+    </div>
+    <div class="cv-step-connector" id="cvConn2"></div>
+    <div class="cv-step" id="cvStep3">
+      <div class="cv-step-circle">
+        <span class="cv-step-num">3</span>
+        <span class="cv-step-check">✓</span>
+      </div>
+      <div class="cv-step-label" data-i18n="progressSchedule">Schedule</div>
+    </div>
+    <div class="cv-step-connector" id="cvConn3"></div>
+    <div class="cv-step" id="cvStep4">
+      <div class="cv-step-circle">
+        <span class="cv-step-num">4</span>
+        <span class="cv-step-check">✓</span>
+      </div>
+      <div class="cv-step-label" data-i18n="progressCaregiver">Caregiver</div>
+    </div>
+    <div class="cv-step-connector" id="cvConn4"></div>
+    <div class="cv-step" id="cvStep5">
+      <div class="cv-step-circle">
+        <span class="cv-step-num">5</span>
+        <span class="cv-step-check">✓</span>
+      </div>
+      <div class="cv-step-label" data-i18n="progressPayment">Payment</div>
+    </div>
+    <div class="cv-step-connector" id="cvConn5"></div>
+    <div class="cv-step" id="cvStep6">
+      <div class="cv-step-circle">
+        <span class="cv-step-num">6</span>
+        <span class="cv-step-check">✓</span>
+      </div>
+      <div class="cv-step-label" data-i18n="progressSummary">Summary</div>
+    </div>
+    <div class="cv-step-connector" id="cvConn6"></div>
+    <div class="cv-step" id="cvStep7">
+      <div class="cv-step-circle">
+        <span class="cv-step-num">✦</span>
+        <span class="cv-step-check">✦</span>
+      </div>
+      <div class="cv-step-label" data-i18n="progressConfirm">Confirmed</div>
+    </div>
+  </div>
+</div>
+
 <!-- ========== ALL VIEWS ========= -->
 <!-- HOME VIEW -->
 <div class="view active-view" id="homeView">
@@ -3435,7 +3607,7 @@ body:not(.home-view-active) .home-only-global{display:none !important}
 </div>
 </div>
 </div>
-<button class="btn" data-i18n="confirmBookingBtn" onclick="processPayment()" style="width:100%; margin-top:2rem;">Confirm booking</button>
+<button class="btn" data-i18n="confirmBookingBtn" onclick="goToBookingSummary()" style="width:100%; margin-top:2rem;">Confirm booking</button>
 </div>
 <div class="social-footer">
 <div class="footer-col">
@@ -3667,6 +3839,56 @@ body:not(.home-view-active) .home-only-global{display:none !important}
 <div class="navbar"><a class="logo-link" onclick="navigateTo('homeView')"><div class="logo">Care<span>Via</span></div></a><div class="nav-links"><a data-i18n="navHome" onclick="navigateTo('homeView')">Home</a></div></div>
 <div class="policy-card"><a class="back-link" onclick="navigateTo('homeView')"><i class="fas fa-arrow-left"></i> <span data-i18n="backHome">Back to home</span></a><h1 data-i18n="cancellationTitle">Cancellation Policy</h1><p data-i18n="cancellationIntro">This page explains how cancellation, rescheduling, and refund review may work.</p><div class="policy-list"><div class="policy-row"><strong data-i18n="cancelEarlyTitle">Early cancellation</strong><p data-i18n="cancelEarlyText">Requests canceled early can be reviewed for easier rescheduling.</p></div><div class="policy-row"><strong data-i18n="cancelLateTitle">Late changes</strong><p data-i18n="cancelLateText">Late changes may depend on caregiver availability and already reserved time.</p></div><div class="policy-row"><strong data-i18n="cancelRefundTitle">Refund review</strong><p data-i18n="cancelRefundText">Any refund handling should be reviewed according to the timing and the service status.</p></div></div></div>
 </div>
+<!-- BOOKING SUMMARY VIEW -->
+<div class="view" id="bookingSummaryView">
+<div class="navbar">
+<a class="logo-link" onclick="navigateTo('homeView')">
+<img alt="CareVia Logo" class="logo-img" onerror="this.style.display='none'" src="favicon.png"/>
+<div class="logo">Care<span>Via</span></div>
+</a>
+<div style="display:flex;gap:1rem;align-items:center;">
+<div class="nav-links"><a data-i18n="navHome" onclick="navigateTo('homeView')">Home</a></div>
+</div>
+</div>
+<a class="back-link" onclick="navigateTo('paymentMethodView')"><i class="fas fa-arrow-left"></i> <span data-i18n="chooseDifferent">Back to payment</span></a>
+<div class="booking-card" style="max-width:640px;margin:0 auto;">
+  <h2 data-i18n="summaryViewTitle" style="margin-bottom:1.5rem;">Booking Summary</h2>
+
+  <!-- Client info section -->
+  <div style="background:var(--bg-color);border-radius:20px;padding:1.2rem 1.4rem;margin-bottom:1.2rem;">
+    <h3 data-i18n="summaryClientSection" style="font-size:1rem;opacity:.7;margin-bottom:.9rem;font-weight:600;">Client Information</h3>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.7rem;" id="summaryClientInfo"></div>
+  </div>
+
+  <!-- Booking details section -->
+  <div style="background:var(--bg-color);border-radius:20px;padding:1.2rem 1.4rem;margin-bottom:1.2rem;">
+    <h3 data-i18n="summaryBookingSection" style="font-size:1rem;opacity:.7;margin-bottom:.9rem;font-weight:600;">Booking Details</h3>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.7rem;" id="summaryBookingInfo"></div>
+  </div>
+
+  <!-- Pricing section -->
+  <div style="background:var(--bg-color);border-radius:20px;padding:1.2rem 1.4rem;margin-bottom:1.8rem;">
+    <h3 data-i18n="summaryPricingSection" style="font-size:1rem;opacity:.7;margin-bottom:.9rem;font-weight:600;">Pricing</h3>
+    <div id="summaryPricingInfo"></div>
+  </div>
+
+  <!-- Checkboxes -->
+  <div style="display:flex;flex-direction:column;gap:1rem;margin-bottom:1.8rem;">
+    <label style="display:flex;align-items:flex-start;gap:.9rem;cursor:pointer;padding:1rem 1.2rem;background:var(--bg-color);border-radius:16px;border:2px solid var(--border-color);transition:border-color .2s;" id="termsLabel">
+      <input type="checkbox" id="agreeTermsCheck" style="width:20px;height:20px;flex-shrink:0;margin-top:2px;accent-color:var(--accent-dark);cursor:pointer;" onchange="updateSummaryConfirmBtn()"/>
+      <span data-i18n="agreeTermsLabel" style="font-size:.95rem;line-height:1.5;">I agree to the <strong>Terms &amp; Conditions</strong> and confirm the booking details above are correct.</span>
+    </label>
+    <label style="display:flex;align-items:flex-start;gap:.9rem;cursor:pointer;padding:1rem 1.2rem;background:var(--bg-color);border-radius:16px;border:2px solid var(--border-color);transition:border-color .2s;" id="disclaimerLabel">
+      <input type="checkbox" id="agreeDisclaimerCheck" style="width:20px;height:20px;flex-shrink:0;margin-top:2px;accent-color:var(--accent-dark);cursor:pointer;" onchange="updateSummaryConfirmBtn()"/>
+      <span data-i18n="agreeDisclaimerLabel" style="font-size:.95rem;line-height:1.5;"><strong>إخلاء المسؤولية:</strong> أقر بأن المعلومات المقدمة صحيحة وأتحمل المسؤولية الكاملة عن دقتها.</span>
+    </label>
+  </div>
+
+  <!-- Confirm button -->
+  <button class="btn" id="summaryConfirmBtn" onclick="processPayment()" style="width:100%;opacity:.5;cursor:not-allowed;" disabled data-i18n="confirmBookingBtn">Confirm booking</button>
+</div>
+</div>
+
 <!-- CONFIRMATION VIEW -->
 <div class="view" id="confirmationView">
 <div class="navbar">
@@ -3875,6 +4097,12 @@ body:not(.home-view-active) .home-only-global{display:none !important}
                 expiryPlaceholder: "MM/YY",
                 cvvPlaceholder: "CVV",
                 confirmBookingBtn: "Confirm booking",
+                summaryViewTitle: "Booking Summary",
+                summaryClientSection: "Client Information",
+                summaryBookingSection: "Booking Details",
+                summaryPricingSection: "Pricing",
+                agreeTermsLabel: "I agree to the Terms & Conditions and confirm the booking details above are correct.",
+                agreeDisclaimerLabel: "Disclaimer: I confirm that the information provided is accurate and I take full responsibility for its correctness.",
                 chooseDifferent: "Choose different caregiver",
                 confirmationTitle: "Appointment successfully scheduled!",
                 confirmationText: "We will contact you as soon as possible to confirm the details.",
@@ -3931,7 +4159,14 @@ body:not(.home-view-active) .home-only-global{display:none !important}
                 faq3q: "Is the process adapted for families using phones?",
                 faq3a: "Yes. The layout keeps the same dynamic while staying easier to read and tap on smaller screens.",
                 faq4q: "Can I later replace the placeholder contact details?",
-                faq4a: "Yes. Phone, WhatsApp, email, and social links can be updated quickly from one config block in the script."
+                faq4a: "Yes. Phone, WhatsApp, email, and social links can be updated quickly from one config block in the script.",
+                progressService: "Service",
+                progressInfo: "Info",
+                progressSchedule: "Schedule",
+                progressCaregiver: "Caregiver",
+                progressPayment: "Payment",
+                progressSummary: "Summary",
+                progressConfirm: "Confirmed"
             },
             ar: {
                 navHome: "الرئيسية",
@@ -4009,6 +4244,12 @@ body:not(.home-view-active) .home-only-global{display:none !important}
                 expiryPlaceholder: "شهر/سنة",
                 cvvPlaceholder: "CVV",
                 confirmBookingBtn: "تأكيد الحجز",
+                summaryViewTitle: "ملخص الحجز",
+                summaryClientSection: "معلومات العميل",
+                summaryBookingSection: "تفاصيل الحجز",
+                summaryPricingSection: "التسعير",
+                agreeTermsLabel: "أوافق على الشروط والأحكام وأؤكد صحة تفاصيل الحجز المذكورة أعلاه.",
+                agreeDisclaimerLabel: "إخلاء المسؤولية: أقر بأن المعلومات المقدمة صحيحة وأتحمل المسؤولية الكاملة عن دقتها.",
                 chooseDifferent: "اختيار مقدم رعاية آخر",
                 confirmationTitle: "تم جدولة الموعد بنجاح!",
                 confirmationText: "سنتواصل معك في أقرب وقت ممكن لتأكيد التفاصيل.",
@@ -4065,7 +4306,14 @@ body:not(.home-view-active) .home-only-global{display:none !important}
                 faq3q: "هل العملية مناسبة للعائلات التي تستعمل الهاتف؟",
                 faq3a: "نعم. التخطيط يحافظ على نفس الديناميكية ويظل أسهل في القراءة والضغط على الشاشات الصغيرة.",
                 faq4q: "هل يمكنني لاحقاً تغيير معلومات الاتصال التجريبية؟",
-                faq4a: "نعم. الهاتف وواتساب والبريد وروابط التواصل يمكن تحديثها بسرعة من كتلة إعداد واحدة داخل السكريبت."
+                faq4a: "نعم. الهاتف وواتساب والبريد وروابط التواصل يمكن تحديثها بسرعة من كتلة إعداد واحدة داخل السكريبت.",
+                progressService: "الخدمة",
+                progressInfo: "المعلومات",
+                progressSchedule: "التوقيت",
+                progressCaregiver: "المقدم",
+                progressPayment: "الدفع",
+                progressSummary: "الملخص",
+                progressConfirm: "تأكيد"
             },
             fr: {
                 navHome: "Accueil",
@@ -4143,6 +4391,12 @@ body:not(.home-view-active) .home-only-global{display:none !important}
                 expiryPlaceholder: "MM/AA",
                 cvvPlaceholder: "CVV",
                 confirmBookingBtn: "Confirmer la réservation",
+                summaryViewTitle: "Récapitulatif de réservation",
+                summaryClientSection: "Informations client",
+                summaryBookingSection: "Détails de la réservation",
+                summaryPricingSection: "Tarification",
+                agreeTermsLabel: "J'accepte les conditions générales et confirme que les détails de réservation ci-dessus sont corrects.",
+                agreeDisclaimerLabel: "Clause de non-responsabilité : Je confirme que les informations fournies sont exactes et j'en assume l'entière responsabilité.",
                 chooseDifferent: "Choisir un autre soignant",
                 confirmationTitle: "Rendez-vous programmé avec succès !",
                 confirmationText: "Nous vous contacterons dès que possible pour confirmer les détails.",
@@ -4199,7 +4453,14 @@ body:not(.home-view-active) .home-only-global{display:none !important}
                 faq3q: "Le processus est-il adapté aux familles qui utilisent le téléphone ?",
                 faq3a: "Oui. La mise en page garde la même dynamique tout en restant plus simple à lire et à utiliser sur petit écran.",
                 faq4q: "Puis-je remplacer plus tard les coordonnées provisoires ?",
-                faq4a: "Oui. Le téléphone, WhatsApp, l'e-mail et les liens sociaux peuvent être modifiés rapidement depuis un seul bloc de configuration dans le script."
+                faq4a: "Oui. Le téléphone, WhatsApp, l'e-mail et les liens sociaux peuvent être modifiés rapidement depuis un seul bloc de configuration dans le script.",
+                progressService: "Service",
+                progressInfo: "Infos",
+                progressSchedule: "Horaire",
+                progressCaregiver: "Soignant",
+                progressPayment: "Paiement",
+                progressSummary: "Résumé",
+                progressConfirm: "Confirmé"
             },
             es: {
                 navHome: "Inicio",
@@ -4333,7 +4594,14 @@ body:not(.home-view-active) .home-only-global{display:none !important}
                 faq3q: "¿Es el proceso adecuado para familias que usan el teléfono?",
                 faq3a: "Sí. El diseño mantiene la misma dinámica y sigue siendo más fácil de leer y usar en pantallas pequeñas.",
                 faq4q: "¿Puedo reemplazar más tarde los datos de contacto provisionales?",
-                faq4a: "Sí. El teléfono, WhatsApp, el correo y los enlaces sociales pueden cambiarse rápidamente desde un único bloque de configuración en el script."
+                faq4a: "Sí. El teléfono, WhatsApp, el correo y los enlaces sociales pueden cambiarse rápidamente desde un único bloque de configuración en el script.",
+                progressService: "Servicio",
+                progressInfo: "Info",
+                progressSchedule: "Horario",
+                progressCaregiver: "Cuidador",
+                progressPayment: "Pago",
+                progressSummary: "Resumen",
+                progressConfirm: "Confirmado"
             },
             de: {
                 navHome: "Startseite",
@@ -4467,7 +4735,14 @@ body:not(.home-view-active) .home-only-global{display:none !important}
                 faq3q: "Ist der Prozess für Familien geeignet, die das Telefon nutzen?",
                 faq3a: "Ja. Das Layout behält die gleiche Dynamik und ist auf kleinen Bildschirmen einfacher zu lesen und zu bedienen.",
                 faq4q: "Kann ich die vorläufigen Kontaktdaten später ersetzen?",
-                faq4a: "Ja. Telefon, WhatsApp, E-Mail und Social-Links können schnell über einen einzigen Konfigurationsblock im Skript geändert werden."
+                faq4a: "Ja. Telefon, WhatsApp, E-Mail und Social-Links können schnell über einen einzigen Konfigurationsblock im Skript geändert werden.",
+                progressService: "Dienst",
+                progressInfo: "Info",
+                progressSchedule: "Zeitplan",
+                progressCaregiver: "Pflegeperson",
+                progressPayment: "Zahlung",
+                progressSummary: "Übersicht",
+                progressConfirm: "Bestätigt"
             }
         };
 
@@ -5640,6 +5915,39 @@ body:not(.home-view-active) .home-only-global{display:none !important}
             }
             rerenderDynamicContent();
 
+            // Update luxury progress bar
+            (function updateProgressBar(vid) {
+              const viewOrder = [
+                'serviceSelectionView',
+                'clientInfoView',
+                'timeSlotView',
+                'chooseCaregiverView',
+                'paymentMethodView',
+                'bookingSummaryView',
+                'confirmationView'
+              ];
+              const bar = document.getElementById('cvProgressBar');
+              if (!bar) return;
+              const idx = viewOrder.indexOf(vid);
+              if (idx === -1) {
+                bar.classList.remove('visible');
+                return;
+              }
+              bar.classList.add('visible');
+              for (let i = 1; i <= 7; i++) {
+                const step = document.getElementById('cvStep' + i);
+                if (!step) continue;
+                step.classList.remove('active', 'done');
+                if (i - 1 < idx) step.classList.add('done');
+                else if (i - 1 === idx) step.classList.add('active');
+              }
+              for (let i = 1; i <= 6; i++) {
+                const conn = document.getElementById('cvConn' + i);
+                if (!conn) continue;
+                conn.classList.toggle('done', i <= idx);
+              }
+            })(viewId);
+
             requestAnimationFrame(() => {
                 targetView.scrollIntoView({ block: 'start', behavior: 'auto' });
                 window.scrollTo({ top: 0, behavior: 'auto' });
@@ -6084,17 +6392,34 @@ body:not(.home-view-active) .home-only-global{display:none !important}
             const summary = document.getElementById('paymentSummary');
             if (!c || !summary) return;
             const totalHours = selectedSlots.length;
-            const { hourlyRate, savings, total } = getPricingDetails(totalHours);
-            const hourLabel = totalHours > 1 ? dt('hourPlural') : dt('hourSingular');
+            const { hourlyRate, travelFee, nightFee, weekendFee, savings, total } = getPricingDetails(totalHours);
             summary.innerHTML = `
-                <p><strong>${dt('summaryService')}:</strong> ${getServiceName(selectedService)}</p>
-                <p><strong>${dt('summaryClient')}:</strong> ${clientInfo.firstName || ''} ${clientInfo.lastName || ''}${clientInfo.city ? ', ' + clientInfo.city : ''}</p>
-                <p><strong>${dt('summaryDate')}:</strong> ${selectedDate}</p>
-                <p><strong>${dt('summaryHours')}:</strong> ${selectedSlots.join(' · ')} (${totalHours} ${hourLabel})</p>
-                <p><strong>${dt('summaryCaregiver')}:</strong> ${c.name} (${c.rating}/5)</p>
-                <p><strong>${dt('liveEstimateRate')}:</strong> ${hourlyRate.toFixed(2)} MAD ${dt('liveEstimatePerHour')}</p>
-                <p><strong>${dt('liveEstimateSavings')}:</strong> ${savings.toFixed(2)} MAD</p>
-                <hr><p style="font-size:1.8rem; font-weight:700;">${dt('summaryTotal')}: ${total.toFixed(2)} MAD</p>
+                <div style="display:flex;flex-direction:column;gap:.5rem;">
+                  <div style="display:flex;justify-content:space-between;align-items:center;padding:.55rem .2rem;border-bottom:1px solid var(--border-color);font-size:.93rem;">
+                    <span style="opacity:.7;">${dt('liveEstimateRate')}</span>
+                    <span>${hourlyRate.toFixed(2)} MAD ${dt('liveEstimatePerHour')}</span>
+                  </div>
+                  <div style="display:flex;justify-content:space-between;align-items:center;padding:.55rem .2rem;border-bottom:1px solid var(--border-color);font-size:.93rem;">
+                    <span style="opacity:.7;">${dt('liveEstimateTravel')}</span>
+                    <span>${travelFee.toFixed(2)} MAD</span>
+                  </div>
+                  <div style="display:flex;justify-content:space-between;align-items:center;padding:.55rem .2rem;border-bottom:1px solid var(--border-color);font-size:.93rem;">
+                    <span style="opacity:.7;">${dt('liveEstimateNight')}</span>
+                    <span>${nightFee.toFixed(2)} MAD</span>
+                  </div>
+                  <div style="display:flex;justify-content:space-between;align-items:center;padding:.55rem .2rem;border-bottom:1px solid var(--border-color);font-size:.93rem;">
+                    <span style="opacity:.7;">${dt('liveEstimateWeekend')}</span>
+                    <span>${weekendFee.toFixed(2)} MAD</span>
+                  </div>
+                  <div style="display:flex;justify-content:space-between;align-items:center;padding:.55rem .2rem;border-bottom:1px solid var(--border-color);font-size:.93rem;">
+                    <span style="opacity:.7;">${dt('liveEstimateSavings')}</span>
+                    <span>-${savings.toFixed(2)} MAD</span>
+                  </div>
+                  <div style="display:flex;justify-content:space-between;align-items:center;padding:.8rem .2rem;margin-top:.3rem;">
+                    <span style="font-size:1.05rem;font-weight:600;">${dt('summaryTotal')}</span>
+                    <span style="font-size:1.9rem;font-weight:800;color:var(--accent-dark);">${total.toFixed(2)} MAD</span>
+                  </div>
+                </div>
             `;
         }
 
@@ -6453,7 +6778,7 @@ body.dark-mode .hero-stat {
     window.getPricingDetails = function(hours){ const cfg = servicePricing(); const subtotal = Math.max(hours,0) * cfg.hourlyRate; const discount = hours>1 ? subtotal * Math.min(0.10*(hours-1),0.30) : 0; const travelFee = hours>0 ? cfg.travelFee : 0; const nightFee = hours>0 && hasNightHours() ? cfg.nightExtra : 0; const weekendFee = hours>0 && isWeekendSelected() ? cfg.weekendExtra : 0; return { hourlyRate:cfg.hourlyRate, subtotal, savings:discount, total:Math.max(subtotal - discount + travelFee + nightFee + weekendFee,0), travelFee, nightFee, weekendFee, minHours:cfg.minHours, startingFrom:cfg.startingFrom }; };
     window.calculateTotalPrice = function(hours){ return window.getPricingDetails(hours).total; };
     window.updateLivePriceEstimate = function(){ const box = document.getElementById('livePriceEstimate'); if(!box) return; const totalHours = selectedSlots.length; const cfg = servicePricing(); const d = window.getPricingDetails(totalHours); const hourLabel = totalHours === 1 ? dt('hourSingular') : dt('hourPlural'); if(totalHours===0){ box.innerHTML = `<div class="price-live-header"><div class="price-live-title">${dt('liveEstimateTitle')}</div></div><div class="price-live-note">${dt('liveEstimateHint')}</div><div class="price-live-grid"><div class="price-live-item"><div class="price-live-label">${dt('liveEstimateStartingFrom')}</div><div class="price-live-value">${cfg.startingFrom.toFixed(2)} MAD</div></div><div class="price-live-item"><div class="price-live-label">${dt('liveEstimateMinHours')}</div><div class="price-live-value">${cfg.minHours} ${dt('hourPlural')}</div></div></div><div class="price-live-item"><div class="price-live-value">${dt('liveEstimateEmpty')}</div></div>`; return; } const fees = [d.travelFee?`<div class="price-live-item"><div class="price-live-label">${dt('liveEstimateTravel')}</div><div class="price-live-value">${d.travelFee.toFixed(2)} MAD</div></div>`:'', d.nightFee?`<div class="price-live-item"><div class="price-live-label">${dt('liveEstimateNight')}</div><div class="price-live-value">${d.nightFee.toFixed(2)} MAD</div></div>`:'', d.weekendFee?`<div class="price-live-item"><div class="price-live-label">${dt('liveEstimateWeekend')}</div><div class="price-live-value">${d.weekendFee.toFixed(2)} MAD</div></div>`:''].join(''); box.innerHTML = `<div class="price-live-header"><div class="price-live-title">${dt('liveEstimateTitle')}</div></div><div class="price-live-note">${dt('liveEstimateHint')}</div><div class="price-live-grid"><div class="price-live-item"><div class="price-live-label">${dt('liveEstimateHours')}</div><div class="price-live-value">${totalHours} ${hourLabel}</div></div><div class="price-live-item"><div class="price-live-label">${dt('liveEstimateRate')}</div><div class="price-live-value">${d.hourlyRate.toFixed(2)} MAD ${dt('liveEstimatePerHour')}</div></div><div class="price-live-item"><div class="price-live-label">${dt('liveEstimateSubtotal')}</div><div class="price-live-value">${d.subtotal.toFixed(2)} MAD</div></div><div class="price-live-item"><div class="price-live-label">${dt('liveEstimateSavings')}</div><div class="price-live-value">${d.savings.toFixed(2)} MAD</div></div>${fees}<div class="price-live-item"><div class="price-live-label">${dt('liveEstimateTotal')}</div><div class="price-live-value">${d.total.toFixed(2)} MAD</div></div></div>`; };
-    window.updatePaymentSummary = function(){ const c = selectedCaregiverKey ? getLocalizedCaregiver(selectedCaregiverKey) : null; const summary = document.getElementById('paymentSummary'); if(!c || !summary) return; const totalHours = selectedSlots.length; const d = window.getPricingDetails(totalHours); const hourLabel = totalHours > 1 ? dt('hourPlural') : dt('hourSingular'); summary.innerHTML = `<p><strong>${dt('summaryService')}:</strong> ${getServiceName(selectedService)}</p><p><strong>${dt('summaryClient')}:</strong> ${clientInfo.firstName || ''} ${clientInfo.lastName || ''}${clientInfo.city ? ', ' + clientInfo.city : ''}</p><p><strong>${dt('summaryDate')}:</strong> ${selectedDate || '—'}</p><p><strong>${dt('summaryHours')}:</strong> ${selectedSlots.join(' · ')} (${totalHours} ${hourLabel})</p><p><strong>${dt('summaryCaregiver')}:</strong> ${c.name} (${c.rating}/5)</p><p><strong>${dt('liveEstimateRate')}:</strong> ${d.hourlyRate.toFixed(2)} MAD ${dt('liveEstimatePerHour')}</p><p><strong>${dt('liveEstimateTravel')}:</strong> ${d.travelFee.toFixed(2)} MAD</p><p><strong>${dt('liveEstimateNight')}:</strong> ${d.nightFee.toFixed(2)} MAD</p><p><strong>${dt('liveEstimateWeekend')}:</strong> ${d.weekendFee.toFixed(2)} MAD</p><p><strong>${dt('liveEstimateSavings')}:</strong> ${d.savings.toFixed(2)} MAD</p><hr><p style="font-size:1.8rem; font-weight:700;">${dt('summaryTotal')}: ${d.total.toFixed(2)} MAD</p>`; };
+    window.updatePaymentSummary = function(){ const c = selectedCaregiverKey ? getLocalizedCaregiver(selectedCaregiverKey) : null; const summary = document.getElementById('paymentSummary'); if(!c || !summary) return; const totalHours = selectedSlots.length; const d = window.getPricingDetails(totalHours); summary.innerHTML = `<div style="display:flex;flex-direction:column;gap:.5rem;"><div style="display:flex;justify-content:space-between;align-items:center;padding:.55rem .2rem;border-bottom:1px solid var(--border-color);font-size:.93rem;"><span style="opacity:.7;">${dt('liveEstimateRate')}</span><span>${d.hourlyRate.toFixed(2)} MAD ${dt('liveEstimatePerHour')}</span></div><div style="display:flex;justify-content:space-between;align-items:center;padding:.55rem .2rem;border-bottom:1px solid var(--border-color);font-size:.93rem;"><span style="opacity:.7;">${dt('liveEstimateTravel')}</span><span>${d.travelFee.toFixed(2)} MAD</span></div><div style="display:flex;justify-content:space-between;align-items:center;padding:.55rem .2rem;border-bottom:1px solid var(--border-color);font-size:.93rem;"><span style="opacity:.7;">${dt('liveEstimateNight')}</span><span>${d.nightFee.toFixed(2)} MAD</span></div><div style="display:flex;justify-content:space-between;align-items:center;padding:.55rem .2rem;border-bottom:1px solid var(--border-color);font-size:.93rem;"><span style="opacity:.7;">${dt('liveEstimateWeekend')}</span><span>${d.weekendFee.toFixed(2)} MAD</span></div><div style="display:flex;justify-content:space-between;align-items:center;padding:.55rem .2rem;border-bottom:1px solid var(--border-color);font-size:.93rem;"><span style="opacity:.7;">${dt('liveEstimateSavings')}</span><span>-${d.savings.toFixed(2)} MAD</span></div><div style="display:flex;justify-content:space-between;align-items:center;padding:.8rem .2rem;margin-top:.3rem;"><span style="font-size:1.05rem;font-weight:600;">${dt('summaryTotal')}</span><span style="font-size:1.9rem;font-weight:800;color:var(--accent-dark);">${d.total.toFixed(2)} MAD</span></div></div>`; };
     function fillConfirmation(orderId){ const d = window.getPricingDetails(selectedSlots.length); const finalOrderId = orderId || ('CV-' + String(Date.now()).slice(-6)); const set=(id,val)=>{const el=document.getElementById(id); if(el) el.textContent=val;}; set('confirmationOrderNumber',finalOrderId); set('confirmationService',getServiceName(selectedService)); set('confirmationDate',selectedDate || '—'); set('confirmationHours',selectedSlots.length ? selectedSlots.join(' · ') : '—'); set('confirmationTotal',d.total.toFixed(2)+' MAD'); const successMsg = document.getElementById('feedbackSuccessMessage'); if(successMsg) successMsg.classList.remove('show'); const comment = document.getElementById('feedbackComment'); if(comment) comment.value = ''; setFeedbackRating(0); if (typeof setLanguage === 'function') { setTimeout(() => setLanguage(currentLang), 0); } }
     let bookingFeedbackRating = 0;
     function setFeedbackRating(value){
@@ -9843,6 +10168,125 @@ if(typeof setLanguage === 'function'){
   };
   window.setLanguage = setLanguage;
 }
+
+/* ── Booking Summary View ── */
+window.goToBookingSummary = function() {
+  // Validate payment method first
+  const selectedMethod = document.querySelector('input[name="paymentMethod"]:checked');
+  if (!selectedMethod) {
+    if (typeof showPopup === 'function') showPopup(dt('pleaseSelectPayment') || 'Please select a payment method.');
+    return;
+  }
+  if (selectedMethod.value === 'card') {
+    const cardNumber = document.getElementById('cardNumber')?.value?.replace(/\s+/g,'') || '';
+    const cardExpiry = document.getElementById('cardExpiry')?.value?.trim() || '';
+    const cardCvv = document.getElementById('cardCvv')?.value?.trim() || '';
+    if (!/^\d{16}$/.test(cardNumber)) { if (typeof showPopup === 'function') showPopup(dt('invalidCardNumber') || 'Card number must be 16 digits.'); return; }
+    if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(cardExpiry)) { if (typeof showPopup === 'function') showPopup(dt('invalidExpiry') || 'Invalid expiry.'); return; }
+    if (!/^\d{3}$/.test(cardCvv)) { if (typeof showPopup === 'function') showPopup(dt('invalidCvv') || 'CVV must be 3 digits.'); return; }
+  }
+
+  // Populate summary client info
+  const ci = (typeof clientInfo !== 'undefined') ? clientInfo : {};
+  const caregiver = (typeof selectedCaregiverKey !== 'undefined' && selectedCaregiverKey && typeof getLocalizedCaregiver === 'function') ? getLocalizedCaregiver(selectedCaregiverKey) : null;
+  const pricing = (typeof window.getPricingDetails === 'function') ? window.getPricingDetails((typeof selectedSlots !== 'undefined') ? selectedSlots.length : 0) : { hourlyRate: 0, travelFee: 0, nightFee: 0, weekendFee: 0, savings: 0, total: 0 };
+  const slots = (typeof selectedSlots !== 'undefined') ? selectedSlots : [];
+  const service = (typeof selectedService !== 'undefined') ? selectedService : '';
+  const date = (typeof selectedDate !== 'undefined') ? selectedDate : '';
+  const payMethod = selectedMethod.value === 'card' ? (dt('cardOption') || 'Credit card') : (dt('cashOption') || 'Cash (pay on arrival)');
+
+  function row(label, value) {
+    return `<div style="background:var(--card-bg);border-radius:12px;padding:.7rem 1rem;"><span style="font-size:.82rem;opacity:.65;display:block;margin-bottom:.2rem;">${label}</span><strong style="font-size:.97rem;">${value || '—'}</strong></div>`;
+  }
+
+  const clientEl = document.getElementById('summaryClientInfo');
+  if (clientEl) {
+    clientEl.innerHTML =
+      row(dt('summaryClient') || 'Client', `${ci.firstName || ''} ${ci.lastName || ''}`.trim()) +
+      row('Phone', ci.phone || '—') +
+      row('Email', ci.email || '—') +
+      row('City', ci.city || '—');
+  }
+
+  const tPayment = (translations && translations[currentLang] && translations[currentLang].paymentMethodTitle) ? translations[currentLang].paymentMethodTitle : (dt('paymentMethodTitle') !== 'paymentMethodTitle' ? dt('paymentMethodTitle') : 'Payment');
+  const bookingEl = document.getElementById('summaryBookingInfo');
+  if (bookingEl) {
+    bookingEl.innerHTML =
+      row(dt('summaryService') || 'Service', typeof getServiceName === 'function' ? getServiceName(service) : service) +
+      row(dt('summaryDate') || 'Date', date) +
+      row(dt('summaryHours') || 'Hours', slots.length ? `${slots.join(' · ')} (${slots.length}h)` : '—') +
+      row(dt('summaryCaregiver') || 'Caregiver', caregiver ? `${caregiver.name} (${caregiver.rating}/5)` : '—') +
+      row(tPayment, payMethod);
+  }
+
+  const pricingEl = document.getElementById('summaryPricingInfo');
+  if (pricingEl) {
+    pricingEl.innerHTML = `
+      <div style="display:flex;justify-content:space-between;padding:.45rem 0;border-bottom:1px solid var(--border-color);font-size:.93rem;"><span>${dt('liveEstimateRate') || 'Rate'}</span><span>${pricing.hourlyRate.toFixed(2)} MAD/h</span></div>
+      <div style="display:flex;justify-content:space-between;padding:.45rem 0;border-bottom:1px solid var(--border-color);font-size:.93rem;"><span>${dt('liveEstimateTravel') || 'Travel fee'}</span><span>${pricing.travelFee.toFixed(2)} MAD</span></div>
+      <div style="display:flex;justify-content:space-between;padding:.45rem 0;border-bottom:1px solid var(--border-color);font-size:.93rem;"><span>${dt('liveEstimateSavings') || 'Discount'}</span><span>-${pricing.savings.toFixed(2)} MAD</span></div>
+      <div style="display:flex;justify-content:space-between;padding:.7rem 0;font-size:1.3rem;font-weight:700;color:var(--accent-dark);"><span>${dt('summaryTotal') || 'Total'}</span><span>${pricing.total.toFixed(2)} MAD</span></div>
+    `;
+  }
+
+  // Reset checkboxes
+  const termsCheck = document.getElementById('agreeTermsCheck');
+  const disclaimerCheck = document.getElementById('agreeDisclaimerCheck');
+  if (termsCheck) termsCheck.checked = false;
+  if (disclaimerCheck) disclaimerCheck.checked = false;
+
+  // Update labels border color
+  ['termsLabel','disclaimerLabel'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.borderColor = 'var(--border-color)';
+  });
+
+  window.updateSummaryConfirmBtn();
+
+  if (typeof navigateTo === 'function') navigateTo('bookingSummaryView');
+};
+
+window.updateSummaryConfirmBtn = function() {
+  const terms = document.getElementById('agreeTermsCheck');
+  const disclaimer = document.getElementById('agreeDisclaimerCheck');
+  const btn = document.getElementById('summaryConfirmBtn');
+  const termsLabel = document.getElementById('termsLabel');
+  const disclaimerLabel = document.getElementById('disclaimerLabel');
+
+  const bothChecked = terms?.checked && disclaimer?.checked;
+
+  if (btn) {
+    btn.disabled = !bothChecked;
+    btn.style.opacity = bothChecked ? '1' : '0.5';
+    btn.style.cursor = bothChecked ? 'pointer' : 'not-allowed';
+  }
+  if (termsLabel) termsLabel.style.borderColor = terms?.checked ? 'var(--accent-contrast)' : 'var(--border-color)';
+  if (disclaimerLabel) disclaimerLabel.style.borderColor = disclaimer?.checked ? 'var(--accent-contrast)' : 'var(--border-color)';
+};
+
+/* Also update the processPayment confirm button selector to use the summary view button */
+(function() {
+  const _origPP = window.processPayment;
+  if (typeof _origPP === 'function') {
+    window.processPayment = async function() {
+      const confirmBtn = document.getElementById('summaryConfirmBtn');
+      if (confirmBtn) {
+        confirmBtn.textContent = dt('submitting') || 'Submitting...';
+        confirmBtn.disabled = true;
+        confirmBtn.style.opacity = '0.6';
+      }
+      try {
+        await _origPP.apply(this, arguments);
+      } finally {
+        if (confirmBtn) {
+          if (typeof setLanguage === 'function') setTimeout(() => setLanguage(currentLang), 50);
+          confirmBtn.disabled = false;
+          confirmBtn.style.opacity = '1';
+        }
+      }
+    };
+  }
+})();
 
 })();
 </script>
