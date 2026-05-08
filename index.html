@@ -6015,43 +6015,37 @@ body.rtl .cv-step-label { font-family: inherit; }
             }
 
             if (viewId === 'clientInfoView') {
-                // ── Autofill booking form from logged-in session ──
                 setTimeout(function() {
                     var _sess = (function(){ try{ return JSON.parse(localStorage.getItem('careviaSession')||'null'); }catch(e){ return null; } })();
-                    var fEl = document.getElementById('clientFirstName');
-                    var lEl = document.getElementById('clientLastName');
-                    var phEl = document.getElementById('clientPhone');
-                    var emEl = document.getElementById('clientEmail');
-                    var cityEl = document.getElementById('clientCity');
-
-                    if (_sess && ((_sess.fn||_sess.firstName)||_sess.email)) {
+                    function _applyAutofill(s) {
+                        if (!s || !(s.fn||s.firstName||s.email)) return;
                         var lockStyle = 'background:var(--accent-light);color:var(--text-color);opacity:0.82;cursor:not-allowed;pointer-events:none;';
-
-                        if (fEl) {
-                            var fn = _sess.fn||_sess.firstName||'';
-                            if(fn){ fEl.value=fn; fEl.setAttribute('readonly','readonly'); fEl.setAttribute('style', lockStyle); }
-                        }
-                        if (lEl) {
-                            var ln = _sess.ln||_sess.lastName||'';
-                            if(ln){ lEl.value=ln; lEl.setAttribute('readonly','readonly'); lEl.setAttribute('style', lockStyle); }
-                        }
-                        if (phEl) {
-                            var ph = _sess.phone||'';
-                            if(ph){ phEl.value=ph; phEl.setAttribute('readonly','readonly'); phEl.setAttribute('style', lockStyle); }
-                        }
-                        if (emEl) {
-                            var em = _sess.email||'';
-                            if(em){ emEl.value=em; emEl.setAttribute('readonly','readonly'); emEl.setAttribute('style', lockStyle); }
-                        }
-                        // City: pre-select but keep editable
-                        if (cityEl && _sess.city) { cityEl.value = _sess.city; }
-
-
+                        var fEl=document.getElementById('clientFirstName'), lEl=document.getElementById('clientLastName');
+                        var phEl=document.getElementById('clientPhone'), emEl=document.getElementById('clientEmail');
+                        var cityEl=document.getElementById('clientCity');
+                        var fn=s.fn||s.firstName||'', ln=s.ln||s.lastName||'', ph=s.phone||'', em=s.email||'', cy=s.city||'';
+                        if(fEl&&fn){ fEl.value=fn; fEl.setAttribute('readonly','readonly'); fEl.setAttribute('style',lockStyle); }
+                        if(lEl&&ln){ lEl.value=ln; lEl.setAttribute('readonly','readonly'); lEl.setAttribute('style',lockStyle); }
+                        if(phEl&&ph){ phEl.value=ph; phEl.setAttribute('readonly','readonly'); phEl.setAttribute('style',lockStyle); }
+                        if(emEl&&em){ emEl.value=em; emEl.setAttribute('readonly','readonly'); emEl.setAttribute('style',lockStyle); }
+                        if(cityEl&&cy){ cityEl.value=cy; }
+                    }
+                    if (_sess) {
+                        var needsFresh = !_sess.phone || !_sess.city;
+                        if(needsFresh && window.cvFirebaseDb && (_sess.uid||_sess.id)) {
+                            window.cvFirebaseDb.collection('users').doc(_sess.uid||_sess.id).get().then(function(doc){
+                                if(doc&&doc.exists){
+                                    var d=doc.data()||{};
+                                    var refreshed=Object.assign({},_sess,{fn:d.fn||d.firstName||_sess.fn||'',ln:d.ln||d.lastName||_sess.ln||'',phone:d.phone||_sess.phone||'',city:d.city||_sess.city||'',photo:d.photo||_sess.photo||''});
+                                    try{ localStorage.setItem('careviaSession',JSON.stringify(refreshed)); }catch(e){}
+                                    _applyAutofill(refreshed);
+                                } else { _applyAutofill(_sess); }
+                            }).catch(function(){ _applyAutofill(_sess); });
+                        } else { _applyAutofill(_sess); }
                     } else {
-                        // No session: unlock fields
                         ['clientFirstName','clientLastName','clientPhone','clientEmail'].forEach(function(id){
-                            var el = document.getElementById(id);
-                            if (el) { el.removeAttribute('readonly'); el.removeAttribute('style'); }
+                            var el=document.getElementById(id);
+                            if(el){ el.removeAttribute('readonly'); el.removeAttribute('style'); }
                         });
                     }
                 }, 0);
@@ -9702,8 +9696,10 @@ window.cvSaveProfile = async function(){
   const fn=(document.getElementById('cvProfileFn')?.value||'').trim();
   const ln=(document.getElementById('cvProfileLn')?.value||'').trim();
   const phone=(document.getElementById('cvProfilePhone')?.value||'').trim();
-  const city=(document.getElementById('cvProfileCity')?.value||'').trim();
+  const cityEl=document.getElementById('cvProfileCity');
+  const city=(cityEl?.value||cityEl?.options?.[cityEl.selectedIndex]?.value||'').trim();
   const photo=(document.getElementById('cvProfilePhoto')?.value||'').trim();
+  if(!fn||!ln){ cvShowToast('CareVia', at('errFill')||'Please fill required fields', 'fa-circle-exclamation'); return; }
   try{
     await window.cvFirebaseDb.collection('users').doc(session.uid || session.id).set({
       fn, ln, phone, city, photo,
@@ -9842,22 +9838,35 @@ function renderDashboard(){
   const latestOrder = myOrders[0];
   const formatType = (o) => o.service || o.type || o.serviceKey || 'Care service';
   const formatDate = (d) => { if(!d) return '—'; const dt = new Date(d); if(isNaN(dt)) return d; return dt.toLocaleDateString(document.documentElement.lang === 'ar' ? 'ar-MA' : 'en-US', {year:'numeric', month:'short', day:'numeric'}); };
-  const bookingHtml = myOrders.length ? myOrders.map(o => `
-    <div class="cv-booking-item">
+  const bookingHtml = myOrders.length ? myOrders.map(o => {
+    const statusColors = { pending:'#e67e22', confirmed:'#27ae60', inprogress:'#2980b9', cancelled:'#e74c3c', completed:'#16a085' };
+    const statusIcons  = { pending:'fa-hourglass-half', confirmed:'fa-circle-check', inprogress:'fa-truck-medical', cancelled:'fa-circle-xmark', completed:'fa-star' };
+    const st = o.status || 'pending';
+    const sColor = statusColors[st] || '#e67e22';
+    const sIcon  = statusIcons[st]  || 'fa-hourglass-half';
+    const createdFormatted = formatDate(o.createdAt);
+    const dateFormatted = o.date ? formatDate(o.date) : '';
+    const timeStr = Array.isArray(o.timeSlots) ? o.timeSlots.join(' · ') : (o.time || '');
+    const price = o.total ? `${Number(o.total).toFixed(2)} MAD` : '';
+    const caregiver = o.caregiver || '';
+    return `
+    <div class="cv-booking-item" style="border-left:4px solid ${sColor};padding-left:1rem;">
       <div class="cv-booking-main">
-        <h4>${formatType(o)}</h4>
-        <div class="cv-booking-meta">
-          ${o.date ? `<span class="cv-booking-pill"><i class="fas fa-calendar-alt"></i> ${o.date}</span>` : ''}
-          ${o.time ? `<span class="cv-booking-pill"><i class="fas fa-clock"></i> ${o.time}</span>` : ''}
-          ${o.location ? `<span class="cv-booking-pill"><i class="fas fa-location-dot"></i> ${o.location}</span>` : ''}
-          ${o.bookingId ? `<span class="cv-booking-pill"><i class="fas fa-hashtag"></i> ${o.bookingId}</span>` : ''}
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:.5rem;flex-wrap:wrap;margin-bottom:.45rem;">
+          <h4 style="margin:0;font-size:1rem;color:var(--accent-dark);">${formatType(o)}</h4>
+          <span class="cv-status cv-status-${st}"><i class="fas ${sIcon}" style="margin-inline-end:.35rem;"></i>${at(statusMap[st]||'statusPending')}</span>
         </div>
-        <div class="cv-booking-date">Created: ${formatDate(o.createdAt)}</div>
+        <div class="cv-booking-meta">
+          ${o.bookingId ? `<span class="cv-booking-pill" style="font-family:monospace;font-size:.74rem;"><i class="fas fa-hashtag"></i> ${o.bookingId}</span>` : ''}
+          ${dateFormatted ? `<span class="cv-booking-pill"><i class="fas fa-calendar-alt"></i> ${dateFormatted}</span>` : ''}
+          ${timeStr ? `<span class="cv-booking-pill"><i class="fas fa-clock"></i> ${timeStr}</span>` : ''}
+          ${o.location ? `<span class="cv-booking-pill"><i class="fas fa-location-dot"></i> ${o.location}</span>` : ''}
+          ${caregiver ? `<span class="cv-booking-pill"><i class="fas fa-user-nurse"></i> ${caregiver}</span>` : ''}
+          ${price ? `<span class="cv-booking-pill" style="background:rgba(118,184,79,.15);color:var(--accent-dark);font-weight:800;"><i class="fas fa-tag"></i> ${price}</span>` : ''}
+        </div>
+        <div class="cv-booking-date"><i class="fas fa-clock-rotate-left" style="margin-inline-end:.35rem;opacity:.55;"></i>${at('createdLabel')||'Created'}: ${createdFormatted}</div>
       </div>
-      <div class="cv-booking-side">
-        <span class="cv-status cv-status-${o.status || 'pending'}">${at(statusMap[o.status] || 'statusPending')}</span>
-      </div>
-    </div>`).join('') : `<div class="cv-empty-dash"><i class="fas fa-calendar-plus"></i><p>${at('emptyDash')}</p></div>`;
+    </div>`; }).join('') : `<div class="cv-empty-dash"><i class="fas fa-calendar-plus"></i><p>${at('emptyDash')}</p></div>`;
   const notifHtml = notifications.length ? notifications.map(n => `
     <div class="cv-notification-item"><i class="fas ${n.icon || 'fa-bell'}"></i><div><strong>${n.title}</strong><div>${n.body}</div><small>${formatDate(n.createdAt)}</small></div></div>`).join('') : `<div class="cv-empty-dash"><i class="fas fa-bell-slash"></i><p>${at('emptyDash')}</p></div>`;
   const waNumber = '212679631557';
@@ -9931,8 +9940,12 @@ function renderDashboard(){
             <div class="cv-form-grid">
               <div class="cv-field-card"><label>${at('firstNameLabel')}</label><input id="cvProfileFn" type="text" value="${(session.fn||'').replace(/"/g,'&quot;')}" placeholder="${at('firstNameLabel')}"></div>
               <div class="cv-field-card"><label>${at('lastNameLabel')}</label><input id="cvProfileLn" type="text" value="${(session.ln||'').replace(/"/g,'&quot;')}" placeholder="${at('lastNameLabel')}"></div>
-              <div class="cv-field-card"><label>${at('phoneLabel')}</label><input id="cvProfilePhone" type="text" value="${(session.phone||'').replace(/"/g,'&quot;')}" placeholder="+212 ..."></div>
-              <div class="cv-field-card"><label>${at('cityLabel')}</label><input id="cvProfileCity" type="text" value="${(session.city||'').replace(/"/g,'&quot;')}" placeholder="${at('cityLabel')}"></div>
+              <div class="cv-field-card"><label>${at('phoneLabel')}</label><input id="cvProfilePhone" type="tel" value="${(session.phone||'').replace(/"/g,'&quot;')}" placeholder="+212 6XX-XXXXXX"></div>
+              <div class="cv-field-card"><label>${at('cityLabel')}</label>
+                <select id="cvProfileCity" class="form-select" style="margin-top:0;">
+                  ${['Tangier','Casablanca','Rabat','Fes','Marrakech','Agadir','Meknes','Oujda','Kenitra','Tetouan','Safi','El Jadida','Nador','Beni Mellal','Larache'].map(c=>`<option value="${c}" ${(session.city||'')=== c?'selected':''}>${c}</option>`).join('')}
+                </select>
+              </div>
               <div class="cv-field-card full cv-photo-upload-card">
                 <label>${at('photoLabel')}</label>
                 <div class="cv-photo-upload-row">
