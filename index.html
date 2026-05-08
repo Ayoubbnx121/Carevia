@@ -6014,6 +6014,48 @@ body.rtl .cv-step-label { font-family: inherit; }
                 viewHistory.push(viewId);
             }
 
+            if (viewId === 'clientInfoView') {
+                // ── Autofill booking form from logged-in session ──
+                setTimeout(function() {
+                    var _sess = (function(){ try{ return JSON.parse(localStorage.getItem('careviaSession')||'null'); }catch(e){ return null; } })();
+                    var fEl = document.getElementById('clientFirstName');
+                    var lEl = document.getElementById('clientLastName');
+                    var phEl = document.getElementById('clientPhone');
+                    var emEl = document.getElementById('clientEmail');
+                    var cityEl = document.getElementById('clientCity');
+
+                    if (_sess && ((_sess.fn||_sess.firstName)||_sess.email)) {
+                        var lockStyle = 'background:var(--accent-light);color:var(--text-color);opacity:0.82;cursor:not-allowed;pointer-events:none;';
+
+                        if (fEl) {
+                            var fn = _sess.fn||_sess.firstName||'';
+                            if(fn){ fEl.value=fn; fEl.setAttribute('readonly','readonly'); fEl.setAttribute('style', lockStyle); }
+                        }
+                        if (lEl) {
+                            var ln = _sess.ln||_sess.lastName||'';
+                            if(ln){ lEl.value=ln; lEl.setAttribute('readonly','readonly'); lEl.setAttribute('style', lockStyle); }
+                        }
+                        if (phEl) {
+                            var ph = _sess.phone||'';
+                            if(ph){ phEl.value=ph; phEl.setAttribute('readonly','readonly'); phEl.setAttribute('style', lockStyle); }
+                        }
+                        if (emEl) {
+                            var em = _sess.email||'';
+                            if(em){ emEl.value=em; emEl.setAttribute('readonly','readonly'); emEl.setAttribute('style', lockStyle); }
+                        }
+                        // City: pre-select but keep editable
+                        if (cityEl && _sess.city) { cityEl.value = _sess.city; }
+
+
+                    } else {
+                        // No session: unlock fields
+                        ['clientFirstName','clientLastName','clientPhone','clientEmail'].forEach(function(id){
+                            var el = document.getElementById(id);
+                            if (el) { el.removeAttribute('readonly'); el.removeAttribute('style'); }
+                        });
+                    }
+                }, 0);
+            }
             if (viewId === 'timeSlotView') {
                 setMinDate();
                 generateHourSlots();
@@ -9468,14 +9510,14 @@ window.cvDoRegister = async function(){
       bd,
       phone,
       email:em,
-      phone:'',
+
       city:'',
       photo:'',
       emailVerified:true,
       accountActive:true,
       createdAt:new Date().toISOString()
     });
-    setSession({id:user.uid, uid:user.uid, fn, ln, email:em, phone:'', city:'', photo:'', emailVerified:true, accountActive:true});
+    setSession({id:user.uid, uid:user.uid, fn, ln, email:em, phone:phone||'', city:'', photo:'', emailVerified:true, accountActive:true});
     cvShowToast('CareVia', at('verifySuccess'));
     cvResetEmailVerification({keepStatus:true});
     cvCloseAuth();
