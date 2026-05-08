@@ -8394,16 +8394,16 @@ body.rtl .cv-user-chip{flex-direction:row-reverse;}
 /* ── Booking Action Buttons ── */
 .cv-booking-actions{display:flex;gap:.55rem;flex-wrap:wrap;margin-top:.75rem;padding-top:.65rem;border-top:1px solid var(--border-color);}
 .cv-action-btn{
-  display:inline-flex;align-items:center;gap:.4rem;
-  padding:.42rem .9rem;border-radius:999px;font-size:.78rem;font-weight:700;
+  display:inline-flex;align-items:center;gap:.45rem;
+  padding:.52rem 1.1rem;border-radius:999px;font-size:.82rem;font-weight:700;
   border:1.5px solid transparent;cursor:pointer;transition:all .18s ease;
-  background:none;
+  background:none;letter-spacing:.01em;
 }
-.cv-action-btn:hover{transform:translateY(-1px);}
-.cv-cancel-btn{color:#c53030;border-color:rgba(229,62,62,.32);background:rgba(229,62,62,.07);}
-.cv-cancel-btn:hover{background:rgba(229,62,62,.15);border-color:rgba(229,62,62,.55);}
-.cv-rate-btn{color:#2f855a;border-color:rgba(72,187,120,.32);background:rgba(72,187,120,.07);}
-.cv-rate-btn:hover{background:rgba(72,187,120,.15);border-color:rgba(72,187,120,.55);}
+.cv-action-btn:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.1);}
+.cv-cancel-btn{color:#c53030;border-color:rgba(229,62,62,.4);background:rgba(229,62,62,.08);}
+.cv-cancel-btn:hover{background:rgba(229,62,62,.16);border-color:rgba(229,62,62,.65);}
+.cv-rate-btn{color:#276749;border-color:rgba(47,133,90,.4);background:rgba(47,133,90,.08);}
+.cv-rate-btn:hover{background:rgba(47,133,90,.16);border-color:rgba(47,133,90,.65);}
 .cv-rated-badge{display:inline-flex;align-items:center;gap:.38rem;padding:.42rem .9rem;border-radius:999px;font-size:.78rem;font-weight:700;color:#2f855a;background:rgba(72,187,120,.1);border:1.5px solid rgba(72,187,120,.25);}
 
 /* ── Cancel Confirm Overlay ── */
@@ -8425,6 +8425,13 @@ body.rtl .cv-user-chip{flex-direction:row-reverse;}
 .cv-confirm-cancel-btn{background:#e53e3e;color:#fff;border:none;border-radius:999px;padding:.7rem 1.6rem;font-weight:700;font-size:.92rem;cursor:pointer;transition:all .18s;}
 .cv-confirm-cancel-btn:hover{background:#c53030;transform:translateY(-1px);}
 .cv-keep-btn{background:var(--accent-light);color:var(--accent-dark);border:none;border-radius:999px;padding:.7rem 1.6rem;font-weight:700;font-size:.92rem;cursor:pointer;transition:all .18s;}
+.cv-cancel-reason-title{font-weight:600;font-size:.9rem;margin:0 0 .65rem;opacity:.85;text-align:start;}
+.cv-cancel-reasons{display:flex;flex-direction:column;gap:.42rem;margin-bottom:.5rem;}
+.cv-cancel-reason-option{display:flex;align-items:center;gap:.6rem;padding:.52rem .9rem;border-radius:10px;border:1.5px solid var(--border-color);cursor:pointer;font-size:.87rem;transition:all .15s;text-align:start;}
+.cv-cancel-reason-option:has(input:checked){border-color:#e53e3e;background:rgba(229,62,62,.07);}
+.cv-cancel-reason-option input[type=radio]{accent-color:#e53e3e;width:15px;height:15px;flex-shrink:0;cursor:pointer;}
+.cv-cancel-other-textarea{width:100%;border-radius:10px;border:1.5px solid var(--border-color);padding:.6rem .8rem;font-size:.86rem;background:var(--input-bg);color:var(--text-color);font-family:inherit;resize:vertical;margin-top:.3rem;transition:border .15s;box-sizing:border-box;}
+.cv-cancel-other-textarea:focus{outline:none;border-color:#e53e3e;}
 .cv-keep-btn:hover{transform:translateY(-1px);}
 
 /* ── Rating Modal ── */
@@ -8908,7 +8915,8 @@ const AUTH_T = {
     fnPlaceholder:'محمد', lnPlaceholder:'بن علي',
     sendCodeFull:'إرسال كود التحقق', verifyCodeFull:'تأكيد الكود والمتابعة',
     verifyCodeEnter:'أدخل الكود المكوّن من 6 أرقام',
-    pwWeak:'ضعيفة', pwFair:'مقبولة', pwMedium:'متوسطة', pwGood:'جيدة', pwStrong:'قوية'
+    pwWeak:'ضعيفة', pwFair:'مقبولة', pwMedium:'متوسطة', pwGood:'جيدة', pwStrong:'قوية',
+    cancelBookingBtn:'إلغاء الحجز', rateBtn:'تقييم المقدم'
   },
   fr:{
     loginTitle:'Connexion', regTitle:'Créer un compte',
@@ -8970,7 +8978,8 @@ const AUTH_T = {
     fnPlaceholder:'Prénom', lnPlaceholder:'Nom de famille',
     sendCodeFull:'Envoyer le code de vérification', verifyCodeFull:'Vérifier le code et continuer',
     verifyCodeEnter:'Entrez le code à 6 chiffres',
-    pwWeak:'Faible', pwFair:'Passable', pwMedium:'Moyen', pwGood:'Bon', pwStrong:'Fort'
+    pwWeak:'Faible', pwFair:'Passable', pwMedium:'Moyen', pwGood:'Bon', pwStrong:'Fort',
+    cancelBookingBtn:'Annuler la réservation', rateBtn:'Évaluer le prestataire'
   },
   en:{
     loginTitle:'Sign In', regTitle:'Create Account',
@@ -9032,7 +9041,8 @@ const AUTH_T = {
     fnPlaceholder:'First name', lnPlaceholder:'Last name',
     sendCodeFull:'Send verification code', verifyCodeFull:'Verify code & continue',
     verifyCodeEnter:'Enter the 6-digit code',
-    pwWeak:'Weak', pwFair:'Fair', pwMedium:'Medium', pwGood:'Good', pwStrong:'Strong'
+    pwWeak:'Weak', pwFair:'Fair', pwMedium:'Medium', pwGood:'Good', pwStrong:'Strong',
+    cancelBookingBtn:'Cancel booking', rateBtn:'Rate caregiver'
   },
   es:{
     loginTitle:'Iniciar sesión', regTitle:'Crear cuenta',
@@ -9085,7 +9095,8 @@ const AUTH_T = {
     fnPlaceholder:'Nombre', lnPlaceholder:'Apellido',
     sendCodeFull:'Enviar código de verificación', verifyCodeFull:'Verificar código y continuar',
     verifyCodeEnter:'Ingresa el código de 6 dígitos',
-    pwWeak:'Débil', pwFair:'Aceptable', pwMedium:'Media', pwGood:'Buena', pwStrong:'Fuerte'
+    pwWeak:'Débil', pwFair:'Aceptable', pwMedium:'Media', pwGood:'Buena', pwStrong:'Fuerte',
+    cancelBookingBtn:'Cancelar reserva', rateBtn:'Valorar al cuidador'
   },
   de:{
     loginTitle:'Anmelden', regTitle:'Konto erstellen',
@@ -9138,7 +9149,8 @@ const AUTH_T = {
     fnPlaceholder:'Vorname', lnPlaceholder:'Nachname',
     sendCodeFull:'Bestätigungscode senden', verifyCodeFull:'Code bestätigen & weiter',
     verifyCodeEnter:'Gib den 6-stelligen Code ein',
-    pwWeak:'Schwach', pwFair:'Akzeptabel', pwMedium:'Mittel', pwGood:'Gut', pwStrong:'Stark'
+    pwWeak:'Schwach', pwFair:'Akzeptabel', pwMedium:'Mittel', pwGood:'Gut', pwStrong:'Stark',
+    cancelBookingBtn:'Buchung stornieren', rateBtn:'Betreuer bewerten'
   }
 };
 function at(key){ const lang = (typeof currentLang !== 'undefined') ? currentLang : 'ar'; return (AUTH_T[lang]||AUTH_T.en)[key]||key; }
@@ -9785,31 +9797,112 @@ window.cvSaveProfile = async function(){
 /* ═══════════════════════════════════════════════════
    CANCEL BOOKING
 ═══════════════════════════════════════════════════ */
+// ╔══════════════════════════════════════════╗
+// ║  Google Sheet Webhook URL — configure   ║
+// ║  Paste your Apps Script Web App URL     ║
+// ╚══════════════════════════════════════════╝
+var CV_CANCEL_SHEET_URL = ''; // e.g. 'https://script.google.com/macros/s/XXXX/exec'
+
+window.cvWithin12Hours = function(createdAt) {
+  if (!createdAt) return true;
+  var diff = new Date() - new Date(createdAt);
+  return diff <= 12 * 60 * 60 * 1000;
+};
+
+window.cvUpdateCancelBtn = function() {
+  var selected = document.querySelector('input[name="cvCancelReason"]:checked');
+  var otherArea = document.getElementById('cvCancelOtherText');
+  var btn = document.getElementById('cvConfirmCancelBtn');
+  if (!btn) return;
+  if (selected && selected.value === 'other') {
+    if (otherArea) otherArea.style.display = 'block';
+    var ok = otherArea && otherArea.value.trim().length > 0;
+    btn.disabled = !ok; btn.style.opacity = ok ? '1' : '.45'; btn.style.cursor = ok ? 'pointer' : 'not-allowed';
+  } else {
+    if (otherArea) otherArea.style.display = 'none';
+    btn.disabled = !selected; btn.style.opacity = selected ? '1' : '.45'; btn.style.cursor = selected ? 'pointer' : 'not-allowed';
+  }
+};
+
 window.cvShowCancelConfirm = function(bookingId) {
   var overlay = document.createElement('div');
   overlay.className = 'cv-cancel-overlay';
   overlay.id = 'cvCancelOverlay';
   var lang = (typeof currentLang !== 'undefined' ? currentLang : 'en');
   var labels = {
-    ar: { title:'إلغاء الحجز', body:'هل أنت متأكد من إلغاء هذا الحجز؟ لا يمكن التراجع عن هذا الإجراء.', confirm:'نعم، إلغاء', keep:'لا، ابقِه' },
-    fr: { title:'Annuler la réservation', body:'Êtes-vous sûr de vouloir annuler ? Cette action est irréversible.', confirm:'Oui, annuler', keep:'Non, garder' },
-    en: { title:'Cancel Booking', body:'Are you sure you want to cancel this booking? This action cannot be undone.', confirm:'Yes, cancel', keep:'Keep it' },
-    es: { title:'Cancelar reserva', body:'¿Estás seguro de que deseas cancelar? Esta acción no se puede deshacer.', confirm:'Sí, cancelar', keep:'No, mantener' },
-    de: { title:'Buchung stornieren', body:'Bist du sicher, dass du stornieren möchtest? Diese Aktion kann nicht rückgängig gemacht werden.', confirm:'Ja, stornieren', keep:'Behalten' }
+    ar: {
+      title: 'إلغاء الحجز', reasonTitle: 'ما سبب الإلغاء؟',
+      reasons: [
+        { id: 'no_need',      text: 'لم أعد بحاجة للخدمة' },
+        { id: 'changed_mind', text: 'غيرت رأيي' },
+        { id: 'price',        text: 'السعر لا يناسبني' },
+        { id: 'other',        text: 'سبب آخر' }
+      ],
+      otherPlaceholder: 'اكتب سببك هنا...', confirm: 'تأكيد الإلغاء', keep: 'لا، ابقِه'
+    },
+    fr: {
+      title: 'Annuler la réservation', reasonTitle: "Motif d'annulation ?",
+      reasons: [
+        { id: 'no_need',      text: "Je n'ai plus besoin du service" },
+        { id: 'changed_mind', text: "J'ai changé d'avis" },
+        { id: 'price',        text: 'Le prix ne me convient pas' },
+        { id: 'other',        text: 'Autre raison' }
+      ],
+      otherPlaceholder: 'Écrivez votre raison...', confirm: "Confirmer l'annulation", keep: 'Non, garder'
+    },
+    en: {
+      title: 'Cancel Booking', reasonTitle: 'Why are you cancelling?',
+      reasons: [
+        { id: 'no_need',      text: 'No longer need the service' },
+        { id: 'changed_mind', text: 'I changed my mind' },
+        { id: 'price',        text: "The price doesn't suit me" },
+        { id: 'other',        text: 'Other reason' }
+      ],
+      otherPlaceholder: 'Write your reason here...', confirm: 'Confirm cancellation', keep: 'Keep it'
+    },
+    es: {
+      title: 'Cancelar reserva', reasonTitle: '¿Por qué cancelas?',
+      reasons: [
+        { id: 'no_need',      text: 'Ya no necesito el servicio' },
+        { id: 'changed_mind', text: 'Cambié de opinión' },
+        { id: 'price',        text: 'El precio no me conviene' },
+        { id: 'other',        text: 'Otra razón' }
+      ],
+      otherPlaceholder: 'Escribe tu razón aquí...', confirm: 'Confirmar cancelación', keep: 'No, mantener'
+    },
+    de: {
+      title: 'Buchung stornieren', reasonTitle: 'Warum stornierst du?',
+      reasons: [
+        { id: 'no_need',      text: 'Benötige den Service nicht mehr' },
+        { id: 'changed_mind', text: 'Meinung geändert' },
+        { id: 'price',        text: 'Preis passt mir nicht' },
+        { id: 'other',        text: 'Anderer Grund' }
+      ],
+      otherPlaceholder: 'Schreibe deinen Grund hier...', confirm: 'Stornierung bestätigen', keep: 'Behalten'
+    }
   };
   var L = labels[lang] || labels.en;
+  var reasonsHtml = L.reasons.map(function(r) {
+    return '<label class="cv-cancel-reason-option" for="cv-reason-' + r.id + '">' +
+      '<input type="radio" name="cvCancelReason" id="cv-reason-' + r.id + '" value="' + r.id + '" onchange="cvUpdateCancelBtn()">' +
+      '<span>' + r.text + '</span>' +
+    '</label>';
+  }).join('');
   overlay.innerHTML = '<div class="cv-cancel-modal">' +
     '<i class="fas fa-circle-xmark big"></i>' +
     '<h3>' + L.title + '</h3>' +
-    '<p>' + L.body + '</p>' +
-    '<div class="cv-cancel-modal-btns">' +
+    '<p class="cv-cancel-reason-title">' + L.reasonTitle + '</p>' +
+    '<div class="cv-cancel-reasons">' + reasonsHtml + '</div>' +
+    '<textarea id="cvCancelOtherText" class="cv-cancel-other-textarea" placeholder="' + L.otherPlaceholder + '" style="display:none;" rows="3" oninput="cvUpdateCancelBtn()"></textarea>' +
+    '<div class="cv-cancel-modal-btns" style="margin-top:1.2rem;">' +
       '<button class="cv-keep-btn" onclick="cvCloseCancelOverlay()">' + L.keep + '</button>' +
-      '<button class="cv-confirm-cancel-btn" onclick="cvDoCancel('' + bookingId + '')">' + L.confirm + '</button>' +
+      '<button class="cv-confirm-cancel-btn" id="cvConfirmCancelBtn" onclick="cvDoCancel(\'' + bookingId + '\')" disabled style="opacity:.45;cursor:not-allowed;">' + L.confirm + '</button>' +
     '</div>' +
   '</div>';
   document.body.appendChild(overlay);
   overlay.addEventListener('click', function(e){ if(e.target === overlay) cvCloseCancelOverlay(); });
 };
+
 
 window.cvCloseCancelOverlay = function() {
   var el = document.getElementById('cvCancelOverlay');
@@ -9817,28 +9910,80 @@ window.cvCloseCancelOverlay = function() {
 };
 
 window.cvDoCancel = async function(bookingId) {
+  var selected = document.querySelector('input[name="cvCancelReason"]:checked');
+  var lang = (typeof currentLang !== 'undefined' ? currentLang : 'en');
+  var reasonMap = {
+    ar: { no_need:'لم أعد بحاجة للخدمة', changed_mind:'غيرت رأيي', price:'السعر لا يناسبني', other:'سبب آخر' },
+    fr: { no_need:"Je n'ai plus besoin du service", changed_mind:"J'ai changé d'avis", price:'Le prix ne me convient pas', other:'Autre raison' },
+    en: { no_need:'No longer need the service', changed_mind:'I changed my mind', price:"Price doesn't suit me", other:'Other' },
+    es: { no_need:'Ya no necesito el servicio', changed_mind:'Cambié de opinión', price:'El precio no me conviene', other:'Otra razón' },
+    de: { no_need:'Service nicht mehr nötig', changed_mind:'Meinung geändert', price:'Preis passt nicht', other:'Anderer Grund' }
+  };
+  var reasonId = selected ? selected.value : 'unknown';
+  var reasonText = ((reasonMap[lang] || reasonMap.en)[reasonId]) || reasonId;
+  var otherText = '';
+  if (reasonId === 'other') {
+    var otherArea = document.getElementById('cvCancelOtherText');
+    otherText = otherArea ? otherArea.value.trim() : '';
+  }
   cvCloseCancelOverlay();
   var DB_ORDERS_KEY = 'careviaOrders';
+  var cancelledAt = new Date().toISOString();
+  var cancelledOrder = null;
   // Update localStorage
   try {
     var orders = JSON.parse(localStorage.getItem(DB_ORDERS_KEY) || '[]');
+    cancelledOrder = orders.find(function(o){ return o.bookingId === bookingId; });
     orders = orders.map(function(o) {
-      if (o.bookingId === bookingId) return Object.assign({}, o, { status: 'cancelled', cancelledAt: new Date().toISOString() });
+      if (o.bookingId === bookingId) return Object.assign({}, o, {
+        status: 'cancelled', cancelledAt: cancelledAt,
+        cancelReason: reasonId,
+        cancelReasonText: reasonId === 'other' ? otherText : reasonText
+      });
       return o;
     });
     localStorage.setItem(DB_ORDERS_KEY, JSON.stringify(orders));
   } catch(e) {}
+  // Send to Google Sheet
+  try {
+    var sheetUrl = (typeof CV_CANCEL_SHEET_URL !== 'undefined' && CV_CANCEL_SHEET_URL) ? CV_CANCEL_SHEET_URL : '';
+    if (sheetUrl) {
+      var session = (typeof getSession === 'function') ? getSession() : null;
+      var payload = {
+        bookingId: bookingId,
+        clientName: session ? ((session.fn||'')+' '+(session.ln||'')).trim() : '',
+        clientEmail: session ? (session.email||'') : '',
+        clientPhone: session ? (session.phone||'') : '',
+        service: cancelledOrder ? (cancelledOrder.service||cancelledOrder.type||'') : '',
+        date: cancelledOrder ? (cancelledOrder.date||'') : '',
+        city: cancelledOrder ? (cancelledOrder.city||'') : '',
+        total: cancelledOrder ? (cancelledOrder.total||'') : '',
+        cancelReason: reasonId === 'other' ? otherText : reasonText,
+        cancelReasonId: reasonId,
+        cancelledAt: cancelledAt
+      };
+      fetch(sheetUrl, {
+        method: 'POST', mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      }).catch(function(e){ console.warn('Sheet send failed:', e); });
+    }
+  } catch(e) { console.warn('Sheet send error:', e); }
   // Update Firebase if available
   try {
     if (window.cvFirebaseDb) {
       var snap = await window.cvFirebaseDb.collection('orders')
         .where('bookingId', '==', bookingId).limit(1).get();
       if (!snap.empty) {
-        await snap.docs[0].ref.update({ status: 'cancelled', cancelledAt: new Date().toISOString() });
+        await snap.docs[0].ref.update({
+          status: 'cancelled', cancelledAt: cancelledAt,
+          cancelReason: reasonId,
+          cancelReasonText: reasonId === 'other' ? otherText : reasonText
+        });
       }
     }
   } catch(e) { console.warn('Firebase cancel failed:', e); }
-  // Update card in DOM immediately without full re-render
+  // Update card in DOM
   var card = document.getElementById('cv-booking-' + bookingId);
   if (card) {
     card.style.borderLeftColor = '#e74c3c';
@@ -9849,6 +9994,7 @@ window.cvDoCancel = async function(bookingId) {
   }
   if (typeof cvShowToast === 'function') cvShowToast('CareVia', typeof at === 'function' ? (at('cancelSuccess')||'Booking cancelled') : 'Booking cancelled', 'fa-circle-check');
 };
+
 
 /* ═══════════════════════════════════════════════════
    RATE CAREGIVER
@@ -10086,7 +10232,7 @@ function renderDashboard(){
     const caregiver = o.caregiver || '';
     const bId = o.bookingId || '';
     // Action buttons
-    const canCancel = (st === 'pending');
+    const canCancel = (st === 'pending') && cvWithin12Hours(o.createdAt);
     const canRate   = (st === 'completed' && !o.rating);
     const alreadyRated = (st === 'completed' && o.rating);
     const ratingStars = o.rating ? '★'.repeat(o.rating) + '☆'.repeat(5 - o.rating) : '';
