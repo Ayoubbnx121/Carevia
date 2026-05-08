@@ -8390,6 +8390,74 @@ body.rtl .cv-err{border-left:none;border-right:3px solid #e53e3e;}
 body.rtl .cv-input-icon{left:auto;right:.9rem;}
 body.rtl .cv-modal input{padding:.75rem 2.6rem .75rem 1rem;}
 body.rtl .cv-user-chip{flex-direction:row-reverse;}
+
+/* ── Booking Action Buttons ── */
+.cv-booking-actions{display:flex;gap:.55rem;flex-wrap:wrap;margin-top:.75rem;padding-top:.65rem;border-top:1px solid var(--border-color);}
+.cv-action-btn{
+  display:inline-flex;align-items:center;gap:.4rem;
+  padding:.42rem .9rem;border-radius:999px;font-size:.78rem;font-weight:700;
+  border:1.5px solid transparent;cursor:pointer;transition:all .18s ease;
+  background:none;
+}
+.cv-action-btn:hover{transform:translateY(-1px);}
+.cv-cancel-btn{color:#c53030;border-color:rgba(229,62,62,.32);background:rgba(229,62,62,.07);}
+.cv-cancel-btn:hover{background:rgba(229,62,62,.15);border-color:rgba(229,62,62,.55);}
+.cv-rate-btn{color:#2f855a;border-color:rgba(72,187,120,.32);background:rgba(72,187,120,.07);}
+.cv-rate-btn:hover{background:rgba(72,187,120,.15);border-color:rgba(72,187,120,.55);}
+.cv-rated-badge{display:inline-flex;align-items:center;gap:.38rem;padding:.42rem .9rem;border-radius:999px;font-size:.78rem;font-weight:700;color:#2f855a;background:rgba(72,187,120,.1);border:1.5px solid rgba(72,187,120,.25);}
+
+/* ── Cancel Confirm Overlay ── */
+.cv-cancel-overlay{
+  position:fixed;inset:0;z-index:10000;
+  background:rgba(0,0,0,.55);backdrop-filter:blur(4px);
+  display:flex;align-items:center;justify-content:center;padding:1rem;
+}
+.cv-cancel-modal{
+  background:var(--card-bg);border-radius:28px;padding:2rem;
+  max-width:400px;width:100%;
+  box-shadow:0 32px 64px -24px rgba(0,0,0,.4);
+  animation:fadeInUp .25s ease;text-align:center;
+}
+.cv-cancel-modal i.big{font-size:2.8rem;color:#e53e3e;margin-bottom:1rem;display:block;}
+.cv-cancel-modal h3{margin:0 0 .5rem;color:var(--text-color);}
+.cv-cancel-modal p{opacity:.72;font-size:.92rem;margin:0 0 1.4rem;}
+.cv-cancel-modal-btns{display:flex;gap:.7rem;justify-content:center;}
+.cv-confirm-cancel-btn{background:#e53e3e;color:#fff;border:none;border-radius:999px;padding:.7rem 1.6rem;font-weight:700;font-size:.92rem;cursor:pointer;transition:all .18s;}
+.cv-confirm-cancel-btn:hover{background:#c53030;transform:translateY(-1px);}
+.cv-keep-btn{background:var(--accent-light);color:var(--accent-dark);border:none;border-radius:999px;padding:.7rem 1.6rem;font-weight:700;font-size:.92rem;cursor:pointer;transition:all .18s;}
+.cv-keep-btn:hover{transform:translateY(-1px);}
+
+/* ── Rating Modal ── */
+.cv-rating-overlay{
+  position:fixed;inset:0;z-index:10000;
+  background:rgba(0,0,0,.55);backdrop-filter:blur(4px);
+  display:flex;align-items:center;justify-content:center;padding:1rem;
+}
+.cv-rating-modal{
+  background:var(--card-bg);border-radius:28px;padding:2rem;
+  max-width:440px;width:100%;
+  box-shadow:0 32px 64px -24px rgba(0,0,0,.4);
+  animation:fadeInUp .25s ease;
+}
+.cv-rating-modal h3{margin:0 0 .3rem;color:var(--accent-dark);font-size:1.15rem;}
+.cv-rating-modal .cv-rate-sub{opacity:.68;font-size:.88rem;margin:0 0 1.3rem;}
+.cv-stars-row{display:flex;gap:.5rem;justify-content:center;margin-bottom:1.1rem;}
+.cv-star-btn{
+  font-size:2.2rem;cursor:pointer;color:#d1d5db;
+  transition:color .15s,transform .15s;background:none;border:none;padding:0;line-height:1;
+}
+.cv-star-btn.active,.cv-star-btn:hover{color:#f59e0b;transform:scale(1.15);}
+.cv-rating-textarea{
+  width:100%;border:1.5px solid var(--border-color);border-radius:16px;
+  padding:.85rem 1rem;font-size:.92rem;resize:none;min-height:90px;
+  background:var(--input-bg);color:var(--text-color);font-family:inherit;
+  transition:border-color .2s;box-sizing:border-box;
+}
+.cv-rating-textarea:focus{outline:none;border-color:var(--accent-dark);}
+.cv-rating-modal-btns{display:flex;gap:.7rem;justify-content:flex-end;margin-top:1rem;}
+.cv-submit-rating-btn{background:var(--accent-dark);color:#fff;border:none;border-radius:999px;padding:.7rem 1.6rem;font-weight:700;font-size:.92rem;cursor:pointer;transition:all .18s;}
+.cv-submit-rating-btn:hover{background:var(--accent-contrast);transform:translateY(-1px);}
+.cv-skip-rating-btn{background:var(--accent-light);color:var(--accent-dark);border:none;border-radius:999px;padding:.7rem 1.2rem;font-weight:700;font-size:.92rem;cursor:pointer;}
 </style>
 
 <!-- Auth Modal -->
@@ -9713,6 +9781,173 @@ window.cvSaveProfile = async function(){
     cvShowToast('CareVia', at('saveSuccess'));
   }catch(err){ console.error(err); cvShowToast('CareVia', (err&&err.message)||'Save failed', 'fa-circle-exclamation'); }
 };
+
+/* ═══════════════════════════════════════════════════
+   CANCEL BOOKING
+═══════════════════════════════════════════════════ */
+window.cvShowCancelConfirm = function(bookingId) {
+  var overlay = document.createElement('div');
+  overlay.className = 'cv-cancel-overlay';
+  overlay.id = 'cvCancelOverlay';
+  var lang = (typeof currentLang !== 'undefined' ? currentLang : 'en');
+  var labels = {
+    ar: { title:'إلغاء الحجز', body:'هل أنت متأكد من إلغاء هذا الحجز؟ لا يمكن التراجع عن هذا الإجراء.', confirm:'نعم، إلغاء', keep:'لا، ابقِه' },
+    fr: { title:'Annuler la réservation', body:'Êtes-vous sûr de vouloir annuler ? Cette action est irréversible.', confirm:'Oui, annuler', keep:'Non, garder' },
+    en: { title:'Cancel Booking', body:'Are you sure you want to cancel this booking? This action cannot be undone.', confirm:'Yes, cancel', keep:'Keep it' },
+    es: { title:'Cancelar reserva', body:'¿Estás seguro de que deseas cancelar? Esta acción no se puede deshacer.', confirm:'Sí, cancelar', keep:'No, mantener' },
+    de: { title:'Buchung stornieren', body:'Bist du sicher, dass du stornieren möchtest? Diese Aktion kann nicht rückgängig gemacht werden.', confirm:'Ja, stornieren', keep:'Behalten' }
+  };
+  var L = labels[lang] || labels.en;
+  overlay.innerHTML = '<div class="cv-cancel-modal">' +
+    '<i class="fas fa-circle-xmark big"></i>' +
+    '<h3>' + L.title + '</h3>' +
+    '<p>' + L.body + '</p>' +
+    '<div class="cv-cancel-modal-btns">' +
+      '<button class="cv-keep-btn" onclick="cvCloseCancelOverlay()">' + L.keep + '</button>' +
+      '<button class="cv-confirm-cancel-btn" onclick="cvDoCancel('' + bookingId + '')">' + L.confirm + '</button>' +
+    '</div>' +
+  '</div>';
+  document.body.appendChild(overlay);
+  overlay.addEventListener('click', function(e){ if(e.target === overlay) cvCloseCancelOverlay(); });
+};
+
+window.cvCloseCancelOverlay = function() {
+  var el = document.getElementById('cvCancelOverlay');
+  if (el) el.remove();
+};
+
+window.cvDoCancel = async function(bookingId) {
+  cvCloseCancelOverlay();
+  var DB_ORDERS_KEY = 'careviaOrders';
+  // Update localStorage
+  try {
+    var orders = JSON.parse(localStorage.getItem(DB_ORDERS_KEY) || '[]');
+    orders = orders.map(function(o) {
+      if (o.bookingId === bookingId) return Object.assign({}, o, { status: 'cancelled', cancelledAt: new Date().toISOString() });
+      return o;
+    });
+    localStorage.setItem(DB_ORDERS_KEY, JSON.stringify(orders));
+  } catch(e) {}
+  // Update Firebase if available
+  try {
+    if (window.cvFirebaseDb) {
+      var snap = await window.cvFirebaseDb.collection('orders')
+        .where('bookingId', '==', bookingId).limit(1).get();
+      if (!snap.empty) {
+        await snap.docs[0].ref.update({ status: 'cancelled', cancelledAt: new Date().toISOString() });
+      }
+    }
+  } catch(e) { console.warn('Firebase cancel failed:', e); }
+  // Update card in DOM immediately without full re-render
+  var card = document.getElementById('cv-booking-' + bookingId);
+  if (card) {
+    card.style.borderLeftColor = '#e74c3c';
+    var statusEl = card.querySelector('.cv-status');
+    if (statusEl) statusEl.outerHTML = '<span class="cv-status cv-status-cancelled"><i class="fas fa-circle-xmark" style="margin-inline-end:.35rem;"></i>' + (typeof at === 'function' ? at('statusCancelled') : 'Cancelled') + '</span>';
+    var actions = card.querySelector('.cv-booking-actions');
+    if (actions) actions.remove();
+  }
+  if (typeof cvShowToast === 'function') cvShowToast('CareVia', typeof at === 'function' ? (at('cancelSuccess')||'Booking cancelled') : 'Booking cancelled', 'fa-circle-check');
+};
+
+/* ═══════════════════════════════════════════════════
+   RATE CAREGIVER
+═══════════════════════════════════════════════════ */
+window._cvRatingState = { bookingId: '', caregiver: '', stars: 0 };
+
+window.cvShowRatingModal = function(bookingId, caregiver) {
+  window._cvRatingState = { bookingId: bookingId, caregiver: caregiver, stars: 0 };
+  var overlay = document.createElement('div');
+  overlay.className = 'cv-rating-overlay';
+  overlay.id = 'cvRatingOverlay';
+  var lang = (typeof currentLang !== 'undefined' ? currentLang : 'en');
+  var labels = {
+    ar: { title: 'كيف كانت تجربتك؟', sub: caregiver ? 'قيّم ' + caregiver : 'قيّم مقدم الرعاية', placeholder: 'أضف تعليقاً (اختياري)...', submit: 'إرسال التقييم', skip: 'تخطي' },
+    fr: { title: 'Comment était votre expérience ?', sub: caregiver ? 'Évaluez ' + caregiver : 'Évaluez le soignant', placeholder: 'Ajouter un commentaire (optionnel)...', submit: 'Envoyer', skip: 'Passer' },
+    en: { title: 'How was your experience?', sub: caregiver ? 'Rate ' + caregiver : 'Rate your caregiver', placeholder: 'Add a comment (optional)...', submit: 'Submit rating', skip: 'Skip' },
+    es: { title: '¿Cómo fue tu experiencia?', sub: caregiver ? 'Valora a ' + caregiver : 'Valora al cuidador', placeholder: 'Añade un comentario (opcional)...', submit: 'Enviar valoración', skip: 'Omitir' },
+    de: { title: 'Wie war Ihre Erfahrung?', sub: caregiver ? caregiver + ' bewerten' : 'Pflegeperson bewerten', placeholder: 'Kommentar hinzufügen (optional)...', submit: 'Bewertung senden', skip: 'Überspringen' }
+  };
+  var L = labels[lang] || labels.en;
+  var starsHtml = [1,2,3,4,5].map(function(n){
+    return '<button class="cv-star-btn" data-star="' + n + '" onclick="cvSetStar(' + n + ')">★</button>';
+  }).join('');
+  overlay.innerHTML = '<div class="cv-rating-modal">' +
+    '<h3>' + L.title + '</h3>' +
+    '<p class="cv-rate-sub">' + L.sub + '</p>' +
+    '<div class="cv-stars-row" id="cvStarsRow">' + starsHtml + '</div>' +
+    '<textarea class="cv-rating-textarea" id="cvRatingComment" placeholder="' + L.placeholder + '" rows="3"></textarea>' +
+    '<div class="cv-rating-modal-btns">' +
+      '<button class="cv-skip-rating-btn" onclick="cvCloseRatingModal()">' + L.skip + '</button>' +
+      '<button class="cv-submit-rating-btn" onclick="cvSubmitRating()">' + L.submit + '</button>' +
+    '</div>' +
+  '</div>';
+  document.body.appendChild(overlay);
+  overlay.addEventListener('click', function(e){ if(e.target === overlay) cvCloseRatingModal(); });
+};
+
+window.cvSetStar = function(n) {
+  window._cvRatingState.stars = n;
+  var btns = document.querySelectorAll('#cvStarsRow .cv-star-btn');
+  btns.forEach(function(btn) {
+    var s = parseInt(btn.getAttribute('data-star'));
+    btn.classList.toggle('active', s <= n);
+  });
+};
+
+window.cvCloseRatingModal = function() {
+  var el = document.getElementById('cvRatingOverlay');
+  if (el) el.remove();
+};
+
+window.cvSubmitRating = async function() {
+  var state = window._cvRatingState;
+  if (!state.stars) {
+    var btns = document.querySelectorAll('#cvStarsRow .cv-star-btn');
+    btns.forEach(function(b){ b.style.animation='shake .3s ease'; setTimeout(function(){ b.style.animation=''; }, 350); });
+    return;
+  }
+  var comment = (document.getElementById('cvRatingComment')?.value || '').trim();
+  var sess = (function(){ try{ return JSON.parse(localStorage.getItem('careviaSession')||'null'); }catch(e){ return null; } })();
+  var ratingData = {
+    bookingId: state.bookingId,
+    caregiver: state.caregiver,
+    stars: state.stars,
+    comment: comment,
+    userId: sess ? (sess.uid||sess.id||sess.email||'') : '',
+    userName: sess ? ((sess.fn||'') + ' ' + (sess.ln||'')).trim() : '',
+    createdAt: new Date().toISOString()
+  };
+  // Save to localStorage orders
+  try {
+    var orders = JSON.parse(localStorage.getItem('careviaOrders') || '[]');
+    orders = orders.map(function(o) {
+      if (o.bookingId === state.bookingId) return Object.assign({}, o, { rating: state.stars, ratingComment: comment });
+      return o;
+    });
+    localStorage.setItem('careviaOrders', JSON.stringify(orders));
+  } catch(e) {}
+  // Save to Firebase
+  try {
+    if (window.cvFirebaseDb) {
+      await window.cvFirebaseDb.collection('ratings').add(ratingData);
+      var snap = await window.cvFirebaseDb.collection('orders').where('bookingId','==',state.bookingId).limit(1).get();
+      if (!snap.empty) await snap.docs[0].ref.update({ rating: state.stars, ratingComment: comment });
+    }
+  } catch(e) { console.warn('Firebase rating failed:', e); }
+  // Update card in DOM
+  var card = document.getElementById('cv-booking-' + state.bookingId);
+  if (card) {
+    var actions = card.querySelector('.cv-booking-actions');
+    if (actions) {
+      var stars = state.stars;
+      actions.innerHTML = '<span class="cv-rated-badge"><i class="fas fa-star"></i> ' + '★'.repeat(stars) + '☆'.repeat(5-stars) + ' (' + stars + '/5)</span>';
+    }
+  }
+  cvCloseRatingModal();
+  if (typeof cvShowToast === 'function') cvShowToast('CareVia', typeof at === 'function' ? (at('ratingSuccess')||'Thank you for your rating!') : 'Thank you for your rating! ⭐', 'fa-star');
+};
+
 window.cvSendResetLinkLogged = async function(){
   const session=getSession(); if(!session || !session.email) return;
   try{ await cvSendCustomPasswordResetEmail(session.email); cvShowToast('CareVia', at('forgotCodeVerified'), 'fa-key'); }
@@ -9849,15 +10084,27 @@ function renderDashboard(){
     const timeStr = Array.isArray(o.timeSlots) ? o.timeSlots.join(' · ') : (o.time || '');
     const price = o.total ? `${Number(o.total).toFixed(2)} MAD` : '';
     const caregiver = o.caregiver || '';
+    const bId = o.bookingId || '';
+    // Action buttons
+    const canCancel = (st === 'pending');
+    const canRate   = (st === 'completed' && !o.rating);
+    const alreadyRated = (st === 'completed' && o.rating);
+    const ratingStars = o.rating ? '★'.repeat(o.rating) + '☆'.repeat(5 - o.rating) : '';
+    const actionsHtml = (canCancel || canRate || alreadyRated) ? `
+      <div class="cv-booking-actions">
+        ${canCancel ? `<button class="cv-action-btn cv-cancel-btn" onclick="cvShowCancelConfirm('${bId}')"><i class="fas fa-circle-xmark"></i> ${at('cancelBookingBtn')||'Cancel booking'}</button>` : ''}
+        ${canRate   ? `<button class="cv-action-btn cv-rate-btn" onclick="cvShowRatingModal('${bId}','${caregiver.replace(/'/g,"\\'").replace(/"/g,'&quot;')}')"><i class="fas fa-star"></i> ${at('rateBtn')||'Rate caregiver'}</button>` : ''}
+        ${alreadyRated ? `<span class="cv-rated-badge"><i class="fas fa-star"></i> ${ratingStars} (${o.rating}/5)</span>` : ''}
+      </div>` : '';
     return `
-    <div class="cv-booking-item" style="border-left:4px solid ${sColor};padding-left:1rem;">
+    <div class="cv-booking-item" id="cv-booking-${bId}" style="border-left:4px solid ${sColor};padding-left:1rem;">
       <div class="cv-booking-main">
         <div style="display:flex;align-items:center;justify-content:space-between;gap:.5rem;flex-wrap:wrap;margin-bottom:.45rem;">
           <h4 style="margin:0;font-size:1rem;color:var(--accent-dark);">${formatType(o)}</h4>
           <span class="cv-status cv-status-${st}"><i class="fas ${sIcon}" style="margin-inline-end:.35rem;"></i>${at(statusMap[st]||'statusPending')}</span>
         </div>
         <div class="cv-booking-meta">
-          ${o.bookingId ? `<span class="cv-booking-pill" style="font-family:monospace;font-size:.74rem;"><i class="fas fa-hashtag"></i> ${o.bookingId}</span>` : ''}
+          ${bId ? `<span class="cv-booking-pill" style="font-family:monospace;font-size:.74rem;"><i class="fas fa-hashtag"></i> ${bId}</span>` : ''}
           ${dateFormatted ? `<span class="cv-booking-pill"><i class="fas fa-calendar-alt"></i> ${dateFormatted}</span>` : ''}
           ${timeStr ? `<span class="cv-booking-pill"><i class="fas fa-clock"></i> ${timeStr}</span>` : ''}
           ${o.location ? `<span class="cv-booking-pill"><i class="fas fa-location-dot"></i> ${o.location}</span>` : ''}
@@ -9865,6 +10112,7 @@ function renderDashboard(){
           ${price ? `<span class="cv-booking-pill" style="background:rgba(118,184,79,.15);color:var(--accent-dark);font-weight:800;"><i class="fas fa-tag"></i> ${price}</span>` : ''}
         </div>
         <div class="cv-booking-date"><i class="fas fa-clock-rotate-left" style="margin-inline-end:.35rem;opacity:.55;"></i>${at('createdLabel')||'Created'}: ${createdFormatted}</div>
+        ${actionsHtml}
       </div>
     </div>`; }).join('') : `<div class="cv-empty-dash"><i class="fas fa-calendar-plus"></i><p>${at('emptyDash')}</p></div>`;
   const notifHtml = notifications.length ? notifications.map(n => `
