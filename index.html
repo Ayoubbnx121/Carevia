@@ -3299,11 +3299,27 @@ body.rtl .cv-step-label { font-family: inherit; }
 </div>
 <div class="back-link" onclick="navigateTo('serviceSelectionView')"><i class="fas fa-arrow-left"></i> <span data-i18n="backToService">Back to Services</span></div>
 <div class="booking-card">
+<!-- Sub-step indicator -->
+<div id="clientInfoSubSteps" style="display:flex;gap:.5rem;margin-bottom:1.4rem;align-items:center;">
+  <div id="ciStep1Dot" style="flex:1;height:5px;border-radius:99px;background:var(--accent-dark);transition:background .3s;"></div>
+  <div id="ciStep2Dot" style="flex:1;height:5px;border-radius:99px;background:var(--border-color);transition:background .3s;"></div>
+</div>
+
+<!-- STEP 1: Personal info -->
+<div id="ciStep1">
 <h2 data-i18n="clientInfoTitle">Tell us about yourself</h2>
 <div class="form-group"><label data-i18n="firstName">First Name *</label><input class="form-control" id="clientFirstName" placeholder="e.g. Ahmed" required="" type="text"/></div>
 <div class="form-group"><label data-i18n="lastName">Last Name *</label><input class="form-control" id="clientLastName" placeholder="e.g. Benali" required="" type="text"/></div>
+<div class="form-group"><label data-i18n="phone">Phone Number * (Moroccan format)</label><input class="form-control" id="clientPhone" placeholder="+212 6XX-XXXXXX or 06XXXXXXXX" required="" type="tel"/></div>
+<div class="form-group"><label data-i18n="email">Email Address *</label><input class="form-control" id="clientEmail" placeholder="example@mail.com" required="" type="email"/></div>
+<button class="btn" onclick="ciGoToStep2()" style="width:100%;" data-i18n="continueBtn">Continue →</button>
+</div>
+
+<!-- STEP 2: Location + Map -->
+<div id="ciStep2" style="display:none;">
+<h2 data-i18n="locationTitle" style="margin-bottom:.9rem;">📍 Your location</h2>
 <div class="form-group"><label data-i18n="city">City</label>
-<select class="form-select" id="clientCity">
+<select class="form-select" id="clientCity" onchange="ciUpdateMapCity()">
 <option value="Tangier">Tangier</option>
 <option value="Casablanca">Casablanca</option>
 <option value="Rabat">Rabat</option>
@@ -3321,9 +3337,21 @@ body.rtl .cv-step-label { font-family: inherit; }
 <option value="Larache">Larache</option>
 </select>
 </div>
-<div class="form-group"><label data-i18n="phone">Phone Number * (Moroccan format)</label><input class="form-control" id="clientPhone" placeholder="+212 6XX-XXXXXX or 06XXXXXXXX" required="" type="tel"/></div>
-<div class="form-group"><label data-i18n="email">Email Address *</label><input class="form-control" id="clientEmail" placeholder="example@mail.com" required="" type="email"/></div>
-<button class="btn" data-i18n="continueBtn" onclick="validateAndSaveClientInfo()" style="width:100%;">Continue →</button>
+<div class="form-group"><label data-i18n="neighborhoodLabel">Neighborhood / Area</label><input class="form-control" id="clientNeighborhood" placeholder="e.g. Hay Riad, Maarif, Souika..." type="text"/></div>
+<div class="form-group"><label style="display:flex;align-items:center;gap:.5rem;"><span data-i18n="pinLocation">Pin your exact location on the map</span><span style="font-size:.75rem;opacity:.6;font-weight:400;">(optional)</span></label>
+<div id="ciMapContainer" style="height:260px;border-radius:16px;overflow:hidden;border:1.5px solid var(--border-color);margin-top:.4rem;position:relative;">
+  <iframe id="ciMapFrame" src="" style="width:100%;height:100%;border:none;" title="Location map" allowfullscreen></iframe>
+  <div style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,.18));padding:.6rem .8rem;pointer-events:none;">
+    <p id="ciMapNote" style="margin:0;font-size:.72rem;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.6);" data-i18n="mapClickNote">Click on the map to pin your location</p>
+  </div>
+</div>
+<p id="ciMapAddress" style="margin:.45rem 0 0;font-size:.82rem;opacity:.7;min-height:1.2em;"></p>
+</div>
+<div style="display:flex;gap:.7rem;margin-top:.5rem;">
+  <button class="btn" onclick="ciGoToStep1()" style="flex:.4;background:var(--accent-light);color:var(--accent-dark);">← Back</button>
+  <button class="btn" data-i18n="continueBtn" onclick="validateAndSaveClientInfo()" style="flex:1;">Continue →</button>
+</div>
+</div>
 </div>
 <div class="social-footer">
 <div class="footer-col">
@@ -6015,6 +6043,15 @@ body.rtl .cv-step-label { font-family: inherit; }
             }
 
             if (viewId === 'clientInfoView') {
+                // Reset to step 1
+                var s1 = document.getElementById('ciStep1');
+                var s2 = document.getElementById('ciStep2');
+                if (s1) s1.style.display = '';
+                if (s2) s2.style.display = 'none';
+                var d1 = document.getElementById('ciStep1Dot');
+                var d2 = document.getElementById('ciStep2Dot');
+                if (d1) d1.style.background = 'var(--accent-dark)';
+                if (d2) d2.style.background = 'var(--border-color)';
                 setTimeout(function() {
                     var _sess = (function(){ try{ return JSON.parse(localStorage.getItem('careviaSession')||'null'); }catch(e){ return null; } })();
                     function _applyAutofill(s) {
@@ -6360,6 +6397,7 @@ body.rtl .cv-step-label { font-family: inherit; }
                 firstName: firstName,
                 lastName: lastName,
                 city: document.getElementById('clientCity').value,
+                neighborhood: (document.getElementById('clientNeighborhood')?.value||'').trim(),
                 phone: cleanedPhone,
                 email: email
             };
@@ -6367,6 +6405,67 @@ body.rtl .cv-step-label { font-family: inherit; }
             navigateTo('timeSlotView');
         }
         window.validateAndSaveClientInfo = validateAndSaveClientInfo;
+
+        /* ── City → map coords ── */
+        var _ciCityCoords = {
+            'Tangier':    [35.7595, -5.8340],
+            'Casablanca': [33.5731, -7.5898],
+            'Rabat':      [33.9716, -6.8498],
+            'Fes':        [34.0181, -5.0078],
+            'Marrakech':  [31.6295, -7.9811],
+            'Agadir':     [30.4278, -9.5981],
+            'Meknes':     [33.8935, -5.5547],
+            'Oujda':      [34.6814, -1.9086],
+            'Kenitra':    [34.2610, -6.5802],
+            'Tetouan':    [35.5785, -5.3684],
+            'Safi':       [32.2994, -9.2372],
+            'El Jadida':  [33.2316, -8.5007],
+            'Nador':      [35.1740, -2.9287],
+            'Beni Mellal':[32.3369, -6.3498],
+            'Larache':    [35.1932, -6.1561]
+        };
+        function ciGetMapSrc(city, zoom) {
+            zoom = zoom || 13;
+            var coords = _ciCityCoords[city] || [33.5731, -7.5898];
+            var lat = coords[0], lon = coords[1];
+            return 'https://www.openstreetmap.org/export/embed.html?bbox=' +
+                (lon-0.04) + '%2C' + (lat-0.03) + '%2C' + (lon+0.04) + '%2C' + (lat+0.03) +
+                '&layer=mapnik&marker=' + lat + '%2C' + lon;
+        }
+        window.ciUpdateMapCity = function() {
+            var city = document.getElementById('clientCity')?.value || 'Casablanca';
+            var frame = document.getElementById('ciMapFrame');
+            if (frame) frame.src = ciGetMapSrc(city);
+            var addr = document.getElementById('ciMapAddress');
+            if (addr) addr.textContent = '';
+        };
+        window.ciGoToStep1 = function() {
+            document.getElementById('ciStep1').style.display = '';
+            document.getElementById('ciStep2').style.display = 'none';
+            document.getElementById('ciStep1Dot').style.background = 'var(--accent-dark)';
+            document.getElementById('ciStep2Dot').style.background = 'var(--border-color)';
+        };
+        window.ciGoToStep2 = function() {
+            // Validate step 1 first
+            var fn = (document.getElementById('clientFirstName')?.value||'').trim();
+            var ln = (document.getElementById('clientLastName')?.value||'').trim();
+            var ph = (document.getElementById('clientPhone')?.value||'').trim();
+            var em = (document.getElementById('clientEmail')?.value||'').trim();
+            if (!fn || !ln) { showPopup(translations[currentLang].validationName); return; }
+            if (!ph) { showPopup(translations[currentLang].validationPhone); return; }
+            var cleanedPhone = ph.replace(/\s/g, '');
+            if (!cleanedPhone.match(/^(\+212[5-7]\d{8})$|^(0[5-7]\d{8})$/)) { showPopup(translations[currentLang].validationPhone); return; }
+            if (!em || !em.includes('@') || !em.includes('.')) { showPopup(translations[currentLang].validationEmail); return; }
+            // Show step 2 + load map
+            document.getElementById('ciStep1').style.display = 'none';
+            document.getElementById('ciStep2').style.display = '';
+            document.getElementById('ciStep1Dot').style.background = 'var(--accent-dark)';
+            document.getElementById('ciStep2Dot').style.background = 'var(--accent-dark)';
+            // Load map for current city
+            var city = document.getElementById('clientCity')?.value || 'Casablanca';
+            var frame = document.getElementById('ciMapFrame');
+            if (frame && !frame.src.includes('openstreetmap')) frame.src = ciGetMapSrc(city);
+        };
 
         function setMinDate() {
             const today = new Date().toISOString().split('T')[0];
