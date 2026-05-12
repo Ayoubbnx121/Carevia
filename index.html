@@ -2358,6 +2358,9 @@ body.rtl .cv-step-label { font-family: inherit; }
   .cv-step-label { font-size: 8px; }
 }
     </style>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 </head>
 <body>
 
@@ -3339,12 +3342,11 @@ body.rtl .cv-step-label { font-family: inherit; }
 </div>
 <div class="form-group"><label data-i18n="neighborhoodLabel">Neighborhood / Area</label><input class="form-control" id="clientNeighborhood" placeholder="e.g. Hay Riad, Maarif, Souika..." type="text"/></div>
 <div class="form-group"><label style="display:flex;align-items:center;gap:.5rem;"><span data-i18n="pinLocation">Pin your exact location on the map</span><span style="font-size:.75rem;opacity:.6;font-weight:400;">(optional)</span></label>
-<div id="ciMapContainer" style="height:260px;border-radius:16px;overflow:hidden;border:1.5px solid var(--border-color);margin-top:.4rem;position:relative;">
-  <iframe id="ciMapFrame" src="" style="width:100%;height:100%;border:none;" title="Location map" allowfullscreen></iframe>
-  <div style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,.18));padding:.6rem .8rem;pointer-events:none;">
-    <p id="ciMapNote" style="margin:0;font-size:.72rem;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.6);" data-i18n="mapClickNote">Click on the map to pin your location</p>
-  </div>
+<div id="ciMapContainer" style="height:320px;border-radius:18px;overflow:hidden;border:1.5px solid var(--border-color);margin-top:.4rem;position:relative;">
+<div id="ciRealMap" style="width:100%;height:100%;"></div>
+<button type="button" id="locateMeBtn" onclick="ciLocateMe()" style="position:absolute;top:12px;right:12px;z-index:999;border:none;background:white;padding:.7rem 1rem;border-radius:12px;cursor:pointer;font-weight:600;box-shadow:0 6px 18px rgba(0,0,0,.15);">📍 موقعي الحالي</button>
 </div>
+<p id="ciMapAddress" style="margin:.45rem 0 0;font-size:.82rem;opacity:.7;min-height:1.2em;"></p>
 <p id="ciMapAddress" style="margin:.45rem 0 0;font-size:.82rem;opacity:.7;min-height:1.2em;"></p>
 </div>
 <div style="display:flex;gap:.7rem;margin-top:.5rem;">
@@ -6407,39 +6409,98 @@ body.rtl .cv-step-label { font-family: inherit; }
         window.validateAndSaveClientInfo = validateAndSaveClientInfo;
 
         /* ── City → map coords ── */
-        var _ciCityCoords = {
-            'Tangier':    [35.7595, -5.8340],
-            'Casablanca': [33.5731, -7.5898],
-            'Rabat':      [33.9716, -6.8498],
-            'Fes':        [34.0181, -5.0078],
-            'Marrakech':  [31.6295, -7.9811],
-            'Agadir':     [30.4278, -9.5981],
-            'Meknes':     [33.8935, -5.5547],
-            'Oujda':      [34.6814, -1.9086],
-            'Kenitra':    [34.2610, -6.5802],
-            'Tetouan':    [35.5785, -5.3684],
-            'Safi':       [32.2994, -9.2372],
-            'El Jadida':  [33.2316, -8.5007],
-            'Nador':      [35.1740, -2.9287],
-            'Beni Mellal':[32.3369, -6.3498],
-            'Larache':    [35.1932, -6.1561]
-        };
-        function ciGetMapSrc(city, zoom) {
-            zoom = zoom || 13;
-            var coords = _ciCityCoords[city] || [33.5731, -7.5898];
-            var lat = coords[0], lon = coords[1];
-            return 'https://www.openstreetmap.org/export/embed.html?bbox=' +
-                (lon-0.04) + '%2C' + (lat-0.03) + '%2C' + (lon+0.04) + '%2C' + (lat+0.03) +
-                '&layer=mapnik&marker=' + lat + '%2C' + lon;
+let ciMap;
+let ciMarker;
+
+var _ciCityCoords = {
+    'Tangier':    [35.7595, -5.8340],
+    'Casablanca': [33.5731, -7.5898],
+    'Rabat':      [33.9716, -6.8498],
+    'Fes':        [34.0181, -5.0078],
+    'Marrakech':  [31.6295, -7.9811],
+    'Agadir':     [30.4278, -9.5981],
+    'Meknes':     [33.8935, -5.5547],
+    'Oujda':      [34.6814, -1.9086],
+    'Kenitra':    [34.2610, -6.5802],
+    'Tetouan':    [35.5785, -5.3684],
+    'Safi':       [32.2994, -9.2372],
+    'El Jadida':  [33.2316, -8.5007],
+    'Nador':      [35.1740, -2.9287],
+    'Beni Mellal':[32.3369, -6.3498],
+    'Larache':    [35.1932, -6.1561]
+};
+
+function initCiMap(city='Casablanca') {
+    var coords = _ciCityCoords[city] || [33.5731, -7.5898];
+
+    if (!ciMap) {
+        ciMap = L.map('ciRealMap').setView(coords, 12);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap'
+        }).addTo(ciMap);
+
+        ciMap.on('click', function(e) {
+            var lat = e.latlng.lat;
+            var lng = e.latlng.lng;
+
+            if (ciMarker) {
+                ciMarker.setLatLng(e.latlng);
+            } else {
+                ciMarker = L.marker(e.latlng, {
+                    draggable: true
+                }).addTo(ciMap);
+            }
+
+            document.getElementById('ciMapAddress').innerHTML =
+                '📍 ' + lat.toFixed(5) + ', ' + lng.toFixed(5);
+        });
+
+    } else {
+        ciMap.setView(coords, 12);
+
+        setTimeout(() => {
+            ciMap.invalidateSize();
+        }, 200);
+    }
+}
+
+window.ciUpdateMapCity = function() {
+    var city = document.getElementById('clientCity')?.value || 'Casablanca';
+    initCiMap(city);
+};
+
+window.ciLocateMe = function() {
+    if (!navigator.geolocation) {
+        alert("Geolocation غير مدعومة");
+        return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+        function(position) {
+            var lat = position.coords.latitude;
+            var lng = position.coords.longitude;
+
+            ciMap.setView([lat, lng], 15);
+
+            if (ciMarker) {
+                ciMarker.setLatLng([lat, lng]);
+            } else {
+                ciMarker = L.marker([lat, lng], {
+                    draggable: true
+                }).addTo(ciMap);
+            }
+
+            document.getElementById('ciMapAddress').innerHTML =
+                '📍 موقعك الحالي: ' + lat.toFixed(5) + ', ' + lng.toFixed(5);
+        },
+        function() {
+            alert("تعذر تحديد الموقع");
         }
-        window.ciUpdateMapCity = function() {
-            var city = document.getElementById('clientCity')?.value || 'Casablanca';
-            var frame = document.getElementById('ciMapFrame');
-            if (frame) frame.src = ciGetMapSrc(city);
-            var addr = document.getElementById('ciMapAddress');
-            if (addr) addr.textContent = '';
-        };
-        window.ciGoToStep1 = function() {
+    );
+};
+
+window.ciGoToStep1 = function() {
             document.getElementById('ciStep1').style.display = '';
             document.getElementById('ciStep2').style.display = 'none';
             document.getElementById('ciStep1Dot').style.background = 'var(--accent-dark)';
@@ -6463,8 +6524,7 @@ body.rtl .cv-step-label { font-family: inherit; }
             document.getElementById('ciStep2Dot').style.background = 'var(--accent-dark)';
             // Load map for current city
             var city = document.getElementById('clientCity')?.value || 'Casablanca';
-            var frame = document.getElementById('ciMapFrame');
-            if (frame && !frame.src.includes('openstreetmap')) frame.src = ciGetMapSrc(city);
+            initCiMap(city);
         };
 
         function setMinDate() {
